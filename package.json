@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
+  "bin": {
+    "analyze": "packages/cli/dist/bundle.es.js",
+    "renders": "scripts/dev-web.js"
+  },
   "scripts": {
-    "dev": "node scripts/dev.js",
-    "dev:web": "vite packages/web --host",
+    "dev": "node scripts/dev-web.ts",
+    "dev:web": "node scripts/dev-web.ts",
     "dev:cli": "ts-node --esm packages/cli/lib/analyze.ts",
-    "build": "node package/",
+    "build:web": "ts-node --esm scripts/build-charts.ts",
+    "build:cli": "ts-node --esm scripts/build-cli.ts --cjs --es",
+    "build-cli-cjs": "nts-ode --esm scripts/build-cli.ts --cjs",
+    "build-cli-es": "ts-node --esm scripts/build-cli.ts --es",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -28,7 +35,11 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/minimist": "^1.2.2",
     "@types/node": "^20.4.5",
+    "commander": "^11.0.0",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.0",
     "esbuild": "^0.18.17",
@@ -37,7 +48,10 @@
     "lint-staged": "^13.2.3",
     "minimist": "^1.2.8",
     "prettier": "^3.0.0",
+    "rollup": "^3.26.3",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "ts-node": "^10.9.1",
+    "tslib": "^2.6.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.5"
   },
