@@ -3,10 +3,10 @@
     "baseUrl": ".",
     "outDir": "temp",
     "sourceMap": false,
-    "target": "es2016",
+    "target": "ES2020",
     "newLine": "LF",
     "useDefineForClassFields": false,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "allowJs": false,
     "strict": true,
@@ -19,7 +19,14 @@
     "removeComments": false,
     "lib": ["esnext", "dom"],
     "types": ["node"],
-    "rootDir": ".",
+    "rootDir": "."
   },
-  "include": ["packages/**/*.ts", "./**/*.d.ts", "scripts/*.ts", "scripts/*.ts", "web/vite.config.ts"]
+  "include": [
+    "packages/**/*.ts",
+    "./**/*.d.ts",
+    "scripts/*.ts",
+    "scripts/*.ts",
+    "web/vite.config.ts",
+    "scripts/build-charts.ts"
+  ]
 }

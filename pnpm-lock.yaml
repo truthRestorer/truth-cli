@@ -20,6 +20,9 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.2
         version: 11.1.2(rollup@3.26.3)(tslib@2.6.1)(typescript@5.1.6)
+      '@types/minimist':
+        specifier: ^1.2.2
+        version: 1.2.2
       '@types/node':
         specifier: ^20.4.5
         version: 20.4.5
@@ -69,34 +72,6 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(@types/node@20.4.5)
 
-  cli:
-    dependencies:
-      '@dep-cli/web':
-        specifier: workspace:^
-        version: link:../web
-      '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
-      commander:
-        specifier: ^11.0.0
-        version: 11.0.0
-    devDependencies:
-      '@antfu/eslint-config':
-        specifier: ^0.39.8
-        version: 0.39.8(eslint@8.45.0)(typescript@5.1.6)
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^6.2.0
-        version: 6.2.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6)
-      '@typescript-eslint/parser':
-        specifier: ^6.2.0
-        version: 6.2.0(eslint@8.45.0)(typescript@5.1.6)
-      eslint:
-        specifier: ^8.45.0
-        version: 8.45.0
-      local-pkg:
-        specifier: ^0.4.3
-        version: 0.4.3
-
   packages/cli:
     dependencies:
       '@types/node':
@@ -121,55 +96,12 @@ importers:
       local-pkg:
         specifier: ^0.4.3
         version: 0.4.3
-
-  packages/web:
-    dependencies:
-      echarts:
-        specifier: ^5.4.3
-        version: 5.4.3
-      vue:
-        specifier: ^3.3.4
-        version: 3.3.4
-    devDependencies:
-      '@antfu/eslint-config':
-        specifier: ^0.39.8
-        version: 0.39.8(eslint@8.45.0)(typescript@5.1.6)
-      '@types/echarts':
-        specifier: ^4.9.18
-        version: 4.9.18
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^6.2.0
-        version: 6.2.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6)
-      '@typescript-eslint/parser':
-        specifier: ^6.2.0
-        version: 6.2.0(eslint@8.45.0)(typescript@5.1.6)
-      '@vitejs/plugin-vue':
-        specifier: ^4.2.3
-        version: 4.2.3(vite@4.4.5)(vue@3.3.4)
-      eslint:
-        specifier: ^8.45.0
-        version: 8.45.0
-      eslint-plugin-vue:
-        specifier: ^9.15.1
-        version: 9.15.1(eslint@8.45.0)
-      typescript:
-        specifier: ^5.0.2
-        version: 5.1.6
       vite:
         specifier: ^4.4.5
         version: 4.4.5(@types/node@20.4.5)
-      vite-plugin-node-polyfills:
-        specifier: ^0.9.0
-        version: 0.9.0(rollup@3.26.3)(vite@4.4.5)
-      vue-tsc:
-        specifier: ^1.8.5
-        version: 1.8.5(typescript@5.1.6)
 
-  web:
+  packages/web:
     dependencies:
-      '@dep-cli/cli':
-        specifier: workspace:^
-        version: link:../cli
       echarts:
         specifier: ^5.4.3
         version: 5.4.3

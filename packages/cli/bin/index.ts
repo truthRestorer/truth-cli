@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { Command } from 'commander'
 import { createServer } from 'vite'
 import { analyze } from '../lib/analyze'
+import useModules from '../lib/genPkgs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -18,14 +19,13 @@ program
 program.parse(process.argv)
 const options = program.opts()
 
-async function buildWeb() {
+async function startVite() {
+  useModules()
+
   const server = await createServer({
     // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
-    configFile: path.resolve(__dirname, '../../web/vite.config.ts'),
-    root: path.resolve(__dirname, '../../web/'),
-    server: {
-      port: 1337,
-    },
+    configFile: `${path.resolve(__dirname, '../../web/vite.config.ts')}`,
+    root: `${path.resolve(__dirname, '../../web')}`,
   })
   await server.listen()
 
@@ -36,4 +36,4 @@ const depth = +options.dep
 if (depth < 7 && !Number.isNaN(depth))
   analyze(depth)
 
-buildWeb()
+startVite()

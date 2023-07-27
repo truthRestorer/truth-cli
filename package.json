@@ -4,16 +4,17 @@
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "bin": {
-    "analyze": "packages/cli/dist/bundle.es.js"
+    "analyze": "packages/cli/dist/bundle.es.js",
+    "renders": "scripts/dev-web.js"
   },
   "scripts": {
-    "dev": "node scripts/dev-web.js",
-    "dev:web": "node scripts/dev-web.js",
+    "dev": "node scripts/dev-web.ts",
+    "dev:web": "node scripts/dev-web.ts",
     "dev:cli": "ts-node --esm packages/cli/lib/analyze.ts",
-    "build:web": "vite build packages/web/ && vite preview packages/web/",
-    "build:cli": "node scripts/build-cli.js --cjs --es",
-    "build-cli-cjs": "node scripts/build-cli.js --cjs",
-    "build-cli-es": "node scripts/build-cli.js --es",
+    "build:web": "ts-node --esm scripts/build-charts.ts",
+    "build:cli": "ts-node --esm scripts/build-cli.ts --cjs --es",
+    "build-cli-cjs": "nts-ode --esm scripts/build-cli.ts --cjs",
+    "build-cli-es": "ts-node --esm scripts/build-cli.ts --es",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -36,6 +37,7 @@
     "@commitlint/config-conventional": "^17.6.7",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-typescript": "^11.1.2",
+    "@types/minimist": "^1.2.2",
     "@types/node": "^20.4.5",
     "commander": "^11.0.0",
     "commitizen": "^4.3.0",

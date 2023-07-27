@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import * as echarts from 'echarts'
 import { onMounted } from 'vue'
-import { useModules } from '../utils/useModules'
+import { links, nodes } from '../assets/charts.json'
 import { categories } from '../types'
-
-const { nodes, links } = useModules('all')
 
 onMounted(() => {
   const myChart = echarts.init(document.getElementById('main'))
@@ -50,4 +48,3 @@ onMounted(() => {
   min-height: 100vh;
 }
 </style>
-../../../cli/lib/useModules

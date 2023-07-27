@@ -17,7 +17,7 @@ const formats = ['amd', 'cjs', 'es', 'iife', 'system', 'umd']
  * @param {string} format
  * @returns
  */
-async function buildCli(format) {
+async function buildCli(format: string) {
   if (!formats.includes(format)) return
   const inputOptions = {
     input: `${packagesPath}/cli/bin/index.ts`,
