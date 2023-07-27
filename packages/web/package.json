@@ -25,7 +25,7 @@
     "vue-tsc": "^1.8.5"
   },
   "lint-staged": {
-    "src/*.{js,jsx,ts,tsx,vue,html}": [
+    "src/!(*d).{js,jsx,ts,tsx,vue,html}": [
       "eslint --max-warnings=0"
     ]
   }
