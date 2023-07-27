@@ -7,7 +7,8 @@
     "dev": "node scripts/dev.js",
     "dev:cli": "vite package/cli --host -p 5000",
     "build": "node package/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commit": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "@commitlint/config-conventional": "^17.6.7",
     "@types/node": "^20.4.5",
     "commitizen": "^4.3.0",
+    "cz-git": "^1.7.0",
     "esbuild": "^0.18.17",
     "esbuild-plugin-polyfill-node": "^0.3.0",
     "husky": "^8.0.3",
@@ -36,5 +38,11 @@
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git",
+      "useEmoji": true
+    }
   }
 }
