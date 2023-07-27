@@ -68,21 +68,5 @@ esbuild
     globalName: pkg.buildOptions?.name,
     platform: format === 'cjs' ? 'node' : 'browser',
     plugins,
-    define: {
-      __COMMIT__: `"dev"`,
-      __VERSION__: `"${pkg.version}"`,
-      __DEV__: `true`,
-      __TEST__: `false`,
-      __BROWSER__: String(format !== 'cjs' && !pkg.buildOptions?.enableNonBrowserBranches),
-      __GLOBAL__: String(format === 'global'),
-      __ESM_BUNDLER__: String(format.includes('esm-bundler')),
-      __ESM_BROWSER__: String(format.includes('esm-browser')),
-      __NODE_JS__: String(format === 'cjs'),
-      __SSR__: String(format === 'cjs' || format.includes('esm-bundler')),
-      __COMPAT__: String(target === 'vue-compat'),
-      __FEATURE_SUSPENSE__: `true`,
-      __FEATURE_OPTIONS_API__: `true`,
-      __FEATURE_PROD_DEVTOOLS__: `false`,
-    },
   })
   .then(ctx => ctx.watch())
