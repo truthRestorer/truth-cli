@@ -1,72 +1,44 @@
 // @ts-check
 
-import esbuild from 'esbuild'
-import { resolve, relative, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { createRequire } from 'node:module'
 import minimist from 'minimist'
-import { polyfillNode } from 'esbuild-plugin-polyfill-node'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
+import typescript from '@rollup/plugin-typescript'
+import { rollup } from 'rollup'
 
-const require = createRequire(import.meta.url)
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const args = minimist(process.argv.slice(2))
-const target = args._[0] || 'cli'
-const format = args.f || 'global'
-const inlineDeps = args.i || args.inline
-const pkg = require(`../packages/${target}/package.json`)
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const argv = minimist(process.argv.slice(2))
+const packagesPath = path.resolve(__dirname, '../packages')
+const formats = ['amd', 'cjs', 'es', 'iife', 'system', 'umd']
 
-// resolve output
-const outputFormat = format.startsWith('global') ? 'iife' : format === 'cjs' ? 'cjs' : 'esm'
+console.log(packagesPath)
 
-// FIXME: 打包后的名字
-const outfile = resolve(
-  __dirname,
-  `../packages/${target}/dist/${target}.${target}.js`
-)
-const relativeOutfile = relative(process.cwd(), outfile)
+/**
+ * 构建 packages/cli
+ * @param {string} format
+ * @returns
+ */
+async function buildCli(format) {
+  if (!formats.includes(format)) return
+  const inputOptions = {
+    input: `${packagesPath}/cli/bin/index.ts`,
+    plugins: [nodePolyfills(), typescript()],
+  }
+  const outputOptions = {
+    file: `${packagesPath}/cli/dist/bundle.${format}.js`,
+    format,
+    banner: '#! /usr/bin/env node',
+  }
+  const bundle = await rollup(inputOptions)
+  // @ts-ignore
+  await bundle.write(outputOptions)
+}
 
-// resolve externals
-let external = []
-if (!inlineDeps) {
-  // cjs & esm-bundler: external all deps
-  if (format === 'cjs' || format.includes('esm-bundler')) {
-    external = [
-      ...external,
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {}),
-      // for @vue/compiler-sfc / server-renderer
-      'path',
-      'url',
-      'stream',
-    ]
+async function scriptBuild() {
+  for (const key of Object.keys(argv)) {
+    buildCli(key)
   }
 }
 
-const plugins = [
-  {
-    name: 'log-rebuild',
-    setup(build) {
-      build.onEnd(() => {
-        console.log(`built: ${relativeOutfile}`)
-      })
-    },
-  },
-]
-
-if (format === 'cjs' || pkg.buildOptions?.enableNonBrowserBranches) {
-  plugins.push(polyfillNode())
-}
-
-esbuild
-  .context({
-    entryPoints: [resolve(__dirname, `../packages/${target}/src/main.ts`)],
-    outfile,
-    bundle: true,
-    external,
-    sourcemap: true,
-    format: outputFormat,
-    globalName: pkg.buildOptions?.name,
-    platform: format === 'cjs' ? 'node' : 'browser',
-    plugins,
-  })
-  .then(ctx => ctx.watch())
+scriptBuild()

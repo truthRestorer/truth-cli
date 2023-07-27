@@ -21,5 +21,5 @@
     "types": ["node"],
     "rootDir": ".",
   },
-  "include": ["packages/**/*.ts", "./**/*.d.ts"]
+  "include": ["packages/**/*.ts", "./**/*.d.ts", "scripts/*.ts", "scripts/*.ts"]
 }

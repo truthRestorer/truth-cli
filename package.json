@@ -3,11 +3,20 @@
   "version": "1.0.0",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
+  "bin": {
+    "analyze": "packages/cli/dist/bundle.js"
+  },
   "scripts": {
     "dev": "node scripts/dev.js",
     "dev:web": "vite packages/web --host",
     "dev:cli": "ts-node --esm packages/cli/lib/analyze.ts",
-    "build": "node package/",
+    "build:cli": "node scripts/build.js --amd --cjs --es --iife --system --umd",
+    "build-cli-amd": "node scripts/build.js --amd",
+    "build-cli-cjs": "node scripts/build.js --cjs",
+    "build-cli-es": "node scripts/build.js --es",
+    "build-cli-iife": "node scripts/build.js --iife",
+    "build-cli-system": "node scripts/build.js --system",
+    "build-cli-umd": "node scripts/build.js --umd",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -28,7 +37,10 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
     "@types/node": "^20.4.5",
+    "commander": "^11.0.0",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.0",
     "esbuild": "^0.18.17",
@@ -37,7 +49,10 @@
     "lint-staged": "^13.2.3",
     "minimist": "^1.2.8",
     "prettier": "^3.0.0",
+    "rollup": "^3.26.3",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "ts-node": "^10.9.1",
+    "tslib": "^2.6.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.5"
   },
