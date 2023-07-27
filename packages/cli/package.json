@@ -2,6 +2,7 @@
   "name": "cli",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +17,8 @@
     "@antfu/eslint-config": "^0.39.8",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
-    "eslint": "^8.45.0"
+    "eslint": "^8.45.0",
+    "local-pkg": "^0.4.3"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,vue,html}": [

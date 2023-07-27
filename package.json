@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/dev.js",
-    "dev:cli": "vite package/cli --host -p 5000",
+    "dev:web": "vite packages/web --host",
+    "dev:cli": "ts-node --esm packages/cli/lib/analyze.ts",
     "build": "node package/",
     "prepare": "husky install",
     "commit": "git-cz"
@@ -36,6 +37,7 @@
     "lint-staged": "^13.2.3",
     "minimist": "^1.2.8",
     "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "vite": "^4.4.5"
   },
