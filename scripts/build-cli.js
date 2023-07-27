@@ -9,10 +9,8 @@ import { rollup } from 'rollup'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const argv = minimist(process.argv.slice(2))
-const packagesPath = path.resolve(__dirname, '../packages')
+const packagesPath = path.resolve(__dirname, '../packages/')
 const formats = ['amd', 'cjs', 'es', 'iife', 'system', 'umd']
-
-console.log(packagesPath)
 
 /**
  * 构建 packages/cli

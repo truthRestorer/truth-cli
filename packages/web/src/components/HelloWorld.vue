@@ -50,3 +50,4 @@ onMounted(() => {
   min-height: 100vh;
 }
 </style>
+../../../cli/lib/useModules
