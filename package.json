@@ -2,9 +2,12 @@
   "name": "dep-cli",
   "version": "1.0.0",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
-  "main": "index.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node scripts/dev.js",
+    "dev:cli": "vite package/cli --host -p 5000",
+    "build": "node package/",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,17 @@
   "bugs": {
     "url": "https://github.com/lilming123/dep_cil/issues"
   },
-  "homepage": "https://github.com/lilming123/dep_cil#readme"
+  "homepage": "https://github.com/lilming123/dep_cil#readme",
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "commitizen": "^4.3.0",
+    "esbuild": "^0.18.17",
+    "esbuild-plugin-polyfill-node": "^0.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "minimist": "^1.2.8",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.5"
+  }
 }
