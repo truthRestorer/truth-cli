@@ -7,12 +7,13 @@
 如果想要本地开发 `cli` 或者 `web`，建议先进行打包生产：
 
 ```
-pnpm run build:dev
+pnpm run build:cli
 ```
 
-在项目根目录中执行：
+在项目根目录中依次执行：
 
 ```
+npm link
 dev-cli analyze
 ```
 
