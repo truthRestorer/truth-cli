@@ -27,7 +27,7 @@ function init() {
     LogNotExportPkg(err.message)
   }
 }
-
+// FIXME: 循环引用问题
 async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
   if (maxDep === 0)
     return
