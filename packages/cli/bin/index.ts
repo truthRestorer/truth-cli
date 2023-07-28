@@ -1,28 +1,34 @@
 import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import chalk from 'chalk'
 import { Command } from 'commander'
 import { createServer } from 'vite'
 import { analyze } from '../lib/analyze'
 import useModules from '../lib/genPkgs'
+import { logDepthError } from '../const'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const program = new Command()
-program.name('dep-cli').description('A command-line tool for analyzing dependencies under node_moudles').version('0.0.1')
+program.name('dep-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')
 
 program.command('analyze')
-  .description('analyze npm packages')
+  .description(chalk.bgCyanBright('Help developer analyze npm packages'))
   .option('-d, --dep [depth]', 'the depth of the packages', '2')
   .option('-j, --json [file-path]', 'the output file path')
-  .action(({ dep, json }) => {
+  .action(async ({ dep, json }) => {
     if (json) {
       analyze(dep, json)
     }
     else {
-      if (dep < 7 && !Number.isNaN(dep))
+      if (dep < 7 && !Number.isNaN(dep)) {
         analyze(dep)
-      startVite()
+        await startVite()
+      }
+      else {
+        logDepthError()
+      }
     }
   })
 
