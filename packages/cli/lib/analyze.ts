@@ -22,12 +22,6 @@ function init() {
     pkgs[name] = { version, type: Dep.DEPENDENCY, packages: {} }
 }
 
-/**
- * 递归生成依赖关系，默认最大递归深度为  7
- * @param rootPkgs 依赖项
- * @param maxDep 最大递归深度
- * @returns
- */
 async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
   if (maxDep === 0)
     return
