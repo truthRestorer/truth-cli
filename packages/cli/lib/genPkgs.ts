@@ -9,7 +9,7 @@ const nodesName = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
 
-function addNode(name: string, category: number = 3) {
+function addNode(name: string, category: number = 3, version: string = 'latest') {
   if (!name)
     return
   if (!nodesName.has(name)) {
@@ -17,6 +17,7 @@ function addNode(name: string, category: number = 3) {
       name,
       id: name,
       category,
+      version,
     })
     nodesName.add(name)
   }
@@ -25,8 +26,8 @@ function addNode(name: string, category: number = 3) {
 function dealPkgs(name: string, pkgs: any, category: number) {
   if (!pkgs)
     return
-  for (const key of Object.keys(pkgs)) {
-    addNode(key, category)
+  for (const [key, version] of Object.entries(pkgs)) {
+    addNode(key, category, version as string)
     links.push({
       source: key,
       target: name,

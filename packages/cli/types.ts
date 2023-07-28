@@ -2,6 +2,7 @@ export interface INodes {
   name: string
   id: string
   category: number
+  version: string
 }
 
 export interface ILinks {

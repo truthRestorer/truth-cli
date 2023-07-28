@@ -49,7 +49,7 @@ export function analyze(depth: number, p: string = './') {
     fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs), (err) => {
       if (err)
         throw new Error('出错了')
-      console.log(pkgs)
+      console.log('done')
     })
   })
 }
