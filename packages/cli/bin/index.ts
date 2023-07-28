@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const program = new Command()
-program.name('dep-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')
+program.name('truth-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')
 
 // FIXME: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in xxx
 program.command('analyze')

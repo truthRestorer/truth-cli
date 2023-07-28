@@ -1,5 +1,5 @@
 {
-  "name": "@dep-cli/web",
+  "name": "@truth-cli/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",

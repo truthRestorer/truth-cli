@@ -1,5 +1,3 @@
-> Tip: 目前项目名称暂时叫 `dep-cli`，如果以后更改，那么以下命令也会跟着改变
-
 # 使用指南
 
 ## 开发环境
@@ -15,7 +13,7 @@ pnpm run build:cli
 
 ```
 npm link
-dev-cli analyze
+truth-cli analyze
 ```
 
 开发时会自动执行热更新
@@ -45,13 +43,13 @@ npm link
 - 如果你想获取如何使用，请执行以下命令：
 
 ```bash
-dep-cli -h
+truth-cli -h
 ```
 
 - 网页依赖关系图：
 
 ```bash
-dep-cli analyze
+truth-cli analyze
 ```
 
 - 如果不希望打开网页，只想生成文件，可以执行下述命令：
@@ -59,13 +57,13 @@ dep-cli analyze
 > 如果不携带参数，那么生成的文件在项目根目录，名字叫 `pkgs.json`
 
 ```bash
-dep-cli analyze -j
+truth-cli analyze -j
 ```
 
 或
 
 ```
-dep-cli analyze --json
+truth-cli analyze --json
 ```
 
 你也可以指定生成文件的目录：
@@ -73,7 +71,7 @@ dep-cli analyze --json
 > 在 `/dist` 中产生文件
 
 ```
-dep-cli analyze -j /dist
+truth-cli analyze -j /dist
 ```
 
 - 指定依赖深度(注：此命令也会打开网页)
@@ -81,12 +79,12 @@ dep-cli analyze -j /dist
 > 本项目默认依赖深度为 `2`，如果想要更改(注意，由于 `npm` 包依赖关系非常多，建议数字不要太大，本项目超过 `7` 将会构建失败)，可以执行下述命令：
 
 ```
-dep-cli analyze -d 3
+truth-cli analyze -d 3
 ```
 
 或
 
 ```
-dep-cli analyze --depth 3
+truth-cli analyze --depth 3
 ```
 
