@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { ILinks, INodes } from '../types'
+import { LogNotExportPkg } from '../const'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const nodesName = new Set()
@@ -60,18 +61,23 @@ function readGlob(p: string) {
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = path.resolve(p, `${pkgsRoot[i]}`)
     if (!pkgsRoot[i].includes('.')) {
-      // 处理带有 @
-      if (pkgsRoot[i].startsWith('@')) {
-        const dirs = readDir(pkgPath)
-        for (let i = 0; i < dirs.length; i++)
-          readGlob(pkgPath)
-      }
-      else {
-        const pkg = readFile(`${pkgPath}/package.json`)
-        pkgs[pkg.name] = {
-          devDependencies: pkg.devDependencies,
-          dependencies: pkg.dependencies,
+      try {
+        // 处理带有 @
+        if (pkgsRoot[i].startsWith('@')) {
+          const dirs = readDir(pkgPath)
+          for (let i = 0; i < dirs.length; i++)
+            readGlob(pkgPath)
         }
+        else {
+          const pkg = readFile(`${pkgPath}/package.json`)
+          pkgs[pkg.name] = {
+            devDependencies: pkg.devDependencies,
+            dependencies: pkg.dependencies,
+          }
+        }
+      }
+      catch (err: any) {
+        LogNotExportPkg(err.message)
       }
     }
   }
