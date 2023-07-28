@@ -49,8 +49,7 @@ function readFile(p: string) {
 
 function readGlob(p: string) {
   if (!p.includes('node_modules')) {
-    const json = fs.readFileSync(p)
-    const pkg = JSON.parse(json.toString())
+    const pkg = readFile(p)
     return pkg
   }
 
