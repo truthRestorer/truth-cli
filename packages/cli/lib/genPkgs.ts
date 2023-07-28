@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url'
 import type { ILinks, INodes } from '../types'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-
 const nodesName = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
@@ -35,29 +34,44 @@ function dealPkgs(name: string, pkgs: any, category: number) {
   }
 }
 
+function readDir(p: string) {
+  const pkgsRoot = fs.readdirSync(p)
+  return pkgsRoot
+}
+
+function readFile(p: string) {
+  const json = fs.readFileSync(p)
+  const pkg = JSON.parse(json.toString())
+  return pkg
+}
+
 function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const json = fs.readFileSync(p)
     const pkg = JSON.parse(json.toString())
     return pkg
   }
-  const pkgsRoot = fs.readdirSync(p)
+
+  const pkgsRoot = readDir(p)
   const pkgs: {
     [key: string]: any
   } = {}
   for (let i = 0; i < pkgsRoot.length; i++) {
-    try {
-      const t = path.resolve(p, `${pkgsRoot[i]}/package.json`)
-      const json = fs.readFileSync(t)
-      const pkg = JSON.parse(json.toString())
-      pkgs[pkg.name] = {
-        devDependencies: pkg.devDependencies,
-        dependencies: pkg.dependencies,
-        name: pkg.name,
+    const pkgPath = path.resolve(p, `${pkgsRoot[i]}`)
+    if (!pkgsRoot[i].includes('.')) {
+      // 处理带有 @
+      if (pkgsRoot[i].startsWith('@')) {
+        const dirs = readDir(pkgPath)
+        for (let i = 0; i < dirs.length; i++)
+          readGlob(pkgPath)
       }
-    }
-    catch (err) {
-      console.log(err)
+      else {
+        const pkg = readFile(`${pkgPath}/package.json`)
+        pkgs[pkg.name] = {
+          devDependencies: pkg.devDependencies,
+          dependencies: pkg.dependencies,
+        }
+      }
     }
   }
   return pkgs
@@ -65,13 +79,13 @@ function readGlob(p: string) {
 
 function initModules() {
   const root = readGlob('./package.json')
-  const { name, devDependencies, dependencies } = root as any
+  const { name, devDependencies, dependencies } = (root ?? {}) as any
   addNode(name)
   dealPkgs(name, dependencies, 0)
   dealPkgs(name, devDependencies, 1)
 
   const modules = readGlob('./node_modules/') as any
-  for (const { name, devDependencies, dependencies } of Object.values(modules) as any) {
+  for (const [name, { devDependencies, dependencies }] of Object.entries(modules ?? {}) as any) {
     addNode(name, 2)
     dealPkgs(name, dependencies, 0)
     dealPkgs(name, devDependencies, 1)
