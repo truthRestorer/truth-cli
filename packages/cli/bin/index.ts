@@ -13,17 +13,19 @@ const __dirname = dirname(__filename)
 const program = new Command()
 program.name('dep-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')
 
+// FIXME: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in xxx
 program.command('analyze')
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
   .option('-d, --dep [depth]', 'the depth of the packages', '2')
   .option('-j, --json [file-path]', 'the output file path')
   .action(async ({ dep, json }) => {
+    const depth = +dep
     if (json) {
       analyze(dep, json)
     }
     else {
-      if (dep < 7 && !Number.isNaN(dep)) {
-        analyze(dep)
+      if (depth < 7 && !Number.isNaN(depth)) {
+        analyze(depth)
         await startVite()
       }
       else {
