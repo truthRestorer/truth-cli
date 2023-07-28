@@ -7,6 +7,7 @@
     "truth-cli": "packages/cli/dist/bundle.es.js"
   },
   "scripts": {
+    "init": "pnpm install",
     "dev": "node scripts/dev-web.ts",
     "dev:web": "node scripts/dev-web.ts",
     "dev:cli": "node packages/cli/dist/bundle.es.js",
@@ -59,5 +60,8 @@
       "path": "node_modules/cz-git",
       "useEmoji": true
     }
+  },
+  "dependencies": {
+    "execa": "^7.2.0"
   }
 }

@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg } from '../const'
+import { LogNotExportPkg } from '../src/const'
 
 enum Dep {
   'DEVDEPENDENCY',

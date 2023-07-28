@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { ILinks, INodes } from '../types'
-import { LogNotExportPkg } from '../const'
+import { LogNotExportPkg } from '../src/const'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const nodesName = new Set()

@@ -28,5 +28,5 @@
     "scripts/*.ts",
     "web/vite.config.ts",
     "scripts/build-charts.ts"
-  ]
+, "scripts/build-cli.ts"  ]
 }

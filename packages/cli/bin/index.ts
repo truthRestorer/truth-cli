@@ -5,7 +5,7 @@ import { Command } from 'commander'
 import { createServer } from 'vite'
 import { analyze } from '../lib/analyze'
 import useModules from '../lib/genPkgs'
-import { logDepthError } from '../const'
+import { logDepthError } from '../src/const'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
