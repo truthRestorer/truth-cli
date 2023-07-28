@@ -44,12 +44,12 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
 
 init()
 
-export function analyze(depth: number) {
+export function analyze(depth: number, p: string = './') {
   loadPkgs(pkgs, depth).then(() => {
-    fs.writeFile('pkgs.json', JSON.stringify(pkgs), (err) => {
+    fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs), (err) => {
       if (err)
         throw new Error('出错了')
-      console.log('done')
+      console.log(pkgs)
     })
   })
 }

@@ -1,4 +1,3 @@
-import process from 'node:process'
 import path, { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Command } from 'commander'
@@ -11,13 +10,23 @@ const __dirname = dirname(__filename)
 
 const program = new Command()
 program.name('dep-cli').description('A command-line tool for analyzing dependencies under node_moudles').version('0.0.1')
-program
-  .description('analyze npm packages')
-  .option('-d, --dep <depth>', 'display just the first substring', '1')
-  .option('-j, --json <file-path>', 'separator character', './')
 
-program.parse(process.argv)
-const options = program.opts()
+program.command('analyze')
+  .description('analyze npm packages')
+  .option('-d, --dep [depth]', 'the depth of the packages', '2')
+  .option('-j, --json [file-path]', 'the output file path')
+  .action(({ dep, json }) => {
+    if (json) {
+      analyze(dep, json)
+    }
+    else {
+      if (dep < 7 && !Number.isNaN(dep))
+        analyze(dep)
+      startVite()
+    }
+  })
+
+program.parse()
 
 async function startVite() {
   useModules()
@@ -31,9 +40,3 @@ async function startVite() {
 
   server.printUrls()
 }
-
-const depth = +options.dep
-if (depth < 7 && !Number.isNaN(depth))
-  analyze(depth)
-
-startVite()

@@ -4,8 +4,7 @@
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "bin": {
-    "analyze": "packages/cli/dist/bundle.es.js",
-    "renders": "scripts/dev-web.js"
+    "dep-cli": "packages/cli/dist/bundle.es.js"
   },
   "scripts": {
     "dev": "node scripts/dev-web.ts",
