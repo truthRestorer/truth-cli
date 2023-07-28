@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/ban-ts-comment -->
 <script setup lang="ts">
 import * as echarts from 'echarts'
 import { onMounted } from 'vue'
@@ -21,11 +22,20 @@ onMounted(() => {
         symbolSize: 15,
         draggable: false,
         force: {
-          repulsion: 150,
+          repulsion: 300,
         },
         roam: true,
+        emphasis: {
+          // @ts-expect-error
+          focus: 'adjacency',
+          lineStyle: {
+            width: 5,
+          },
+        },
       },
     ],
+    animationDuration: 1500,
+    animationEasingUpdate: 'quinticInOut',
     legend: {
       data: categories.map(a => a.name),
     },
