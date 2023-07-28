@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const program = new Command()
-program.name('dep-cli').description('hell world').version('0.8.0')
+program.name('dep-cli').description('A command-line tool for analyzing dependencies under node_moudles').version('0.0.1')
 program
   .description('analyze npm packages')
   .option('-d, --dep <depth>', 'display just the first substring', '1')

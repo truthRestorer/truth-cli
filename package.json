@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "node scripts/dev-web.ts",
     "dev:web": "node scripts/dev-web.ts",
-    "dev:cli": "ts-node --esm packages/cli/lib/analyze.ts",
+    "dev:cli": "node packages/cli/dist/bundle.es.js",
     "build:web": "ts-node --esm scripts/build-charts.ts",
     "build:cli": "ts-node --esm scripts/build-cli.ts --cjs --es",
     "build-cli-cjs": "nts-ode --esm scripts/build-cli.ts --cjs",
