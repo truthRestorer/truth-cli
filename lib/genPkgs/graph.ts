@@ -7,7 +7,7 @@ import { readDir, readFile } from '../src/tools'
 const nodesName = new Map()
 const nodes: INodes[] = []
 const links: ILinks[] = []
-
+const relations: { [key: string]: any } = {}
 enum EDeps {
   DEVDEPENDENCY,
   DEPENDENCY,
@@ -43,7 +43,11 @@ function dealPkgs(name: string, pkgs: any, category: number) {
 
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
-    const pkg = readFile(p)
+    const pkg = await readFile(p)
+    relations[pkg.name] = {
+      dependencies: pkg.dependencies,
+      devDependencies: pkg.devDependencies,
+    }
     return pkg
   }
   const pkgsRoot = await readDir(p)
@@ -65,6 +69,10 @@ async function readGlob(p: string) {
           pkgs[pkg.name] = {
             devDependencies: pkg.devDependencies,
             dependencies: pkg.dependencies,
+          }
+          relations[pkg.name] = {
+            dependencies: pkg.dependencies,
+            devDependencies: pkg.devDependencies,
           }
         }
       }
@@ -97,5 +105,6 @@ export default async function genGraphPkgs() {
   return {
     nodes,
     links,
+    relations,
   }
 }

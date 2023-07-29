@@ -5,7 +5,7 @@ import { onMounted } from 'vue'
 import { categories } from '../types'
 
 const res = await fetch('charts.json')
-const { nodes, links } = await res.json()
+const { nodes, links, relations } = await res.json()
 
 onMounted(() => {
   const myChart = echarts.init(document.getElementById('main'))
@@ -46,6 +46,10 @@ onMounted(() => {
       '#3ba272',
       '#5470c6',
     ]
+  })
+  myChart.on('click', (param: any) => {
+    const relation = relations[param.data.name]
+    console.log(relation)
   })
 })
 </script>
