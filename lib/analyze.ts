@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
 import { LogNotExportPkg, logFileWirteError } from './src/const'
+import { readFile } from './src/tools'
 
 enum Dep {
   'DEVDEPENDENCY',
@@ -15,7 +16,7 @@ const pkgs: IPkgs = {}
 
 async function init() {
   try {
-    const json = await fs.readFile('package.json')
+    const json = await readFile('package.json')
     const { devDependencies, dependencies } = JSON.parse(json.toString())
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }

@@ -1,8 +1,9 @@
 export interface INodes {
   name: string
   id: string
-  category: number
-  version: string
+  category: number | null
+  value: string
+  symbolSize: number | null
 }
 
 export interface ILinks {
@@ -12,20 +13,17 @@ export interface ILinks {
 }
 
 interface ICategories {
-  name: 'dependencies' | 'devDependencies' | 'root' | 'yourself'
+  name: 'dependency' | 'devDependency' | 'root'
 }
 
 export const categories: ICategories[] = [
   {
-    name: 'dependencies',
+    name: 'dependency',
   },
   {
-    name: 'devDependencies',
+    name: 'devDependency',
   },
   {
     name: 'root',
-  },
-  {
-    name: 'yourself',
   },
 ]

@@ -2,13 +2,19 @@
 import path from 'node:path'
 import type { ILinks, INodes } from '../src/types'
 import { LogNotExportPkg } from '../src/const'
-import { readDir, readFile } from './tools'
+import { readDir, readFile } from '../src/tools'
 
-const nodesName = new Set()
+const nodesName = new Map()
 const nodes: INodes[] = []
 const links: ILinks[] = []
 
-function addNode(name: string, category: number = 3, version: string = 'latest') {
+enum EDeps {
+  DEVDEPENDENCY,
+  DEPENDENCY,
+  ROOT,
+}
+
+function addNode(name: string, category: number, version: string = 'latest') {
   if (!name)
     return
   if (!nodesName.has(name)) {
@@ -16,9 +22,10 @@ function addNode(name: string, category: number = 3, version: string = 'latest')
       name,
       id: name,
       category,
-      version,
+      value: version,
+      symbolSize: (category + 3) ** 2,
     })
-    nodesName.add(name)
+    nodesName.set(name, category)
   }
 }
 
@@ -28,8 +35,8 @@ function dealPkgs(name: string, pkgs: any, category: number) {
   for (const [key, version] of Object.entries(pkgs)) {
     addNode(key, category, version as string)
     links.push({
-      source: key,
-      target: name,
+      source: name,
+      target: key,
     })
   }
 }
@@ -72,16 +79,17 @@ async function readGlob(p: string) {
 async function initModules() {
   const root = await readGlob('./package.json')
   const { name, devDependencies, dependencies } = (root ?? {}) as any
-  addNode(name)
-  dealPkgs(name, dependencies, 0)
-  dealPkgs(name, devDependencies, 1)
+  addNode(name, EDeps.ROOT)
+  dealPkgs(name, dependencies, EDeps.DEPENDENCY)
+  dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
 
   const modules = await readGlob('./node_modules/') as any
   for (const [name, { devDependencies, dependencies }] of Object.entries(modules ?? {}) as any) {
-    addNode(name, 2)
-    dealPkgs(name, dependencies, 0)
-    dealPkgs(name, devDependencies, 1)
+    dealPkgs(name, dependencies, EDeps.DEPENDENCY)
+    dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
   }
+  for (const name of Object.keys(modules ?? {}) as any)
+    addNode(name, nodesName.get(name))
 }
 
 export default async function genGraphPkgs() {

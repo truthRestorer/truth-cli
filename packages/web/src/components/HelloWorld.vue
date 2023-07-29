@@ -19,17 +19,16 @@ onMounted(() => {
         links,
         categories,
         label: {
-          show: true,
+          show: false,
         },
         symbolSize: 15,
-        draggable: false,
+        draggable: true,
         force: {
-          repulsion: 300,
+          repulsion: 150,
+          gravity: 0.05
         },
         roam: true,
         emphasis: {
-          // @ts-expect-error
-          focus: 'adjacency',
           lineStyle: {
             width: 5,
           },
@@ -42,6 +41,11 @@ onMounted(() => {
       data: categories.map(a => a.name),
     },
     tooltip: {},
+    color: [
+      '#73c0de',
+      '#3ba272',
+      '#5470c6',
+    ]
   })
 })
 </script>
