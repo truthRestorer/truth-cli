@@ -1,17 +1,16 @@
 /* eslint-disable no-console */
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import express from 'express'
 import genGraphPkgs from './genPkgs/graph'
+import { logWebStart, webPath } from './src/const'
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const app = express()
-app.use(express.static(path.resolve(__dirname, './web/')))
+app.use(express.static(webPath))
 
 function startWeb() {
   app.get('/', (req, res) => {
-    const indexPath = path.resolve(__dirname, './web/index.html')
+    const indexPath = path.resolve(webPath, './index.html')
     const htmlStr = fs.readFileSync(indexPath)
     res.end(htmlStr)
   })
@@ -21,10 +20,11 @@ function startWeb() {
 export default function genPkgs() {
   const graphPkgs = genGraphPkgs()
 
-  fs.writeFile(`${path.resolve(__dirname, './web')}/charts.json`, JSON.stringify(graphPkgs), (err) => {
+  fs.writeFile(`${webPath}/charts.json`, JSON.stringify(graphPkgs), (err) => {
     if (err)
       console.log(err.message)
     console.log('done')
   })
   startWeb()
+  logWebStart()
 }
