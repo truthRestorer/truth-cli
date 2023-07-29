@@ -1,7 +1,7 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg } from './src/const'
+import { LogNotExportPkg, logFileWirteError } from './src/const'
 
 enum Dep {
   'DEVDEPENDENCY',
@@ -13,9 +13,9 @@ interface IPkgs {
 
 const pkgs: IPkgs = {}
 
-function init() {
+async function init() {
   try {
-    const json = fs.readFileSync('package.json')
+    const json = await fs.readFile('package.json')
     const { devDependencies, dependencies } = JSON.parse(json.toString())
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
@@ -48,13 +48,13 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
   }
 }
 
-init()
-
-export function analyze(depth: number, p: string = './') {
-  loadPkgs(pkgs, depth).then(() => {
-    fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs), (err) => {
-      if (err)
-        throw new Error('出错了')
-    })
-  })
+export async function analyze(depth: number, p: string = './') {
+  init()
+  try {
+    await loadPkgs(pkgs, depth)
+    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+  }
+  catch (err: any) {
+    logFileWirteError(err.message)
+  }
 }

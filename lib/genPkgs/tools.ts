@@ -1,12 +1,12 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 
-export function readDir(p: string) {
-  const pkgsRoot = fs.readdirSync(p)
+export async function readDir(p: string) {
+  const pkgsRoot = await fs.readdir(p)
   return pkgsRoot
 }
 
-export function readFile(p: string) {
-  const json = fs.readFileSync(p)
+export async function readFile(p: string) {
+  const json = await fs.readFile(p)
   const pkg = JSON.parse(json.toString())
   return pkg
 }
