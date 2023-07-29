@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
-import genPkgs from 'lib'
-import { analyze } from '../lib/analyze'
+import { genPkgsAndWeb } from 'lib'
+import { outputFile } from '../lib/outputFile'
 import { logDepthError } from '../lib/src/const'
 
 const program = new Command()
@@ -14,12 +14,12 @@ program.command('analyze')
   .action(async ({ dep, json }) => {
     const depth = +dep
     if (json) {
-      await analyze(dep, json)
+      await outputFile(dep, json)
     }
     else {
       if (depth < 7 && !Number.isNaN(depth)) {
-        await analyze(depth)
-        await genPkgs()
+        await outputFile(depth)
+        await genPkgsAndWeb()
       }
       else {
         logDepthError()

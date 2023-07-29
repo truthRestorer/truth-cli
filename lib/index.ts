@@ -16,7 +16,7 @@ function startWeb() {
   app.listen('3002')
 }
 
-export default async function genPkgs() {
+export async function genPkgsAndWeb() {
   const graphPkgs = await genGraphPkgs()
   try {
     fs.writeFile(`${webPath}/charts.json`, JSON.stringify(graphPkgs))

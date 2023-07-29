@@ -49,7 +49,7 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
   }
 }
 
-export async function analyze(depth: number, p: string = './') {
+export async function outputFile(depth: number, p: string = './') {
   init()
   try {
     await loadPkgs(pkgs, depth)
