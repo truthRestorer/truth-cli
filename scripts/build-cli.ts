@@ -27,11 +27,11 @@ async function buildCli(format: string) {
       json(),
     ],
   }
-  // FIXME: 打包的时候会把 eslint 也打包进去
   const outputOptions = {
     dir: 'dist',
     format,
     banner: '#! /usr/bin/env node\nconst navigator = {}',
+    external: ['eslint']
   }
   const bundle = await rollup(inputOptions)
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -40,6 +40,7 @@ async function buildCli(format: string) {
 }
 
 async function scriptBuild() {
+  console.log(argv)
   for (const key of Object.keys(argv))
     buildCli(key)
 }
