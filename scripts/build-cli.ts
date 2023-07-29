@@ -31,7 +31,7 @@ async function buildCli(format: string) {
     dir: 'dist',
     format,
     banner: '#! /usr/bin/env node\nconst navigator = {}',
-    external: ['eslint']
+    external: ['eslint'],
   }
   const bundle = await rollup(inputOptions)
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -40,7 +40,6 @@ async function buildCli(format: string) {
 }
 
 async function scriptBuild() {
-  console.log(argv)
   for (const key of Object.keys(argv))
     buildCli(key)
 }
