@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
+  "main": "dist/index.js",
   "bin": {
     "truth-test-cli": "dist/index.js"
   },
@@ -25,10 +26,11 @@
   },
   "keywords": [
     "node_moudles",
-    "cli"
+    "cli",
+    "node"
   ],
   "author": "lilming",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/lilming123/dep_cil/issues"
   },
