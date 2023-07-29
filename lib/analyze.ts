@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import fs from 'node:fs'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg } from '../src/const'
+import { LogNotExportPkg } from './src/const'
 
 enum Dep {
   'DEVDEPENDENCY',
@@ -16,7 +15,7 @@ const pkgs: IPkgs = {}
 
 function init() {
   try {
-    const json = fs.readFileSync(path.resolve('./package.json'))
+    const json = fs.readFileSync('package.json')
     const { devDependencies, dependencies } = JSON.parse(json.toString())
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
@@ -56,7 +55,6 @@ export function analyze(depth: number, p: string = './') {
     fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs), (err) => {
       if (err)
         throw new Error('出错了')
-      console.log('done')
     })
   })
 }

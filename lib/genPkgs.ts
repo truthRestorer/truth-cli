@@ -2,10 +2,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ILinks, INodes } from '../types'
-import { LogNotExportPkg } from '../src/const'
+import express from 'express'
+import type { ILinks, INodes } from './src/types'
+import { LogNotExportPkg } from './src/const'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const app = express()
+app.use(express.static(path.resolve(__dirname, './web/')))
 const nodesName = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
@@ -97,11 +100,22 @@ function initModules() {
     dealPkgs(name, devDependencies, 1)
   }
 }
+function startWeb() {
+  app.get('/', (req, res) => {
+    const indexPath = path.resolve(__dirname, './web/index.html')
+    const htmlStr = fs.readFileSync(indexPath)
+    res.end(htmlStr)
+  })
+  app.listen('3002')
+}
 
-export default function useModules() {
+export default function genPkgs() {
   initModules()
+  console.log(path.resolve(__dirname, '..'))
+  console.log(__dirname)
+  startWeb()
 
-  fs.writeFile(`${path.resolve(__dirname, '../../web/src/assets')}/charts.json`, JSON.stringify({ nodes, links }), (err) => {
+  fs.writeFile(`${path.resolve(__dirname, './web')}/charts.json`, JSON.stringify({ nodes, links }), (err) => {
     if (err)
       console.log(err.message)
     console.log('done')

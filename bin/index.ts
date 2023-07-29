@@ -1,14 +1,8 @@
-import path, { dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import chalk from 'chalk'
 import { Command } from 'commander'
-import { createServer } from 'vite'
+import genPkgs from 'lib/genPkgs'
 import { analyze } from '../lib/analyze'
-import useModules from '../lib/genPkgs'
-import { logDepthError } from '../src/const'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import { logDepthError } from '../lib/src/const'
 
 const program = new Command()
 program.name('truth-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')
@@ -26,7 +20,7 @@ program.command('analyze')
     else {
       if (depth < 7 && !Number.isNaN(depth)) {
         analyze(depth)
-        await startVite()
+        genPkgs()
       }
       else {
         logDepthError()
@@ -35,16 +29,3 @@ program.command('analyze')
   })
 
 program.parse()
-
-async function startVite() {
-  useModules()
-
-  const server = await createServer({
-    // 任何合法的用户配置选项，加上 `mode` 和 `configFile`
-    configFile: `${path.resolve(__dirname, '../../web/vite.config.ts')}`,
-    root: `${path.resolve(__dirname, '../../web')}`,
-  })
-  await server.listen()
-
-  server.printUrls()
-}

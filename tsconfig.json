@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "temp",
+    "outDir": "dist",
     "sourceMap": false,
     "target": "ES2020",
     "newLine": "LF",
@@ -23,10 +23,13 @@
   },
   "include": [
     "packages/**/*.ts",
-    "./**/*.d.ts",
     "scripts/*.ts",
     "scripts/*.ts",
     "web/vite.config.ts",
-    "scripts/build-charts.ts"
-, "scripts/build-cli.ts"  ]
+    "scripts/build-charts.ts",
+    "scripts/build-cli.ts",
+    "bin/*.ts",
+    "lib/*.ts",
+    "lib/src/*.ts"
+  ]
 }
