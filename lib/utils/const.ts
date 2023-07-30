@@ -41,3 +41,5 @@ export function logAnalyzeFinish() {
 }
 
 export const webPath = path.resolve(__root, './dist/web/')
+
+export const rootPath = __root

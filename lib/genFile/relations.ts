@@ -2,7 +2,7 @@ import path from 'node:path'
 import { LogNotExportPkg } from '../utils/const'
 import { readDir, readFile } from '../utils/tools'
 
-const relations: { [key: string]: any } = {}
+export const relations: { [key: string]: any } = {}
 
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {

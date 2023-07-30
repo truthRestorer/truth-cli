@@ -1,8 +1,7 @@
-// 生成 echarts 中 graph 所需要的数据
 import type { ILinks, INodes } from '../utils/types'
-import initRelations from './relations'
+import { relations } from './relations'
 
-const nodesMap = new Map()
+const nodesMap = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
 enum EDeps {
@@ -17,20 +16,24 @@ function addNode(name: string, version: string, category: number) {
       value: version,
       symbolSize: (category + 0.5) * (category + 30),
     })
-    nodesMap.set(name, category)
+    nodesMap.add(name)
   }
 }
 
 export default async function initGraph() {
-  const relations = await initRelations()
+  let isRoot = true
   for (const [key, { dependencies, devDependencies, version }] of Object.entries(relations)) {
-    for (const [pkgName, pkgVersion] of Object.entries(dependencies ?? {}))
+    const pkgs = Object.assign({}, dependencies, devDependencies)
+    for (const [pkgName, pkgVersion] of Object.entries(pkgs))
       addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
-    for (const [pkgName, pkgVersion] of Object.entries(devDependencies ?? {}))
-      addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
-    const pkg = Object.assign({}, dependencies, devDependencies)
-    addNode(key, version, EDeps.DEPENDENCY)
-    for (const target of Object.keys(pkg)) {
+    if (isRoot) {
+      addNode(key, version, EDeps.ROOT)
+      isRoot = false
+    }
+    else {
+      addNode(key, version, EDeps.DEPENDENCY)
+    }
+    for (const target of Object.keys(pkgs)) {
       links.push({
         source: key,
         target,

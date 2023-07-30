@@ -14,10 +14,9 @@ interface IPkgs {
 
 const pkgs: IPkgs = {}
 
-async function init() {
+async function initRootModules() {
   try {
-    const json = await readFile('package.json')
-    const { devDependencies, dependencies } = JSON.parse(json.toString())
+    const { devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
     for (const [name, version] of Object.entries(dependencies ?? {}) as any)
@@ -28,7 +27,7 @@ async function init() {
   }
 }
 // FIXME: 循环引用问题
-async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
+async function loadPkgs(rootPkgs: IPkgs, maxDep: number) {
   if (maxDep === 0)
     return
   for (const key of Object.keys(rootPkgs)) {
@@ -50,7 +49,7 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
 }
 
 export async function outputFile(depth: number, p: string = './') {
-  await init()
+  await initRootModules()
   try {
     await loadPkgs(pkgs, depth)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))

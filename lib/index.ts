@@ -18,8 +18,9 @@ function startWeb() {
 }
 
 export async function genPkgsAndWeb() {
-  const graphPkgs = await genGraph()
+  // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
   const relations = await genRelatios()
+  const graphPkgs = await genGraph()
   try {
     await fs.writeFile(`${webPath}/relations.json`, JSON.stringify(relations))
     await fs.writeFile(`${webPath}/graph.json`, JSON.stringify(graphPkgs))
