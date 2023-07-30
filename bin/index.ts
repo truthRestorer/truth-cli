@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { genPkgsAndWeb } from 'lib'
-import { outputFile } from '../lib/outputFile'
-import { logDepthError } from '../lib/src/const'
+import { outputFile } from '../lib/genFile/outputFile'
+import { logDepthError } from '../lib/utils/const'
 
 const program = new Command()
 program.name('truth-cli').description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles')).version('0.0.1')

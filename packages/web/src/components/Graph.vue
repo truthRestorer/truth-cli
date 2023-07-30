@@ -1,13 +1,13 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import echarts from '../plugins/echarts'
 
-// import echarts from '../plugins/echarts'
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
 
 import { categories } from '../types'
 
-const res = await fetch('charts.json')
+const res = await fetch('graph.json')
 const { nodes, links, relations } = await res.json()
 
 onMounted(() => {

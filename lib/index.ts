@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import express from 'express'
-import genGraphPkgs from './genPkgs/graph'
-import { logAnalyzeFinish, logFileWirteError, webPath } from './src/const'
+import genGraph from './genFile/graph'
+import genRelatios from './genFile/relations'
+import { logAnalyzeFinish, logFileWirteError, webPath } from './utils/const'
 
 const app = express()
 app.use(express.static(webPath))
@@ -17,9 +18,11 @@ function startWeb() {
 }
 
 export async function genPkgsAndWeb() {
-  const graphPkgs = await genGraphPkgs()
+  const graphPkgs = await genGraph()
+  const relations = await genRelatios()
   try {
-    fs.writeFile(`${webPath}/charts.json`, JSON.stringify(graphPkgs))
+    await fs.writeFile(`${webPath}/relations.json`, JSON.stringify(relations))
+    await fs.writeFile(`${webPath}/graph.json`, JSON.stringify(graphPkgs))
     startWeb()
     logAnalyzeFinish()
   }
