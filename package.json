@@ -12,6 +12,7 @@
     "dev:cli": "ts-node --esm /dist/bundle.es.js",
     "build:web": "cd packages/web && pnpm run build --emptyOutDir",
     "build:cli": "ts-node --esm scripts/build-cli.ts --es",
+    "ci:publish": "pnpm publish -r",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
+    "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@rollup/plugin-commonjs": "^25.0.3",
@@ -65,5 +67,9 @@
       "path": "node_modules/cz-git",
       "useEmoji": true
     }
+  },
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=6"
   }
 }
