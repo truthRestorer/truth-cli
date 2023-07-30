@@ -4,7 +4,7 @@ import type { ILinks, INodes } from '../src/types'
 import { LogNotExportPkg } from '../src/const'
 import { readDir, readFile } from '../src/tools'
 
-const nodesName = new Map()
+const nodesMap = new Map()
 const nodes: INodes[] = []
 const links: ILinks[] = []
 const relations: { [key: string]: any } = {}
@@ -17,15 +17,14 @@ enum EDeps {
 function addNode(name: string, category: number, version: string = 'latest') {
   if (!name)
     return
-  if (!nodesName.has(name)) {
+  if (!nodesMap.has(name)) {
     nodes.push({
       name,
-      id: name,
       category,
       value: version,
       symbolSize: (category + 3) ** 2,
     })
-    nodesName.set(name, category)
+    nodesMap.set(name, { version, category })
   }
 }
 
@@ -69,10 +68,12 @@ async function readGlob(p: string) {
           pkgs[pkg.name] = {
             devDependencies: pkg.devDependencies,
             dependencies: pkg.dependencies,
+            version: pkg.version,
           }
           relations[pkg.name] = {
             dependencies: pkg.dependencies,
             devDependencies: pkg.devDependencies,
+            version: pkg.version,
           }
         }
       }
@@ -85,19 +86,23 @@ async function readGlob(p: string) {
 }
 
 async function initModules() {
-  const root = await readGlob('./package.json')
-  const { name, devDependencies, dependencies } = (root ?? {}) as any
-  addNode(name, EDeps.ROOT)
+  const root = await readGlob('./package.json') ?? {}
+  const { name, devDependencies, dependencies, version } = root as any
+  addNode(name, EDeps.ROOT, version)
   dealPkgs(name, dependencies, EDeps.DEPENDENCY)
   dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
 
-  const modules = await readGlob('./node_modules/') as any
-  for (const [name, { devDependencies, dependencies }] of Object.entries(modules ?? {}) as any) {
+  const modules = await readGlob('./node_modules/') ?? {}
+  for (const [name, { devDependencies, dependencies }] of Object.entries(modules) as any) {
     dealPkgs(name, dependencies, EDeps.DEPENDENCY)
     dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
   }
-  for (const name of Object.keys(modules ?? {}) as any)
-    addNode(name, nodesName.get(name))
+  for (const name of Object.keys(modules) as any) {
+    if (name) {
+      const node = nodesMap.get(name)
+      node && addNode(name, node.category, node.version)
+    }
+  }
 }
 
 export default async function genGraphPkgs() {
