@@ -22,20 +22,20 @@ function addNode(name: string, version: string, category: number) {
 
 export default async function initGraph() {
   let isRoot = true
-  for (const [key, { dependencies, devDependencies, version }] of Object.entries(relations)) {
+  for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
     const pkgs = Object.assign({}, dependencies, devDependencies)
     for (const [pkgName, pkgVersion] of Object.entries(pkgs))
       addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
     if (isRoot) {
-      addNode(key, version, EDeps.ROOT)
+      addNode(name, version, EDeps.ROOT)
       isRoot = false
     }
     else {
-      addNode(key, version, EDeps.DEPENDENCY)
+      addNode(name, version, EDeps.DEPENDENCY)
     }
     for (const target of Object.keys(pkgs)) {
       links.push({
-        source: key,
+        source: name,
         target,
       })
     }

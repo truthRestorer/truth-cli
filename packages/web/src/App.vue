@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import Graph from './components/Graph.vue'
+// import Graph from './components/Graph.vue'
+import Tree from './components/Tree.vue'
 </script>
 
 <template>
   <Suspense>
-    <Graph />
+    <div>
+      <!-- <div style="height: 100vh">
+        <Graph />
+      </div> -->
+      <div style="height: 100vh">
+        <Tree />
+      </div>
+    </div>
   </Suspense>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

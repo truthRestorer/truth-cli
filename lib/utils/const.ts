@@ -8,8 +8,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const __root = path.resolve(__dirname, '..')
 
 const fileWirteError = `
-  ${chalk.bgRedBright('Error!')}
-  ${chalk.cyan.yellow('Here is error message')}
+  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message')}
 `
 export function logFileWirteError(message: string) {
   console.log(`${fileWirteError}:${message}`)

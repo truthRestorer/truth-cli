@@ -4,10 +4,7 @@ import { onMounted } from 'vue'
 
 // import echarts from '../plugins/echarts'
 import * as echarts from 'echarts'
-import { categories } from '../types'
 
-const graph = await fetch('graph.json')
-const { nodes, links } = await graph.json()
 const treeJSON = await fetch('tree.json')
 const tree = await treeJSON.json()
 const relationsJSON = await fetch('relations.json')
@@ -19,27 +16,7 @@ onMounted(() => {
   // 绘制图表
   myChart.setOption({
     animation: false,
-    legend: {
-      data: ['引力关系图', '树状图'],
-    },
     series: [
-      {
-        name: '引力关系图',
-        type: 'graph',
-        layout: 'force',
-        nodes,
-        links,
-        categories,
-        animation: false,
-        label: {
-          show: false,
-        },
-        draggable: false,
-        force: {
-          repulsion: 500,
-        },
-        roam: true,
-      },
       {
         name: '树状图',
         type: 'tree',
