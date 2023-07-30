@@ -50,7 +50,7 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
 }
 
 export async function outputFile(depth: number, p: string = './') {
-  init()
+  await init()
   try {
     await loadPkgs(pkgs, depth)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
