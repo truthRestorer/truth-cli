@@ -1,7 +1,10 @@
-<!-- eslint-disable @typescript-eslint/ban-ts-comment -->
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
-import * as echarts from 'echarts'
 import { onMounted } from 'vue'
+
+// import echarts from '../plugins/echarts'
+import * as echarts from 'echarts'
+
 import { categories } from '../types'
 
 const res = await fetch('charts.json')
@@ -11,6 +14,7 @@ onMounted(() => {
   const myChart = echarts.init(document.getElementById('main'))
   // 绘制图表
   myChart.setOption({
+    animation: false,
     series: [
       {
         type: 'graph',
@@ -18,36 +22,38 @@ onMounted(() => {
         nodes,
         links,
         categories,
+        animation: false,
         label: {
           show: false,
         },
-        symbolSize: 15,
-        draggable: true,
+        draggable: false,
         force: {
-          repulsion: 150,
-          gravity: 0.05
+          repulsion: 500,
+          layoutAnimation: false,
         },
         roam: true,
-        emphasis: {
-          lineStyle: {
-            width: 5,
-          },
-        },
+      },
+      {
+        type: 'tree',
       },
     ],
-    animationDuration: 1500,
-    animationEasingUpdate: 'quinticInOut',
-    legend: {
-      data: categories.map(a => a.name),
+    tooltip: {
+      show: true,
     },
-    tooltip: {},
     color: [
       '#73c0de',
-      '#3ba272',
       '#5470c6',
-    ]
+    ],
+    toolbox: {
+      feature: {
+        magicType: {
+          type: ['tree', 'graph'],
+        },
+      },
+    },
   })
   myChart.on('click', (param: any) => {
+    console.log(param)
     const relation = relations[param.data.name]
     console.log(relation)
   })

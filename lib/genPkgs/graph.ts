@@ -9,50 +9,29 @@ const nodes: INodes[] = []
 const links: ILinks[] = []
 const relations: { [key: string]: any } = {}
 enum EDeps {
-  DEVDEPENDENCY,
   DEPENDENCY,
   ROOT,
 }
-
-function addNode(name: string, category: number, version: string = 'latest') {
-  if (!name)
-    return
+function addNode(name: string, version: string, category: number) {
   if (!nodesMap.has(name)) {
     nodes.push({
       name,
       category,
       value: version,
-      symbolSize: (category + 3) ** 2,
+      symbolSize: (category + 0.5) * (category + 30),
     })
-    nodesMap.set(name, { version, category })
-  }
-}
-
-function dealPkgs(name: string, pkgs: any, category: number) {
-  if (!pkgs)
-    return
-  for (const [key, version] of Object.entries(pkgs)) {
-    addNode(key, category, version as string)
-    links.push({
-      source: name,
-      target: key,
-    })
+    nodesMap.set(name, category)
   }
 }
 
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const pkg = await readFile(p)
-    relations[pkg.name] = {
-      dependencies: pkg.dependencies,
-      devDependencies: pkg.devDependencies,
-    }
-    return pkg
+    relations[pkg.name] = pkg
+    addNode(pkg.name, pkg.version, EDeps.ROOT)
+    return
   }
   const pkgsRoot = await readDir(p)
-  const pkgs: {
-    [key: string]: any
-  } = {}
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = path.resolve(p, `${pkgsRoot[i]}`)
     if (!pkgsRoot[i].includes('.')) {
@@ -65,16 +44,7 @@ async function readGlob(p: string) {
         }
         else {
           const pkg = await readFile(`${pkgPath}/package.json`)
-          pkgs[pkg.name] = {
-            devDependencies: pkg.devDependencies,
-            dependencies: pkg.dependencies,
-            version: pkg.version,
-          }
-          relations[pkg.name] = {
-            dependencies: pkg.dependencies,
-            devDependencies: pkg.devDependencies,
-            version: pkg.version,
-          }
+          relations[pkg.name] = pkg
         }
       }
       catch (err: any) {
@@ -82,31 +52,25 @@ async function readGlob(p: string) {
       }
     }
   }
-  return pkgs
 }
 
-async function initModules() {
-  const root = await readGlob('./package.json') ?? {}
-  const { name, devDependencies, dependencies, version } = root as any
-  addNode(name, EDeps.ROOT, version)
-  dealPkgs(name, dependencies, EDeps.DEPENDENCY)
-  dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
-
-  const modules = await readGlob('./node_modules/') ?? {}
-  for (const [name, { devDependencies, dependencies }] of Object.entries(modules) as any) {
-    dealPkgs(name, dependencies, EDeps.DEPENDENCY)
-    dealPkgs(name, devDependencies, EDeps.DEVDEPENDENCY)
-  }
-  for (const name of Object.keys(modules) as any) {
-    if (name) {
-      const node = nodesMap.get(name)
-      node && addNode(name, node.category, node.version)
+export default async function initModules() {
+  await readGlob('./package.json')
+  await readGlob('./node_modules/')
+  for (const [key, { dependencies, devDependencies, version }] of Object.entries(relations)) {
+    for (const [pkgName, pkgVersion] of Object.entries(dependencies ?? {}))
+      addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
+    for (const [pkgName, pkgVersion] of Object.entries(devDependencies ?? {}))
+      addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
+    const pkg = Object.assign({}, dependencies, devDependencies)
+    addNode(key, version, EDeps.DEPENDENCY)
+    for (const target of Object.keys(pkg)) {
+      links.push({
+        source: key,
+        target,
+      })
     }
   }
-}
-
-export default async function genGraphPkgs() {
-  await initModules()
   return {
     nodes,
     links,

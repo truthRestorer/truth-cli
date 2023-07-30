@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import Graph from './components/Graph.vue'
 </script>
 
 <template>
   <Suspense>
-    <HelloWorld />
+    <Graph />
   </Suspense>
 </template>
 
