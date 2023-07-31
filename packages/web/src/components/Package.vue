@@ -1,7 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { onMounted } from 'vue'
-
 import echarts from '../plugins/echarts'
 import { categories } from '../types'
 
@@ -12,28 +11,31 @@ const tree = await treeJSON.json()
 const relationsJSON = await fetch('relations.json')
 const relations = await relationsJSON.json()
 
-onMounted(() => {
+onMounted(async () => {
   const myChart = echarts.init(document.getElementById('main'))
-
   // 绘制图表
   myChart.setOption({
     legend: {
       data: ['引力关系图', '树状图'],
       selectedMode: 'single',
+      animation: true,
+      zlevel: 3,
     },
+    animationThreshold: 2 ** 32,
+    hoverLayerThreshold: 2 ** 32,
     series: [
       {
         name: '引力关系图',
+        zlevel: 1,
         type: 'graph',
         layout: 'force',
         nodes,
         links,
         categories,
-        animation: false,
+        draggable: false,
         label: {
           show: false,
         },
-        draggable: false,
         force: {
           repulsion: 150,
         },
@@ -41,6 +43,7 @@ onMounted(() => {
       },
       {
         name: '树状图',
+        zlevel: 2,
         type: 'tree',
         data: [tree],
         roam: true,
@@ -48,6 +51,7 @@ onMounted(() => {
           show: true,
         },
         initialTreeDepth: 1,
+        expandAndCollapse: true,
       },
     ],
   })
