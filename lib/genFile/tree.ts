@@ -9,16 +9,12 @@ interface ITree {
   children: ITree[]
 }
 
-const treeData: ITree = {
-  name: '',
-  value: '',
-  children: [],
-}
+const treeData: ITree[] = []
 
 async function initRootTree() {
   try {
     const { name, version, devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
-    treeData.children.push({
+    treeData.push({
       name,
       value: version,
       children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => ({
@@ -57,8 +53,8 @@ function loadTrees(trees: ITree[], maxDep: number) {
 export default async function genTree(maxDep: number) {
   await initRootTree()
   try {
-    loadTrees(treeData.children[0].children, maxDep)
-    return treeData.children[0]
+    loadTrees(treeData[0].children, maxDep)
+    return treeData[0]
   }
   catch (err: any) {
     logFileWirteError(err.message)
