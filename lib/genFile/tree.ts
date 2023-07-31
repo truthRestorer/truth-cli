@@ -1,4 +1,3 @@
-// TODO: 生成 echarts 中 tree 图的数据
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
 import { LogNotExportPkg, logFileWirteError } from '../utils/const'
@@ -58,7 +57,7 @@ async function loadTrees(trees: ITree[], maxDep: number) {
 export default async function genTree(maxDep: number) {
   await initRootTree()
   try {
-    await loadTrees(treeData.children, maxDep)
+    await loadTrees(treeData.children[0].children, maxDep)
     return treeData.children[0]
   }
   catch (err: any) {
