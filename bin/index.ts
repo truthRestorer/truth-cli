@@ -6,12 +6,15 @@ import { logDepthError } from 'lib/utils/const.js'
 import { isNumber } from 'lib/utils/tools.js'
 
 const program = new Command()
+// TODO: 添加版本自动控制
 program
   .name('truth-cli')
   .description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles'))
   .version('0.1.3')
 
-// TODO:当数据过大时(例如 dep > 5 时)，支持数据流写入
+// TODO: 当数据过大时(例如 dep > 5 时)，支持数据流写入
+// TODO: 支持更多命令行，例如 --delete 删除生成的文件
+// TODO: 更好的用户提示，将 description、options 的打印语句添加到 lib/utils/const.ts 中
 program
   .command('analyze')
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
