@@ -20,7 +20,7 @@ async function buildCli(format: string) {
         preferBuiltins: true,
       }),
       typescript({
-        exclude: ['packages/web/*.ts'],
+        exclude: ['packages/**/*.ts'],
       }),
       commonjs(),
       terser(),

@@ -24,12 +24,8 @@
   "include": [
     "packages/**/*.ts",
     "scripts/*.ts",
-    "scripts/*.ts",
-    "web/vite.config.ts",
-    "scripts/build-charts.ts",
-    "scripts/build-cli.ts",
     "bin/*.ts",
     "lib/*.ts",
-    "lib/utils/*.ts"
-, "lib/genFile/relations.ts", "lib/genFile/outputFile.ts"  ]
+    "lib/**/*.ts",
+  ]
 }
