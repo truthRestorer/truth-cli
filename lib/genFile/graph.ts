@@ -1,5 +1,5 @@
-import type { ILinks, INodes } from '../utils/types'
-import { relations } from './relations'
+import type { ILinks, INodes } from '../utils/types.js'
+import { relations } from './relations.js'
 
 const nodesMap = new Set()
 const nodes: INodes[] = []

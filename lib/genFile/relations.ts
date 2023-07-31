@@ -1,7 +1,7 @@
 import path from 'node:path'
-import type { IRelations } from 'lib/utils/types'
-import { LogNotExportPkg } from '../utils/const'
-import { readDir, readFile } from '../utils/tools'
+import type { IRelations } from 'lib/utils/types.js'
+import { LogNotExportPkg } from '../utils/const.js'
+import { readDir, readFile } from '../utils/tools.js'
 
 export const relations: Partial<IRelations> = {}
 

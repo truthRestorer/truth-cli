@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg, logFileWirteError } from '../utils/const'
-import { readFile } from '../utils/tools'
+import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
+import { readFile } from '../utils/tools.js'
 
 enum Dep {
   'DEVDEPENDENCY',

@@ -1,9 +1,9 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
 import { genPkgsAndWeb } from 'lib'
-import { outputFile } from 'lib/genFile/outputFile'
-import { logDepthError } from 'lib/utils/const'
-import { isNumber } from 'lib/utils/tools'
+import { outputFile } from 'lib/genFile/outputFile.js'
+import { logDepthError } from 'lib/utils/const.js'
+import { isNumber } from 'lib/utils/tools.js'
 
 const program = new Command()
 program

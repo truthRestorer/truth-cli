@@ -1,11 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import express from 'express'
-import genGraph from './genFile/graph'
-import genRelatios from './genFile/relations'
-import genTree from './genFile/tree'
+import genGraph from './genFile/graph.js'
+import genRelatios from './genFile/relations.js'
+import genTree from './genFile/tree.js'
 
-import { logAnalyzeFinish, logFileWirteError, webPath } from './utils/const'
+import { devWebPath, logAnalyzeFinish, logFileWirteError, webPath } from './utils/const.js'
 
 const app = express()
 app.use(express.static(webPath))
@@ -19,17 +19,19 @@ function startWeb() {
   app.listen('3002')
 }
 
-export async function genPkgsAndWeb(payload: { treeDep: number }) {
+export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean }) {
+  const { treeDep, isDev } = payload
   // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
   const relations = await genRelatios()
   const graphPkgs = await genGraph()
-  const treePkgs = await genTree(payload.treeDep)
+  const treePkgs = await genTree(treeDep)
+  const writePath = isDev ? `${devWebPath}/public` : webPath
   try {
-    await fs.writeFile(`${webPath}/relations.json`, JSON.stringify(relations))
-    await fs.writeFile(`${webPath}/graph.json`, JSON.stringify(graphPkgs))
-    await fs.writeFile(`${webPath}/tree.json`, JSON.stringify(treePkgs))
-    startWeb()
-    logAnalyzeFinish()
+    await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
+    await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graphPkgs))
+    await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(treePkgs))
+    !isDev && startWeb()
+    !isDev && logAnalyzeFinish()
   }
   catch (err: any) {
     logFileWirteError(err.message)

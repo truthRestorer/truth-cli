@@ -11,8 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "cd packages/web && pnpm run dev",
-    "dev:cli": "ts-node --esm /dist/bundle.es.js",
+    "dev": "ts-node scripts/dev.ts && cd packages/web && pnpm run dev",
     "build:web": "cd packages/web && pnpm run build --emptyOutDir",
     "build:cli": "ts-node --esm scripts/build-cli.ts --es",
     "ci:publish": "pnpm publish -r",
