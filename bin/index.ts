@@ -24,7 +24,7 @@ program
       }
       else {
         if (dep === undefined) {
-          await genPkgsAndWeb({ treeDep: 2 })
+          await genPkgsAndWeb({ treeDep: 3 })
           await outputFile(2)
         }
         else if (isNumber(dep)) {
