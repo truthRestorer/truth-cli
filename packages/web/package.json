@@ -15,10 +15,8 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.8",
     "@types/echarts": "^4.9.18",
     "@vitejs/plugin-vue": "^4.2.3",
-    "eslint": "^8.45.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"
