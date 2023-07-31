@@ -1,7 +1,7 @@
 import path from 'node:path'
-import { getPackageInfo } from 'local-pkg'
 import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
 import { readFile } from '../utils/tools.js'
+import { relations } from './relations.js'
 
 interface ITree {
   name: string
@@ -38,14 +38,14 @@ async function loadTrees(trees: ITree[], maxDep: number) {
     return
   for (let i = 0; i < trees.length; i++) {
     const tree = trees[i]
-    const packageInfo = await getPackageInfo(tree.name)
-    if (packageInfo) {
-      const { packageJson } = packageInfo
-      const pkgs = Object.assign({}, packageJson.dependencies, packageJson.devDependencies)
+    const relatedPkg = relations[tree.name]!
+    if (relatedPkg) {
+      const { devDependencies, dependencies } = relatedPkg
+      const pkgs = Object.assign({}, dependencies, devDependencies)
       for (const [name, version] of Object.entries(pkgs)) {
         tree.children.push({
           name,
-          value: version,
+          value: version as string,
           children: [],
         })
       }
