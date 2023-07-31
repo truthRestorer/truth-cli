@@ -10,7 +10,7 @@
 
 # installing
 
-Using npm:
+**Using npm:**
 
 ```bash
 npm install -g truth-cli
@@ -18,13 +18,13 @@ npm install -g truth-cli
 
 # usage
 
-Start Web and Generate file:
+**Start Web and Generate file:**
 
 ```
 truth-cli analyze
 ```
 
-The Content of web inluces:
+*The Content of web inluces:*
 
 - Tree
 - Force Layout
@@ -39,7 +39,7 @@ truth-cli analyze -d 4
 
 We do not recommend setting the depth too large, if the `dep` is over 5, we will stop the operation, If you still want to continue, add `--force` or `-f`:
 
-> `dep` will influence the `pkgs.json` and `Tree` in the website
+> `dep` will influence the `pkgs.json` and `Tree`
 
 ```bash
 truth-cli analyze -d 7 -f
@@ -47,7 +47,7 @@ truth-cli analyze -d 7 -f
 
 > This will take a lot of time.
 
-Only Generate file:
+**Only Generate file:**
 
 use `--json` or `-j` option:
 
@@ -63,13 +63,13 @@ You can use `--dep` or `-d` option:
 truth-cli analyze --json [file-path] --dep [depth]
 ```
 
-Get usage:
+**Get usage:**
 
 ```bash
 truth-cli -h
 ```
 
-now we only offer `analyze` command, so all you need to do in terminal is:
+Now we only offer `analyze` command, so all you need to do in terminal is:
 
 ```bash
 truth-cli analyze -h 
