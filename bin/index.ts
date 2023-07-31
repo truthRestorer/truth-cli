@@ -19,7 +19,7 @@ program.command('analyze')
     else {
       if (depth < 7 && !Number.isNaN(depth)) {
         await outputFile(depth)
-        await genPkgsAndWeb()
+        await genPkgsAndWeb(depth)
       }
       else {
         logDepthError()
