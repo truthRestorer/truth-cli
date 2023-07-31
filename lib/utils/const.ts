@@ -8,10 +8,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const __root = path.resolve(__dirname, '..')
 
 const fileWirteError = `
-  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message')}
-`
+  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message')}`
 export function logFileWirteError(message: string) {
-  console.log(`${fileWirteError}:${message}`)
+  console.log(`${fileWirteError}: ${message}`)
 }
 
 const depthError = `
@@ -19,7 +18,7 @@ const depthError = `
   ${chalk.yellow('Detail:')} `
 
 export function logDepthError(message: string) {
-  console.log(depthError + message)
+  console.log(`${depthError + message}\n`)
 }
 
 const notExportPkg = `
@@ -30,7 +29,7 @@ export function LogNotExportPkg(errMsg: string) {
 }
 
 const analyzeFinish = `
-  ${chalk.greenBright.bold('TRUTH-CLI v1.0.0')} ready
+  ${chalk.greenBright.bold('TRUTH-CLI v0.1.3')} ready
 
   Local: ${chalk.cyan('http://localhost:3002')}
 `
