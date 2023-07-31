@@ -11,6 +11,7 @@ program
   .description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles'))
   .version('0.1.3')
 
+// TODO:当数据过大时(例如 dep > 5 时)，支持数据流写入
 program
   .command('analyze')
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
