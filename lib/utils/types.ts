@@ -26,3 +26,21 @@ export const categories: ICategories[] = [
     name: 'root',
   },
 ]
+
+interface IRelationRepository {
+  type: string
+  url: string
+  [key: string]: string
+}
+
+export interface IRelations {
+  name: string
+  description: string
+  version: string
+  dependencies: { [key: string]: string }
+  devDependencies: { [key: string]: string }
+  repository: IRelationRepository[]
+  author: string
+  homepage: string
+  [key: string]: any
+}
