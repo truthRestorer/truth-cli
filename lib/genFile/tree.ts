@@ -33,7 +33,7 @@ async function initRootTree() {
   }
 }
 
-async function loadTrees(trees: ITree[], maxDep: number) {
+function loadTrees(trees: ITree[], maxDep: number) {
   if (maxDep === 0)
     return
   for (let i = 0; i < trees.length; i++) {
@@ -50,14 +50,14 @@ async function loadTrees(trees: ITree[], maxDep: number) {
         })
       }
     }
-    await loadTrees(tree.children, maxDep - 1)
+    loadTrees(tree.children, maxDep - 1)
   }
 }
 
 export default async function genTree(maxDep: number) {
   await initRootTree()
   try {
-    await loadTrees(treeData.children[0].children, maxDep)
+    loadTrees(treeData.children[0].children, maxDep)
     return treeData.children[0]
   }
   catch (err: any) {
