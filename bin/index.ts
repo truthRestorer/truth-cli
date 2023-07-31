@@ -30,7 +30,7 @@ program
         else if (isNumber(dep)) {
           if (dep > 5 && !force)
             throw new Error('depth is too large, we can\'t output the package file, if you still want to output, please use --force')
-          await genPkgsAndWeb(dep)
+          await genPkgsAndWeb({ treeDep: 2 })
           await outputFile(dep)
         }
         else {
