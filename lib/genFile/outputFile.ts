@@ -1,7 +1,8 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg } from './src/const'
+import { LogNotExportPkg, logFileWirteError } from '../utils/const'
+import { readFile } from '../utils/tools'
 
 enum Dep {
   'DEVDEPENDENCY',
@@ -13,10 +14,9 @@ interface IPkgs {
 
 const pkgs: IPkgs = {}
 
-function init() {
+async function initRootModules() {
   try {
-    const json = fs.readFileSync('package.json')
-    const { devDependencies, dependencies } = JSON.parse(json.toString())
+    const { devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
     for (const [name, version] of Object.entries(dependencies ?? {}) as any)
@@ -27,7 +27,7 @@ function init() {
   }
 }
 // FIXME: 循环引用问题
-async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
+async function loadPkgs(rootPkgs: IPkgs, maxDep: number) {
   if (maxDep === 0)
     return
   for (const key of Object.keys(rootPkgs)) {
@@ -48,13 +48,13 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number = 5) {
   }
 }
 
-init()
-
-export function analyze(depth: number, p: string = './') {
-  loadPkgs(pkgs, depth).then(() => {
-    fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs), (err) => {
-      if (err)
-        throw new Error('出错了')
-    })
-  })
+export async function outputFile(depth: number, p: string = './') {
+  await initRootModules()
+  try {
+    await loadPkgs(pkgs, depth)
+    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+  }
+  catch (err: any) {
+    logFileWirteError(err.message)
+  }
 }

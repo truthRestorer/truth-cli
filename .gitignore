@@ -25,4 +25,6 @@ dist-ssr
 *.sw?
 
 pkgs.json
-charts.json
+graph.json
+relations.json
+tree.json
