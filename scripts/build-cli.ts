@@ -22,7 +22,7 @@ async function buildCli(format: string) {
         preferBuiltins: true,
       }),
       typescript({
-        exclude: ['packages/**/*.ts', '../node_modules/@eslint/*', '../node_modules/eslint*'],
+        exclude: ['packages/**/*.ts'],
       }),
       commonjs(),
       terser(),
@@ -33,7 +33,7 @@ async function buildCli(format: string) {
   const outputOptions = {
     dir: 'dist',
     format,
-    banner: '#! /usr/bin/env node',
+    banner: '#! /usr/bin/env node\nconst navigator = {}',
   }
   const bundle = await rollup(inputOptions)
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,12 +1,15 @@
 {
   "name": "truth-cli",
-  "version": "0.0.9",
+  "version": "0.1.5",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "truth-cli": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "cd packages/web && pnpm run dev",
     "dev:cli": "ts-node --esm /dist/bundle.es.js",

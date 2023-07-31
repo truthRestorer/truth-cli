@@ -2,8 +2,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 
-// import echarts from '../plugins/echarts'
-import * as echarts from 'echarts'
+import echarts from '../plugins/echarts'
 import { categories } from '../types'
 
 const graph = await fetch('graph.json')
@@ -18,9 +17,9 @@ onMounted(() => {
 
   // 绘制图表
   myChart.setOption({
-    animation: false,
     legend: {
       data: ['引力关系图', '树状图'],
+      selectedMode: 'single',
     },
     series: [
       {
@@ -36,7 +35,7 @@ onMounted(() => {
         },
         draggable: false,
         force: {
-          repulsion: 500,
+          repulsion: 150,
         },
         roam: true,
       },
@@ -45,20 +44,12 @@ onMounted(() => {
         type: 'tree',
         data: [tree],
         roam: true,
-        expandAndCollapse: true,
-        animationDuration: 550,
-        animationDurationUpdate: 750,
+        label: {
+          show: true,
+        },
+        initialTreeDepth: 1,
       },
     ],
-    tooltip: {},
-    toolbox: {
-      show: true,
-      feature: {
-        magicType: {
-          type: ['tree', 'graph'],
-        },
-      },
-    },
   })
   myChart.on('click', (param: any) => {
     console.log(param)

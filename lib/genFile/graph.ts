@@ -14,7 +14,7 @@ function addNode(name: string, version: string, category: number) {
       name,
       category,
       value: version,
-      symbolSize: (category + 0.5) * (category + 30),
+      symbolSize: (category + 0.25) * (category + 30),
     })
     nodesMap.add(name)
   }
