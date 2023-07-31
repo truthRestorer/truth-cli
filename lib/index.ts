@@ -19,11 +19,11 @@ function startWeb() {
   app.listen('3002')
 }
 
-export async function genPkgsAndWeb(maxDep: number) {
+export async function genPkgsAndWeb(payload: { treeDep: number }) {
   // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
   const relations = await genRelatios()
   const graphPkgs = await genGraph()
-  const treePkgs = await genTree(maxDep)
+  const treePkgs = await genTree(payload.treeDep)
   try {
     await fs.writeFile(`${webPath}/relations.json`, JSON.stringify(relations))
     await fs.writeFile(`${webPath}/graph.json`, JSON.stringify(graphPkgs))

@@ -16,11 +16,10 @@ export function logFileWirteError(message: string) {
 
 const depthError = `
   ${chalk.bgRedBright('Error!') + chalk.redBright(' depth is over 7 or not a number')}
-  You should use like this:
-  ${chalk.cyan('dep-cli analyze ') + chalk.cyanBright('-d 3')}
-`
-export function logDepthError() {
-  console.log(depthError)
+  ${chalk.yellow('Detail:')} `
+
+export function logDepthError(message: string) {
+  console.log(depthError + message)
 }
 
 const notExportPkg = `
