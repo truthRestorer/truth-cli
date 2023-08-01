@@ -1,16 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
+import { EDep } from 'lib/utils/types.js'
+import type { IPkgs } from 'lib/utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
 import { readFile } from '../utils/tools.js'
-
-enum Dep {
-  'DEVDEPENDENCY',
-  'DEPENDENCY',
-}
-interface IPkgs {
-  [key: string]: any
-}
 
 const pkgs: IPkgs = {}
 
@@ -18,9 +12,9 @@ async function initRootModules() {
   try {
     const { devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
     for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
-      pkgs[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
+      pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
     for (const [name, version] of Object.entries(dependencies ?? {}) as any)
-      pkgs[name] = { version, type: Dep.DEPENDENCY, packages: {} }
+      pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
   }
   catch (err: any) {
     LogNotExportPkg(err.message)
@@ -28,10 +22,10 @@ async function initRootModules() {
 }
 
 function addPkg(pkg: IPkgs, devDependencies: IPkgs | undefined, dependencies: IPkgs | undefined) {
-  for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
-    pkg.packages[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
-  for (const [name, version] of Object.entries(dependencies ?? {}) as any)
-    pkg.packages[name] = { version, type: Dep.DEPENDENCY, packages: {} }
+  for (const [name, version] of Object.entries(devDependencies ?? {}))
+    pkg.packages[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
+  for (const [name, version] of Object.entries(dependencies ?? {}))
+    pkg.packages[name] = { version, type: EDep.DEPENDENCY, packages: {} }
 }
 
 // FIXME: 循环引用问题

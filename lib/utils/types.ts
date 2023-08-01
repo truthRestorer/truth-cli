@@ -44,3 +44,13 @@ export interface IRelations {
   homepage: string
   [key: string]: any
 }
+
+export enum EDep {
+  'DEVDEPENDENCY',
+  'DEPENDENCY',
+}
+
+// FIXME: TS 没学好，这里类型用 any
+export interface IPkgs {
+  [key: string]: any
+}
