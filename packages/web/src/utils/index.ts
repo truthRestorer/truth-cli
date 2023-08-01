@@ -5,10 +5,10 @@ export async function initChartData() {
   const tree = await treeJSON.json()
   const relationsJSON = await fetch('relations.json')
   const relations = await relationsJSON.json()
-  return {
+  return Object.freeze({
     nodes,
     links,
     tree,
     relations,
-  }
+  })
 }
