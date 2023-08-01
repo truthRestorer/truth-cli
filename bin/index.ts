@@ -20,22 +20,22 @@ program
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
   .option('-d, --dep [depth]', 'the depth of the packages')
   .option('-j, --json [file-path]', 'the output file path')
-  .option('-f, --force', 'the output file path')
-  .action(async ({ dep, json, force }) => {
+  .option('-f, --force', 'generate the pkgs.json by force')
+  .option('-w, --web', 'on start webSite')
+  .action(async ({ dep, json, force, web }) => {
+    // TODO: 优化一下判断逻辑
     try {
       if (json) {
-        await outputFile(dep, json)
+        await outputFile(dep ?? 2, typeof json === 'boolean' ? './' : json)
       }
       else {
         if (dep === undefined) {
-          await genPkgsAndWeb({ treeDep: 3 })
-          await outputFile(2)
+          await genPkgsAndWeb({ treeDep: 3, pkgDep: 2, isWeb: web })
         }
         else if (isNumber(dep)) {
           if (dep > 5 && !force)
             throw new Error('depth is too large, we can\'t output the package file, if you still want to output, please use --force')
-          await genPkgsAndWeb({ treeDep: +dep })
-          await outputFile(+dep)
+          await genPkgsAndWeb({ treeDep: +dep, pkgDep: +dep, isWeb: web })
         }
         else {
           throw new Error('Error depth')

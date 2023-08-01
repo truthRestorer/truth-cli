@@ -27,7 +27,7 @@ async function initRootModules() {
   }
 }
 // FIXME: 循环引用问题
-async function loadPkgs(rootPkgs: IPkgs, maxDep: number) {
+async function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
   if (maxDep === 0)
     return
   for (const key of Object.keys(rootPkgs)) {
@@ -39,7 +39,7 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number) {
         for (const [name, version] of Object.entries(pkgsInfo?.packageJson?.dependencies ?? {}) as any)
           rootPkgs[key].packages[name] = { version, type: Dep.DEPENDENCY, packages: {} }
         if (JSON.stringify(rootPkgs[key].packages) !== '{}')
-          await loadPkgs(rootPkgs[key].packages, maxDep - 1)
+          await loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
       }
     }
     catch (err: any) {
@@ -48,13 +48,38 @@ async function loadPkgs(rootPkgs: IPkgs, maxDep: number) {
   }
 }
 
-export async function outputFile(depth: number, p: string = './') {
-  await initRootModules()
-  try {
-    await loadPkgs(pkgs, depth)
-    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+function loadPkgsByRelations(rootPkgs: IPkgs, maxDep: number, relations: any) {
+  if (maxDep === 0)
+    return
+  for (const key of Object.keys(rootPkgs)) {
+    // FIXME: 有个弱智的包，别人引用它叫 eslint-plugin-import, 自己的包名叫 eslint-plugin-i, 所以加个判断
+    if (relations[key]) {
+      const { devDependencies, dependencies } = relations[key]
+      for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
+        rootPkgs[key].packages[name] = { version, type: Dep.DEVDEPENDENCY, packages: {} }
+      for (const [name, version] of Object.entries(dependencies ?? {}) as any)
+        rootPkgs[key].packages[name] = { version, type: Dep.DEPENDENCY, packages: {} }
+      if (JSON.stringify(rootPkgs[key].packages) !== '{}')
+        loadPkgsByRelations(rootPkgs[key].packages, maxDep - 1, relations)
+    }
   }
-  catch (err: any) {
-    logFileWirteError(err.message)
+}
+
+export async function outputFile(depth: number, p: string = './', isJSON: boolean = true) {
+  await initRootModules()
+  if (isJSON) {
+    try {
+      await loadPkgsByRead(pkgs, depth)
+      await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+    }
+    catch (err: any) {
+      logFileWirteError(err.message)
+    }
+  }
+  else {
+    import('./relations.js').then(({ relations }) => {
+      // console.log(relations)
+      loadPkgsByRelations(pkgs, depth, relations)
+    })
   }
 }
