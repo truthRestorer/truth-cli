@@ -21,7 +21,7 @@ program
   .option('-d, --dep [depth]', 'the depth of the packages')
   .option('-j, --json [file-path]', 'the output file path')
   .option('-f, --force', 'generate the pkgs.json by force')
-  .option('-w, --web', 'on start webSite')
+  .option('-w, --web', 'only start webSite')
   .action(async ({ dep, json, force, web }) => {
     // TODO: 优化一下判断逻辑
     try {

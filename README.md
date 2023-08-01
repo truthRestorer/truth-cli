@@ -20,7 +20,7 @@ npm install -g truth-cli
 
 **Start Web and Generate file:**
 
-```
+```bash
 truth-cli analyze
 ```
 
@@ -49,9 +49,9 @@ truth-cli analyze -d 7 -f
 
 **Only Generate file:**
 
-use `--json` or `-j` option:
+Use `--json` or `-j` option:
 
-```
+```bash
 truth-cli analyze --json [file-path]
 ```
 
@@ -59,8 +59,16 @@ By default, the `file-path` is `./`, which is the root of your project.
 
 You can use `--dep` or `-d` option:
 
-```
+```bash
 truth-cli analyze --json [file-path] --dep [depth]
+```
+
+**only start website:**
+
+Use `--web` or `-w` option:
+
+```bash
+truth-cli analyze --web
 ```
 
 **Get usage:**
