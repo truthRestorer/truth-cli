@@ -1,90 +1,102 @@
-# 使用指南
+# Truth-cli🤩
 
-## 开发环境
+> A command-line tool for analyzing dependencies under node_moudles.
 
+# feature
 
-如果想要本地开发 `cli` 或者 `web`，建议先进行打包生产：
+- Simple API
+- Visualization
+- Friendly error message prompt
 
+# installing
+
+**Using npm:**
+
+```bash
+npm install -g truth-cli
 ```
-pnpm run build:cli
-```
 
-在项目根目录中依次执行：
+# usage
 
-```
-npm link
+**Start Web and Generate file:**
+
+```bash
 truth-cli analyze
 ```
 
-开发时会自动执行热更新
+*The Content of web inluces:*
 
-## 生产版本
+- Tree
+- Force Layout
 
-如果想要测试生产版本是否有效，可以尝试以下步骤
+By default, you will see `pkgs.json` in the root of your project.
 
-1. 构建 `cli`：
-
-在本项目根目录中执行：
-
-```bash
-pnpm run build:dev
-```
-
-2. `node` 关联:
-
-在本项目根目录中执行：
+Due to management style of npm's dependency , we have set the depth to 3 for the web and 2 for the `pkgs.json` by default, you can use `--dep` of `-d` to change it:
 
 ```bash
-npm link
+truth-cli analyze -d 4
 ```
 
-3. 随便找一个项目，可以尝试执行下述命令：
+We do not recommend setting the depth too large, if the `dep` is over 5, we will stop the operation, If you still want to continue, add `--force` or `-f`:
 
-- 如果你想获取如何使用，请执行以下命令：
+> `dep` will influence the `pkgs.json` and `Tree`
+
+```bash
+truth-cli analyze -d 7 -f
+```
+
+> **This will take a lot of time, and the file size can be very large(130 mb for truth-cli when the dep is 6), so please just not do this**
+
+**Only Generate file:**
+
+Use `--json` or `-j` option:
+
+```bash
+truth-cli analyze --json [file-path]
+```
+
+By default, the `file-path` is `./`, which is the root of your project.
+
+You can use `--dep` or `-d` option:
+
+```bash
+truth-cli analyze --json [file-path] --dep [depth]
+```
+
+**only start website:**
+
+Use `--web` or `-w` option:
+
+```bash
+truth-cli analyze --web
+```
+
+**clean generate file:**
+
+> Truth-cli will generate files in npm's global file path, the files will very large if you set `dep` over 4 or 5.
+
+If you want to delete them, use `truth-cli clean`:
+
+```bash
+truth-cli clean
+```
+
+**Get usage:**
 
 ```bash
 truth-cli -h
 ```
 
-- 网页依赖关系图：
+More command's help:
+
+**analyze:**
 
 ```bash
-truth-cli analyze
+truth-cli analyze -h 
 ```
 
-- 如果不希望打开网页，只想生成文件，可以执行下述命令：
-
-> 如果不携带参数，那么生成的文件在项目根目录，名字叫 `pkgs.json`
+**clean:**
 
 ```bash
-truth-cli analyze -j
+truth-cli clean -h 
 ```
-
-或
-
-```
-truth-cli analyze --json
-```
-
-你也可以指定生成文件的目录：
-
-> 在 `/dist` 中产生文件
-
-```
-truth-cli analyze -j /dist
-```
-
-- 指定依赖深度(注：此命令也会打开网页)
-
-> 本项目默认依赖深度为 `2`，如果想要更改(注意，由于 `npm` 包依赖关系非常多，建议数字不要太大，本项目超过 `7` 将会构建失败)，可以执行下述命令：
-
-```
-truth-cli analyze -d 3
-```
-
-或
-
-```
-truth-cli analyze --depth 3
-```
-

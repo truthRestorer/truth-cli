@@ -1,5 +1,5 @@
-import type { ILinks, INodes } from '../utils/types'
-import { relations } from './relations'
+import type { ILinks, INodes } from '../utils/types.js'
+import { relations } from './relations.js'
 
 const nodesMap = new Set()
 const nodes: INodes[] = []
@@ -20,7 +20,7 @@ function addNode(name: string, version: string, category: number) {
   }
 }
 
-export default async function initGraph() {
+export async function genGraph() {
   let isRoot = true
   for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
     const pkgs = Object.assign({}, dependencies, devDependencies)

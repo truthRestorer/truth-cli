@@ -3,7 +3,6 @@ import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import { nodeExternals } from 'rollup-plugin-node-externals'
-
 import json from '@rollup/plugin-json'
 import { rollup } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'

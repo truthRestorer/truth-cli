@@ -10,7 +10,3 @@ export async function readFile(p: string) {
   const pkg = JSON.parse(json.toString())
   return pkg
 }
-
-export function isNumber(payload: any) {
-  return typeof payload !== 'object' && !Number.isNaN(+payload)
-}

@@ -1,35 +1,27 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import express from 'express'
-import genGraph from './genFile/graph'
-import genRelatios from './genFile/relations'
-import genTree from './genFile/tree'
+import Koa from 'koa'
+import koaStatic from 'koa-static'
+import { logAnalyzeFinish, logFileWirteError, logLogo, webPath } from './utils/const.js'
+import { genFiles } from './genFile/index.js'
 
-import { logAnalyzeFinish, logFileWirteError, webPath } from './utils/const'
-
-const app = express()
-app.use(express.static(webPath))
+// TODO: 使用原生 Nodejs 实现启动 web
+const app = new Koa()
+app.use(koaStatic(webPath))
 
 function startWeb() {
-  app.get('/', async (req, res) => {
-    const indexPath = path.resolve(webPath, './index.html')
-    const htmlStr = await fs.readFile(indexPath)
-    res.end(htmlStr)
-  })
-  app.listen('3002')
+  app.listen(3002)
 }
 
-export async function genPkgsAndWeb(payload: { treeDep: number }) {
-  // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
-  const relations = await genRelatios()
-  const graphPkgs = await genGraph()
-  const treePkgs = await genTree(payload.treeDep)
+export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb: boolean }) {
+  const { treeDep, isDev, pkgDep, isWeb } = payload
+  const begin = Date.now()
+  logLogo()
   try {
-    await fs.writeFile(`${webPath}/relations.json`, JSON.stringify(relations))
-    await fs.writeFile(`${webPath}/graph.json`, JSON.stringify(graphPkgs))
-    await fs.writeFile(`${webPath}/tree.json`, JSON.stringify(treePkgs))
-    startWeb()
-    logAnalyzeFinish()
+    genFiles(pkgDep, treeDep, isWeb, isDev)
+    if (!isDev) {
+      const end = Date.now()
+      startWeb()
+      logAnalyzeFinish(end - begin)
+    }
   }
   catch (err: any) {
     logFileWirteError(err.message)
