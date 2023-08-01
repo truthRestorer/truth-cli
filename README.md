@@ -73,9 +73,13 @@ truth-cli analyze --web
 
 **clean generate file:**
 
-Truth-cli will generate file in npm's global file path, if you want to delete them, use `truth-cli clean`:
+> Truth-cli will generate files in npm's global file path, the files will very large if you set `dep` over 4 or 5.
 
+If you want to delete them, use `truth-cli clean`:
 
+```bash
+truth-cli clean
+```
 
 **Get usage:**
 
@@ -83,8 +87,16 @@ Truth-cli will generate file in npm's global file path, if you want to delete th
 truth-cli -h
 ```
 
-Now we only offer `analyze` command, so all you need to do in terminal is:
+More command's help:
+
+**analyze:**
 
 ```bash
 truth-cli analyze -h 
+```
+
+**clean:**
+
+```bash
+truth-cli clean -h 
 ```
