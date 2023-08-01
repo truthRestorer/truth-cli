@@ -42,7 +42,7 @@ export function logAnalyzeFinish(duration: number) {
 
 const fileWriteFinished = `  ➜  ${chalk.whiteBright.bold('File:')}`
 export function logFileWirteFinished(duration: number, p: string) {
-  console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}`)
+  console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export const webPath = path.resolve(__root, './dist/web/')

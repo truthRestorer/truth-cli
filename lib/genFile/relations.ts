@@ -40,7 +40,7 @@ async function readGlob(p: string) {
   }
 }
 
-export default async function initRelations() {
+export async function genRelations() {
   await readGlob('./package.json')
   await readGlob('./node_modules/')
   return relations

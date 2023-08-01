@@ -3,7 +3,7 @@ import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
 import { EDep } from 'lib/utils/types.js'
 import type { IPkgs } from 'lib/utils/types.js'
-import { LogNotExportPkg, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
+import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
 import { readFile } from '../utils/tools.js'
 
 const pkgs: IPkgs = {}
@@ -47,8 +47,9 @@ async function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
   }
 }
 
-export async function outputFile(depth: number, p: string = './') {
+export async function outputFile(depth: number, p: string = './', isLogLogo = false) {
   const begin = Date.now()
+  isLogLogo && logLogo()
   await initRootModules()
   try {
     await loadPkgsByRead(pkgs, depth)

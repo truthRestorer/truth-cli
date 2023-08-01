@@ -50,7 +50,7 @@ function loadTrees(trees: ITree[], maxDep: number) {
   }
 }
 
-export default async function genTree(maxDep: number) {
+export async function genTree(maxDep: number) {
   await initRootTree()
   try {
     loadTrees(treeData[0].children, maxDep)
