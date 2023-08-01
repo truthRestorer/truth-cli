@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
-import express from 'express'
+import Koa from 'koa'
+import koaStatic from 'koa-static'
 import genGraph from './genFile/graph.js'
 import genRelatios from './genFile/relations.js'
 import genTree from './genFile/tree.js'
@@ -8,15 +8,10 @@ import { devWebPath, logAnalyzeFinish, logFileWirteError, webPath } from './util
 import { outputFile } from './genFile/outputFile.js'
 
 // TODO: 使用原生 Nodejs 实现启动 web
-const app = express()
-app.use(express.static(webPath))
+const app = new Koa()
+app.use(koaStatic(webPath))
 
 function startWeb() {
-  app.get('/', async (req, res) => {
-    const indexPath = path.resolve(webPath, './index.html')
-    const htmlStr = await fs.readFile(indexPath)
-    res.end(htmlStr)
-  })
   app.listen('3002')
 }
 
