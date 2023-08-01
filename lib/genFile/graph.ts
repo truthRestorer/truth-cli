@@ -8,14 +8,17 @@ enum EDeps {
   DEPENDENCY,
   ROOT,
 }
-function addNode(name: string, version: string, category: number) {
+
+function addNode(name: string, version: string, c: number) {
   if (!nodesMap.has(name)) {
-    nodes.push({
+    const add: INodes = {
       name,
-      category,
+      c,
       value: version,
-      symbolSize: (category + 0.25) * (category + 30),
-    })
+      symbolSize: 40,
+    }
+    !c && delete add.symbolSize
+    nodes.push(add)
     nodesMap.add(name)
   }
 }
@@ -33,10 +36,11 @@ export async function genGraph() {
     else {
       addNode(name, version, EDeps.DEPENDENCY)
     }
-    for (const target of Object.keys(pkgs)) {
+    for (const [source, version] of Object.entries(pkgs)) {
       links.push({
-        source: name,
-        target,
+        source,
+        target: name,
+        v: version as string,
       })
     }
   }

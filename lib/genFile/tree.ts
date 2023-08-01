@@ -4,7 +4,7 @@ import { relations, rootPkg } from './relations.js'
 interface ITree {
   name: string
   value: string
-  children: ITree[]
+  children?: ITree[]
 }
 
 const treeData: ITree[] = []
@@ -27,9 +27,13 @@ async function initRootTree() {
   }
 }
 
-function loadTrees(trees: ITree[], maxDep: number) {
-  if (maxDep === 0)
+function loadTrees(trees: ITree[] | undefined, maxDep: number) {
+  if (trees === undefined)
     return
+  if (maxDep === 0) {
+    for (let i = 0; i < trees.length; i++)
+      delete trees[i].children
+  }
   for (let i = 0; i < trees.length; i++) {
     const tree = trees[i]
     const relatedPkg = relations[tree.name]!
@@ -37,14 +41,17 @@ function loadTrees(trees: ITree[], maxDep: number) {
       const { devDependencies, dependencies } = relatedPkg
       const pkgs = Object.assign({}, dependencies, devDependencies)
       for (const [name, version] of Object.entries(pkgs)) {
-        tree.children.push({
+        const add: ITree = {
           name,
           value: version as string,
           children: [],
-        })
+        }
+        if (!relations[name])
+          delete add.children
+        tree.children?.push(add)
       }
+      loadTrees(tree.children, maxDep - 1)
     }
-    loadTrees(tree.children, maxDep - 1)
   }
 }
 

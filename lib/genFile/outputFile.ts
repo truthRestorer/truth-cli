@@ -30,8 +30,11 @@ function addPkg(pkg: IPkgs, devDependencies: IPkgs | undefined, dependencies: IP
 
 // FIXME: 循环引用问题
 async function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
-  if (maxDep === 0)
+  if (maxDep === 0) {
+    for (const key of Object.keys(rootPkgs))
+      delete rootPkgs[key].packages
     return
+  }
   for (const key of Object.keys(rootPkgs)) {
     try {
       if (!key.startsWith('.')) {
@@ -39,6 +42,8 @@ async function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
         addPkg(rootPkgs[key], packageJson?.dependencies, packageJson?.devDependencies)
         if (JSON.stringify(rootPkgs[key].packages) !== '{}')
           await loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
+        else
+          delete rootPkgs[key].packages
       }
     }
     catch (err: any) {

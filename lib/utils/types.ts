@@ -1,14 +1,14 @@
 export interface INodes {
   name: string
-  category: number | null
+  c: number
   value: string
-  symbolSize: number | null
+  symbolSize?: number
 }
 
 export interface ILinks {
-  relation?: INodes
   source: string
   target: string
+  v: string
 }
 
 interface ICategories {
