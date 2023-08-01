@@ -16,7 +16,7 @@ export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean;
   const begin = Date.now()
   logLogo()
   try {
-    genFiles(pkgDep, treeDep, isWeb, isDev)
+    await genFiles(pkgDep, treeDep, isWeb, isDev)
     if (!isDev) {
       const end = Date.now()
       startWeb()
