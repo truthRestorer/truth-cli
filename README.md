@@ -45,7 +45,7 @@ We do not recommend setting the depth too large, if the `dep` is over 5, we will
 truth-cli analyze -d 7 -f
 ```
 
-> This will take a lot of time.
+> **This will take a lot of time, and the file size can be very large(130 mb for truth-cli when the dep is 6), so please just not do this**
 
 **Only Generate file:**
 
@@ -70,6 +70,12 @@ Use `--web` or `-w` option:
 ```bash
 truth-cli analyze --web
 ```
+
+**clean generate file:**
+
+Truth-cli will generate file in npm's global file path, if you want to delete them, use `truth-cli clean`:
+
+
 
 **Get usage:**
 
