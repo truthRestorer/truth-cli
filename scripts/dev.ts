@@ -8,4 +8,5 @@ genPkgsAndWeb({
   isDev: true,
   treeDep: argv.dep ?? 2,
   pkgDep: 2,
+  isWeb: false
 })

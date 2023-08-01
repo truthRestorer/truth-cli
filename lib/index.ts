@@ -15,7 +15,7 @@ function startWeb() {
   app.listen('3002')
 }
 
-export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb?: boolean }) {
+export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb: boolean }) {
   const { treeDep, isDev, pkgDep, isWeb } = payload
   const begin = Date.now()
   logLogo()
@@ -23,7 +23,7 @@ export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean;
   const relations = await genRelatios()
   const graphPkgs = await genGraph()
   const treePkgs = await genTree(treeDep)
-  !isWeb && await outputFile(pkgDep, './', false)
+  !isWeb && await outputFile(pkgDep, './')
   const writePath = isDev ? `${devWebPath}/public` : webPath
   try {
     await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
