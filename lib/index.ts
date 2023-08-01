@@ -17,6 +17,7 @@ function startWeb() {
 
 export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb?: boolean }) {
   const { treeDep, isDev, pkgDep, isWeb } = payload
+  const begin = Date.now()
   // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
   const relations = await genRelatios()
   const graphPkgs = await genGraph()
@@ -27,8 +28,11 @@ export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean;
     await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
     await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graphPkgs))
     await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(treePkgs))
-    !isDev && startWeb()
-    !isDev && logAnalyzeFinish()
+    if (!isDev) {
+      const end = Date.now()
+      startWeb()
+      logAnalyzeFinish(end - begin)
+    }
   }
   catch (err: any) {
     logFileWirteError(err.message)
