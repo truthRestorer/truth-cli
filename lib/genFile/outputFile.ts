@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { EDep } from 'lib/utils/types.js'
-import type { IPkgs } from 'lib/utils/types.js'
+import { EDep } from '../utils/types.js'
+import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
 import { readFile } from '../utils/tools.js'
 

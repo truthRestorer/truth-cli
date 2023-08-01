@@ -6,7 +6,7 @@ const argv = minimist(process.argv.slice(2))
 
 genPkgsAndWeb({
   isDev: true,
-  treeDep: argv.dep ?? 2,
+  treeDep: argv.dep ?? 3,
   pkgDep: 2,
   isWeb: false,
 })

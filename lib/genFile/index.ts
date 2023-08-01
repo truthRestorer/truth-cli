@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises'
-import { devWebPath, webPath } from 'lib/utils/const.js'
+import { devWebPath, webPath } from '../utils/const.js'
 import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'

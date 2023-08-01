@@ -3,20 +3,29 @@
 import { onMounted } from 'vue'
 import echarts from '../plugins/echarts'
 import { categories } from '../types'
+import { initChartData } from '../utils/index'
 
-const graph = await fetch('graph.json')
-const { nodes, links } = await graph.json()
-const treeJSON = await fetch('tree.json')
-const tree = await treeJSON.json()
-const relationsJSON = await fetch('relations.json')
-const relations = await relationsJSON.json()
+const { nodes, links, tree, relations } = await initChartData()
+
+function circulatePkg(name: any) {
+  const circulation = []
+  const filteredLinks = links.filter((item: any) => item.source === name)
+  const linkedTarget = filteredLinks.map((item: any) => item.target)
+  for (let i = 0; i < linkedTarget.length; i++) {
+    const { dependencies, devDependencies } = relations[linkedTarget[i]] ?? {}
+    const link = Object.assign({}, dependencies, devDependencies)
+    if (Object.keys(link).includes(name))
+      circulation.push(linkedTarget[i])
+  }
+  return circulation
+}
 
 onMounted(async () => {
   const myChart = echarts.init(document.getElementById('main'))
   // 绘制图表
   myChart.setOption({
     legend: {
-      data: ['引力关系图', '树状图'],
+      data: ['树状图', '引力关系图'],
       selectedMode: 'single',
       animation: true,
       zlevel: 3,
@@ -57,8 +66,12 @@ onMounted(async () => {
   })
   myChart.on('click', (param: any) => {
     console.log(param)
+    // 该包的信息
     const relation = relations[param.data.name]
-    console.log(relation)
+    console.log('包的详细信息:', relation)
+    // 与该包重复引用的包
+    const circulation = circulatePkg(param.data.name)
+    console.log('与该包重复引用的包', circulation)
   })
 })
 </script>
