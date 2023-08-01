@@ -1,7 +1,5 @@
-import path from 'node:path'
 import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
-import { readFile } from '../utils/tools.js'
-import { relations } from './relations.js'
+import { relations, rootPkg } from './relations.js'
 
 interface ITree {
   name: string
@@ -13,10 +11,10 @@ const treeData: ITree[] = []
 
 async function initRootTree() {
   try {
-    const { name, version, devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
+    const { name, version, devDependencies, dependencies } = rootPkg.__root__
     treeData.push({
-      name,
-      value: version,
+      name: name ?? '__root__',
+      value: version ?? 'latest',
       children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => ({
         name,
         value: version,

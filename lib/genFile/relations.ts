@@ -4,6 +4,7 @@ import { LogNotExportPkg } from '../utils/const.js'
 import { readDir, readFile } from '../utils/tools.js'
 
 export const relations: Partial<IRelations> = {}
+export const rootPkg: Partial<IRelations> = {}
 
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
@@ -11,6 +12,9 @@ async function readGlob(p: string) {
     const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
     relations[pkg.name] = {
       name, description, version, homepage, dependencies, devDependencies, repository, author,
+    }
+    rootPkg.__root__ = {
+      name, version, devDependencies, dependencies,
     }
     return
   }
