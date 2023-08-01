@@ -28,14 +28,21 @@ export function LogNotExportPkg(errMsg: string) {
   console.log(`${notExportPkg}\n${errMsg}`)
 }
 
-const analyzeReady = `
-  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.1.3')}  ${chalk.black('ready in')}`
-const webStart = `
-  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan('http://localhost:3002')}
+const logo = `
+  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.1.3')}
 `
+export function logLogo() {
+  console.log(logo)
+}
+
+const webStart = `  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan('http://localhost:3002')}\t`
 export function logAnalyzeFinish(duration: number) {
-  console.log(`${analyzeReady} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}`)
-  console.log(webStart)
+  console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+}
+
+const fileWriteFinished = `  ➜  ${chalk.whiteBright.bold('File:')}`
+export function logFileWirteFinished(duration: number, p: string) {
+  console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}`)
 }
 
 export const webPath = path.resolve(__root, './dist/web/')

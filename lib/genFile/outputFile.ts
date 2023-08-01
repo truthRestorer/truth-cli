@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getPackageInfo } from 'local-pkg'
-import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
+import { LogNotExportPkg, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
 import { readFile } from '../utils/tools.js'
 
 enum Dep {
@@ -66,19 +66,24 @@ function loadPkgsByRelations(rootPkgs: IPkgs, maxDep: number, relations: any) {
 }
 
 export async function outputFile(depth: number, p: string = './', isJSON: boolean = true) {
+  const begin = Date.now()
   await initRootModules()
-  if (isJSON) {
-    try {
+  try {
+    if (isJSON) {
       await loadPkgsByRead(pkgs, depth)
-      await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
     }
-    catch (err: any) {
-      logFileWirteError(err.message)
+    else {
+      import('./relations.js').then(({ relations }) => {
+        loadPkgsByRelations(pkgs, depth, relations)
+      })
     }
   }
-  else {
-    import('./relations.js').then(({ relations }) => {
-      loadPkgsByRelations(pkgs, depth, relations)
-    })
+  catch (err: any) {
+    logFileWirteError(err.message)
+  }
+  finally {
+    const end = Date.now()
+    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+    logFileWirteFinished(end - begin, p)
   }
 }
