@@ -78,7 +78,6 @@ export async function outputFile(depth: number, p: string = './', isJSON: boolea
   }
   else {
     import('./relations.js').then(({ relations }) => {
-      // console.log(relations)
       loadPkgsByRelations(pkgs, depth, relations)
     })
   }

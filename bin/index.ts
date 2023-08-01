@@ -10,7 +10,7 @@ const program = new Command()
 program
   .name('truth-cli')
   .description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles'))
-  .version('0.1.3')
+  .version('0.2.4')
 
 // TODO: 当数据过大时(例如 dep > 5 时)，支持数据流写入
 // TODO: 支持更多命令行，例如 --delete 删除生成的文件
