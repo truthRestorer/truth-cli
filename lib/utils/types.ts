@@ -1,6 +1,6 @@
 export interface INodes {
   name: string
-  c: number
+  category: number
   value: string
   symbolSize?: number
 }

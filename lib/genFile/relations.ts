@@ -6,15 +6,31 @@ import { readDir, readFile } from '../utils/tools.js'
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
 
+function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
+  if (relation && JSON.stringify(relation) !== '{}')
+    return true
+  return false
+}
+
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
-    const pkg = await readFile(p) as IRelations
+    const pkg = (await readFile(p)) as IRelations
     const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
     relations[pkg.name] = {
-      name, description, version, homepage, dependencies, devDependencies, repository, author,
+      name,
+      description,
+      version,
+      homepage,
+      dependencies,
+      devDependencies,
+      repository,
+      author,
     }
     rootPkg.__root__ = {
-      name, version, devDependencies, dependencies,
+      name,
+      version,
+      devDependencies,
+      dependencies,
     }
     return
   }
@@ -26,15 +42,16 @@ async function readGlob(p: string) {
         // 处理带有 @
         if (pkgsRoot[i].startsWith('@')) {
           const dirs = await readDir(pkgPath)
-          for (let i = 0; i < dirs.length; i++)
-            await readGlob(pkgPath)
+          for (let i = 0; i < dirs.length; i++) await readGlob(pkgPath)
         }
         else {
-          const pkg = await readFile(`${pkgPath}/package.json`) as IRelations
+          const pkg = (await readFile(`${pkgPath}/package.json`)) as IRelations
           const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
           relations[pkg.name] = {
-            name, description, version, homepage, dependencies, devDependencies, repository, author,
+            name, description, version, homepage, repository, author,
           }
+          dealEmptyRelation(dependencies) && (relations[pkg.name].dependencies = dependencies)
+          dealEmptyRelation(devDependencies) && (relations[pkg.name].devDependencies = devDependencies)
         }
       }
       catch (err: any) {

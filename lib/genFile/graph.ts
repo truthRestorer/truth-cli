@@ -9,15 +9,14 @@ enum EDeps {
   ROOT,
 }
 
-function addNode(name: string, version: string, c: number) {
+function addNode(name: string, version: string, category: number) {
   if (!nodesMap.has(name)) {
     const add: INodes = {
       name,
-      c,
+      category,
       value: version,
-      symbolSize: 40,
     }
-    !c && delete add.symbolSize
+    category && (add.symbolSize = 40)
     nodes.push(add)
     nodesMap.add(name)
   }

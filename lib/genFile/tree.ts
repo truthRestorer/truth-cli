@@ -46,7 +46,9 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
           value: version as string,
           children: [],
         }
-        if (!relations[name])
+        const devDep = relations[name]?.devDependencies
+        const dep = relations[name]?.dependencies
+        if (JSON.stringify(Object.assign({}, devDep, dep)) === '{}')
           delete add.children
         tree.children?.push(add)
       }
