@@ -5,7 +5,7 @@ import { readDir, readFile } from '../utils/tools.js'
 
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
-export const rootPkgSet: Partial<IRelations> = {}
+export const rootPkgSet: Partial<IRelations> = new Set()
 
 function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
   if (relation && JSON.stringify(relation) !== '{}')

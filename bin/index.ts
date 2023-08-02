@@ -18,23 +18,25 @@ program
 program
   .command('analyze')
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
-  .option('-d, --dep [depth]', 'the depth of the packages, the default is 2, less than 5', '2')
+  .option('-d, --dep [depth]', 'the depth of the packages, the default is 2, less than 7', '2')
   .option('-j, --json [file-path]', 'the output file path')
   .option('-f, --force', 'generate the pkgs.json by force', false)
   .option('-w, --web', 'only start webSite', false)
   .action(async ({ dep, json, force, web }) => {
     // TODO: 优化一下判断逻辑
     try {
-      if (json) {
-        await genJSONFile(+dep, json)
+      const depth = +dep
+      if (Number.isNaN(depth)) {
+        throw new TypeError('depth must be a number')
+      }
+      else if (depth > 7 && !force) {
+        throw new Error('depth is too large, we can\'t output the package file, if you still want to output, please use --force')
       }
       else {
-        const depth = +dep
-        if (Number.isNaN(depth))
-          throw new Error('depth must be a number')
-        if (depth > 5 && !force)
-          throw new Error('depth is too large, we can\'t output the package file, if you still want to output, please use --force')
-        await genPkgsAndWeb({ treeDep: depth, pkgDep: depth, isWeb: web })
+        if (json)
+          await genJSONFile(depth, json)
+        else
+          await genPkgsAndWeb({ treeDep: depth, pkgDep: depth, isWeb: web })
       }
     }
     catch (err: any) {
