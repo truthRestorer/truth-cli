@@ -3,6 +3,8 @@ import { assign, entries, isEmptyObj } from 'lib/utils/tools.js'
 import { logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
+const treeSet = new Set()
+
 function loadTrees(trees: ITree[] | undefined, maxDep: number) {
   if (trees === undefined)
     return
@@ -15,6 +17,7 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
     const tree = trees[i]
     if (!tree.name)
       return
+    treeSet.add(tree.name)
     const relatedPkg = relations[tree.name]
     if (relatedPkg) {
       const { devDependencies, dependencies } = relatedPkg
@@ -31,11 +34,13 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
           isEmptyObj(assign(devDep, dep))
           || name === tree.name
           || rootPkgSet.has(name)
+          || treeSet.has(name)
         )
           delete add.children
         tree.children?.push(add)
       }
       loadTrees(tree.children, maxDep - 1)
+      treeSet.delete(tree.name)
     }
   }
 }

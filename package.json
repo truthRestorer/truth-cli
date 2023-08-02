@@ -1,6 +1,6 @@
 {
   "name": "truth-cli",
-  "version": "0.3.22",
+  "version": "0.3.31",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "main": "dist/index.js",
