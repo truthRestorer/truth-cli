@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { Command } from 'commander'
 import { genPkgsAndWeb } from 'lib'
 import { cleanFiles } from 'lib/cleanFile'
-import { outputFile } from 'lib/genFile/outputFile.js'
+import { genJSONFile } from 'lib/genFile'
 import { logDepthError } from 'lib/utils/const.js'
 
 const program = new Command()
@@ -26,7 +26,7 @@ program
     // TODO: 优化一下判断逻辑
     try {
       if (json) {
-        await outputFile(+dep, json === true ? './' : json, true)
+        await genJSONFile(+dep, json)
       }
       else {
         const depth = +dep

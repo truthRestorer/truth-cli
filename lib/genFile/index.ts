@@ -31,3 +31,11 @@ export async function genFiles(
   await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
 }
+
+export async function genJSONFile(
+  pkgDep: number,
+  p: string | boolean,
+) {
+  await genRelations()
+  await outputFile(pkgDep, typeof p === 'boolean' ? './' : p, true)
+}
