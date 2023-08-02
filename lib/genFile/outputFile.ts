@@ -7,14 +7,19 @@ import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } fro
 import { readFile } from '../utils/tools.js'
 
 const pkgs: IPkgs = {}
+const rootPkg = new Set()
 
 async function initRootModules() {
   try {
     const { devDependencies, dependencies } = await readFile(path.resolve('./package.json'))
-    for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
+    for (const [name, version] of Object.entries(devDependencies ?? {}) as any) {
+      rootPkg.add(name)
       pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-    for (const [name, version] of Object.entries(dependencies ?? {}) as any)
+    }
+    for (const [name, version] of Object.entries(dependencies ?? {}) as any) {
+      rootPkg.add(name)
       pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
+    }
   }
   catch (err: any) {
     LogNotExportPkg(err.message)
@@ -22,10 +27,14 @@ async function initRootModules() {
 }
 
 function addPkg(pkg: IPkgs, devDependencies: IPkgs | undefined, dependencies: IPkgs | undefined) {
-  for (const [name, version] of Object.entries(devDependencies ?? {}))
-    pkg.packages[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-  for (const [name, version] of Object.entries(dependencies ?? {}))
-    pkg.packages[name] = { version, type: EDep.DEPENDENCY, packages: {} }
+  for (const [name, version] of Object.entries(devDependencies ?? {})) {
+    if (!rootPkg.has(name))
+      pkg.packages[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
+  }
+  for (const [name, version] of Object.entries(dependencies ?? {})) {
+    if (!rootPkg.has(name))
+      pkg.packages[name] = { version, type: EDep.DEPENDENCY, packages: {} }
+  }
 }
 
 // FIXME: 循环引用问题
@@ -40,7 +49,9 @@ async function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
       if (!key.startsWith('.')) {
         const { packageJson } = await getPackageInfo(key) ?? {}
         addPkg(rootPkgs[key], packageJson?.dependencies, packageJson?.devDependencies)
-        if (JSON.stringify(rootPkgs[key].packages) !== '{}')
+        if (
+          JSON.stringify(rootPkgs[key].packages) !== '{}'
+        )
           await loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
         else
           delete rootPkgs[key].packages
