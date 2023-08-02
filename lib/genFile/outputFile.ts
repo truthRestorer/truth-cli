@@ -3,22 +3,17 @@ import path from 'node:path'
 import { EDep } from '../utils/types.js'
 import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
-import { relations, rootPkg } from './relations.js'
+import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const pkgs: IPkgs = {}
-const rootPkgSet = new Set()
 
 function initRootModules() {
   try {
     const { devDependencies, dependencies } = rootPkg.__root__
-    for (const [name, version] of Object.entries(devDependencies ?? {}) as any) {
-      rootPkgSet.add(name)
+    for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
       pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-    }
-    for (const [name, version] of Object.entries(dependencies ?? {}) as any) {
-      rootPkgSet.add(name)
+    for (const [name, version] of Object.entries(dependencies ?? {}) as any)
       pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
-    }
   }
   catch (err: any) {
     LogNotExportPkg(err.message)

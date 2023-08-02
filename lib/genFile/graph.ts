@@ -1,7 +1,7 @@
 import type { ILinks, INodes } from '../utils/types.js'
 import { relations } from './relations.js'
 
-const nodesMap = new Set()
+const nodesSet = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
 enum EDeps {
@@ -10,7 +10,7 @@ enum EDeps {
 }
 
 function addNode(name: string, version: string, category: number) {
-  if (!nodesMap.has(name)) {
+  if (!nodesSet.has(name)) {
     const add: INodes = {
       name,
       category,
@@ -18,7 +18,7 @@ function addNode(name: string, version: string, category: number) {
     }
     category && (add.symbolSize = 40)
     nodes.push(add)
-    nodesMap.add(name)
+    nodesSet.add(name)
   }
 }
 

@@ -27,6 +27,12 @@ export const categories: ICategories[] = [
   },
 ]
 
+export interface ITree {
+  name: string
+  value: string
+  children?: ITree[]
+}
+
 interface IRelationRepository {
   type: string
   url: string

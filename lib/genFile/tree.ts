@@ -1,28 +1,19 @@
+import type { ITree } from 'lib/utils/types.js'
 import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
-import { relations, rootPkg } from './relations.js'
-
-interface ITree {
-  name: string
-  value: string
-  children?: ITree[]
-}
+import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const treeData: ITree[] = []
-const rootTreeSet = new Set()
 async function initRootTree() {
   try {
     const { name, version, devDependencies, dependencies } = rootPkg.__root__
     treeData.push({
       name: name ?? '__root__',
       value: version ?? 'latest',
-      children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => {
-        rootTreeSet.add(name)
-        return {
-          name,
-          value: version,
-          children: [],
-        } as ITree
-      }),
+      children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => ({
+        name,
+        value: version,
+        children: [],
+      })) as ITree[],
     })
   }
   catch (err: any) {
@@ -57,7 +48,7 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
         if (
           JSON.stringify(Object.assign({}, devDep, dep)) === '{}'
           || name === tree.name
-          || rootTreeSet.has(name)
+          || rootPkgSet.has(name)
         )
           delete add.children
         tree.children?.push(add)
