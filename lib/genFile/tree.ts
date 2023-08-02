@@ -18,8 +18,8 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
     if (!tree.name)
       return
     const relatedPkg = relations[tree.name]
+    treeSet.add(tree.name)
     if (relatedPkg) {
-      treeSet.add(tree.name)
       const { devDependencies, dependencies } = relatedPkg
       const pkgs = assign(dependencies, devDependencies)
       for (const [name, version] of entries(pkgs)) {
