@@ -1,6 +1,12 @@
 import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg } from './relations.js'
 
+function isSelfQuote(name: any) {
+  const { devDependencies, dependencies } = relations[name]
+  const dep = Object.assign({}, devDependencies, dependencies)
+  return Object.keys(dep).includes(name)
+}
+
 interface ITree {
   name: string
   value: string
@@ -48,7 +54,10 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
         }
         const devDep = relations[name]?.devDependencies
         const dep = relations[name]?.dependencies
-        if (JSON.stringify(Object.assign({}, devDep, dep)) === '{}')
+        if (
+          JSON.stringify(Object.assign({}, devDep, dep)) === '{}'
+          || isSelfQuote(name)
+        )
           delete add.children
         tree.children?.push(add)
       }
