@@ -1,31 +1,17 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { entries, isEmptyObj } from 'lib/utils/tools.js'
 import { EDep } from '../utils/types.js'
 import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
-const pkgs: IPkgs = {}
-
-function initRootModules() {
-  try {
-    const { devDependencies, dependencies } = rootPkg.__root__
-    for (const [name, version] of Object.entries(devDependencies ?? {}) as any)
-      pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-    for (const [name, version] of Object.entries(dependencies ?? {}) as any)
-      pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
-  }
-  catch (err: any) {
-    LogNotExportPkg(err.message)
-  }
-}
-
 function addPkg(pkg: IPkgs, devDependencies: IPkgs | undefined, dependencies: IPkgs | undefined) {
-  for (const [name, version] of Object.entries(devDependencies ?? {})) {
+  for (const [name, version] of entries(devDependencies)) {
     if (!rootPkgSet.has(name))
       pkg.packages[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
   }
-  for (const [name, version] of Object.entries(dependencies ?? {})) {
+  for (const [name, version] of entries(dependencies)) {
     if (!rootPkgSet.has(name))
       pkg.packages[name] = { version, type: EDep.DEPENDENCY, packages: {} }
   }
@@ -43,9 +29,7 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
       if (!key.startsWith('.')) {
         const { dependencies, devDependencies } = relations[key] ?? {}
         addPkg(rootPkgs[key], dependencies, devDependencies)
-        if (
-          JSON.stringify(rootPkgs[key].packages) !== '{}'
-        )
+        if (!isEmptyObj(rootPkgs[key].packages))
           loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
         else
           delete rootPkgs[key].packages
@@ -58,9 +42,14 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
 }
 
 export async function outputFile(depth: number, p: string = './', isJSON = false) {
+  const pkgs: IPkgs = {}
+  const { devDependencies, dependencies } = rootPkg.__root__
+  for (const [name, version] of entries(devDependencies) as any)
+    pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
+  for (const [name, version] of entries(dependencies) as any)
+    pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
   const begin = Date.now()
   isJSON && logLogo()
-  initRootModules()
   try {
     loadPkgsByRead(pkgs, depth)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))

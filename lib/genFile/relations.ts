@@ -1,14 +1,14 @@
 import path from 'node:path'
 import type { IRelations } from 'lib/utils/types.js'
 import { LogNotExportPkg } from '../utils/const.js'
-import { readDir, readFile } from '../utils/tools.js'
+import { isEmptyObj, readDir, readFile } from '../utils/tools.js'
 
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
 export const rootPkgSet: Partial<IRelations> = new Set()
 
 function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
-  if (relation && JSON.stringify(relation) !== '{}')
+  if (relation && !isEmptyObj(relation))
     return true
   return false
 }

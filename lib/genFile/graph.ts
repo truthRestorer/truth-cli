@@ -1,32 +1,31 @@
+import { assign, entries } from 'lib/utils/tools.js'
 import type { ILinks, INodes } from '../utils/types.js'
 import { relations } from './relations.js'
 
 const nodesSet = new Set()
-const nodes: INodes[] = []
-const links: ILinks[] = []
+
 enum EDeps {
   DEPENDENCY,
   ROOT,
 }
 
-function addNode(name: string, version: string, category: number) {
-  if (!nodesSet.has(name)) {
-    const add: INodes = {
-      name,
-      category,
-      value: version,
+function loadGraph(nodes: INodes[], links: ILinks[]) {
+  function addNode(name: string, version: string, category: number) {
+    if (!nodesSet.has(name)) {
+      const add: INodes = {
+        name,
+        category,
+        value: version,
+      }
+      category && (add.symbolSize = 40)
+      nodes.push(add)
+      nodesSet.add(name)
     }
-    category && (add.symbolSize = 40)
-    nodes.push(add)
-    nodesSet.add(name)
   }
-}
-
-export async function genGraph() {
   let isRoot = true
   for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
-    const pkgs = Object.assign({}, dependencies, devDependencies)
-    for (const [pkgName, pkgVersion] of Object.entries(pkgs))
+    const pkgs = assign(dependencies, devDependencies)
+    for (const [pkgName, pkgVersion] of entries(pkgs))
       addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
     if (isRoot) {
       addNode(name, version, EDeps.ROOT)
@@ -35,7 +34,7 @@ export async function genGraph() {
     else {
       addNode(name, version, EDeps.DEPENDENCY)
     }
-    for (const [source, version] of Object.entries(pkgs)) {
+    for (const [source, version] of entries(pkgs)) {
       links.push({
         source,
         target: name,
@@ -43,6 +42,12 @@ export async function genGraph() {
       })
     }
   }
+}
+
+export async function genGraph() {
+  const nodes: INodes[] = []
+  const links: ILinks[] = []
+  loadGraph(nodes, links)
   return {
     nodes,
     links,

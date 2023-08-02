@@ -1,25 +1,7 @@
 import type { ITree } from 'lib/utils/types.js'
-import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
+import { assign, entries, isEmptyObj } from 'lib/utils/tools.js'
+import { logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
-
-const treeData: ITree[] = []
-async function initRootTree() {
-  try {
-    const { name, version, devDependencies, dependencies } = rootPkg.__root__
-    treeData.push({
-      name: name ?? '__root__',
-      value: version ?? 'latest',
-      children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => ({
-        name,
-        value: version,
-        children: [],
-      })) as ITree[],
-    })
-  }
-  catch (err: any) {
-    LogNotExportPkg(err.message)
-  }
-}
 
 function loadTrees(trees: ITree[] | undefined, maxDep: number) {
   if (trees === undefined)
@@ -36,8 +18,8 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
     const relatedPkg = relations[tree.name]
     if (relatedPkg) {
       const { devDependencies, dependencies } = relatedPkg
-      const pkgs = Object.assign({}, dependencies, devDependencies)
-      for (const [name, version] of Object.entries(pkgs)) {
+      const pkgs = assign(dependencies, devDependencies)
+      for (const [name, version] of entries(pkgs)) {
         const add: ITree = {
           name,
           value: version as string,
@@ -46,7 +28,7 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
         const devDep = relations[name]?.devDependencies
         const dep = relations[name]?.dependencies
         if (
-          JSON.stringify(Object.assign({}, devDep, dep)) === '{}'
+          isEmptyObj(assign(devDep, dep))
           || name === tree.name
           || rootPkgSet.has(name)
         )
@@ -59,10 +41,19 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
 }
 
 export async function genTree(maxDep: number) {
-  await initRootTree()
+  const { name, version, devDependencies, dependencies } = rootPkg.__root__
+  const treeData: ITree = {
+    name: name ?? '__root__',
+    value: version ?? 'latest',
+    children: entries(assign(dependencies, devDependencies)).map(([name, version]) => ({
+      name,
+      value: version,
+      children: [],
+    })) as ITree[],
+  }
   try {
-    loadTrees(treeData[0].children, maxDep)
-    return treeData[0]
+    loadTrees(treeData.children, maxDep)
+    return treeData
   }
   catch (err: any) {
     logFileWirteError(err.message)
