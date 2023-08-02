@@ -21,11 +21,11 @@ async function genData(payload: { treeDep: number }) {
 export async function genFiles(
   pkgDep: number,
   treeDep: number,
-  isWeb?: boolean,
-  isDev?: boolean,
+  isBoth: boolean,
+  isDev: boolean,
 ) {
   const { relations, graph, tree } = await genData({ treeDep })
-  !isWeb && await outputFile(pkgDep, './')
+  isBoth && await outputFile(pkgDep, './')
   const writePath = isDev ? `${devWebPath}/public` : webPath
   await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))

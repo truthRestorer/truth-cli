@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { Command } from 'commander'
-import { genPkgsAndWeb } from 'lib'
+import { genByCommand } from 'lib'
 import { cleanFiles } from 'lib/cleanFile'
 import { genJSONFile } from 'lib/genFile'
 import { logDepthError } from 'lib/utils/const.js'
@@ -12,32 +12,26 @@ program
   .description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles'))
   .version('0.2.4')
 
-// TODO: 当数据过大时(例如 dep > 5 时)，支持数据流写入
-// TODO: 支持更多命令行，例如 --delete 删除生成的文件
 // TODO: 更好的用户提示，将 description、options 的打印语句添加到 lib/utils/const.ts 中
 program
   .command('analyze')
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
-  .option('-d, --dep [depth]', 'the depth of the packages, the default is 2, less than 7', '2')
+  .option('-d, --dep [depth]', 'the depth of the packages, the default is 2, less than 8', '2')
   .option('-j, --json [file-path]', 'the output file path')
   .option('-f, --force', 'generate the pkgs.json by force', false)
-  .option('-w, --web', 'only start webSite', false)
-  .action(async ({ dep, json, force, web }) => {
-    // TODO: 优化一下判断逻辑
+  .option('-b, --both', 'generate file and start webSite', false)
+  .action(async ({ dep, json, force, both }) => {
     try {
       const depth = +dep
-      if (Number.isNaN(depth)) {
-        throw new TypeError('depth must be a number')
+      if (Number.isNaN(depth))
+        throw new TypeError('illegal type of depth')
+      if (depth > 7 && !force)
+        throw new Error('depth is too large, use --force of -f to continue')
+      if (json && !both) {
+        genJSONFile(depth, json)
+        return
       }
-      else if (depth > 7 && !force) {
-        throw new Error('depth is too large, we can\'t output the package file, if you still want to output, please use --force')
-      }
-      else {
-        if (json)
-          await genJSONFile(depth, json)
-        else
-          await genPkgsAndWeb({ treeDep: depth, pkgDep: depth, isWeb: web })
-      }
+      await genByCommand(depth + 1, depth, both)
     }
     catch (err: any) {
       logDepthError(err.message)

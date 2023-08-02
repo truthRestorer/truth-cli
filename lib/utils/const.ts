@@ -15,7 +15,7 @@ export function logFileWirteError(message: string) {
 }
 
 const depthError = `
-  ${chalk.bgRedBright('Error!') + chalk.redBright(' depth is over 7 or not a number')}
+  ${chalk.bgRedBright('Error!') + chalk.redBright(' wrong with [depth]')}
   ${chalk.yellow('Detail:')} `
 export function logDepthError(message: string) {
   console.log(`${depthError + message}\n`)

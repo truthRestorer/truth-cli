@@ -11,12 +11,16 @@ function startWeb() {
   app.listen(3002)
 }
 
-export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb: boolean }) {
-  const { treeDep, isDev, pkgDep, isWeb } = payload
+export async function genByCommand(
+  treeDep: number = 3,
+  pkgDep: number = 2,
+  isBoth: boolean = false,
+  isDev: boolean = false,
+) {
   const begin = Date.now()
   logLogo()
   try {
-    await genFiles(pkgDep, treeDep, isWeb, isDev)
+    await genFiles(pkgDep, treeDep, isBoth, isDev)
     if (!isDev) {
       const end = Date.now()
       startWeb()
