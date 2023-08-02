@@ -17,9 +17,9 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
     const tree = trees[i]
     if (!tree.name)
       return
-    treeSet.add(tree.name)
     const relatedPkg = relations[tree.name]
     if (relatedPkg) {
+      treeSet.add(tree.name)
       const { devDependencies, dependencies } = relatedPkg
       const pkgs = assign(dependencies, devDependencies)
       for (const [name, version] of entries(pkgs)) {
@@ -28,10 +28,9 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
           value: version as string,
           children: [],
         }
-        const devDep = relations[name]?.devDependencies
-        const dep = relations[name]?.dependencies
+        const { devDependencies, dependencies } = relations[name] ?? {}
         if (
-          isEmptyObj(assign(devDep, dep))
+          isEmptyObj(assign(devDependencies, dependencies))
           || name === tree.name
           || rootPkgSet.has(name)
           || treeSet.has(name)

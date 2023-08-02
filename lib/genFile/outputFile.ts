@@ -6,18 +6,24 @@ import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
-function addPkg(pkg: IPkgs, devDependencies: IPkgs | undefined, dependencies: IPkgs | undefined) {
-  for (const [name, version] of entries(devDependencies)) {
-    if (!rootPkgSet.has(name))
-      pkg.packages[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-  }
+const pkgSet = new Set()
+
+function addPkg(pkg: IPkgs, dependencies: IPkgs | undefined, type: EDep) {
+  if (!dependencies)
+    return
   for (const [name, version] of entries(dependencies)) {
-    if (!rootPkgSet.has(name))
-      pkg.packages[name] = { version, type: EDep.DEPENDENCY, packages: {} }
+    if (pkg.packages) {
+      if (
+        rootPkgSet.has(name)
+        || pkgSet.has(name)
+      )
+        pkg.packages[name] = {}
+      else
+        pkg.packages[name] = { version, type, packages: {} }
+    }
   }
 }
 
-// FIXME: 循环引用问题
 function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
   if (maxDep === 0) {
     for (const key of Object.keys(rootPkgs))
@@ -27,12 +33,17 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
   for (const key of Object.keys(rootPkgs)) {
     try {
       if (!key.startsWith('.')) {
+        pkgSet.add(key)
         const { dependencies, devDependencies } = relations[key] ?? {}
-        addPkg(rootPkgs[key], dependencies, devDependencies)
-        if (!isEmptyObj(rootPkgs[key].packages))
+        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY)
+        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY)
+        if (!isEmptyObj(rootPkgs[key].packages)) {
           loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
-        else
+          pkgSet.delete(key)
+        }
+        else {
           delete rootPkgs[key].packages
+        }
       }
     }
     catch (err: any) {

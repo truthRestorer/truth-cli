@@ -20,5 +20,5 @@ export function entries(obj: object | undefined) {
 }
 
 export function isEmptyObj(obj: object) {
-  return JSON.stringify(obj) === '{}'
+  return JSON.stringify(obj) === '{}' || obj === undefined || obj === null
 }

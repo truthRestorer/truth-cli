@@ -1,11 +1,11 @@
 import path from 'node:path'
 import type { IRelations } from 'lib/utils/types.js'
 import { LogNotExportPkg } from '../utils/const.js'
-import { isEmptyObj, readDir, readFile } from '../utils/tools.js'
+import { assign, isEmptyObj, readDir, readFile } from '../utils/tools.js'
 
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
-export const rootPkgSet: Partial<IRelations> = new Set()
+export const rootPkgSet = new Set()
 
 function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
   if (relation && !isEmptyObj(relation))
@@ -33,7 +33,8 @@ async function readGlob(p: string) {
       devDependencies,
       dependencies,
     }
-    rootPkgSet.add(name)
+    for (const key of Object.keys(assign(dependencies, devDependencies)))
+      rootPkgSet.add(key)
     return
   }
   const pkgsRoot = await readDir(p)
