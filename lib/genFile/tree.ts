@@ -1,12 +1,6 @@
 import { LogNotExportPkg, logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg } from './relations.js'
 
-function isSelfQuote(name: any) {
-  const { devDependencies, dependencies } = relations[name]
-  const dep = Object.assign({}, devDependencies, dependencies)
-  return Object.keys(dep).includes(name)
-}
-
 interface ITree {
   name: string
   value: string
@@ -14,18 +8,21 @@ interface ITree {
 }
 
 const treeData: ITree[] = []
-
+const rootTreeSet = new Set()
 async function initRootTree() {
   try {
     const { name, version, devDependencies, dependencies } = rootPkg.__root__
     treeData.push({
       name: name ?? '__root__',
       value: version ?? 'latest',
-      children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => ({
-        name,
-        value: version,
-        children: [],
-      })) as ITree[],
+      children: Object.entries(Object.assign({}, dependencies, devDependencies)).map(([name, version]) => {
+        rootTreeSet.add(name)
+        return {
+          name,
+          value: version,
+          children: [],
+        } as ITree
+      }),
     })
   }
   catch (err: any) {
@@ -39,10 +36,13 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
   if (maxDep === 0) {
     for (let i = 0; i < trees.length; i++)
       delete trees[i].children
+    return
   }
   for (let i = 0; i < trees.length; i++) {
     const tree = trees[i]
-    const relatedPkg = relations[tree.name]!
+    if (!tree.name)
+      return
+    const relatedPkg = relations[tree.name]
     if (relatedPkg) {
       const { devDependencies, dependencies } = relatedPkg
       const pkgs = Object.assign({}, dependencies, devDependencies)
@@ -56,7 +56,8 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
         const dep = relations[name]?.dependencies
         if (
           JSON.stringify(Object.assign({}, devDep, dep)) === '{}'
-          || isSelfQuote(name)
+          || name === tree.name
+          || rootTreeSet.has(name)
         )
           delete add.children
         tree.children?.push(add)
