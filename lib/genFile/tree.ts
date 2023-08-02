@@ -5,7 +5,7 @@ import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const treeSet = new Set()
 
-function loadTrees(trees: ITree[] | undefined, maxDep: number) {
+function loadTrees(trees: ITree[] | undefined, maxDep: number, shouldOptimize: boolean) {
   if (trees === undefined)
     return
   if (maxDep === 0) {
@@ -36,10 +36,11 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number) {
           || treeSet.has(name)
         )
           delete add.children
+        shouldOptimize && treeSet.add(name)
         tree.children?.push(add)
       }
-      loadTrees(tree.children, maxDep - 1)
-      treeSet.delete(tree.name)
+      loadTrees(tree.children, maxDep - 1, shouldOptimize)
+      !shouldOptimize && treeSet.delete(tree.name)
     }
   }
 }
@@ -56,7 +57,7 @@ export async function genTree(maxDep: number) {
     })) as ITree[],
   }
   try {
-    loadTrees(treeData.children, maxDep)
+    loadTrees(treeData.children, maxDep, maxDep > 5)
     return treeData
   }
   catch (err: any) {

@@ -18,15 +18,12 @@ program
   .description(chalk.bgCyanBright('Help developer analyze npm packages'))
   .option('-d, --dep [depth]', 'the depth of the packages, the default is 2, less than 8', '2')
   .option('-j, --json [file-path]', 'the output file path')
-  .option('-f, --force', 'generate the pkgs.json by force', false)
   .option('-b, --both', 'generate file and start webSite', false)
-  .action(async ({ dep, json, force, both }) => {
+  .action(async ({ dep, json, both }) => {
     try {
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      if (depth > 7 && !force)
-        throw new Error('depth is too large, use --force of -f to continue')
       if (json && !both) {
         genJSONFile(depth, json)
         return

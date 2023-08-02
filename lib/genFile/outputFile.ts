@@ -8,7 +8,7 @@ import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const pkgSet = new Set()
 
-function addPkg(pkg: IPkgs, dependencies: IPkgs | undefined, type: EDep) {
+function addPkg(pkg: IPkgs, dependencies: IPkgs | undefined, type: EDep, shouldOptimize: boolean) {
   if (!dependencies)
     return
   for (const [name, version] of entries(dependencies)) {
@@ -16,15 +16,18 @@ function addPkg(pkg: IPkgs, dependencies: IPkgs | undefined, type: EDep) {
       if (
         rootPkgSet.has(name)
         || pkgSet.has(name)
-      )
+      ) {
         pkg.packages[name] = {}
-      else
+      }
+      else {
+        shouldOptimize && pkgSet.add(name)
         pkg.packages[name] = { version, type, packages: {} }
+      }
     }
   }
 }
 
-function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
+function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number, shouldOptimize: boolean) {
   if (maxDep === 0) {
     for (const key of Object.keys(rootPkgs))
       delete rootPkgs[key].packages
@@ -35,11 +38,11 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number) {
       if (!key.startsWith('.')) {
         pkgSet.add(key)
         const { dependencies, devDependencies } = relations[key] ?? {}
-        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY)
-        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY)
+        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
+        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
         if (!isEmptyObj(rootPkgs[key].packages)) {
-          loadPkgsByRead(rootPkgs[key].packages, maxDep - 1)
-          pkgSet.delete(key)
+          loadPkgsByRead(rootPkgs[key].packages, maxDep - 1, shouldOptimize)
+          !shouldOptimize && pkgSet.delete(key)
         }
         else {
           delete rootPkgs[key].packages
@@ -62,7 +65,7 @@ export async function outputFile(depth: number, p: string = './', isJSON = false
   const begin = Date.now()
   isJSON && logLogo()
   try {
-    loadPkgsByRead(pkgs, depth)
+    loadPkgsByRead(pkgs, depth, depth > 7)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
   }
   catch (err: any) {
