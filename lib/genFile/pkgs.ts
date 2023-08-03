@@ -63,7 +63,7 @@ function loadPkgs(
 /**
  * 便于命令行操作的生成文件函数
  */
-export async function outputFile(depth: number) {
+export async function genPkgs(depth: number) {
   const pkgs: IPkgs = {}
   const { devDependencies, dependencies } = rootPkg.__root__
   for (const [name, version] of entries(devDependencies) as any)

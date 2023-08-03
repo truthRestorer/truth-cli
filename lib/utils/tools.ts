@@ -15,10 +15,10 @@ export function assign(...rest: object[]) {
   return Object.assign({}, ...rest)
 }
 
-export function entries(obj: object | undefined) {
+export function entries(obj: object | undefined | null) {
   return Object.entries(obj ?? {})
 }
 
-export function isEmptyObj(obj: object) {
+export function isEmptyObj(obj: object | undefined | null) {
   return JSON.stringify(obj) === '{}' || obj === undefined || obj === null
 }

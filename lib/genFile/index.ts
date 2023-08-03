@@ -4,7 +4,7 @@ import { devWebPath, logFileWirteError, logFileWirteFinished, logLogo, webPath }
 import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'
-import { outputFile } from './pkgs.js'
+import { genPkgs } from './pkgs.js'
 
 /**
  * 生成网页所需要的数据(tree 图和 graph 图)
@@ -37,7 +37,7 @@ export async function genFiles(
     await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
     await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
     if (isBoth) {
-      const pkgs = await outputFile(pkgDep)
+      const pkgs = await genPkgs(pkgDep)
       await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
     }
   }
@@ -55,7 +55,7 @@ export async function genJSONFile(
   p = typeof p === 'boolean' ? './' : p
   try {
     await genRelations()
-    const pkgs = await outputFile(pkgDep)
+    const pkgs = await genPkgs(pkgDep)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
   }
   catch (err: any) {

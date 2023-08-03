@@ -7,9 +7,6 @@ const treeMap = new Map()
 /**
  * 如果 rootPkgSet 或者 treeMap 保存过这个 tree 名字，或者说 tree 没有依赖。
  * 那么删除该项的 children 属性，减少生成的 tree.json 文件大小
- * @param add 添加的数据
- * @param name 添加 tree 的名字
- * @param dependencies tree 的依赖
  */
 function deleteTreeChildren(
   add: ITree,
@@ -26,9 +23,6 @@ function deleteTreeChildren(
 
 /**
  * 添加树节点
- * @param name 添加内容名字
- * @param version 添加内容的版本号
- * @param dependencies 添加内容的
  */
 function addTree(
   name: string,
@@ -89,8 +83,6 @@ function loadTrees(
 
 /**
  * 导出易于和命令行操作的函数
- * @param maxDep 最大深度
- * @returns {Promise<ITree | undefined>} 最终的树形结构
  */
 export async function genTree(maxDep: number): Promise<ITree[] | undefined> {
   const { name, version, devDependencies, dependencies } = rootPkg.__root__
