@@ -11,17 +11,15 @@ const __root = path.resolve(__dirname, '..')
 
 const errorPrefix = chalk.bgRedBright('Error!')
 
-const fileWirteError = `
-  ${errorPrefix} ${chalk.cyan.yellow('Here is error message')}`
+const fileWirteError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
 export function logFileWirteError(message: string) {
-  console.log(`${fileWirteError}: ${message}`)
+  console.log(`${fileWirteError}: ${message}\n`)
 }
 
 const depthError = `
-  ${errorPrefix} ${chalk.redBright('wrong with [depth]')}
-  ${chalk.yellow('Detail:')} `
-export function logDepthError(message: string) {
-  console.log(`${depthError + message}\n`)
+  ${errorPrefix} ${chalk.redBright('illegal type of depth')}`
+export function logDepthError() {
+  console.log(`${depthError}\n`)
 }
 
 const logo = `

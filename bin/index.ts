@@ -38,8 +38,8 @@ program
       }
       await genByCommand(depth + 1, depth - 1, both)
     }
-    catch (err: any) {
-      logDepthError(err.message)
+    catch (err) {
+      logDepthError()
     }
   })
 

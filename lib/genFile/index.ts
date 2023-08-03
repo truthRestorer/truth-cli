@@ -29,19 +29,14 @@ export async function genFiles(
   isBoth: boolean,
   isDev: boolean,
 ) {
-  try {
-    const { relations, graph, tree } = await genData(treeDep)
-    const writePath = isDev ? `${devWebPath}/public` : webPath
-    await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
-    await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
-    await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
-    if (isBoth) {
-      const pkgs = await genPkgs(pkgDep)
-      await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
-    }
-  }
-  catch (err: any) {
-    logFileWirteError(err.message)
+  const { relations, graph, tree } = await genData(treeDep)
+  const writePath = isDev ? `${devWebPath}/public` : webPath
+  await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
+  await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
+  await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
+  if (isBoth) {
+    const pkgs = await genPkgs(pkgDep)
+    await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
   }
 }
 
