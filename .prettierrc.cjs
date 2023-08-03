@@ -11,6 +11,6 @@ module.exports = {
   arrowParens: 'always',
   requirePragma: false,
   insertPragma: false,
-  endOfLine: 'lf',
+  endOfLine: 'crlf',
   embeddedLanguageFormatting: 'auto',
 };
