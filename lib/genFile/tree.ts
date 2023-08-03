@@ -47,7 +47,7 @@ function loadTrees(
         }
         tree.children?.push(add)
       }
-      loadTrees(tree.children, maxDep - 1, rememberLayer - 1 ? rememberLayer - 1 : 0)
+      loadTrees(tree.children, maxDep - 1, rememberLayer - 1)
     }
   }
 }
