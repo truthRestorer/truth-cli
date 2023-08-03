@@ -14,20 +14,20 @@ function addPkg(
   dependencies: IPkgs | undefined,
   type: EDep,
   shouldOptimize: boolean,
+  isRoot: boolean = false,
 ) {
-  if (
-    !dependencies
-    || isEmptyObj(dependencies)
-    || !pkg?.packages
-  )
-    return
-  for (const [name, version] of entries(dependencies)) {
-    if (!pkgSet.has(name) && !rootPkgSet.has(name)) {
-      shouldOptimize && pkgSet.add(name)
-      pkg.packages[name] = { version, type, packages: {} }
-    }
-    else {
-      pkg.packages[name] = {}
+  if (dependencies && (pkg?.packages || isRoot)) {
+    for (const [name, version] of entries(dependencies)) {
+      if (isRoot) {
+        pkg![name] = { version, type, packages: {} }
+      }
+      else if (!pkgSet.has(name) && !rootPkgSet.has(name)) {
+        shouldOptimize && pkgSet.add(name)
+        pkg!.packages[name] = { version, type, packages: {} }
+      }
+      else {
+        pkg!.packages[name] = {}
+      }
     }
   }
 }
@@ -51,12 +51,12 @@ function loadPkgs(
     if (!key.startsWith('.')) {
       pkgSet.add(key)
       const { dependencies, devDependencies } = relations[key] ?? {}
-      addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
-      addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
+      isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
+      isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
       if (isEmptyObj(rootPkgs[key].packages))
         delete rootPkgs[key].packages
       loadPkgs(rootPkgs[key].packages, maxDep - 1, shouldOptimize)
-      !shouldOptimize && pkgSet.delete(key)
+      shouldOptimize || pkgSet.delete(key)
     }
   }
 }
@@ -66,10 +66,8 @@ function loadPkgs(
 export async function genPkgs(depth: number) {
   const pkgs: IPkgs = {}
   const { devDependencies, dependencies } = rootPkg.__root__
-  for (const [name, version] of entries(devDependencies) as any)
-    pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
-  for (const [name, version] of entries(dependencies) as any)
-    pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
+  addPkg(pkgs, devDependencies, EDep.DEVDEPENDENCY, false, true)
+  addPkg(pkgs, dependencies, EDep.DEPENDENCY, false, true)
   loadPkgs(pkgs, depth, depth > 3)
   return pkgs
 }

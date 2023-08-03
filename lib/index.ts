@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import koaStatic from 'koa-static'
-import { logAnalyzeFinish, logFileWirteError, logFileWirteFinished, logLogo, webPath } from './utils/const.js'
+import { logAnalyzeFinish, logFileWirteError, logFileWirteFinished, webPath } from './utils/const.js'
 import { genFiles } from './genFile/index.js'
 
 // TODO: 使用原生 Nodejs 实现启动 web
@@ -24,7 +24,6 @@ export async function genByCommand(
   isDev: boolean = false,
 ) {
   const begin = Date.now()
-  logLogo()
   try {
     await genFiles(pkgDep, treeDep, isBoth, isDev)
     !isDev && startWeb()

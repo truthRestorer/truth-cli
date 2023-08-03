@@ -1,13 +1,9 @@
 import { assign, entries } from '../utils/tools.js'
+import { EDeps } from '../utils/types.js'
 import type { ILinks, INodes } from '../utils/types.js'
 import { relations } from './relations.js'
 
 const nodesSet = new Set()
-
-enum EDeps {
-  DEPENDENCY,
-  ROOT,
-}
 const nodes: INodes[] = []
 const links: ILinks[] = []
 

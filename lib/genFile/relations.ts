@@ -71,7 +71,7 @@ async function readGlob(p: string) {
  * 导出易于命名行操作的函数
  */
 export async function genRelations() {
-  await readGlob('./package.json')
-  await readGlob('./node_modules/')
+  await readGlob('package.json')
+  await readGlob('node_modules')
   return relations
 }

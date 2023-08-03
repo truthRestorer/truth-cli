@@ -10,6 +10,7 @@ import {
   description,
   filePathOptionWords,
   logDepthError,
+  logLogo,
   version,
 } from 'lib/utils/const.js'
 
@@ -26,6 +27,7 @@ program
   .option('-j, --json [file-path]', filePathOptionWords)
   .option('-b, --both', bothOptionWords, false)
   .action(async ({ dep, json, both }) => {
+    logLogo()
     try {
       const depth = +dep
       if (Number.isNaN(depth))

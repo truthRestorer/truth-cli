@@ -11,6 +11,11 @@ export interface ILinks {
   v: string
 }
 
+export enum EDeps {
+  DEPENDENCY,
+  ROOT,
+}
+
 interface ICategories {
   name: 'dependency' | 'devDependency' | 'root'
 }

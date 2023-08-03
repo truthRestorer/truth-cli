@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { devWebPath, logFileWirteError, logFileWirteFinished, logLogo, webPath } from '../utils/const.js'
+import { devWebPath, logFileWirteError, logFileWirteFinished, webPath } from '../utils/const.js'
 import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'
@@ -46,11 +46,7 @@ export async function genFiles(
   }
 }
 
-export async function genJSONFile(
-  pkgDep: number,
-  p: string | boolean,
-) {
-  logLogo()
+export async function genJSONFile(pkgDep: number, p: string | boolean) {
   const begin = Date.now()
   p = typeof p === 'boolean' ? './' : p
   try {

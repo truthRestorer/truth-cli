@@ -8,11 +8,7 @@ const treeMap = new Map()
  * 如果 rootPkgSet 或者 treeMap 保存过这个 tree 名字，或者说 tree 没有依赖。
  * 那么删除该项的 children 属性，减少生成的 tree.json 文件大小
  */
-function deleteTreeChildren(
-  add: ITree,
-  name: string,
-  dependencies: ITree,
-) {
+function deleteTreeChildren(add: ITree, name: string, dependencies: ITree) {
   if (
     isEmptyObj(dependencies)
     || rootPkgSet.has(name)
@@ -24,11 +20,7 @@ function deleteTreeChildren(
 /**
  * 添加树节点
  */
-function addTree(
-  name: string,
-  version: string,
-  dependencies: ITree,
-) {
+function addTree(name: string, version: string, dependencies: ITree) {
   if (treeMap.has(name))
     return
   const add: ITree = {
@@ -43,9 +35,6 @@ function addTree(
 /**
  * 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
  * 当 maxDep > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
- * @param trees 树的一些列节点
- * @param maxDep 用户设置的最大深度
- * @param shouldOptimize 是否开启优化
  */
 function loadTrees(
   trees: ITree[] | undefined,
@@ -77,14 +66,14 @@ function loadTrees(
       tree.children?.push(add)
     }
     loadTrees(tree.children, maxDep - 1, shouldOptimize)
-    !shouldOptimize && treeMap.delete(tree.name)
+    shouldOptimize || treeMap.delete(tree.name)
   }
 }
 
 /**
  * 导出易于和命令行操作的函数
  */
-export async function genTree(maxDep: number): Promise<ITree[] | undefined> {
+export async function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = rootPkg.__root__
   const treeData: ITree[] = [
     {
