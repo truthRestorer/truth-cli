@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { entries, isEmptyObj } from 'lib/utils/tools.js'
+import { entries, isEmptyObj } from '../utils/tools.js'
 import { EDep } from '../utils/types.js'
 import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'

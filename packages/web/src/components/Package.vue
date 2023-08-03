@@ -26,7 +26,7 @@ onMounted(async () => {
   myChart.setOption({
     legend: {
       data: ['树状图1', '树状图2', '引力关系图'],
-      selectedMode: 'multiple',
+      selectedMode: 'single',
       animation: true,
       zlevel: 3,
     },
@@ -62,6 +62,18 @@ onMounted(async () => {
         initialTreeDepth: 1,
         expandAndCollapse: true,
       },
+      {
+        name: '树状图2',
+        zlevel: 2,
+        type: 'tree',
+        data: [tree[1]],
+        roam: true,
+        label: {
+          show: true,
+        },
+        initialTreeDepth: 1,
+        expandAndCollapse: true,
+      },
     ],
   })
   myChart.on('click', (param: any) => {
@@ -77,12 +89,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="main" style="height: 200vh;" />
+  <div id="main" />
 </template>
 
 <style scoped>
 #main {
   width: 100%;
-  height: 200vh;
+  height: 100vh;
 }
 </style>
