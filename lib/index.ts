@@ -25,13 +25,11 @@ export async function genByCommand(
   try {
     await genFiles(pkgDep, treeDep, isBoth, isDev)
     !isDev && startWeb()
-  }
-  catch (err: any) {
-    logFileWirteError(err.message)
-  }
-  finally {
     const end = Date.now()
     logAnalyzeFinish(end - begin)
     isBoth && logFileWirteFinished(end - begin, './')
+  }
+  catch (err: any) {
+    logFileWirteError(err.message)
   }
 }

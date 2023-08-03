@@ -52,12 +52,10 @@ export async function genJSONFile(pkgDep: number, p: string | boolean) {
     await genRelations()
     const pkgs = await genPkgs(pkgDep)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+    const end = Date.now()
+    logFileWirteFinished(end - begin, p)
   }
   catch (err: any) {
     logFileWirteError(err.message)
-  }
-  finally {
-    const end = Date.now()
-    logFileWirteFinished(end - begin, p)
   }
 }
