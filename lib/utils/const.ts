@@ -9,24 +9,19 @@ const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const __root = path.resolve(__dirname, '..')
 
+const errorPrefix = chalk.bgRedBright('Error!')
+
 const fileWirteError = `
-  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message')}`
+  ${errorPrefix} ${chalk.cyan.yellow('Here is error message')}`
 export function logFileWirteError(message: string) {
   console.log(`${fileWirteError}: ${message}`)
 }
 
 const depthError = `
-  ${chalk.bgRedBright('Error!') + chalk.redBright(' wrong with [depth]')}
+  ${errorPrefix} ${chalk.redBright('wrong with [depth]')}
   ${chalk.yellow('Detail:')} `
 export function logDepthError(message: string) {
   console.log(`${depthError + message}\n`)
-}
-
-const commonError = `
-  ${chalk.bgYellowBright('Warn:')} ${chalk.yellow('No "exports" main defined in:')}
-`
-export function LogCommonError(errMsg: string) {
-  console.log(`${commonError}\n${errMsg}`)
 }
 
 const logo = `
@@ -47,7 +42,7 @@ export function logFileWirteFinished(duration: number, p: string) {
 }
 
 const cleanError = `
-  ${chalk.bgRedBright('Error:')} ${chalk.black('There are no files to clean up')}
+  ${errorPrefix} ${chalk.black('There are no files to clean up')}
 `
 export function logCleanError() {
   console.log(cleanError)
