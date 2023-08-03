@@ -48,21 +48,21 @@ async function readGlob(p: string) {
   const pkgsRoot = await readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = path.resolve(p, `${pkgsRoot[i]}`)
-    if (!pkgsRoot[i].includes('.')) {
+    if (pkgsRoot[i].includes('.'))
+      continue
       // 处理带有 @
-      if (pkgsRoot[i].startsWith('@')) {
-        const dirs = await readDir(pkgPath)
-        for (let i = 0; i < dirs.length; i++) await readGlob(pkgPath)
+    if (pkgsRoot[i].startsWith('@')) {
+      const dirs = await readDir(pkgPath)
+      for (let i = 0; i < dirs.length; i++) await readGlob(pkgPath)
+    }
+    else {
+      const pkg = (await readFile(`${pkgPath}/package.json`)) as IRelations
+      const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
+      relations[pkg.name] = {
+        name, description, version, homepage, repository, author,
       }
-      else {
-        const pkg = (await readFile(`${pkgPath}/package.json`)) as IRelations
-        const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
-        relations[pkg.name] = {
-          name, description, version, homepage, repository, author,
-        }
-        dealEmptyRelation(dependencies) && (relations[pkg.name].dependencies = dependencies)
-        dealEmptyRelation(devDependencies) && (relations[pkg.name].devDependencies = devDependencies)
-      }
+      dealEmptyRelation(dependencies) && (relations[pkg.name].dependencies = dependencies)
+      dealEmptyRelation(devDependencies) && (relations[pkg.name].devDependencies = devDependencies)
     }
   }
 }

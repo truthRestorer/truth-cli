@@ -67,10 +67,8 @@ function loadTrees(
   }
   for (let i = 0; i < trees.length; i++) {
     const tree = trees[i]
-    if (!tree.name)
-      return
     if (!relations[tree.name])
-      return
+      continue
     const { version, devDependencies, dependencies } = relations[tree.name]
     const pkgs = assign(dependencies, devDependencies)
     addTree(tree.name, version, pkgs)

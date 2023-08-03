@@ -15,16 +15,16 @@ const links: ILinks[] = []
  * 向 nodes 中添加节点，生成 graph 图所需要的 data 数据
  */
 function addNode(name: string, version: string, category: number) {
-  if (!nodesSet.has(name)) {
-    const add: INodes = {
-      name,
-      category,
-      value: version,
-    }
-    category && (add.symbolSize = 40)
-    nodes.push(add)
-    nodesSet.add(name)
+  if (nodesSet.has(name))
+    return
+  const add: INodes = {
+    name,
+    category,
+    value: version,
   }
+  category && (add.symbolSize = 40)
+  nodes.push(add)
+  nodesSet.add(name)
 }
 
 /**

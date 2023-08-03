@@ -10,7 +10,7 @@ const program = new Command()
 program
   .name('truth-cli')
   .description(chalk.cyan.bold('A command-line tool for analyzing dependencies under node_moudles'))
-  .version('0.2.4')
+  .version('0.3.7')
 
 // TODO: 更好的用户提示，将 description、options 的打印语句添加到 lib/utils/const.ts 中
 program
@@ -25,10 +25,10 @@ program
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
       if (json && !both) {
-        genJSONFile(depth, json)
+        genJSONFile(depth - 1, json)
         return
       }
-      await genByCommand(depth, depth - 1, both)
+      await genByCommand(depth + 1, depth - 1, both)
     }
     catch (err: any) {
       logDepthError(err.message)

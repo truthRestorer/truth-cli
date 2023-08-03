@@ -29,7 +29,7 @@ export function LogCommonError(errMsg: string) {
 }
 
 const logo = `
-  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.1.3')}
+  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.3.7')}
 `
 export function logLogo() {
   console.log(logo)

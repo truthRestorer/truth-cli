@@ -1,9 +1,6 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
 import { entries, isEmptyObj } from '../utils/tools.js'
 import { EDep } from '../utils/types.js'
 import type { IPkgs } from '../utils/types.js'
-import { logFileWirteFinished, logLogo } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
@@ -66,21 +63,13 @@ function loadPkgs(
 /**
  * 便于命令行操作的生成文件函数
  */
-export async function outputFile(
-  depth: number,
-  p: string = './',
-  isJSON = false,
-) {
+export async function outputFile(depth: number) {
   const pkgs: IPkgs = {}
   const { devDependencies, dependencies } = rootPkg.__root__
   for (const [name, version] of entries(devDependencies) as any)
     pkgs[name] = { version, type: EDep.DEVDEPENDENCY, packages: {} }
   for (const [name, version] of entries(dependencies) as any)
     pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
-  const begin = Date.now()
-  isJSON && logLogo()
   loadPkgs(pkgs, depth, depth > 3)
-  await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
-  const end = Date.now()
-  logFileWirteFinished(end - begin, p)
+  return pkgs
 }
