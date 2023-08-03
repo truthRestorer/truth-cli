@@ -105,7 +105,7 @@ export async function genTree(maxDep: number): Promise<ITree[] | undefined> {
       })),
     },
   ]
-  loadTrees(treeData[0].children, maxDep, maxDep > 4)
+  loadTrees(treeData[0].children, maxDep, maxDep > 5)
   treeData.push({
     name: '_remember_',
     value: 'latest',
