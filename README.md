@@ -37,6 +37,8 @@ truth-cli analyze
 - tree 图：用树型结构展示 npm 依赖之间的关系，受参数 `dep` 影响
 - force 图：用引力布局的图结构展示 npm 依赖之间的关系，不受参数 `dep` 影响
 
+![image-20230803162829296](https://plumbiu.github.io/blogImg/image-20230803162829296.png)
+
 ## 指定深度
 
 **我们不建议设置过大的深度，正常情况下 <= 4 是最佳选项**
@@ -60,8 +62,8 @@ truth-cli analyze --dep 4
 
 **tree 图和 `pkgs.json` 文件极端优化条件：**
 
-- tree 图：`dep > 5` 
-- `pkgs.json`：`dep > 7`
+- tree 图：`dep > 4` 
+- `pkgs.json`：`dep > 3`
 
 ## 只生成文件
 
@@ -105,8 +107,12 @@ truth-cli analyze --both --json
 truth-cli analyze --both --dep 4
 ```
 
-> **dep 参数在 tree 图和 `pkgs.json` 文件共享**，两者之间的关系为：
-> **tree 深度 = dep = `pkgs.json` 深度 + 1*，也就是说 tree 比 `pkgs.json` 深度大 1。
+**dep 参数在 tree 图和 `pkgs.json` 文件共享**，两者之间的关系为：
+
+- tree 深度 = dep + 1
+- `pkgs.json` 深度 = dep - 1
+
+> 至于为什么这么做，是因为 `pkgs.json` 文件并不会将你的项目名作为根节点，而 `tree` 图是将项目名和项目引用的依赖作为第一层
 
 ## 清理缓存
 
