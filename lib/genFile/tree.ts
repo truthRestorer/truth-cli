@@ -56,7 +56,7 @@ export async function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = rootPkg.__root__
   const treeData: ITree[] = [
     {
-      name: name ?? '__root__',
+      name: name ?? '_root_',
       value: version ?? 'latest',
       children: entries(assign(dependencies, devDependencies)).map(([name, version]) => ({
         name,
@@ -68,7 +68,7 @@ export async function genTree(maxDep: number) {
   try {
     loadTrees(treeData[0].children, maxDep, 2)
     treeData.push({
-      name: '__remember__',
+      name: '_remember_',
       value: 'latest',
       children: [...treeMap.values()],
     })

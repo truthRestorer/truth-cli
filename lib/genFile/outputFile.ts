@@ -8,26 +8,36 @@ import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const pkgSet = new Set()
 
-function addPkg(pkg: IPkgs, dependencies: IPkgs | undefined, type: EDep, shouldOptimize: boolean) {
-  if (!dependencies)
+function addPkg(
+  pkg: IPkgs | undefined,
+  dependencies: IPkgs | undefined,
+  type: EDep,
+  shouldOptimize: boolean,
+) {
+  if (
+    !dependencies
+    || isEmptyObj(dependencies)
+    || !pkg?.packages
+  )
     return
   for (const [name, version] of entries(dependencies)) {
-    if (pkg.packages) {
-      if (
-        rootPkgSet.has(name)
-        || pkgSet.has(name)
-      ) {
-        pkg.packages[name] = {}
-      }
-      else {
-        shouldOptimize && pkgSet.add(name)
-        pkg.packages[name] = { version, type, packages: {} }
-      }
+    if (!pkgSet.has(name) && !rootPkgSet.has(name)) {
+      shouldOptimize && pkgSet.add(name)
+      pkg.packages[name] = { version, type, packages: {} }
+    }
+    else {
+      pkg.packages[name] = {}
     }
   }
 }
 
-function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number, shouldOptimize: boolean) {
+function loadPkgs(
+  rootPkgs: IPkgs | undefined,
+  maxDep: number,
+  rememberLayer: number,
+) {
+  if (rootPkgs === undefined)
+    return
   if (maxDep === 0) {
     for (const key of Object.keys(rootPkgs))
       delete rootPkgs[key].packages
@@ -38,15 +48,12 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number, shouldOptimize: boolean
       if (!key.startsWith('.')) {
         pkgSet.add(key)
         const { dependencies, devDependencies } = relations[key] ?? {}
-        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
-        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
-        if (!isEmptyObj(rootPkgs[key].packages)) {
-          loadPkgsByRead(rootPkgs[key].packages, maxDep - 1, shouldOptimize)
-          !shouldOptimize && pkgSet.delete(key)
-        }
-        else {
+        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, maxDep > 2)
+        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, maxDep > 2)
+        if (isEmptyObj(rootPkgs[key].packages))
           delete rootPkgs[key].packages
-        }
+        loadPkgs(rootPkgs[key].packages, maxDep - 1, rememberLayer - 1 ? rememberLayer - 1 : 0)
+        maxDep < 3 && pkgSet.delete(key)
       }
     }
     catch (err: any) {
@@ -55,7 +62,11 @@ function loadPkgsByRead(rootPkgs: IPkgs, maxDep: number, shouldOptimize: boolean
   }
 }
 
-export async function outputFile(depth: number, p: string = './', isJSON = false) {
+export async function outputFile(
+  depth: number,
+  p: string = './',
+  isJSON = false,
+) {
   const pkgs: IPkgs = {}
   const { devDependencies, dependencies } = rootPkg.__root__
   for (const [name, version] of entries(devDependencies) as any)
@@ -65,7 +76,7 @@ export async function outputFile(depth: number, p: string = './', isJSON = false
   const begin = Date.now()
   isJSON && logLogo()
   try {
-    loadPkgsByRead(pkgs, depth, depth > 7)
+    loadPkgs(pkgs, depth, depth > 5 ? 2 : depth - 1)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
   }
   catch (err: any) {
