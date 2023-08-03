@@ -3,6 +3,7 @@
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { Chalk } from 'chalk'
+import { description as c, version as v } from '../../package.json'
 
 const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -29,7 +30,7 @@ export function LogCommonError(errMsg: string) {
 }
 
 const logo = `
-  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.3.7')}
+  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright(`v${v}`)}
 `
 export function logLogo() {
   console.log(logo)
@@ -45,7 +46,15 @@ export function logFileWirteFinished(duration: number, p: string) {
   console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
+export const description = chalk.cyan.bold(c)
+export const version = chalk.greenBright.bold(v)
+
+export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm packages')
+export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
+export const filePathOptionWords = chalk.yellowBright('The path to the pkgs.json file')
+export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and start webSite')
+
+export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
+
 export const webPath = path.resolve(__root, './dist/web/')
 export const devWebPath = path.resolve(__root, '../packages/web/')
-
-export const rootPath = __root
