@@ -14,13 +14,11 @@ import {
 } from 'lib/utils/const.js'
 
 const program = new Command()
-// TODO: 添加版本自动控制
 program
   .name('truth-cli')
   .description(description)
   .version(version)
 
-// TODO: 更好的用户提示，将 description、options 的打印语句添加到 lib/utils/const.ts 中
 program
   .command('analyze')
   .description(analyzeCommandWords)
