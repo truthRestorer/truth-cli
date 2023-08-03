@@ -7,10 +7,16 @@ import { genFiles } from './genFile/index.js'
 const app = new Koa()
 app.use(koaStatic(webPath))
 
+/**
+ * 启动服务器
+ */
 function startWeb() {
   app.listen(3002)
 }
 
+/**
+ * 命令行操作函数
+ */
 export async function genByCommand(
   treeDep: number = 3,
   pkgDep: number = 2,

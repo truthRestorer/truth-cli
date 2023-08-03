@@ -6,8 +6,12 @@ import type { IPkgs } from '../utils/types.js'
 import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
+// 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
 const pkgSet = new Set()
 
+/**
+ * 向 pkg 中添加节点
+ */
 function addPkg(
   pkg: IPkgs | undefined,
   dependencies: IPkgs | undefined,
@@ -31,6 +35,9 @@ function addPkg(
   }
 }
 
+/**
+ * 递归(深度优先)产生 `pkgs.json` 内容数据
+ */
 function loadPkgs(
   rootPkgs: IPkgs | undefined,
   maxDep: number,
@@ -61,7 +68,9 @@ function loadPkgs(
     }
   }
 }
-
+/**
+ * 便于命令行操作的生成文件函数
+ */
 export async function outputFile(
   depth: number,
   p: string = './',

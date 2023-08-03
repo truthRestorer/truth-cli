@@ -8,20 +8,29 @@ enum EDeps {
   DEPENDENCY,
   ROOT,
 }
+const nodes: INodes[] = []
+const links: ILinks[] = []
 
-function loadGraph(nodes: INodes[], links: ILinks[]) {
-  function addNode(name: string, version: string, category: number) {
-    if (!nodesSet.has(name)) {
-      const add: INodes = {
-        name,
-        category,
-        value: version,
-      }
-      category && (add.symbolSize = 40)
-      nodes.push(add)
-      nodesSet.add(name)
+/**
+ * 向 nodes 中添加节点，生成 graph 图所需要的 data 数据
+ */
+function addNode(name: string, version: string, category: number) {
+  if (!nodesSet.has(name)) {
+    const add: INodes = {
+      name,
+      category,
+      value: version,
     }
+    category && (add.symbolSize = 40)
+    nodes.push(add)
+    nodesSet.add(name)
   }
+}
+
+/**
+ * 递归获得最终 graph 图所需要的数据
+ */
+function loadGraph() {
   let isRoot = true
   for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
     const pkgs = assign(dependencies, devDependencies)
@@ -44,10 +53,11 @@ function loadGraph(nodes: INodes[], links: ILinks[]) {
   }
 }
 
+/**
+ * 导出易于命令行操作的函数
+ */
 export async function genGraph() {
-  const nodes: INodes[] = []
-  const links: ILinks[] = []
-  loadGraph(nodes, links)
+  loadGraph()
   return {
     nodes,
     links,

@@ -3,16 +3,25 @@ import type { IRelations } from '../utils/types.js'
 import { LogNotExportPkg } from '../utils/const.js'
 import { assign, isEmptyObj, readDir, readFile } from '../utils/tools.js'
 
+/**
+ * `truth-cli` 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
+ * 读取文件的速度很慢，`truth-cli` 只会读取一次(根目录和 node_modules 目录的 package.json)，形成一种对象格式
+ * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
+ */
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
 export const rootPkgSet = new Set()
 
+/**
+ * relation 是否为空，这里空指的是 {} || undefined || null
+ */
 function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
-  if (relation && !isEmptyObj(relation))
-    return true
-  return false
+  return relation && !isEmptyObj(relation)
 }
 
+/**
+ * 读取根目录和 node_modules 目录下的所有 package.json 文件
+ */
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const pkg = (await readFile(p)) as IRelations
@@ -64,6 +73,9 @@ async function readGlob(p: string) {
   }
 }
 
+/**
+ * 导出易于命名行操作的函数
+ */
 export async function genRelations() {
   await readGlob('./package.json')
   await readGlob('./node_modules/')
