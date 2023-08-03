@@ -3,7 +3,7 @@ import path from 'node:path'
 import { entries, isEmptyObj } from '../utils/tools.js'
 import { EDep } from '../utils/types.js'
 import type { IPkgs } from '../utils/types.js'
-import { LogNotExportPkg, logFileWirteError, logFileWirteFinished, logLogo } from '../utils/const.js'
+import { logFileWirteFinished, logLogo } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
@@ -41,7 +41,7 @@ function addPkg(
 function loadPkgs(
   rootPkgs: IPkgs | undefined,
   maxDep: number,
-  rememberLayer: number,
+  shouldOptimize: boolean,
 ) {
   if (rootPkgs === undefined)
     return
@@ -51,20 +51,15 @@ function loadPkgs(
     return
   }
   for (const key of Object.keys(rootPkgs)) {
-    try {
-      if (!key.startsWith('.')) {
-        pkgSet.add(key)
-        const { dependencies, devDependencies } = relations[key] ?? {}
-        addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, maxDep > 2)
-        addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, maxDep > 2)
-        if (isEmptyObj(rootPkgs[key].packages))
-          delete rootPkgs[key].packages
-        loadPkgs(rootPkgs[key].packages, maxDep - 1, rememberLayer - 1 ? rememberLayer - 1 : 0)
-        maxDep < 3 && pkgSet.delete(key)
-      }
-    }
-    catch (err: any) {
-      LogNotExportPkg(err.message)
+    if (!key.startsWith('.')) {
+      pkgSet.add(key)
+      const { dependencies, devDependencies } = relations[key] ?? {}
+      addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
+      addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
+      if (isEmptyObj(rootPkgs[key].packages))
+        delete rootPkgs[key].packages
+      loadPkgs(rootPkgs[key].packages, maxDep - 1, shouldOptimize)
+      !shouldOptimize && pkgSet.delete(key)
     }
   }
 }
@@ -84,15 +79,8 @@ export async function outputFile(
     pkgs[name] = { version, type: EDep.DEPENDENCY, packages: {} }
   const begin = Date.now()
   isJSON && logLogo()
-  try {
-    loadPkgs(pkgs, depth, depth > 5 ? 2 : depth - 1)
-    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
-  }
-  catch (err: any) {
-    logFileWirteError(err.message)
-  }
-  finally {
-    const end = Date.now()
-    logFileWirteFinished(end - begin, p)
-  }
+  loadPkgs(pkgs, depth, depth > 3)
+  await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+  const end = Date.now()
+  logFileWirteFinished(end - begin, p)
 }

@@ -1,6 +1,5 @@
 import type { ITree } from '../utils/types.js'
 import { assign, entries, isEmptyObj } from '../utils/tools.js'
-import { logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const treeMap = new Map()
@@ -108,16 +107,11 @@ export async function genTree(maxDep: number): Promise<ITree[] | undefined> {
       })),
     },
   ]
-  try {
-    loadTrees(treeData[0].children, maxDep, maxDep > 4)
-    treeData.push({
-      name: '_remember_',
-      value: 'latest',
-      children: [...treeMap.values()],
-    })
-    return treeData
-  }
-  catch (err: any) {
-    logFileWirteError(err.message)
-  }
+  loadTrees(treeData[0].children, maxDep, maxDep > 4)
+  treeData.push({
+    name: '_remember_',
+    value: 'latest',
+    children: [...treeMap.values()],
+  })
+  return treeData
 }

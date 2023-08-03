@@ -21,11 +21,11 @@ export function logDepthError(message: string) {
   console.log(`${depthError + message}\n`)
 }
 
-const notExportPkg = `
+const commonError = `
   ${chalk.bgYellowBright('Warn:')} ${chalk.yellow('No "exports" main defined in:')}
 `
-export function LogNotExportPkg(errMsg: string) {
-  console.log(`${notExportPkg}\n${errMsg}`)
+export function LogCommonError(errMsg: string) {
+  console.log(`${commonError}\n${errMsg}`)
 }
 
 const logo = `
