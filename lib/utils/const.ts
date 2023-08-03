@@ -46,6 +46,20 @@ export function logFileWirteFinished(duration: number, p: string) {
   console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
+const cleanError = `
+  ${chalk.bgRedBright('Error:')} ${chalk.black('There are no files to clean up')}
+`
+export function logCleanError() {
+  console.log(cleanError)
+}
+
+const cleanFinish = `
+  ${chalk.cyanBright.bold('File cleanup succeeded!')}
+`
+export function logCleanFinish() {
+  console.log(cleanFinish)
+}
+
 export const description = chalk.cyan.bold(c)
 export const version = chalk.greenBright.bold(v)
 
