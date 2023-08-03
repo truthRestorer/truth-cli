@@ -20,7 +20,6 @@ async function genData(treeDep: number) {
     tree,
   }
 }
-
 /**
  * 方便命令行操作的函数
  */

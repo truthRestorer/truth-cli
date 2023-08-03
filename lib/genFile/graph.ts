@@ -22,7 +22,6 @@ function addNode(name: string, version: string, category: number) {
   nodes.push(add)
   nodesSet.add(name)
 }
-
 /**
  * 递归获得最终 graph 图所需要的数据
  */

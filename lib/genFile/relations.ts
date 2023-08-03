@@ -10,14 +10,12 @@ import { assign, isEmptyObj, readDir, readFile } from '../utils/tools.js'
 export const relations: Partial<IRelations> = {}
 export const rootPkg: Partial<IRelations> = {}
 export const rootPkgSet = new Set()
-
 /**
  * relation 是否为空，这里空指的是 {} || undefined || null
  */
 function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
   return relation && !isEmptyObj(relation)
 }
-
 /**
  * 读取根目录和 node_modules 目录下的所有 package.json 文件
  */
@@ -66,7 +64,6 @@ async function readGlob(p: string) {
     }
   }
 }
-
 /**
  * 导出易于命名行操作的函数
  */

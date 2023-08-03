@@ -16,7 +16,6 @@ function deleteTreeChildren(add: ITree, name: string, dependencies: ITree) {
   )
     delete add.children
 }
-
 /**
  * 添加树节点
  */
@@ -31,7 +30,6 @@ function addTree(name: string, version: string, dependencies: ITree) {
   deleteTreeChildren(add, name, dependencies)
   treeMap.set(name, add)
 }
-
 /**
  * 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
  * 当 maxDep > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
@@ -69,7 +67,6 @@ function loadTrees(
     shouldOptimize || treeMap.delete(tree.name)
   }
 }
-
 /**
  * 导出易于和命令行操作的函数
  */

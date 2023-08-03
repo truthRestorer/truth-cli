@@ -6,14 +6,12 @@ import { genFiles } from './genFile/index.js'
 // TODO: 使用原生 Nodejs 实现启动 web
 const app = new Koa()
 app.use(koaStatic(webPath))
-
 /**
  * 启动服务器
  */
 function startWeb() {
   app.listen(3002)
 }
-
 /**
  * 命令行操作函数
  */

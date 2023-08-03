@@ -5,7 +5,6 @@ import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
 const pkgSet = new Set()
-
 /**
  * 向 pkg 中添加节点
  */
@@ -21,12 +20,12 @@ function addPkg(
       if (isRoot) {
         pkg![name] = { version, type, packages: {} }
       }
-      else if (!pkgSet.has(name) && !rootPkgSet.has(name)) {
-        shouldOptimize && pkgSet.add(name)
-        pkg!.packages[name] = { version, type, packages: {} }
+      else if (pkgSet.has(name) || rootPkgSet.has(name)) {
+        pkg!.packages[name] = {}
       }
       else {
-        pkg!.packages[name] = {}
+        shouldOptimize && pkgSet.add(name)
+        pkg!.packages[name] = { version, type, packages: {} }
       }
     }
   }
@@ -50,7 +49,7 @@ function loadPkgs(
   for (const key of Object.keys(rootPkgs)) {
     if (!key.startsWith('.')) {
       pkgSet.add(key)
-      const { dependencies, devDependencies } = relations[key] ?? {}
+      const { dependencies, devDependencies } = relations[key]
       isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
       isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
       if (isEmptyObj(rootPkgs[key].packages))
