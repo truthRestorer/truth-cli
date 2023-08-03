@@ -25,8 +25,8 @@ onMounted(async () => {
   // 绘制图表
   myChart.setOption({
     legend: {
-      data: ['树状图', '引力关系图'],
-      selectedMode: 'single',
+      data: ['树状图1', '树状图2', '引力关系图'],
+      selectedMode: 'multiple',
       animation: true,
       zlevel: 3,
     },
@@ -51,10 +51,10 @@ onMounted(async () => {
         roam: true,
       },
       {
-        name: '树状图',
+        name: '树状图1',
         zlevel: 2,
         type: 'tree',
-        data: [tree],
+        data: [tree[0]],
         roam: true,
         label: {
           show: true,
@@ -77,12 +77,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="main" />
+  <div id="main" style="height: 200vh;" />
 </template>
 
 <style scoped>
 #main {
   width: 100%;
-  height: 100vh;
+  height: 200vh;
 }
 </style>

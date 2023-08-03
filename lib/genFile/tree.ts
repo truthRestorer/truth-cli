@@ -1,11 +1,15 @@
-import type { ITree } from 'lib/utils/types.js'
-import { assign, entries, isEmptyObj } from 'lib/utils/tools.js'
+import type { ITree } from '../utils/types.js'
+import { assign, entries, isEmptyObj } from '../utils/tools.js'
 import { logFileWirteError } from '../utils/const.js'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
-const treeSet = new Set()
+const treeMap = new Map()
 
-function loadTrees(trees: ITree[] | undefined, maxDep: number, shouldOptimize: boolean) {
+function loadTrees(
+  trees: ITree[] | undefined,
+  maxDep: number,
+  rememberLayer: number,
+) {
   if (trees === undefined)
     return
   if (maxDep === 0) {
@@ -18,9 +22,8 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number, shouldOptimize: b
     if (!tree.name)
       return
     const relatedPkg = relations[tree.name]
-    treeSet.add(tree.name)
     if (relatedPkg) {
-      const { devDependencies, dependencies } = relatedPkg
+      const { version: treeVersion, devDependencies, dependencies } = relatedPkg
       const pkgs = assign(dependencies, devDependencies)
       for (const [name, version] of entries(pkgs)) {
         const add: ITree = {
@@ -33,31 +36,42 @@ function loadTrees(trees: ITree[] | undefined, maxDep: number, shouldOptimize: b
           isEmptyObj(assign(devDependencies, dependencies))
           || name === tree.name
           || rootPkgSet.has(name)
-          || treeSet.has(name)
+          || treeMap.has(name)
         )
           delete add.children
-        shouldOptimize && treeSet.add(name)
+        if (rememberLayer && !treeMap.has(name)) {
+          treeMap.set(tree.name, {
+            name,
+            value: treeVersion,
+          })
+        }
         tree.children?.push(add)
       }
-      loadTrees(tree.children, maxDep - 1, shouldOptimize)
-      !shouldOptimize && treeSet.delete(tree.name)
+      loadTrees(tree.children, maxDep - 1, rememberLayer - 1 ? rememberLayer - 1 : 0)
     }
   }
 }
 
 export async function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = rootPkg.__root__
-  const treeData: ITree = {
-    name: name ?? '__root__',
-    value: version ?? 'latest',
-    children: entries(assign(dependencies, devDependencies)).map(([name, version]) => ({
-      name,
-      value: version,
-      children: [],
-    })) as ITree[],
-  }
+  const treeData: ITree[] = [
+    {
+      name: name ?? '__root__',
+      value: version ?? 'latest',
+      children: entries(assign(dependencies, devDependencies)).map(([name, version]) => ({
+        name,
+        value: version,
+        children: [],
+      })),
+    },
+  ]
   try {
-    loadTrees(treeData.children, maxDep, maxDep > 5)
+    loadTrees(treeData[0].children, maxDep, 2)
+    treeData.push({
+      name: '__remember__',
+      value: 'latest',
+      children: [...treeMap.values()],
+    })
     return treeData
   }
   catch (err: any) {

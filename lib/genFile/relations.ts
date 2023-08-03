@@ -1,5 +1,5 @@
 import path from 'node:path'
-import type { IRelations } from 'lib/utils/types.js'
+import type { IRelations } from '../utils/types.js'
 import { LogNotExportPkg } from '../utils/const.js'
 import { assign, isEmptyObj, readDir, readFile } from '../utils/tools.js'
 

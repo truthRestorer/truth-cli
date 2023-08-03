@@ -1,4 +1,4 @@
-import { assign, entries } from 'lib/utils/tools.js'
+import { assign, entries } from '../utils/tools.js'
 import type { ILinks, INodes } from '../utils/types.js'
 import { relations } from './relations.js'
 
