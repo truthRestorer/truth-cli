@@ -1,6 +1,5 @@
-import { entries } from '../utils/tools.js'
-import { EDeps } from '../utils/types.js'
-import type { ILinks, INodes } from '../utils/types.js'
+import { EDeps, entries } from '@truth-cli/shared'
+import type { ILinks, INodes } from '@truth-cli/shared'
 import { rootPkg } from './relations.js'
 
 const nodesSet = new Set()
@@ -30,8 +29,8 @@ export async function genGraph() {
   for (const [pkgName, pkgVersion] of entries(Object.assign(devDependencies, dependencies))) {
     addNode(pkgName, pkgVersion, EDeps.ROOT_DEPENDENCY)
     links.push({
-      source: name,
-      target: pkgName,
+      source: pkgName,
+      target: name,
       v: pkgVersion as string,
     })
   }

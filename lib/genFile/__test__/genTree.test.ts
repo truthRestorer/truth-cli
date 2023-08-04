@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { assign } from 'lib/utils/tools'
+import { assign } from '@truth-cli/shared'
 import { genTree } from '../tree'
 import { genRelations } from '../relations'
 

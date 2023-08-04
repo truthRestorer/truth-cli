@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { readFile } from '../tools'
+import { readFile } from '@truth-cli/shared'
 
 describe('readFile test', async () => {
   const result = await readFile('./package.json')

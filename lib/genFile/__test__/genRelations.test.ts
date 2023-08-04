@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from 'vitest'
-import { assign, isEmptyObj } from 'lib/utils/tools'
+import { assign, isEmptyObj } from '@truth-cli/shared'
 import { genRelations } from '../relations'
 
 describe('genRelations test', async () => {

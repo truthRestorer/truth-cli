@@ -1,74 +1,135 @@
+import type { ECharts } from 'echarts/core'
 import { categories } from '../types'
 
-export async function initChartData() {
+export async function initData() {
   const graph = await fetch('graph.json')
   const { nodes, links } = await graph.json()
   const treeJSON = await fetch('tree.json')
   const tree = await treeJSON.json()
   const relationsJSON = await fetch('relations.json')
-  const options = {
-    legend: {
-      data: ['引力关系图', '树状图1', '树状图2'],
-      selectedMode: 'single',
-      zlevel: 3,
-    },
-    animationThreshold: 2 ** 32,
-    hoverLayerThreshold: 2 ** 32,
-    tooltip: {},
-    series: [
-      {
-        name: '引力关系图',
-        zlevel: 1,
-        type: 'graph',
-        layout: 'force',
-        nodes,
-        links,
-        categories,
-        draggable: false,
-        label: {
-          show: true,
-          position: 'right',
-        },
-        force: {
-          repulsion: 150,
-          layoutAnimation: true,
-        },
-        roam: true,
-        animationEasing: 'backOut',
-        animationDurationUpdate: 100,
-      },
-      {
-        name: '树状图1',
-        zlevel: 2,
-        type: 'tree',
-        data: [tree[0]],
-        roam: true,
-        label: {
-          show: true,
-        },
-        initialTreeDepth: 1,
-        expandAndCollapse: true,
-      },
-      {
-        name: '树状图2',
-        zlevel: 2,
-        type: 'tree',
-        data: [tree[1]],
-        roam: true,
-        label: {
-          show: true,
-        },
-        initialTreeDepth: 1,
-        expandAndCollapse: true,
-      },
-    ],
-  }
   const relations = await relationsJSON.json()
-  return Object.freeze({
-    relations,
-    tree,
+
+  return {
     nodes,
     links,
-    options,
-  })
+    tree,
+    relations,
+  }
+}
+
+export class Chart {
+  nodes: any
+  links: any
+  tree: any
+  relations: any
+  graphSet = new Set()
+  nodesSet: Set<string>
+  echart: ECharts
+  rootName: string
+  constructor(
+    chartData: {
+      nodes: any
+      links: any
+      tree: any
+      relations: any
+    },
+    chartInstance: any,
+  ) {
+    const { nodes, links, tree, relations } = chartData
+    this.nodes = nodes
+    this.links = links
+    this.tree = tree
+    this.relations = relations
+    this.nodesSet = new Set(nodes.map((item: any) => item.name))
+    this.echart = chartInstance
+    this.rootName = links[0].source
+    const options = {
+      legend: {
+        data: ['树状图1', '树状图2', '引力关系图'],
+        selectedMode: 'single',
+        zlevel: 3,
+      },
+      animationThreshold: 2 ** 32,
+      hoverLayerThreshold: 2 ** 32,
+      tooltip: {},
+      series: [
+        {
+          name: '引力关系图',
+          zlevel: 1,
+          type: 'graph',
+          layout: 'force',
+          nodes,
+          links,
+          categories,
+          draggable: false,
+          label: {
+            show: true,
+            position: 'right',
+          },
+          force: {
+            repulsion: 150,
+            layoutAnimation: true,
+          },
+          roam: true,
+        },
+        {
+          name: '树状图1',
+          zlevel: 2,
+          type: 'tree',
+          data: [tree[0]],
+          roam: true,
+          label: {
+            show: true,
+          },
+          initialTreeDepth: 1,
+          expandAndCollapse: true,
+        },
+        {
+          name: '树状图2',
+          zlevel: 2,
+          type: 'tree',
+          data: [tree[1]],
+          roam: true,
+          label: {
+            show: true,
+          },
+          initialTreeDepth: 1,
+          expandAndCollapse: true,
+        },
+      ],
+    }
+    this.echart.setOption(options)
+  }
+
+  addGraph(name: string) {
+    if (name === this.rootName || this.graphSet.has(name))
+      return
+    this.graphSet.add(name)
+    const { devDependencies, dependencies } = this.relations[name]
+    const deps = Object.assign({}, devDependencies, dependencies)
+    for (const [pkgName, pkgVersion] of Object.entries(deps)) {
+      this.links.push({
+        source: pkgName,
+        target: name,
+        v: pkgVersion,
+      })
+      if (!this.nodesSet.has(pkgName)) {
+        this.nodes.push({
+          name: pkgName,
+          version: pkgVersion,
+          category: 0,
+        })
+        this.nodesSet.add(pkgName)
+      }
+    }
+    this.echart.setOption({
+      series: [
+        {
+          name: '引力关系图',
+          nodes: this.nodes,
+          links: this.links,
+        },
+      ],
+    })
+  }
 }
