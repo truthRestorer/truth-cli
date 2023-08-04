@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { ILinks, INodes, IRelations, ITree } from '@truth-cli/shared'
-import { categories } from '@truth-cli/shared'
+import { categories, isEmptyObj } from '@truth-cli/shared'
 
 export async function initData() {
   const graph = await fetch('graph.json')
@@ -34,7 +34,7 @@ export class Chart {
       tree: any
       relations: any
     },
-    chartInstance: any,
+    chartInstance: ECharts,
   ) {
     const { nodes, links, tree, relations } = chartData
     this.nodes = nodes
@@ -108,6 +108,8 @@ export class Chart {
     this.graphSet.add(name)
     const { devDependencies, dependencies } = this.relations[name]
     const deps = Object.assign({}, devDependencies, dependencies)
+    if (isEmptyObj(deps))
+      return
     for (const [pkgName, pkgVersion] of Object.entries(deps)) {
       this.links.push({
         source: pkgName,
