@@ -1,45 +1,41 @@
+import { entries } from '../utils/tools.js'
+import { EDeps } from '../utils/types.js'
 import type { ILinks, INodes } from '../utils/types.js'
-import { relations } from './relations.js'
+import { rootPkg } from './relations.js'
 
-const nodesMap = new Set()
+const nodesSet = new Set()
 const nodes: INodes[] = []
 const links: ILinks[] = []
-enum EDeps {
-  DEPENDENCY,
-  ROOT,
-}
+
+/**
+ * 向 nodes 中添加节点，生成 graph 图所需要的 data 数据
+ */
 function addNode(name: string, version: string, category: number) {
-  if (!nodesMap.has(name)) {
-    nodes.push({
-      name,
-      category,
-      value: version,
-      symbolSize: (category + 0.25) * (category + 30),
-    })
-    nodesMap.add(name)
+  if (nodesSet.has(name))
+    return
+  const add: INodes = {
+    name,
+    category,
+    value: version,
   }
+  nodes.push(add)
+  nodesSet.add(name)
 }
 
+/**
+ * 导出易于命令行操作的函数
+ */
 export async function genGraph() {
-  let isRoot = true
-  for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
-    const pkgs = Object.assign({}, dependencies, devDependencies)
-    for (const [pkgName, pkgVersion] of Object.entries(pkgs))
-      addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
-    if (isRoot) {
-      addNode(name, version, EDeps.ROOT)
-      isRoot = false
-    }
-    else {
-      addNode(name, version, EDeps.DEPENDENCY)
-    }
-    for (const target of Object.keys(pkgs)) {
-      links.push({
-        source: name,
-        target,
-      })
-    }
+  const { name, version, devDependencies, dependencies } = rootPkg.__root__
+  for (const [pkgName, pkgVersion] of entries(Object.assign(devDependencies, dependencies))) {
+    addNode(pkgName, pkgVersion, EDeps.ROOT_DEPENDENCY)
+    links.push({
+      source: name,
+      target: pkgName,
+      v: pkgVersion as string,
+    })
   }
+  addNode(name, version, EDeps.ROOT)
   return {
     nodes,
     links,

@@ -1,27 +1,33 @@
 import Koa from 'koa'
 import koaStatic from 'koa-static'
-import { logAnalyzeFinish, logFileWirteError, logLogo, webPath } from './utils/const.js'
+import { logAnalyzeFinish, logFileWirteError, logFileWirteFinished, webPath } from './utils/const.js'
 import { genFiles } from './genFile/index.js'
 
 // TODO: 使用原生 Nodejs 实现启动 web
 const app = new Koa()
 app.use(koaStatic(webPath))
-
+/**
+ * 启动服务器
+ */
 function startWeb() {
   app.listen(3002)
 }
-
-export async function genPkgsAndWeb(payload: { treeDep: number; isDev?: boolean; pkgDep: number; isWeb: boolean }) {
-  const { treeDep, isDev, pkgDep, isWeb } = payload
+/**
+ * 命令行操作函数
+ */
+export async function genByCommand(
+  treeDep: number = 3,
+  pkgDep: number = 2,
+  isBoth: boolean = false,
+  isDev: boolean = false,
+) {
   const begin = Date.now()
-  logLogo()
   try {
-    genFiles(pkgDep, treeDep, isWeb, isDev)
-    if (!isDev) {
-      const end = Date.now()
-      startWeb()
-      logAnalyzeFinish(end - begin)
-    }
+    await genFiles(pkgDep, treeDep, isBoth, isDev)
+    !isDev && startWeb()
+    const end = Date.now()
+    logAnalyzeFinish(end - begin)
+    isBoth && logFileWirteFinished(end - begin, './')
   }
   catch (err: any) {
     logFileWirteError(err.message)

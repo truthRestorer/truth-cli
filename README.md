@@ -1,102 +1,125 @@
 # Truth-cli🤩
 
-> A command-line tool for analyzing dependencies under node_moudles.
+> 一个用于分析 npm 包结构的 cli 工具。
 
-# feature
+# 特点
 
-- Simple API
-- Visualization
-- Friendly error message prompt
+- 速度极快
 
-# installing
+- 使用简单
+- 可视化展示
+- 友好的提示
 
-**Using npm:**
+**关于构建速度：**
+
+`turth-cli` 采用了生成文件的方式，达到渲染的目的，但是不必担心文件过大，因为 `truth-cli` 做了很多优化:
+
+**`truth-cli` 采用深度优先遍历算法，默认情况下在遍历过程中会记住各个根节点，便于后续的“剪枝”；如果深度过大，`truth-cli` 会记住走过的所有节点，意味着以后重复的节点不会递归产生新数据了** 
+
+# 安装
 
 ```bash
 npm install -g truth-cli
 ```
 
-# usage
+# 使用教程
 
-**Start Web and Generate file:**
+**简单示例：**
+
+此命令默认只打开网页效果：
 
 ```bash
 truth-cli analyze
 ```
 
-*The Content of web inluces:*
+**网页的内容包括：**
 
-- Tree
-- Force Layout
+- tree 图：用树型结构展示 npm 依赖之间的关系，受参数 `dep` 影响
+- force 图：用引力布局的图结构展示 npm 依赖之间的关系，不受参数 `dep` 影响
 
-By default, you will see `pkgs.json` in the root of your project.
+![image-20230803162829296](https://plumbiu.github.io/blogImg/image-20230803162829296.png)
 
-Due to management style of npm's dependency , we have set the depth to 3 for the web and 2 for the `pkgs.json` by default, you can use `--dep` of `-d` to change it:
+## 指定深度
 
-```bash
-truth-cli analyze -d 4
-```
+**我们不建议设置过大的深度，正常情况下 <= 4 是最佳选项**
 
-We do not recommend setting the depth too large, if the `dep` is over 5, we will stop the operation, If you still want to continue, add `--force` or `-f`:
+> 需要额外注意的是，tree 图从根节点到尾节点，依次为 *"项目名(`packages.json 中 name 指定，没有默认为 __root__`)"* -> *"项目依赖"* -> *"项目依赖引用的依赖"*，而**深度指的是项目依赖引用的依赖的层数**
 
-> `dep` will influence the `pkgs.json` and `Tree`
+使用 `--dep` 或者 `-d` 参数：
 
 ```bash
-truth-cli analyze -d 7 -f
+truth-cli analyze --dep 4
 ```
 
-> **This will take a lot of time, and the file size can be very large(130 mb for truth-cli when the dep is 6), so please just not do this**
+**`truth-cli` 关于深度的一些优化**：
 
-**Only Generate file:**
+> 首先我们我们要说明的是：非常有必要在深度过大时，采用极端的手段对生成文件的体积(网页所需文件，不是根目录中的 `pkgs.json`)进行优化：
+>
+> - 在不进行极端优化时，`dep` 为 7 时，生成的文件大小达到了 `146.5mb`
+> - 极端情况下，`dep` 为 7 时，生成的文件只有 `0.78mb`
+>
+> 体积只有原来的 1/188
 
-Use `--json` or `-j` option:
+**tree 图和 `pkgs.json` 文件极端优化条件：**
+
+- tree 图：`dep > 4` 
+- `pkgs.json`：`dep > 3`
+
+## 只生成文件
+
+**使用 `--json` 或者 `-j` 参数：**
 
 ```bash
-truth-cli analyze --json [file-path]
+truth-cli analyze --json
 ```
 
-By default, the `file-path` is `./`, which is the root of your project.
-
-You can use `--dep` or `-d` option:
+默认情况下，会在根目录下生成 `pkgs.json` 文件，如果需要更改生成目录，可以在参数之后加上路径
 
 ```bash
-truth-cli analyze --json [file-path] --dep [depth]
+truth-cli analyze --json dist/
 ```
 
-**only start website:**
+> **注意：请不要在路径开头加上 `/`，这会被 nodejs 识别为根路径，导致生成失败**
 
-Use `--web` or `-w` option:
+**结合 `dep` 参数：**
 
 ```bash
-truth-cli analyze --web
+truth-cli analyze --json --dep 3
 ```
 
-**clean generate file:**
+## 生成文件并打开页面
 
-> Truth-cli will generate files in npm's global file path, the files will very large if you set `dep` over 4 or 5.
+使用 `--both` 或者 `-b` 参数：
 
-If you want to delete them, use `truth-cli clean`:
+```bash
+truth-cli analyze --both
+```
+
+`--both` 参数的优先级是比 `--json` 大的，也就是说两者同时使用，优先考虑 `--both`，例如以下会生成文件并打开网页：
+
+```bash
+truth-cli analyze --both --json
+```
+
+**也可以指定 dep 参数**
+
+```bash
+truth-cli analyze --both --dep 4
+```
+
+**dep 参数在 tree 图和 `pkgs.json` 文件共享**，两者之间的关系为：
+
+- tree 深度 = dep + 1
+- `pkgs.json` 深度 = dep - 1
+
+> 至于为什么这么做，是因为 `pkgs.json` 文件并不会将你的项目名作为根节点，而 `tree` 图是将项目名和项目引用的依赖作为第一层
+
+## 清理缓存
+
+这里针对的文件均为网页端所需要的文件
+
+我们已经对生成文件做了很多优化，通常情况下不会超过 `15mb`，如果你对磁盘空间很敏感，可以使用 `clean` 命令进行删除：
 
 ```bash
 truth-cli clean
-```
-
-**Get usage:**
-
-```bash
-truth-cli -h
-```
-
-More command's help:
-
-**analyze:**
-
-```bash
-truth-cli analyze -h 
-```
-
-**clean:**
-
-```bash
-truth-cli clean -h 
 ```

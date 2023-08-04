@@ -1,14 +1,20 @@
 export interface INodes {
   name: string
-  category: number | null
+  category: number
   value: string
-  symbolSize: number | null
+  symbolSize?: number
 }
 
 export interface ILinks {
-  relation?: INodes
   source: string
   target: string
+  v: string
+}
+
+export enum EDeps {
+  DEPENDENCY,
+  ROOT_DEPENDENCY,
+  ROOT,
 }
 
 interface ICategories {
@@ -26,6 +32,12 @@ export const categories: ICategories[] = [
     name: 'root',
   },
 ]
+
+export interface ITree {
+  name: string
+  value: string
+  children?: ITree[]
+}
 
 interface IRelationRepository {
   type: string

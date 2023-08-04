@@ -3,33 +3,27 @@
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { Chalk } from 'chalk'
+import { description as c, version as v } from '../../package.json'
 
 const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const __root = path.resolve(__dirname, '..')
 
-const fileWirteError = `
-  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message')}`
+const errorPrefix = chalk.bgRedBright('Error!')
+
+const fileWirteError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
 export function logFileWirteError(message: string) {
-  console.log(`${fileWirteError}: ${message}`)
+  console.log(`${fileWirteError}: ${message}\n`)
 }
 
 const depthError = `
-  ${chalk.bgRedBright('Error!') + chalk.redBright(' depth is over 7 or not a number')}
-  ${chalk.yellow('Detail:')} `
-export function logDepthError(message: string) {
-  console.log(`${depthError + message}\n`)
-}
-
-const notExportPkg = `
-  ${chalk.bgYellowBright('Warn:')} ${chalk.yellow('No "exports" main defined in:')}
-`
-export function LogNotExportPkg(errMsg: string) {
-  console.log(`${notExportPkg}\n${errMsg}`)
+  ${errorPrefix} ${chalk.redBright('illegal type of depth')}`
+export function logDepthError() {
+  console.log(`${depthError}\n`)
 }
 
 const logo = `
-  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright('v0.1.3')}
+  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright(`v${v}`)}
 `
 export function logLogo() {
   console.log(logo)
@@ -45,7 +39,29 @@ export function logFileWirteFinished(duration: number, p: string) {
   console.log(`${fileWriteFinished} ${chalk.cyan(path.resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
+const cleanError = `
+  ${errorPrefix} ${chalk.black('There are no files to clean up')}
+`
+export function logCleanError() {
+  console.log(cleanError)
+}
+
+const cleanFinish = `
+  ${chalk.cyanBright.bold('File cleanup succeeded!')}
+`
+export function logCleanFinish() {
+  console.log(cleanFinish)
+}
+
+export const description = chalk.cyan.bold(c)
+export const version = chalk.greenBright.bold(v)
+
+export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm packages')
+export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
+export const filePathOptionWords = chalk.yellowBright('The path to the pkgs.json file')
+export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and start webSite')
+
+export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
+
 export const webPath = path.resolve(__root, './dist/web/')
 export const devWebPath = path.resolve(__root, '../packages/web/')
-
-export const rootPath = __root
