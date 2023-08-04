@@ -13,6 +13,8 @@ onMounted(async () => {
   chartInstance.on('click', ({ data, seriesType }: any) => {
     if (seriesType === 'graph')
       c.addGraph(data.name)
+    console.log(c.relationPkg(data.name))
+    console.log('是否有循环引用', c.circulatedPkg(data.name))
   })
 })
 </script>

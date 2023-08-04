@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { ILinks, INodes, IRelations, ITree } from '@truth-cli/shared'
-import { categories, isEmptyObj } from '@truth-cli/shared'
+import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 
 export async function initData() {
   const graph = await fetch('graph.json')
@@ -19,14 +19,14 @@ export async function initData() {
 }
 
 export class Chart {
-  nodes: INodes[]
-  links: ILinks[]
-  tree: ITree
-  relations: IRelations
-  graphSet = new Set()
-  nodesSet: Set<string>
-  echart: ECharts
-  rootName: string
+  private nodes: INodes[]
+  private links: ILinks[]
+  private tree: ITree
+  private relations: IRelations
+  private graphSet = new Set()
+  private nodesSet: Set<string>
+  private echart: ECharts
+  private rootName: string
   constructor(
     chartData: {
       nodes: any
@@ -134,5 +134,27 @@ export class Chart {
         },
       ],
     })
+  }
+
+  relationPkg(name: string) {
+    if (this.tree)
+      name = String(name)
+    const relation = this.relations[name]
+    return relation
+  }
+
+  circulatedPkg(name: string) {
+    const { devDependencies, dependencies } = this.relations[name]
+    const pkgs = assign(devDependencies, dependencies)
+    const result = []
+    for (const pkg of Object.keys(pkgs) as any) {
+      if (this.relations[pkg]) {
+        const { devDependencies, dependencies } = this.relations[pkg]
+        const relationPkg = assign(devDependencies, dependencies)
+        if (Object.keys(relationPkg).includes(name))
+          result.push(pkg)
+      }
+    }
+    return result
   }
 }
