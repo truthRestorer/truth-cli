@@ -1,0 +1,13 @@
+{
+  "name": "@truth-cli/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "lint-staged": {
+    "!(*d).{js,ts}": [
+      "eslint"
+    ]
+  }
+}
+

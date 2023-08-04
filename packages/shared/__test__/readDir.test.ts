@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from 'vitest'
-import { readDir } from '../tools'
+import { readDir } from 'packages/shared'
 
 describe('readDir test', async () => {
   const result = await readDir('./packages/')
@@ -7,6 +7,6 @@ describe('readDir test', async () => {
     expectTypeOf(result).toBeArray()
   })
   test('result should only have web and docs', () => {
-    expect(result).toEqual(['docs', 'web'])
+    expect(result).toEqual(['docs', 'shared', 'web'])
   })
 })

@@ -1,5 +1,5 @@
-import type { ITree } from '../utils/types.js'
-import { assign, entries, isEmptyObj } from '../utils/tools.js'
+import { assign, entries, isEmptyObj } from '@truth-cli/shared'
+import type { ITree } from '@truth-cli/shared'
 import { relations, rootPkg, rootPkgSet } from './relations.js'
 
 const treeMap = new Map()

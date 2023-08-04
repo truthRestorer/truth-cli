@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "main": "src/main.ts",
-  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -15,10 +14,17 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.39.8",
     "@types/echarts": "^4.9.18",
     "@vitejs/plugin-vue": "^4.2.3",
+    "eslint": "^8.45.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"
+  },
+  "lint-staged": {
+    "!(*d).{js,ts,vue}": [
+      "eslint"
+    ]
   }
 }

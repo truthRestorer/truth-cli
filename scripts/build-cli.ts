@@ -1,4 +1,3 @@
-import minimist from 'minimist'
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
@@ -8,13 +7,7 @@ import type { ModuleFormat } from 'rollup'
 import { rollup } from 'rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 
-// eslint-disable-next-line n/prefer-global/process
-const argv = minimist(process.argv.slice(2))
-const formats: ModuleFormat[] = ['amd', 'cjs', 'es', 'iife', 'system', 'umd']
-
-async function buildCli(format: ModuleFormat) {
-  if (!formats.includes(format))
-    return
+async function buildCli() {
   const inputOptions = {
     input: 'bin/index.ts',
     plugins: [
@@ -23,7 +16,7 @@ async function buildCli(format: ModuleFormat) {
         exportConditions: ['node'],
       }),
       typescript({
-        exclude: ['packages/**/*.ts'],
+        exclude: ['packages/web/**/*.ts'],
       }),
       commonjs(),
       terser(),
@@ -33,16 +26,11 @@ async function buildCli(format: ModuleFormat) {
   }
   const outputOptions = {
     dir: 'dist',
-    format,
+    format: 'es' as ModuleFormat,
     banner: '#! /usr/bin/env node',
   }
   const bundle = await rollup(inputOptions)
   await bundle.write(outputOptions)
 }
 
-async function scriptBuild() {
-  for (const key of Object.keys(argv) as any)
-    buildCli(key)
-}
-
-scriptBuild()
+buildCli()

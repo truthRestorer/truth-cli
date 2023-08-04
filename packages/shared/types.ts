@@ -16,23 +16,6 @@ export enum EDeps {
   ROOT_DEPENDENCY,
   ROOT,
 }
-
-interface ICategories {
-  name: 'dependency' | 'devDependency' | 'root'
-}
-
-export const categories: ICategories[] = [
-  {
-    name: 'dependency',
-  },
-  {
-    name: 'devDependency',
-  },
-  {
-    name: 'root',
-  },
-]
-
 export interface ITree {
   name: string
   value: string
@@ -66,3 +49,19 @@ export enum EDep {
 export interface IPkgs {
   [key: string]: any
 }
+
+interface ICategories {
+  name: '依赖' | '项目名' | '项目依赖'
+}
+
+export const categories: ICategories[] = [
+  {
+    name: '依赖',
+  },
+  {
+    name: '项目依赖',
+  },
+  {
+    name: '项目名',
+  },
+]
