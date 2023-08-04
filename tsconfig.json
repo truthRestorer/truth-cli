@@ -29,7 +29,6 @@
     "scripts/*.ts",
     "bin/*.ts",
     "lib/*.ts",
-    "lib/**/*.ts",
-    "packages/shared/index.ts",
+    "lib/**/*.ts"
   ]
 }

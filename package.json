@@ -1,6 +1,6 @@
 {
   "name": "truth-cli",
-  "version": "0.3.81",
+  "version": "0.3.9",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "main": "dist/index.js",
@@ -55,6 +55,7 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/koa": "^2.13.8",
     "@types/koa-static": "^4.0.2",
+    "@types/node": "^20.4.7",
     "chalk": "^5.3.0",
     "commander": "^11.0.0",
     "commitizen": "^4.3.0",
