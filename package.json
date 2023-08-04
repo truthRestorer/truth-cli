@@ -81,7 +81,7 @@
     "pnpm": ">=6"
   },
   "lint-staged": {
-    "**/!(*d).{js,jsx,ts,tsx,vue,html}": [
+    "*.{js,jsx,ts,tsx,vue,html}": [
       "eslint --max-warnings=0"
     ]
   }
