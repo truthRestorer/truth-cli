@@ -60,12 +60,6 @@ importers:
       '@types/node':
         specifier: ^20.4.7
         version: 20.4.7
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^6.2.1
-        version: 6.2.1(@typescript-eslint/parser@6.2.1)(eslint@8.45.0)(typescript@5.1.6)
-      '@typescript-eslint/parser':
-        specifier: ^6.2.1
-        version: 6.2.1(eslint@8.45.0)(typescript@5.1.6)
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -114,12 +108,18 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
     devDependencies:
+      '@antfu/eslint-config':
+        specifier: ^0.39.8
+        version: 0.39.8(eslint@8.45.0)(typescript@5.1.6)
       '@types/echarts':
         specifier: ^4.9.18
         version: 4.9.18
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
         version: 4.2.3(vite@4.4.5)(vue@3.3.4)
+      eslint:
+        specifier: ^8.45.0
+        version: 8.45.0
       typescript:
         specifier: ^5.0.2
         version: 5.1.6
