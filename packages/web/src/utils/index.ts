@@ -21,85 +21,19 @@ export async function initData() {
 export class Chart {
   private nodes: INodes[]
   private links: ILinks[]
-  private tree: ITree
+  private tree: ITree[]
   private relations: IRelations
   private graphSet = new Set()
   private nodesSet: Set<string>
-  private echart: ECharts
+  private echart: ECharts | undefined
   private rootName: string
-  constructor(
-    chartData: {
-      nodes: any
-      links: any
-      tree: any
-      relations: any
-    },
-    chartInstance: ECharts,
-  ) {
-    const { nodes, links, tree, relations } = chartData
+  constructor(nodes: INodes[], links: ILinks[], tree: ITree[], relations: IRelations) {
     this.nodes = nodes
     this.links = links
     this.tree = tree
     this.relations = relations
     this.nodesSet = new Set(nodes.map((item: any) => item.name))
-    this.echart = chartInstance
     this.rootName = links[0].source
-    const options = {
-      legend: {
-        data: ['树状图1', '树状图2', '引力关系图'],
-        selectedMode: 'single',
-        zlevel: 3,
-      },
-      animationThreshold: 2 ** 32,
-      hoverLayerThreshold: 2 ** 32,
-      tooltip: {},
-      series: [
-        {
-          name: '引力关系图',
-          zlevel: 1,
-          type: 'graph',
-          layout: 'force',
-          nodes,
-          links,
-          categories,
-          draggable: false,
-          label: {
-            show: true,
-            position: 'right',
-          },
-          force: {
-            repulsion: 150,
-            layoutAnimation: true,
-          },
-          roam: true,
-        },
-        {
-          name: '树状图1',
-          zlevel: 2,
-          type: 'tree',
-          data: [tree[0]],
-          roam: true,
-          label: {
-            show: true,
-          },
-          initialTreeDepth: 1,
-          expandAndCollapse: true,
-        },
-        {
-          name: '树状图2',
-          zlevel: 2,
-          type: 'tree',
-          data: [tree[1]],
-          roam: true,
-          label: {
-            show: true,
-          },
-          initialTreeDepth: 1,
-          expandAndCollapse: true,
-        },
-      ],
-    }
-    this.echart.setOption(options)
   }
 
   addGraph(name: string) {
@@ -125,7 +59,7 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.echart.setOption({
+    this.echart?.setOption({
       series: [
         {
           name: '引力关系图',
@@ -136,9 +70,67 @@ export class Chart {
     })
   }
 
-  relationPkg(name: string) {
-    if (this.tree)
-      name = String(name)
+  mountChart(chart: ECharts) {
+    this.echart = chart
+    const options = {
+      legend: {
+        data: ['树状图1', '树状图2', '引力关系图'],
+        selectedMode: 'single',
+        zlevel: 3,
+      },
+      animationThreshold: 2 ** 32,
+      hoverLayerThreshold: 2 ** 32,
+      tooltip: {},
+      series: [
+        {
+          name: '引力关系图',
+          zlevel: 1,
+          type: 'graph',
+          layout: 'force',
+          nodes: this.nodes,
+          links: this.links,
+          categories,
+          draggable: false,
+          label: {
+            show: true,
+            position: 'right',
+          },
+          force: {
+            repulsion: 150,
+            layoutAnimation: true,
+          },
+          roam: true,
+        },
+        {
+          name: '树状图1',
+          zlevel: 2,
+          type: 'tree',
+          data: [this.tree[0]],
+          roam: true,
+          label: {
+            show: true,
+          },
+          initialTreeDepth: 1,
+          expandAndCollapse: true,
+        },
+        {
+          name: '树状图2',
+          zlevel: 2,
+          type: 'tree',
+          data: [this.tree[1]],
+          roam: true,
+          label: {
+            show: true,
+          },
+          initialTreeDepth: 1,
+          expandAndCollapse: true,
+        },
+      ],
+    }
+    this.echart.setOption(options)
+  }
+
+  getRelation(name: string) {
     const relation = this.relations[name]
     return relation
   }
