@@ -82,16 +82,16 @@
   },
   "lint-staged": {
     "!(*d).{js,jsx,ts,tsx,vue,html}": [
-      "eslint --max-warnings=0"
+      "eslint --max-warnings 0"
     ],
     "./bin/**/*.{js,jsx,ts,tsx,vue,html}": [
-      "eslint --max-warnings=0"
+      "eslint --max-warnings 0"
     ],
     "./lib/**/*.{js,jsx,ts,tsx,vue,html}": [
-      "eslint --max-warnings=0"
+      "eslint --max-warnings 0"
     ],
     "./scripts/**/*.{js,jsx,ts,tsx,vue,html}": [
-      "eslint --max-warnings=0"
+      "eslint --max-warnings 0"
     ]
   }
 }

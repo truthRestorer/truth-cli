@@ -4,7 +4,7 @@
     "outDir": "dist",
     "sourceMap": false,
     "target": "ES2020",
-    "newLine": "LF",
+    "newLine": "crlf",
     "useDefineForClassFields": false,
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -28,7 +28,6 @@
     "packages/**/*.ts",
     "scripts/*.ts",
     "bin/*.ts",
-    "lib/*.ts",
     "lib/**/*.ts"
   ]
 }
