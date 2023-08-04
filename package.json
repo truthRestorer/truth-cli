@@ -83,6 +83,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,vue,html}": [
       "eslint --max-warnings=0"
+    ],
+    "packages/**/*.{js,jsx,ts,tsx,vue,html}": [
+      "eslint --max-warnings=0"
     ]
   }
 }
