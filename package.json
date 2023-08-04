@@ -11,12 +11,12 @@
     "dist"
   ],
   "scripts": {
-    "dev": "cd packages/web && pnpm run dev",
+    "dev": "ts-node scripts/dev.ts --experimental-json-modules && cd packages/web && pnpm run dev",
     "test": "vitest run",
     "dev:test": "vitest",
     "build": "pnpm run build:cli & pnpm run build:web",
     "build:web": "cd packages/web && pnpm run build --emptyOutDir",
-    "build:cli": "ts-node --esm scripts/build-cli.ts --es",
+    "build:cli": "ts-node --esm scripts/build-cli.ts",
     "ci:publish": "pnpm publish -r",
     "prepare": "husky install",
     "commit": "git-cz"
@@ -55,7 +55,6 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/koa": "^2.13.8",
     "@types/koa-static": "^4.0.2",
-    "@types/minimist": "^1.2.2",
     "chalk": "^5.3.0",
     "commander": "^11.0.0",
     "commitizen": "^4.3.0",
@@ -63,7 +62,6 @@
     "eslint": "^8.45.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "minimist": "^1.2.8",
     "prettier": "^3.0.1",
     "rollup": "^3.26.3",
     "rollup-plugin-node-externals": "^6.1.1",
