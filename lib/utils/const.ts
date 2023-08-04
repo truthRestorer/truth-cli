@@ -3,12 +3,15 @@
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { Chalk } from 'chalk'
-import { description as c, version as v } from '../../package.json'
 
 const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const __root = path.resolve(__dirname, '..')
 
+// TODO: 根据项目根目录的 package.json 文件自动控制版本和描述
+// 之前直接 import 会导致 dev 命令失效，暂时没有什么好办法
+const v = '0.3.81'
+const c = 'A command-line tool for analyzing dependencies under node_moudles'
 const errorPrefix = chalk.bgRedBright('Error!')
 
 const fileWirteError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
