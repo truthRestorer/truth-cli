@@ -81,10 +81,16 @@
     "pnpm": ">=6"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,vue,html}": [
+    "!(*d).{js,jsx,ts,tsx,vue,html}": [
       "eslint --max-warnings=0"
     ],
-    "packages/**/*.{js,jsx,ts,tsx,vue,html}": [
+    "bin/**/*.{js,jsx,ts,tsx,vue,html}": [
+      "eslint --max-warnings=0"
+    ],
+    "lib/**/*.{js,jsx,ts,tsx,vue,html}": [
+      "eslint --max-warnings=0"
+    ],
+    "scripts/**/*.{js,jsx,ts,tsx,vue,html}": [
       "eslint --max-warnings=0"
     ]
   }
