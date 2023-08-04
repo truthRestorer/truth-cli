@@ -31,8 +31,11 @@ export async function initChartData() {
         },
         force: {
           repulsion: 150,
+          layoutAnimation: true,
         },
         roam: true,
+        animationEasing: 'backOut',
+        animationDurationUpdate: 100,
       },
       {
         name: '树状图1',
