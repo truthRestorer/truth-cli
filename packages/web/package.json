@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "main": "src/main.ts",
-  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
