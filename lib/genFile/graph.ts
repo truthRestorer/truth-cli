@@ -1,7 +1,7 @@
 import { assign, entries } from '../utils/tools.js'
 import { EDeps } from '../utils/types.js'
 import type { ILinks, INodes } from '../utils/types.js'
-import { relations } from './relations.js'
+import { relations, rootPkg } from './relations.js'
 
 const nodesSet = new Set()
 const nodes: INodes[] = []
@@ -18,33 +18,29 @@ function addNode(name: string, version: string, category: number) {
     category,
     value: version,
   }
-  category && (add.symbolSize = 40)
   nodes.push(add)
   nodesSet.add(name)
 }
+
+function addGraph(pkgs: any, name: string, type: EDeps = EDeps.DEPENDENCY) {
+  for (const [pkgName, pkgVersion] of entries(pkgs)) {
+    addNode(pkgName, pkgVersion as string, type)
+    links.push({
+      source: name,
+      target: pkgName,
+      v: pkgVersion as string,
+    })
+  }
+}
 /**
- * 递归获得最终 graph 图所需要的数据
+ * 获得最终 graph 图所需要的数据
  */
 function loadGraph() {
-  let isRoot = true
   for (const { name, dependencies, devDependencies, version } of Object.values(relations)) {
+    const type = name === rootPkg.__root__.name ? EDeps.ROOT_DEPENDENCY : EDeps.DEPENDENCY
+    addNode(name, version, type)
     const pkgs = assign(dependencies, devDependencies)
-    for (const [pkgName, pkgVersion] of entries(pkgs))
-      addNode(pkgName, pkgVersion as string, EDeps.DEPENDENCY)
-    if (isRoot) {
-      addNode(name, version, EDeps.ROOT)
-      isRoot = false
-    }
-    else {
-      addNode(name, version, EDeps.DEPENDENCY)
-    }
-    for (const [source, version] of entries(pkgs)) {
-      links.push({
-        source,
-        target: name,
-        v: version as string,
-      })
-    }
+    addGraph(pkgs, name, type)
   }
 }
 
@@ -52,6 +48,8 @@ function loadGraph() {
  * 导出易于命令行操作的函数
  */
 export async function genGraph() {
+  const { name, version } = rootPkg.__root__
+  addNode(name, version, EDeps.ROOT)
   loadGraph()
   return {
     nodes,

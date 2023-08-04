@@ -1,12 +1,15 @@
 interface ICategories {
-  name: 'devDependency' | 'root'
+  name: '依赖' | '项目名' | '项目依赖'
 }
 
 export const categories: ICategories[] = [
   {
-    name: 'devDependency',
+    name: '依赖',
   },
   {
-    name: 'root',
+    name: '项目依赖',
+  },
+  {
+    name: '项目名',
   },
 ]

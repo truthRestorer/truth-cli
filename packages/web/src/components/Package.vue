@@ -27,7 +27,6 @@ onMounted(async () => {
     legend: {
       data: ['树状图1', '树状图2', '引力关系图'],
       selectedMode: 'single',
-      animation: true,
       zlevel: 3,
     },
     animationThreshold: 2 ** 32,
@@ -43,8 +42,9 @@ onMounted(async () => {
         categories,
         draggable: false,
         label: {
-          show: false,
+          position: 'right',
         },
+        tooltip: {},
         force: {
           repulsion: 150,
         },

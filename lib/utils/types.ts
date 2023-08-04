@@ -13,6 +13,7 @@ export interface ILinks {
 
 export enum EDeps {
   DEPENDENCY,
+  ROOT_DEPENDENCY,
   ROOT,
 }
 

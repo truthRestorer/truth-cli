@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "ts-node scripts/dev.ts && cd packages/web && pnpm run dev",
+    "dev": "cd packages/web && pnpm run dev",
     "test": "vitest run",
     "dev:test": "vitest",
     "build": "pnpm run build:cli & pnpm run build:web",
