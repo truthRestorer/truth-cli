@@ -81,7 +81,7 @@
     "pnpm": ">=6"
   },
   "lint-staged": {
-    "!(*d).{js,ts,vue}": [
+    "*.{js,ts,vue}": [
       "eslint"
     ]
   }
