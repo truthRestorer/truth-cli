@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { entries } from '@truth-cli/shared'
+import { entries } from 'packages/shared'
 
 describe('readDir test', async () => {
   test('undefined or null should be empty Array', () => {

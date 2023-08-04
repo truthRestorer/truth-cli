@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from 'vitest'
-import { readDir } from '@truth-cli/shared'
+import { readDir } from 'packages/shared'
 
 describe('readDir test', async () => {
   const result = await readDir('./packages/')
