@@ -12,6 +12,8 @@ export async function initChartData() {
       selectedMode: 'single',
       zlevel: 3,
     },
+    animationThreshold: 2 ** 32,
+    hoverLayerThreshold: 2 ** 32,
     tooltip: {},
     series: [
       {
@@ -30,7 +32,6 @@ export async function initChartData() {
         force: {
           repulsion: 150,
         },
-        animation: false,
         roam: true,
       },
       {
