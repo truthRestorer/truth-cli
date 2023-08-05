@@ -1,6 +1,6 @@
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
 import type { ITree } from '@truth-cli/shared'
-import { relations, rootPkg, rootPkgSet } from './relations.js'
+import { relations, rootPkgSet } from './relations.js'
 
 const treeMap = new Map()
 
@@ -71,7 +71,7 @@ function loadTrees(
  * 导出易于和命令行操作的函数
  */
 export async function genTree(maxDep: number) {
-  const { name, version, devDependencies, dependencies } = rootPkg.__root__
+  const { name, version, devDependencies, dependencies } = relations.__root__
   const treeData: ITree[] = [
     {
       name: name ?? '_root_',

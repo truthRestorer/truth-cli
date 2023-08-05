@@ -1,9 +1,10 @@
+import type { IVersions } from '@truth-cli/shared'
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
-import { relations } from './relations'
+import { relations } from './relations.js'
 
-const versionMap: { [key: string]: any } = {}
+const versionMap: IVersions = {}
 
-function vControl(version: string) {
+export function vControl(version: string) {
   if (version.startsWith('^'))
     return version.slice(0, 2)
   else if (version.startsWith('~'))
