@@ -12,8 +12,6 @@ const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
 
-// TODO: 显示同个包不同版本，做法：通过 relations.json 做到
-// TODO: 希望左边有个能显示对象的方框，用户输入包名可查找相应信息
 onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
   c.mountChart(chartInstance)
@@ -29,41 +27,45 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="chart" style="height: 100%;width: 80%;" />
-  <div class="pkgShow">
-    <div class="pkgName">
-      {{ pkg }}
-    </div>
-    <div v-if="pkgDescription">
-      <div>详细信息</div>
-      <json-viewer
-        :value="pkgDescription"
-        copyable
-        boxed
-      />
-    </div>
-    <div v-if="pkgVersions">
-      <div>多个版本实例</div>
-      <json-viewer
-        :value="pkgVersions"
-        :show-array-index="false"
-        copyable
-        boxed
-      />
-    </div>
+  <div id="chart" style="height: 100%;width: 65%;left: 20%;" />
+  <div class="info">
+    <input type="text">
+    <json-viewer
+      v-if="pkgDescription"
+      :expand-depth="2"
+      :value="pkgDescription"
+      copyable
+      boxed
+      expanded
+      style="height: 90vh;overflow: scroll;overflow-x: hidden;"
+    />
+  </div>
+  <div v-if="pkgVersions" class="versions">
+    <json-viewer
+      :expand-depth="2"
+      :value="pkgVersions"
+      :show-array-index="false"
+      copyable
+      boxed
+      expanded
+      style="height: 90vh;overflow: scroll;overflow-x: hidden;"
+    />
   </div>
 </template>
 
 <style scoped>
-.pkgShow {
+.versions, .info {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   right: 0;
   top: 0;
+  width: 15%;
+}
+.info {
+  left: 0;
   width: 20%;
-  overflow: auto;
 }
 .pkgName {
   color: rgba(128, 38, 247, 0.644);

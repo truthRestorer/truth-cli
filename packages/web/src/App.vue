@@ -4,7 +4,7 @@ import Package from './components/Package.vue'
 
 <template>
   <Suspense>
-    <div style="height: 100vh">
+    <div style="height: 100vh;">
       <Package />
     </div>
   </Suspense>

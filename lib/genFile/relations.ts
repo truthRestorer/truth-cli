@@ -22,7 +22,7 @@ async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const pkg = (await readFile(p)) as IRelations
     const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
-    relations.__root__ = {
+    const rootPkg = {
       name,
       description,
       repository,
@@ -32,6 +32,8 @@ async function readGlob(p: string) {
       devDependencies,
       dependencies,
     }
+    relations.__root__ = rootPkg
+    relations[name] = rootPkg
     for (const key of Object.keys(assign(dependencies, devDependencies)))
       rootPkgSet.add(key)
     return
