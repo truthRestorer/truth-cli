@@ -16,7 +16,7 @@ async function buildCli() {
         exportConditions: ['node'],
       }),
       typescript({
-        exclude: ['packages/web/**/*.ts'],
+        exclude: ['packages/web/**/*.ts', '**/__test__/**'],
       }),
       commonjs(),
       terser(),
