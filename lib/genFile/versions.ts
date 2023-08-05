@@ -4,12 +4,12 @@ import { relations } from './relations.js'
 
 const versionMap: IVersions = {}
 
-export function vControl(version: string) {
-  if (version.startsWith('^'))
-    return version.slice(0, 2)
-  if (version.startsWith('~'))
-    return version.slice(0, 4)
-  return version
+export function vControl(v: string) {
+  if (v.startsWith('^'))
+    return v.slice(0, v.indexOf('.'))
+  if (v.startsWith('~'))
+    return v.slice(0, v.lastIndexOf('.'))
+  return v
 }
 
 function loadVersions() {
@@ -24,8 +24,8 @@ function loadVersions() {
           versionMap[pkgName][v] = [name]
         }
         else {
-          if (pkgMap[v])
-            versionMap[pkgName][v].push(name)
+          if (pkgMap[v] && !pkgMap[v].includes(name))
+            pkgMap[v].push(name)
           else
             pkgMap[v] = [name]
         }
