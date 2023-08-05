@@ -6,6 +6,9 @@ import { Chart, initData } from '../utils/index'
 
 const pkg = ref('')
 const pkgDescription = ref('')
+const pkgVersions = ref()
+const pkgCirculated = ref()
+
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
 
@@ -17,24 +20,36 @@ onMounted(async () => {
   chartInstance.on('click', ({ data, seriesType }: any) => {
     pkg.value = data.name
     pkgDescription.value = c.getRelation(data.name)
+    pkgVersions.value = c.getVersions(data.name)
+    pkgCirculated.value = c.circulatedPkg(data.name)
     if (seriesType === 'graph')
       c.addGraph(data.name)
-    console.log(c.getRelation(data.name))
-    console.log('是否有循环引用', c.circulatedPkg(data.name))
-    console.log('是否有多个版本', c.getVersions(data.name))
   })
 })
 </script>
 
 <template>
-  <div id="chart" style="height: 100%;" />
+  <div id="chart" style="height: 100%;width: 80%;" />
   <div class="pkgShow">
-    <input v-model="pkg" class="pkgNmae" type="text">
+    <div class="pkgName">
+      {{ pkg }}
+    </div>
     <div v-if="pkgDescription">
-      <div v-for="item in (Object.keys(pkgDescription) as any)" :key="item">
-        <span style="font-weight: 700;">{{ item }}: </span>
-        <span>{{ pkgDescription[item] }}</span>
-      </div>
+      <div>详细信息</div>
+      <json-viewer
+        :value="pkgDescription"
+        copyable
+        boxed
+      />
+    </div>
+    <div v-if="pkgVersions">
+      <div>多个版本实例</div>
+      <json-viewer
+        :value="pkgVersions"
+        :show-array-index="false"
+        copyable
+        boxed
+      />
     </div>
   </div>
 </template>
@@ -45,13 +60,14 @@ onMounted(async () => {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  left: 0;
-  top: 200px;
-  bottom: 0;
-  width: 300px;
+  right: 0;
+  top: 0;
+  width: 20%;
   overflow: auto;
 }
-.pkgNmae {
-  align-self: center;
+.pkgName {
+  color: rgba(128, 38, 247, 0.644);
+  font-size: 24px;
+  font-weight: 700;
 }
 </style>

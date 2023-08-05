@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "echarts": "^5.4.3",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-json-viewer": "3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
