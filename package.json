@@ -1,6 +1,6 @@
 {
   "name": "truth-cli",
-  "version": "0.3.9",
+  "version": "0.3.96",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
     "dev": "ts-node scripts/dev.ts --experimental-json-modules && cd packages/web && pnpm run dev",
     "test": "vitest run",
     "dev:test": "vitest",
-    "build": "pnpm run build:cli & pnpm run build:web",
+    "build": "pnpm run build:cli && pnpm run build:web",
     "build:web": "cd packages/web && pnpm run build --emptyOutDir",
     "build:cli": "ts-node --esm scripts/build-cli.ts",
     "ci:publish": "pnpm publish -r",

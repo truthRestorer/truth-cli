@@ -40,6 +40,8 @@ export class Chart {
     if (name === this.rootName || this.graphSet.has(name))
       return
     this.graphSet.add(name)
+    if (!this.relations[name])
+      return
     const { devDependencies, dependencies } = this.relations[name]
     const deps = Object.assign({}, devDependencies, dependencies)
     if (isEmptyObj(deps))

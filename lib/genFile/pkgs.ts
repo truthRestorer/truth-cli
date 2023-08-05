@@ -20,7 +20,7 @@ function addPkg(
         pkg![name] = { version, type, packages: {} }
       }
       else if (pkgSet.has(name) || rootPkgSet.has(name)) {
-        pkg!.packages[name] = {}
+        pkg!.packages[name] = { version, type }
       }
       else {
         shouldOptimize && pkgSet.add(name)
@@ -48,7 +48,7 @@ function loadPkgs(
   for (const key of Object.keys(rootPkgs)) {
     if (!key.startsWith('.')) {
       pkgSet.add(key)
-      const { dependencies, devDependencies } = relations[key]
+      const { dependencies, devDependencies } = relations[key] ?? {}
       isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
       isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
       if (isEmptyObj(rootPkgs[key].packages))

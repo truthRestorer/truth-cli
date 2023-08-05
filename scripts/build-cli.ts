@@ -9,7 +9,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 
 async function buildCli() {
   const inputOptions = {
-    input: 'bin/index.ts',
+    input: ['bin/index.ts'],
     plugins: [
       nodeResolve({
         preferBuiltins: true,
