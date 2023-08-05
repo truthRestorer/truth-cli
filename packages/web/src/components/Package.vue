@@ -30,7 +30,7 @@ onMounted(async () => {
   <div id="chart" style="height: 100%;" />
   <div class="pkgShow">
     <input v-model="pkg" class="pkgNmae" type="text">
-    <div>
+    <div v-if="pkgDescription">
       <div v-for="item in (Object.keys(pkgDescription) as any)" :key="item">
         <span style="font-weight: 700;">{{ item }}: </span>
         <span>{{ pkgDescription[item] }}</span>

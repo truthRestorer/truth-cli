@@ -1,6 +1,6 @@
 {
   "name": "truth-cli",
-  "version": "0.3.96",
+  "version": "0.4.1",
   "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
   "main": "dist/index.js",
@@ -19,7 +19,8 @@
     "build:cli": "ts-node --esm scripts/build-cli.ts",
     "ci:publish": "pnpm publish -r",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "publish": "pnpm publish -r --no-git-check"
   },
   "repository": {
     "type": "git",
