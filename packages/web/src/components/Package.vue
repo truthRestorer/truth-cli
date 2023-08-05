@@ -1,16 +1,23 @@
-<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 
-const pkg = ref('')
-const pkgDescription = ref('')
-const pkgVersions = ref()
+const pkg = ref()
+const pkgDescription = ref({})
+const pkgVersions = ref({})
 const pkgCirculated = ref()
-
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
+
+function handlerSearch() {
+  const searchResult = c.fuzzySearch(pkg.value)
+  if (searchResult) {
+    pkgDescription.value = searchResult
+    pkgVersions.value = c.getVersions(searchResult.name)
+    pkgCirculated.value = c.circulatedPkg(searchResult.name)
+  }
+}
 
 onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
@@ -29,27 +36,39 @@ onMounted(async () => {
 <template>
   <div id="chart" style="height: 100%;width: 65%;left: 20%;" />
   <div class="info">
-    <input type="text">
+    <input v-model="pkg" class="pkgSearch" type="text" @keyup.enter="handlerSearch">
     <json-viewer
-      v-if="pkgDescription"
       :expand-depth="2"
       :value="pkgDescription"
       copyable
       boxed
       expanded
-      style="height: 90vh;overflow: scroll;overflow-x: hidden;"
+      style="height: 90vh;overflow: auto;overflow-x: hidden;"
     />
   </div>
-  <div v-if="pkgVersions" class="versions">
+  <div class="versions">
+    <span>各个版本</span>
     <json-viewer
       :expand-depth="2"
       :value="pkgVersions"
       :show-array-index="false"
       copyable
-      boxed
       expanded
-      style="height: 90vh;overflow: scroll;overflow-x: hidden;"
-    />
+      style="height: 50vh;overflow: auto;overflow-x: hidden;"
+    >
+      {{ pkg }}
+    </json-viewer>
+    <span>循环引用</span>
+    <json-viewer
+      :expand-depth="2"
+      :value="pkgCirculated"
+      :show-array-index="false"
+      copyable
+      expanded
+      style="height: 50vh;overflow: auto;overflow-x: hidden;"
+    >
+      {{ pkg }}
+    </json-viewer>
   </div>
 </template>
 
@@ -66,6 +85,13 @@ onMounted(async () => {
 .info {
   left: 0;
   width: 20%;
+}
+.pkgSearch {
+  outline-style: none ;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 14px 14px;
+  font-size: 24px;
 }
 .pkgName {
   color: rgba(128, 38, 247, 0.644);

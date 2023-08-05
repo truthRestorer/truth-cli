@@ -161,4 +161,16 @@ export class Chart {
   getVersions(name: string) {
     return this.versions[name]
   }
+
+  fuzzySearch(name: string) {
+    const relatedPkg = this.relations[name]
+    if (relatedPkg)
+      return relatedPkg
+    const findPkg = Object.keys(this.relations).find((key) => {
+      return key.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+    })
+    if (!findPkg)
+      return
+    return this.relations[findPkg]
+  }
 }
