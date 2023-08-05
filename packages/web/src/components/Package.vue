@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { CSSProperties } from 'vue'
 import { onMounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
@@ -17,6 +18,14 @@ function handlerSearch() {
     pkgVersions.value = c.getVersions(searchResult.name)
     pkgCirculated.value = c.circulatedPkg(searchResult.name)
   }
+}
+
+const jsonViewerStyle: CSSProperties = {
+  'flex': 1,
+  'width': '100%',
+  'white-space': 'pre-wrap',
+  'overflow-y': 'auto',
+  'overflow-x': 'hidden',
 }
 
 onMounted(async () => {
@@ -43,8 +52,7 @@ onMounted(async () => {
       copyable
       boxed
       expanded
-      preview-mode
-      style="flex: 1;width: 100%;white-space: pre-wrap;overflow-y: auto;overflow-x: hidden;"
+      :style="jsonViewerStyle"
     />
   </div>
   <div class="versions">
@@ -53,12 +61,10 @@ onMounted(async () => {
       <json-viewer
         :expand-depth="2"
         :value="pkgVersions"
-        :show-array-index="false"
         copyable
         boxed
-        preview-mode
         expanded
-        style="flex: 1;overflow-y: auto;overflow-x: hidden;"
+        :style="jsonViewerStyle"
       />
     </div>
     <div>
@@ -69,9 +75,8 @@ onMounted(async () => {
         :show-array-index="false"
         copyable
         boxed
-        preview-mode
         expanded
-        style="flex: 1;overflow-y: auto;overflow-x: hidden;"
+        :style="jsonViewerStyle"
       />
     </div>
   </div>
@@ -84,6 +89,7 @@ onMounted(async () => {
   left: 10%;
 }
 .versions, .info {
+  box-sizing: border-box;
   position: absolute;
   display: flex;
   flex-wrap: wrap;
@@ -94,9 +100,11 @@ onMounted(async () => {
   height: 100vh;
 }
 .versions > div {
+  box-sizing: border-box;
   flex: 1;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   overflow: hidden;
 }
 .info {
