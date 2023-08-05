@@ -68,7 +68,7 @@ export class Chart {
     this.echart?.setOption({
       series: [
         {
-          name: '引力关系图',
+          name: '引力图',
           nodes: this.nodes,
           links: this.links,
         },
@@ -80,16 +80,19 @@ export class Chart {
     this.echart = chart
     const options = {
       legend: {
-        data: ['树状图1', '树状图2', '引力关系图'],
+        data: ['树图', '记忆节点', '引力图'],
         selectedMode: 'single',
         zlevel: 3,
+        itemHeight: 30,
+        itemWidth: 30,
+        itemGap: 25,
       },
       animationThreshold: 2 ** 32,
       hoverLayerThreshold: 2 ** 32,
       tooltip: {},
       series: [
         {
-          name: '引力关系图',
+          name: '引力图',
           zlevel: 1,
           type: 'graph',
           layout: 'force',
@@ -108,7 +111,7 @@ export class Chart {
           roam: true,
         },
         {
-          name: '树状图1',
+          name: '树图',
           zlevel: 2,
           type: 'tree',
           data: [this.tree[0]],
@@ -120,7 +123,7 @@ export class Chart {
           expandAndCollapse: true,
         },
         {
-          name: '树状图2',
+          name: '记忆节点',
           zlevel: 2,
           type: 'tree',
           data: [this.tree[1]],
@@ -159,7 +162,7 @@ export class Chart {
   }
 
   getVersions(name: string) {
-    return this.versions[name]
+    return this.versions[name] ?? this.relations[name].version
   }
 
   fuzzySearch(name: string) {

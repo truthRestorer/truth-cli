@@ -34,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="chart" style="height: 100%;width: 65%;left: 20%;" />
+  <div id="chart" />
   <div class="info">
     <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handlerSearch">
     <json-viewer
@@ -43,38 +43,46 @@ onMounted(async () => {
       copyable
       boxed
       expanded
-      style="height: 90vh;overflow: auto;overflow-x: hidden;"
+      preview-mode
+      style="flex: 1;width: 100%;white-space: pre-wrap;overflow-y: auto;overflow-x: hidden;"
     />
   </div>
   <div class="versions">
     <div>
-      <span>各个版本</span>
+      <span class="pkgTitle">各个版本</span>
       <json-viewer
         :expand-depth="2"
         :value="pkgVersions"
         :show-array-index="false"
         copyable
         boxed
+        preview-mode
         expanded
-        style="height: 45vh;overflow: auto;overflow-x: hidden;"
+        style="flex: 1;overflow-y: auto;overflow-x: hidden;"
       />
     </div>
     <div>
-      <span>循环引用</span>
+      <span class="pkgTitle">循环引用</span>
       <json-viewer
         :expand-depth="2"
         :value="pkgCirculated"
         :show-array-index="false"
         copyable
         boxed
+        preview-mode
         expanded
-        style="height: 45vh;overflow: auto;overflow-x: hidden;"
+        style="flex: 1;overflow-y: auto;overflow-x: hidden;"
       />
     </div>
   </div>
 </template>
 
 <style scoped>
+#chart {
+  height: 100%;
+  width: 80%;
+  left: 10%;
+}
 .versions, .info {
   position: absolute;
   display: flex;
@@ -85,15 +93,30 @@ onMounted(async () => {
   width: 15%;
   height: 100vh;
 }
+.versions > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 .info {
+  width: 17%;
   left: 0;
-  width: 20%;
 }
 .pkgSearch {
+  box-sizing: border-box;
+  display: block;
   outline-style: none ;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 14px 14px;
-  font-size: 24px;
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-size: 26px;
+  width: 100%!important;
+  overflow: hidden;
+}
+.pkgTitle {
+  text-align: center;
+  padding: 8px;
+  font-weight: 700;
 }
 </style>
