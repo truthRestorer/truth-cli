@@ -7,7 +7,7 @@ const versionMap: IVersions = {}
 export function vControl(version: string) {
   if (version.startsWith('^'))
     return version.slice(0, 2)
-  else if (version.startsWith('~'))
+  if (version.startsWith('~'))
     return version.slice(0, 4)
   return version
 }

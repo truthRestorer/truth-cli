@@ -2,7 +2,7 @@ import { EDeps, entries } from '@truth-cli/shared'
 import type { ILinks, INodes } from '@truth-cli/shared'
 import { relations } from './relations.js'
 
-const nodesSet = new Set()
+const nodesSet = new Set() // 避免相同的 node
 const nodes: INodes[] = []
 const links: ILinks[] = []
 

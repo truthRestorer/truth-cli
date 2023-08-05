@@ -44,6 +44,9 @@ export async function genFiles(
   }
 }
 
+/**
+ * 只写入文件，不打开网页
+ */
 export async function genJSONFile(pkgDep: number, p: string | boolean) {
   const begin = Date.now()
   p = typeof p === 'boolean' ? './' : p

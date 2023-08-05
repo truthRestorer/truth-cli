@@ -2,6 +2,7 @@ import { assign, entries, isEmptyObj } from '@truth-cli/shared'
 import type { ITree } from '@truth-cli/shared'
 import { relations, rootPkgSet } from './relations.js'
 
+// treeMap 用户记录已经记住的节点，在 maxDep > 5 的时候会有值
 const treeMap = new Map()
 
 /**
