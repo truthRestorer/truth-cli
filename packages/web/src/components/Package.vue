@@ -36,7 +36,7 @@ onMounted(async () => {
 <template>
   <div id="chart" style="height: 100%;width: 65%;left: 20%;" />
   <div class="info">
-    <input v-model="pkg" class="pkgSearch" type="text" @keyup.enter="handlerSearch">
+    <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handlerSearch">
     <json-viewer
       :expand-depth="2"
       :value="pkgDescription"
@@ -47,30 +47,30 @@ onMounted(async () => {
     />
   </div>
   <div class="versions">
-    <span>各个版本</span>
-    <json-viewer
-      :expand-depth="2"
-      :value="pkgVersions"
-      :show-array-index="false"
-      copyable
-      boxed
-      expanded
-      style="height: 50vh;overflow: auto;overflow-x: hidden;"
-    >
-      {{ pkg }}
-    </json-viewer>
-    <span>循环引用</span>
-    <json-viewer
-      :expand-depth="2"
-      :value="pkgCirculated"
-      :show-array-index="false"
-      copyable
-      boxed
-      expanded
-      style="height: 50vh;overflow: auto;overflow-x: hidden;"
-    >
-      {{ pkg }}
-    </json-viewer>
+    <div>
+      <span>各个版本</span>
+      <json-viewer
+        :expand-depth="2"
+        :value="pkgVersions"
+        :show-array-index="false"
+        copyable
+        boxed
+        expanded
+        style="height: 45vh;overflow: auto;overflow-x: hidden;"
+      />
+    </div>
+    <div>
+      <span>循环引用</span>
+      <json-viewer
+        :expand-depth="2"
+        :value="pkgCirculated"
+        :show-array-index="false"
+        copyable
+        boxed
+        expanded
+        style="height: 45vh;overflow: auto;overflow-x: hidden;"
+      />
+    </div>
   </div>
 </template>
 
@@ -83,6 +83,7 @@ onMounted(async () => {
   right: 0;
   top: 0;
   width: 15%;
+  height: 100vh;
 }
 .info {
   left: 0;
