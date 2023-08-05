@@ -28,3 +28,4 @@ pkgs.json
 graph.json
 relations.json
 tree.json
+versions.json

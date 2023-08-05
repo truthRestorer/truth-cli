@@ -1,6 +1,6 @@
 import { EDep, entries, isEmptyObj } from '@truth-cli/shared'
 import type { IPkgs } from '@truth-cli/shared'
-import { relations, rootPkg, rootPkgSet } from './relations.js'
+import { relations } from './relations.js'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
 const pkgSet = new Set()
@@ -12,15 +12,11 @@ function addPkg(
   dependencies: IPkgs | undefined,
   type: EDep,
   shouldOptimize: boolean,
-  isRoot: boolean = false,
 ) {
-  if (dependencies && (pkg?.packages || isRoot)) {
+  if (dependencies && pkg?.packages) {
     for (const [name, version] of entries(dependencies)) {
-      if (isRoot) {
-        pkg![name] = { version, type, packages: {} }
-      }
-      else if (pkgSet.has(name) || rootPkgSet.has(name)) {
-        pkg!.packages[name] = {}
+      if (pkgSet.has(name)) {
+        pkg!.packages[name] = { version, type }
       }
       else {
         shouldOptimize && pkgSet.add(name)
@@ -48,7 +44,7 @@ function loadPkgs(
   for (const key of Object.keys(rootPkgs)) {
     if (!key.startsWith('.')) {
       pkgSet.add(key)
-      const { dependencies, devDependencies } = relations[key]
+      const { dependencies, devDependencies } = relations[key] ?? {}
       isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, EDep.DEPENDENCY, shouldOptimize)
       isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, EDep.DEVDEPENDENCY, shouldOptimize)
       if (isEmptyObj(rootPkgs[key].packages))
@@ -62,10 +58,15 @@ function loadPkgs(
  * 便于命令行操作的生成文件函数
  */
 export async function genPkgs(depth: number) {
-  const pkgs: IPkgs = {}
-  const { devDependencies, dependencies } = rootPkg.__root__
-  addPkg(pkgs, devDependencies, EDep.DEVDEPENDENCY, false, true)
-  addPkg(pkgs, dependencies, EDep.DEPENDENCY, false, true)
-  loadPkgs(pkgs, depth, depth > 3)
+  const { devDependencies, dependencies, name, version } = relations.__root__
+  const pkgs: IPkgs = {
+    name,
+    version,
+    type: EDep.DEPENDENCY,
+    packages: {} as IPkgs,
+  }
+  addPkg(pkgs, devDependencies, EDep.DEVDEPENDENCY, true)
+  addPkg(pkgs, dependencies, EDep.DEPENDENCY, true)
+  loadPkgs(pkgs.packages, depth, depth > 3)
   return pkgs
 }

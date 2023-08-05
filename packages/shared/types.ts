@@ -45,9 +45,18 @@ export enum EDep {
   'DEPENDENCY',
 }
 
-// FIXME: TS 没学好，这里类型用 any
 export interface IPkgs {
+  name: string
+  version: string
+  type: EDep
+  packages: IPkgs
   [key: string]: any
+}
+
+export interface IVersions {
+  [key: string]: {
+    [key: string]: string[]
+  }
 }
 
 interface ICategories {

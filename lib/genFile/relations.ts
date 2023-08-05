@@ -8,7 +8,6 @@ import type { IRelations } from '@truth-cli/shared'
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
 export const relations: Partial<IRelations> = {}
-export const rootPkg: Partial<IRelations> = {}
 export const rootPkgSet = new Set()
 /**
  * relation 是否为空，这里空指的是 {} || undefined || null
@@ -23,18 +22,12 @@ async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const pkg = (await readFile(p)) as IRelations
     const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
-    relations[pkg.name] = {
+    relations.__root__ = {
       name,
       description,
-      version,
-      homepage,
-      dependencies,
-      devDependencies,
       repository,
       author,
-    }
-    rootPkg.__root__ = {
-      name,
+      homepage,
       version,
       devDependencies,
       dependencies,

@@ -9,14 +9,14 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 
 async function buildCli() {
   const inputOptions = {
-    input: 'bin/index.ts',
+    input: ['bin/index.ts'],
     plugins: [
       nodeResolve({
         preferBuiltins: true,
         exportConditions: ['node'],
       }),
       typescript({
-        exclude: ['packages/web/**/*.ts'],
+        exclude: ['packages/web/**/*.ts', '**/__test__/**'],
       }),
       commonjs(),
       terser(),

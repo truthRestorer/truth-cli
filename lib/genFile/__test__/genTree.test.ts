@@ -23,7 +23,7 @@ describe('genTree test', async () => {
   })
   test('tree should connected to relations', () => {
     const tree = trees[0]
-    expect(relationsNames).contain(tree.name)
+    expect(relationsNames).contain('__root__')
     for (let i = 0; i < tree.children.length; i++) {
       const child = tree.children[i].children
       expect(relationsNames).toContain(tree.children[i].name)

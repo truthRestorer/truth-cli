@@ -5,6 +5,7 @@ import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'
 import { genPkgs } from './pkgs.js'
+import { genVersions } from './versions.js'
 
 /**
  * 生成网页所需要的数据(tree 图和 graph 图)
@@ -14,10 +15,12 @@ async function genData(treeDep: number) {
   const relations = await genRelations()
   const graph = await genGraph()
   const tree = await genTree(treeDep)
+  const versions = await genVersions()
   return {
     relations,
     graph,
     tree,
+    versions,
   }
 }
 /**
@@ -29,17 +32,21 @@ export async function genFiles(
   isBoth: boolean,
   isDev: boolean,
 ) {
-  const { relations, graph, tree } = await genData(treeDep)
+  const { relations, graph, tree, versions } = await genData(treeDep)
   const writePath = isDev ? `${devWebPath}/public` : webPath
   await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
+  await fs.writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
   if (isBoth) {
     const pkgs = await genPkgs(pkgDep)
     await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
   }
 }
 
+/**
+ * 只写入文件，不打开网页
+ */
 export async function genJSONFile(pkgDep: number, p: string | boolean) {
   const begin = Date.now()
   p = typeof p === 'boolean' ? './' : p

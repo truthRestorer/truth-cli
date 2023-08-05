@@ -4,7 +4,7 @@ import { genRelations } from '../relations'
 
 describe('genRelations test', async () => {
   const result = await genRelations()
-  const { relations, rootPkg, rootPkgSet } = await import('../relations')
+  const { relations, rootPkgSet } = await import('../relations')
   test('export data should have corret type and it is not empty', () => {
     expectTypeOf(result).toBeObject()
     expectTypeOf(result).toBeObject()
@@ -12,12 +12,12 @@ describe('genRelations test', async () => {
     expectTypeOf([...rootPkgSet]).toBeArray()
     expect(isEmptyObj(result)).toBeFalsy()
     expect(isEmptyObj(relations)).toBeFalsy()
-    expect(isEmptyObj(rootPkg.__root__)).toBeFalsy()
+    expect(isEmptyObj(relations.__root__)).toBeFalsy()
     expect(rootPkgSet.size).toBeGreaterThan(0)
   })
   test('export data have their own props', () => {
     expect(isEmptyObj(relations)).toBeFalsy()
-    expect(isEmptyObj(rootPkg.__root__)).toBeFalsy()
+    expect(isEmptyObj(relations.__root__)).toBeFalsy()
     expect(rootPkgSet).toBeTruthy()
     for (const val of Object.values(relations)) {
       expect(val).ownProperty('name')
@@ -27,9 +27,9 @@ describe('genRelations test', async () => {
       expect(val).ownProperty('repository')
       expect(val).ownProperty('author')
     }
-    const { devDependencies, dependencies } = rootPkg.__root__
-    expect(rootPkg.__root__).ownProperty('name')
-    expect(rootPkg.__root__).ownProperty('version')
+    const { devDependencies, dependencies } = relations.__root__
+    expect(relations.__root__).ownProperty('name')
+    expect(relations.__root__).ownProperty('version')
     for (const key of Object.keys(assign(devDependencies, dependencies)))
       expect([...rootPkgSet]).toContain(key)
   })
