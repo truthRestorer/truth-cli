@@ -6,8 +6,8 @@ import { Chart, initData } from '../utils/index'
 
 const pkg = ref('')
 const pkgDescription = ref('')
-const { nodes, links, tree, relations } = await initData()
-const c = new Chart(nodes, links, tree, relations)
+const { nodes, links, tree, relations, versions } = await initData()
+const c = new Chart(nodes, links, tree, relations, versions)
 
 // TODO: 显示同个包不同版本，做法：通过 relations.json 做到
 // TODO: 希望左边有个能显示对象的方框，用户输入包名可查找相应信息
@@ -21,6 +21,7 @@ onMounted(async () => {
       c.addGraph(data.name)
     console.log(c.getRelation(data.name))
     console.log('是否有循环引用', c.circulatedPkg(data.name))
+    console.log('是否有多个版本', c.getVersions(data.name))
   })
 })
 </script>

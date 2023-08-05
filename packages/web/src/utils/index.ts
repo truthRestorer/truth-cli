@@ -1,5 +1,5 @@
 import type { ECharts } from 'echarts/core'
-import type { ILinks, INodes, IRelations, ITree } from '@truth-cli/shared'
+import type { ILinks, INodes, IRelations, ITree, IVersions } from '@truth-cli/shared'
 import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 
 export async function initData() {
@@ -9,12 +9,14 @@ export async function initData() {
   const tree = await treeJSON.json()
   const relationsJSON = await fetch('relations.json')
   const relations = await relationsJSON.json()
-
+  const versionsJSON = await fetch('versions.json')
+  const versions = await versionsJSON.json()
   return {
     nodes,
     links,
     tree,
     relations,
+    versions,
   }
 }
 
@@ -27,12 +29,14 @@ export class Chart {
   private nodesSet: Set<string>
   private echart: ECharts | undefined
   private rootName: string
-  constructor(nodes: INodes[], links: ILinks[], tree: ITree[], relations: IRelations) {
+  private versions: IVersions
+  constructor(nodes: INodes[], links: ILinks[], tree: ITree[], relations: IRelations, versions: IVersions) {
     this.nodes = nodes
     this.links = links
     this.tree = tree
     this.relations = relations
     this.nodesSet = new Set(nodes.map((item: any) => item.name))
+    this.versions = versions
     this.rootName = links[0].source
   }
 
@@ -138,6 +142,8 @@ export class Chart {
   }
 
   circulatedPkg(name: string) {
+    if (!this.relations[name])
+      return
     const { devDependencies, dependencies } = this.relations[name]
     const pkgs = assign(devDependencies, dependencies)
     const result = []
@@ -150,5 +156,9 @@ export class Chart {
       }
     }
     return result
+  }
+
+  getVersions(name: string) {
+    return this.versions[name]
   }
 }
