@@ -4,8 +4,8 @@ import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 
 const pkg = ref()
-const pkgDescription = ref({})
-const pkgVersions = ref({})
+const pkgDescription = ref()
+const pkgVersions = ref()
 const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
@@ -53,6 +53,7 @@ onMounted(async () => {
       :value="pkgVersions"
       :show-array-index="false"
       copyable
+      boxed
       expanded
       style="height: 50vh;overflow: auto;overflow-x: hidden;"
     >
@@ -64,6 +65,7 @@ onMounted(async () => {
       :value="pkgCirculated"
       :show-array-index="false"
       copyable
+      boxed
       expanded
       style="height: 50vh;overflow: auto;overflow-x: hidden;"
     >
@@ -92,10 +94,5 @@ onMounted(async () => {
   border-radius: 8px;
   padding: 14px 14px;
   font-size: 24px;
-}
-.pkgName {
-  color: rgba(128, 38, 247, 0.644);
-  font-size: 24px;
-  font-weight: 700;
 }
 </style>
