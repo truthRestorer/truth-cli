@@ -5,7 +5,7 @@ import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 
 const pkg = ref()
-const pkgDescription = ref()
+const pkgInfo = ref()
 const pkgVersions = ref()
 const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
@@ -14,7 +14,7 @@ const c = new Chart(nodes, links, tree, relations, versions)
 function handlerSearch() {
   const searchResult = c.fuzzySearch(pkg.value)
   if (searchResult) {
-    pkgDescription.value = searchResult
+    pkgInfo.value = searchResult
     pkgVersions.value = c.getVersions(searchResult.name)
     pkgCirculated.value = c.circulatedPkg(searchResult.name)
   }
@@ -35,7 +35,7 @@ onMounted(async () => {
     const { data, seriesType, collapsed } = params
     if (!collapsed) {
       pkg.value = data.name
-      pkgDescription.value = c.getRelation(data.name)
+      pkgInfo.value = c.getRelation(data.name)
       pkgVersions.value = c.getVersions(data.name)
       pkgCirculated.value = c.circulatedPkg(data.name)
     }
@@ -51,7 +51,7 @@ onMounted(async () => {
     <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handlerSearch">
     <json-viewer
       :expand-depth="2"
-      :value="pkgDescription"
+      :value="pkgInfo ?? {}"
       copyable
       boxed
       expanded
@@ -63,7 +63,7 @@ onMounted(async () => {
       <span class="pkgTitle">各个版本</span>
       <json-viewer
         :expand-depth="2"
-        :value="pkgVersions"
+        :value="pkgVersions ?? {}"
         copyable
         boxed
         expanded
@@ -74,7 +74,7 @@ onMounted(async () => {
       <span class="pkgTitle">循环引用</span>
       <json-viewer
         :expand-depth="2"
-        :value="pkgCirculated"
+        :value="pkgCirculated ?? []"
         :show-array-index="false"
         copyable
         boxed
