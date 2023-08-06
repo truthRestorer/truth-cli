@@ -8,7 +8,7 @@ interface IContext {
   source: string
   push: (symbol: string) => void
   removeLastElm: () => string
-  dealNewLine: (tabCount: number) => void
+  dealNewLine: (tabCount: number, shouldAdd?: boolean) => void
   dealEnd: () => void
 }
 
@@ -29,13 +29,16 @@ function createContext() {
       context.source = context.source.slice(0, context.source.length - 1)
       return context.source[context.source.length - 1]
     },
-    dealNewLine(tabCount: number) {
+    dealNewLine(tabCount: number, shouldAdd: boolean = false) {
       context.push(ESymbol.LINE)
       for (let i = 0; i < tabCount; i++) {
         context.push(ESymbol.VERTICAL)
         context.push(ESymbol.TAB.repeat(2))
       }
-      context.push(ESymbol.VERTICAL)
+      if (shouldAdd)
+        context.push(ESymbol.ADD)
+      else
+        context.push(ESymbol.VERTICAL)
     },
     dealEnd() {
       while (Object.values(ESymbol).includes(context.removeLastElm() as ESymbol)) { /* empty */ }
@@ -47,17 +50,10 @@ function createContext() {
 function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number, ctx: IContext) {
   if (!pkgs)
     return
-  const { dealNewLine, push, removeLastElm } = ctx
+  const { dealNewLine, push } = ctx
   dealNewLine(tabCount)
   for (const [name, { packages, version }] of entries(pkgs)) {
-    push(ESymbol.LINE)
-    push(ESymbol.VERTICAL)
-    for (let i = 0; i < tabCount; i++) {
-      push(ESymbol.TAB.repeat(2))
-      push(ESymbol.VERTICAL)
-    }
-    removeLastElm()
-    push(ESymbol.ADD)
+    dealNewLine(tabCount, true)
     push(`${name} ${version}`)
     loadTreeFile(packages, tabCount + 1, ctx)
   }
