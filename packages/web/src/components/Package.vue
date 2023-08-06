@@ -31,11 +31,14 @@ const jsonViewerStyle: CSSProperties = {
 onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
   c.mountChart(chartInstance)
-  chartInstance.on('click', ({ data, seriesType }: any) => {
-    pkg.value = data.name
-    pkgDescription.value = c.getRelation(data.name)
-    pkgVersions.value = c.getVersions(data.name)
-    pkgCirculated.value = c.circulatedPkg(data.name)
+  chartInstance.on('click', (params: any) => {
+    const { data, seriesType, collapsed } = params
+    if (!collapsed) {
+      pkg.value = data.name
+      pkgDescription.value = c.getRelation(data.name)
+      pkgVersions.value = c.getVersions(data.name)
+      pkgCirculated.value = c.circulatedPkg(data.name)
+    }
     if (seriesType === 'graph')
       c.addGraph(data.name)
   })
