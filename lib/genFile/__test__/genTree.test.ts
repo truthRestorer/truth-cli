@@ -13,22 +13,15 @@ describe('genTree test', async () => {
     }).flat(),
   ])
   const trees: any = await genTree(0)
-  test('tree is not empty', () => {
-    expect(trees?.length).toBe(2)
-  })
-  test('remember tree children should be empty', () => {
-    expect(trees[1]).toBeTruthy()
-    expect(trees[1].children).toBeTruthy()
-    expect(trees[1].children?.length).toBeFalsy()
+  test('tree and tree children should be empty', () => {
+    expect(trees).toBeTruthy()
+    expect(trees.children?.length).toBeTruthy()
   })
   test('tree should connected to relations', () => {
-    const tree = trees[0]
     expect(relationsNames).contain('__root__')
-    for (let i = 0; i < tree.children.length; i++) {
-      const child = tree.children[i].children
-      expect(relationsNames).toContain(tree.children[i].name)
-      for (let j = 0; j < child?.length; j++)
-        expect(relationsNames).toContain(child[i].name)
+    for (let i = 0; i < trees.children.length; i++) {
+      const child = trees.children[i]
+      expect(relationsNames).toContain(child.name)
     }
   })
 })
