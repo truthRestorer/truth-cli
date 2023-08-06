@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { assign, isEmptyObj, readDir, readFile } from '@truth-cli/shared'
+import { isEmptyObj, readDir, readFile } from '@truth-cli/shared'
 import type { IRelations } from '@truth-cli/shared'
 
 /**
@@ -8,7 +8,6 @@ import type { IRelations } from '@truth-cli/shared'
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
 export const relations: Partial<IRelations> = {}
-export const rootPkgSet = new Set()
 /**
  * relation 是否为空，这里空指的是 {} || undefined || null
  */
@@ -34,8 +33,6 @@ async function readGlob(p: string) {
     }
     relations.__root__ = rootPkg
     relations[name] = rootPkg
-    for (const key of Object.keys(assign(dependencies, devDependencies)))
-      rootPkgSet.add(key)
     return
   }
   const pkgsRoot = await readDir(p)

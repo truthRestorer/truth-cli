@@ -80,7 +80,7 @@ export class Chart {
     this.echart = chart
     const options = {
       legend: {
-        data: ['树图', '记忆节点', '引力图'],
+        data: ['树图', '引力图'],
         selectedMode: 'single',
         zlevel: 3,
         itemHeight: 20,
@@ -114,19 +114,7 @@ export class Chart {
           name: '树图',
           zlevel: 2,
           type: 'tree',
-          data: [this.tree[0]],
-          roam: true,
-          label: {
-            show: true,
-          },
-          initialTreeDepth: 1,
-          expandAndCollapse: true,
-        },
-        {
-          name: '记忆节点',
-          zlevel: 2,
-          type: 'tree',
-          data: [this.tree[1]],
+          data: [this.tree],
           roam: true,
           label: {
             show: true,

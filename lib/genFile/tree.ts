@@ -1,27 +1,23 @@
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
 import type { ITree } from '@truth-cli/shared'
-import { relations, rootPkgSet } from './relations.js'
+import { relations } from './relations.js'
 
-// treeMap 用户记录已经记住的节点，在 maxDep > 5 的时候会有值
-const treeMap = new Map()
+// treeSet 用户记录已经记住的节点，在 maxDep > 4 不会删除记住过的节点
+const treeSet = new Set()
 
 /**
- * 如果 rootPkgSet 或者 treeMap 保存过这个 tree 名字，或者说 tree 没有依赖。
+ * 如果 treeSet 保存过这个 tree 名字，或者说 tree 没有依赖。
  * 那么删除该项的 children 属性，减少生成的 tree.json 文件大小
  */
 function deleteTreeChildren(add: ITree, name: string, dependencies: ITree) {
-  if (
-    isEmptyObj(dependencies)
-    || rootPkgSet.has(name)
-    || treeMap.has(name)
-  )
+  if (isEmptyObj(dependencies) || treeSet.has(name))
     delete add.children
 }
 /**
  * 添加树节点
  */
 function addTree(name: string, version: string, dependencies: ITree) {
-  if (treeMap.has(name))
+  if (treeSet.has(name))
     return
   const add: ITree = {
     name,
@@ -29,7 +25,7 @@ function addTree(name: string, version: string, dependencies: ITree) {
     children: [assign(dependencies)],
   }
   deleteTreeChildren(add, name, dependencies)
-  treeMap.set(name, add)
+  treeSet.add(name)
 }
 /**
  * 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
@@ -40,7 +36,7 @@ function loadTrees(
   maxDep: number,
   shouldOptimize: boolean,
 ) {
-  if (trees === undefined)
+  if (!trees)
     return
   if (maxDep === 0) {
     for (let i = 0; i < trees.length; i++)
@@ -55,17 +51,19 @@ function loadTrees(
     const pkgs = assign(dependencies, devDependencies)
     addTree(tree.name, version, pkgs)
     for (const [name, version] of entries(pkgs)) {
-      const add: ITree = {
-        name,
-        value: version as string,
-        children: [],
+      if (relations[name]) {
+        const add: ITree = {
+          name,
+          value: version as string,
+          children: [],
+        }
+        const { devDependencies, dependencies } = relations[name]
+        deleteTreeChildren(add, name, assign(devDependencies, dependencies))
+        tree.children?.push(add)
       }
-      const { devDependencies, dependencies } = relations[name] ?? {}
-      deleteTreeChildren(add, name, assign(devDependencies, dependencies))
-      tree.children?.push(add)
     }
     loadTrees(tree.children, maxDep - 1, shouldOptimize)
-    shouldOptimize || treeMap.delete(tree.name)
+    shouldOptimize || treeSet.delete(tree.name)
   }
 }
 /**
@@ -73,22 +71,18 @@ function loadTrees(
  */
 export async function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = relations.__root__
-  const treeData: ITree[] = [
-    {
-      name: name ?? '_root_',
-      value: version ?? 'latest',
-      children: entries(assign(dependencies, devDependencies)).map(([name, version]) => ({
+  const treeData: ITree = {
+    name: name ?? '_root_',
+    value: version ?? 'latest',
+    children: entries(assign(dependencies, devDependencies)).map(([name, version]) => {
+      treeSet.add(name)
+      return {
         name,
         value: version,
         children: [],
-      })),
-    },
-  ]
-  loadTrees(treeData[0].children, maxDep, maxDep > 5)
-  treeData.push({
-    name: '_remember_',
-    value: 'latest',
-    children: [...treeMap.values()],
-  })
+      }
+    }),
+  }
+  loadTrees(treeData.children, maxDep, maxDep > 4)
   return treeData
 }
