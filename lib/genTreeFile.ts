@@ -4,27 +4,51 @@ import { entries } from '@truth-cli/shared'
 import { genPkgs } from './genFile/pkgs.js'
 import { genRelations } from './genFile/relations.js'
 
+interface IContext {
+  source: string
+  push: (symbol: string) => void
+  removeLastElm: () => string
+  dealNewLine: (tabCount: number) => void
+  dealEnd: () => void
+}
+
 enum ESymbol {
   TAB = ' ',
   VERTICAL = '│',
   ADD = '├─',
   LINE = '\n',
 }
-let source = ''
 
-function push(symbol: string) {
-  source += symbol
+function createContext() {
+  const context: IContext = {
+    source: '',
+    push(symbol: string) {
+      context.source += symbol
+    },
+    removeLastElm() {
+      context.source = context.source.slice(0, context.source.length - 1)
+      return context.source[context.source.length - 1]
+    },
+    dealNewLine(tabCount: number) {
+      context.push(ESymbol.LINE)
+      for (let i = 0; i < tabCount; i++) {
+        context.push(ESymbol.VERTICAL)
+        context.push(ESymbol.TAB.repeat(2))
+      }
+      context.push(ESymbol.VERTICAL)
+    },
+    dealEnd() {
+      while (Object.values(ESymbol).includes(context.removeLastElm() as ESymbol)) { /* empty */ }
+    },
+  }
+  return context
 }
 
-function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number) {
+function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number, ctx: IContext) {
   if (!pkgs)
     return
-  push(ESymbol.LINE)
-  for (let i = 0; i < tabCount; i++) {
-    push(ESymbol.VERTICAL)
-    push(ESymbol.TAB.repeat(2))
-  }
-  push(ESymbol.VERTICAL)
+  const { dealNewLine, push, removeLastElm } = ctx
+  dealNewLine(tabCount)
   for (const [name, { packages, version }] of entries(pkgs)) {
     push(ESymbol.LINE)
     push(ESymbol.VERTICAL)
@@ -32,17 +56,20 @@ function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number) {
       push(ESymbol.TAB.repeat(2))
       push(ESymbol.VERTICAL)
     }
-    source = source.slice(0, source.length - 1)
+    removeLastElm()
     push(ESymbol.ADD)
     push(`${name} ${version}`)
-    loadTreeFile(packages, tabCount + 1)
+    loadTreeFile(packages, tabCount + 1, ctx)
   }
+  dealNewLine(tabCount)
 }
 
 export async function genTreeFile(maxDep: number) {
   await genRelations()
   const { name, version, packages } = genPkgs(maxDep)
-  push(`${name} ${version}:`)
-  loadTreeFile(packages, 0)
-  await fs.writeFile('treePkgs.txt', source)
+  const ctx = createContext()
+  ctx.push(`${name} ${version}:`)
+  loadTreeFile(packages, 0, ctx)
+  ctx.dealEnd()
+  await fs.writeFile('treePkgs.txt', ctx.source)
 }
