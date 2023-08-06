@@ -30,3 +30,4 @@ relations.json
 tree.json
 versions.json
 /yarn.lock
+treePkgs.txt

@@ -57,7 +57,7 @@ function loadPkgs(
 /**
  * 便于命令行操作的生成文件函数
  */
-export async function genPkgs(depth: number) {
+export function genPkgs(depth: number) {
   const { devDependencies, dependencies, name, version } = relations.__root__
   const pkgs: IPkgs = {
     name,

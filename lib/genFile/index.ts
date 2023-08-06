@@ -52,7 +52,7 @@ export async function genJSONFile(pkgDep: number, p: string | boolean) {
   p = typeof p === 'boolean' ? './' : p
   try {
     await genRelations()
-    const pkgs = await genPkgs(pkgDep)
+    const pkgs = genPkgs(pkgDep)
     await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
     const end = Date.now()
     logFileWirteFinished(end - begin, p)

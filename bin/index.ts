@@ -2,6 +2,7 @@ import { Command } from 'commander'
 import { genByCommand } from 'lib'
 import { cleanFiles } from 'lib/cleanFile'
 import { genJSONFile } from 'lib/genFile'
+import { genTreeFile } from 'lib/genTreeFile'
 import {
   analyzeCommandWords,
   bothOptionWords,
@@ -48,6 +49,14 @@ program
   .description(cleanCommandWords)
   .action(async () => {
     await cleanFiles()
+  })
+
+program
+  .command('tree')
+  .description(cleanCommandWords)
+  .option('-d, --dep [depth]', depthOptionWords, '1')
+  .action(async ({ dep }) => {
+    await genTreeFile(+dep)
   })
 
 program.parse()
