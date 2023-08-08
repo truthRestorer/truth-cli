@@ -1,6 +1,7 @@
 import path from 'node:path'
-import { isEmptyObj, readDir, readFile } from '@truth-cli/shared'
+import { isEmptyObj } from '@truth-cli/shared'
 import type { IRelations } from '@truth-cli/shared'
+import { readDir, readFile } from 'lib/utils/tools.js'
 
 /**
  * `truth-cli` 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
