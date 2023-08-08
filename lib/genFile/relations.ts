@@ -9,30 +9,13 @@ import type { IRelations } from '@truth-cli/shared'
  */
 export const relations: Partial<IRelations> = {}
 /**
- * relation 是否为空，这里空指的是 {} || undefined || null
- */
-function dealEmptyRelation(relation: { [key: string]: any } | undefined) {
-  return relation && !isEmptyObj(relation)
-}
-/**
  * 读取根目录和 node_modules 目录下的所有 package.json 文件
  */
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
-    const pkg = (await readFile(p)) as IRelations
-    const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
-    const rootPkg = {
-      name,
-      description,
-      repository,
-      author,
-      homepage,
-      version,
-      devDependencies,
-      dependencies,
-    }
-    relations.__root__ = rootPkg
-    relations[name] = rootPkg
+    const pkg: IRelations = await readFile(p)
+    relations.__root__ = pkg
+    relations[pkg.name] = pkg
     return
   }
   const pkgsRoot = await readDir(p)
@@ -46,13 +29,13 @@ async function readGlob(p: string) {
       for (let i = 0; i < dirs.length; i++) await readGlob(pkgPath)
     }
     else {
-      const pkg = (await readFile(`${pkgPath}/package.json`)) as IRelations
+      const pkg: IRelations = await readFile(`${pkgPath}/package.json`)
       const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
       relations[pkg.name] = {
         name, description, version, homepage, repository, author,
       }
-      dealEmptyRelation(dependencies) && (relations[pkg.name].dependencies = dependencies)
-      dealEmptyRelation(devDependencies) && (relations[pkg.name].devDependencies = devDependencies)
+      isEmptyObj(dependencies) || (relations[pkg.name].dependencies = dependencies)
+      isEmptyObj(devDependencies) || (relations[pkg.name].devDependencies = devDependencies)
     }
   }
 }
