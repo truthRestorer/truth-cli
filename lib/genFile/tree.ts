@@ -83,6 +83,6 @@ export async function genTree(maxDep: number) {
       }
     }),
   }
-  loadTrees(treeData.children, maxDep, maxDep > 4)
+  loadTrees(treeData.children, maxDep - 1, maxDep > 5)
   return treeData
 }

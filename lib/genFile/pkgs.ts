@@ -36,7 +36,7 @@ function loadPkgs(
 ) {
   if (rootPkgs === undefined)
     return
-  if (maxDep === 0) {
+  if (maxDep <= 0) {
     for (const key of Object.keys(rootPkgs))
       delete rootPkgs[key].packages
     return
@@ -67,6 +67,6 @@ export function genPkgs(depth: number) {
   }
   addPkg(pkgs, devDependencies, EDep.DEVDEPENDENCY, true)
   addPkg(pkgs, dependencies, EDep.DEPENDENCY, true)
-  loadPkgs(pkgs.packages, depth, depth > 3)
+  loadPkgs(pkgs.packages, depth - 1, depth > 4)
   return pkgs
 }

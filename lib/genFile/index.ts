@@ -27,19 +27,18 @@ async function genData(treeDep: number) {
  * 方便命令行操作的函数
  */
 export async function genFiles(
-  pkgDep: number,
-  treeDep: number,
+  dep: number,
   isBoth: boolean,
   isDev: boolean,
 ) {
-  const { relations, graph, tree, versions } = await genData(treeDep)
+  const { relations, graph, tree, versions } = await genData(dep)
   const writePath = isDev ? `${devWebPath}/public` : webPath
   await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
   await fs.writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
   if (isBoth) {
-    const pkgs = await genPkgs(pkgDep)
+    const pkgs = genPkgs(dep)
     await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
   }
 }

@@ -16,14 +16,13 @@ function startWeb() {
  * 命令行操作函数
  */
 export async function genByCommand(
-  treeDep: number = 3,
-  pkgDep: number = 2,
+  dep: number,
   isBoth: boolean = false,
   isDev: boolean = false,
 ) {
   const begin = Date.now()
   try {
-    await genFiles(pkgDep, treeDep, isBoth, isDev)
+    await genFiles(dep, isBoth, isDev)
     !isDev && startWeb()
     const end = Date.now()
     logAnalyzeFinish(end - begin)

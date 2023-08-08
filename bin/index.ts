@@ -24,7 +24,7 @@ program
 program
   .command('analyze')
   .description(analyzeCommandWords)
-  .option('-d, --dep [depth]', depthOptionWords, '2')
+  .option('-d, --dep [depth]', depthOptionWords, '3')
   .option('-j, --json [file-path]', filePathOptionWords)
   .option('-b, --both', bothOptionWords, false)
   .action(async ({ dep, json, both }) => {
@@ -37,7 +37,7 @@ program
         genJSONFile(depth - 1, json)
         return
       }
-      await genByCommand(depth + 1, depth - 1, both)
+      await genByCommand(depth, both)
     }
     catch (err) {
       logDepthError()
