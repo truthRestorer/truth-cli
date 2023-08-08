@@ -9,9 +9,7 @@ const server = http.createServer((req, res) => {
   const relations = readFileSync(`${distPath}/relations.json`)
   const tree = readFileSync(`${distPath}/tree.json`)
   const versions = readFileSync(`${distPath}/versions.json`)
-  if (req.url === '/')
-    res.end(html)
-  else if (req.url === '/graph.json')
+  if (req.url === '/graph.json')
     res.end(graph)
   else if (req.url === '/relations.json')
     res.end(relations)
@@ -19,6 +17,8 @@ const server = http.createServer((req, res) => {
     res.end(tree)
   else if (req.url === '/versions.json')
     res.end(versions)
+  else
+    res.end(html)
 })
 /**
  * 启动服务器
