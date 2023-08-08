@@ -1,7 +1,6 @@
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
-import { nodeExternals } from 'rollup-plugin-node-externals'
 import json from '@rollup/plugin-json'
 import type { ModuleFormat } from 'rollup'
 import { rollup } from 'rollup'
@@ -21,7 +20,6 @@ async function buildCli() {
       commonjs(),
       terser(),
       json(),
-      nodeExternals(),
     ],
   }
   const outputOptions = {

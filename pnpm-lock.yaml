@@ -11,6 +11,9 @@ importers:
       '@truth-cli/shared':
         specifier: workspace:^
         version: link:packages/shared
+      chalk:
+        specifier: ^5.3.0
+        version: 5.3.0
       commander:
         specifier: ^11.0.0
         version: 11.0.0
@@ -60,9 +63,6 @@ importers:
       '@types/node':
         specifier: ^20.4.7
         version: 20.4.7
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
       commitizen:
         specifier: ^4.3.0
         version: 4.3.0
@@ -84,9 +84,6 @@ importers:
       rollup:
         specifier: ^3.26.3
         version: 3.26.3
-      rollup-plugin-node-externals:
-        specifier: ^6.1.1
-        version: 6.1.1(rollup@3.26.3)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@20.4.7)(typescript@5.1.6)
@@ -2055,7 +2052,7 @@ packages:
   /chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: true
+    dev: false
 
   /character-entities-legacy@1.1.4:
     resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
@@ -5059,15 +5056,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
-    dev: true
-
-  /rollup-plugin-node-externals@6.1.1(rollup@3.26.3):
-    resolution: {integrity: sha512-127OFMkpH5rBVlRHRBDUMk1m1sGuzbGy7so5aj/IkpUb2r3+wOWjR/erUzd2ChEQWPsxsyQG6xpYYvPBAdcBRA==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      rollup: ^3.0.0
-    dependencies:
-      rollup: 3.26.3
     dev: true
 
   /rollup@3.26.3:
