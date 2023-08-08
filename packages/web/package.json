@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "main": "src/main.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
