@@ -7,6 +7,9 @@
     "!(*d).{js,ts}": [
       "eslint"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
 
