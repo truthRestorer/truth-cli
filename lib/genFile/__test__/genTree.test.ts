@@ -12,7 +12,7 @@ describe('genTree test', async () => {
       return Object.keys(deps)
     }).flat(),
   ])
-  const trees: any = await genTree(0)
+  const trees: any = await genTree(1)
   test('tree and tree children should be empty', () => {
     expect(trees).toBeTruthy()
     expect(trees.children?.length).toBeTruthy()

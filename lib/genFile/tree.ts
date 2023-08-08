@@ -38,7 +38,7 @@ function loadTrees(
 ) {
   if (!trees)
     return
-  if (maxDep === 0) {
+  if (maxDep <= 0) {
     for (let i = 0; i < trees.length; i++)
       delete trees[i].children
     return
