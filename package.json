@@ -11,11 +11,11 @@
     "dist"
   ],
   "scripts": {
-    "dev": "ts-node scripts/dev.ts --experimental-json-modules && cd packages/web && pnpm run dev",
+    "dev": "pnpm -F web dev",
     "test": "vitest run",
     "dev:test": "vitest",
     "build": "pnpm run build:cli && pnpm run build:web",
-    "build:web": "cd packages/web && pnpm run build --emptyOutDir",
+    "build:web": "pnpm -F web build --emptyOutDir",
     "build:cli": "ts-node --esm scripts/build-cli.ts",
     "prepare": "husky install",
     "commit": "git-cz",
@@ -39,8 +39,6 @@
   "dependencies": {
     "@truth-cli/shared": "workspace:^",
     "commander": "^11.0.0",
-    "koa": "^2.14.2",
-    "koa-static": "^5.0.0",
     "chalk": "^5.3.0",
     "local-pkg": "^0.4.3"
   },
