@@ -1,9 +1,9 @@
-import http from 'node:http'
+import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
 import { distPath, logAnalyzeFinish, logFileWirteError, logFileWirteFinished } from './utils/const.js'
 import { genFiles } from './genFile/index.js'
 
-const server = http.createServer((req, res) => {
+const server = createServer((req, res) => {
   const html = readFileSync(`${distPath}/index.html`)
   const graph = readFileSync(`${distPath}/graph.json`)
   const relations = readFileSync(`${distPath}/relations.json`)

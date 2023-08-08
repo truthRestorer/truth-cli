@@ -1,4 +1,4 @@
-import path from 'node:path'
+import { resolve } from 'node:path'
 import { isEmptyObj } from '@truth-cli/shared'
 import type { IRelations } from '@truth-cli/shared'
 import { readDir, readFile } from '../utils/tools.js'
@@ -21,7 +21,7 @@ async function readGlob(p: string) {
   }
   const pkgsRoot = await readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
-    const pkgPath = path.resolve(p, `${pkgsRoot[i]}`)
+    const pkgPath = resolve(p, `${pkgsRoot[i]}`)
     if (pkgsRoot[i].includes('.'))
       continue
       // 处理带有 @

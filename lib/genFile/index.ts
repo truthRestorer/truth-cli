@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises'
+import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { devWebPath, distPath, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
 import { genGraph } from './graph.js'
@@ -33,13 +33,13 @@ export async function genFiles(
 ) {
   const { relations, graph, tree, versions } = await genData(dep)
   const writePath = isDev ? `${devWebPath}/public` : distPath
-  await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
-  await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
-  await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
-  await fs.writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
+  await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
+  await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
+  await writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
+  await writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
   if (isBoth) {
     const pkgs = genPkgs(dep)
-    await fs.writeFile('./pkgs.json', JSON.stringify(pkgs))
+    await writeFile('./pkgs.json', JSON.stringify(pkgs))
   }
 }
 
@@ -52,7 +52,7 @@ export async function genJSONFile(pkgDep: number, p: string | boolean) {
   try {
     await genRelations()
     const pkgs = genPkgs(pkgDep)
-    await fs.writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+    await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
     const end = Date.now()
     logFileWirteFinished(end - begin, p)
   }
