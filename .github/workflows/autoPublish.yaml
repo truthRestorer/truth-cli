@@ -28,7 +28,7 @@ jobs:
       - name: install dependencies
         run: pnpm install
       - name: start build
-         run: pnpm build
+        run: pnpm build
       - name: create and publish versions
         uses: changesets/action@v1
         with:
