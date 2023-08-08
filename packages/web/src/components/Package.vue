@@ -50,8 +50,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="chart" />
-  <div class="info">
+  <div class="f-wrap-column info">
     <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handlerSearch">
     <json-viewer
       :expand-depth="2"
@@ -62,8 +61,9 @@ onMounted(async () => {
       :style="jsonViewerStyle"
     />
   </div>
-  <div class="versions">
-    <div>
+  <div id="chart" />
+  <div class="f-wrap-column versions">
+    <div class="f-wrap-column">
       <span class="pkgTitle">各个版本</span>
       <json-viewer
         :expand-depth="2"
@@ -74,7 +74,7 @@ onMounted(async () => {
         :style="jsonViewerStyle"
       />
     </div>
-    <div>
+    <div class="f-wrap-column">
       <span class="pkgTitle">循环引用</span>
       <json-viewer
         :expand-depth="2"
@@ -90,44 +90,36 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-#chart {
-  height: 100%;
-  width: 80%;
-  left: 10%;
-}
-.versions, .info {
+div, input {
   box-sizing: border-box;
-  position: absolute;
+}
+
+#chart {
+  flex: 1;
+}
+.f-wrap-column {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  right: 0;
-  top: 0;
+}
+
+.versions, .info {
   width: 15%;
-  height: 100vh;
 }
 .versions > div {
-  box-sizing: border-box;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   overflow: hidden;
 }
 .info {
   width: 17%;
-  left: 0;
 }
 .pkgSearch {
-  box-sizing: border-box;
-  display: block;
   outline-style: none ;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 12px 16px;
   font-size: 26px;
-  width: 100%!important;
-  overflow: hidden;
+  width: 100%;
 }
 .pkgTitle {
   text-align: center;
