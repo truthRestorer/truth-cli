@@ -1,13 +1,13 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
+import { unlink } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { distPath, logCleanError, logCleanFinish } from './utils/const.js'
 
-const files = ['graph.json', 'tree.json', 'relations.json']
+const files = ['graph.json', 'tree.json', 'relations.json', 'versions.json']
 // 清空目录函数
 export async function cleanFiles() {
   try {
     for (let i = 0; i < files.length; i++)
-      await fs.unlink(path.resolve(distPath, `./${files[i]}`))
+      await unlink(resolve(distPath, `./${files[i]}`))
     logCleanFinish()
   }
   catch (err) {
