@@ -12,8 +12,10 @@
   ],
   "scripts": {
     "dev": "pnpm -F web dev",
-    "test": "vitest run",
     "dev:test": "vitest",
+    "dev:cli": "nodemon",
+    "dev:web": "pnpm -F web dev",
+    "test": "vitest run",
     "build": "ts-node --esm scripts/build.ts",
     "prepare": "husky install",
     "commit": "git-cz",

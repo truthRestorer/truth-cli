@@ -1,0 +1,6 @@
+{
+	"watch": ["bin", "lib"],
+	"ext": "ts,json",
+	"ignore": ["packages/**/*.ts", "**/__test/*.ts", "node_modules/**"],
+	"exec": "ts-node ./scripts/dev-cli.ts"
+}

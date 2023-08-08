@@ -11,7 +11,7 @@ import { logBuildFinished } from '../lib/utils/const.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export async function buildCli() {
+async function buildCli() {
   const inputOptions = {
     input: ['bin/index.ts'],
     plugins: [
