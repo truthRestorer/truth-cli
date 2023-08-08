@@ -3,20 +3,17 @@ import type { ILinks, INodes, IRelations, ITree, IVersions } from '@truth-cli/sh
 import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 
 export class Chart {
-  private nodes: INodes[]
-  private links: ILinks[]
-  private tree: ITree[]
-  private relations: IRelations
-  private versions: IVersions
   private graphSet = new Set()
   private nodesSet: Set<string>
   private echart: ECharts | undefined
   private rootName: string
-  constructor(nodes: INodes[], links: ILinks[], tree: ITree[], relations: IRelations, versions: IVersions) {
-    this.nodes = nodes
-    this.links = links
-    this.tree = tree
-    this.relations = relations
+  constructor(
+    private nodes: INodes[],
+    private links: ILinks[],
+    private tree: ITree[],
+    private relations: IRelations,
+    private versions: IVersions,
+  ) {
     this.nodesSet = new Set(nodes.map((item: any) => item.name))
     this.versions = versions
     this.rootName = links[0].source
@@ -47,7 +44,7 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.reSetChartOptions()
+    this.setChartOptions()
   }
 
   mountChart(chart: ECharts) {
@@ -57,17 +54,15 @@ export class Chart {
       legend: {
         data: ['树图', '引力图'],
         selectedMode: 'single',
-        zlevel: 3,
-        itemHeight: 20,
-        itemWidth: 20,
+        itemHeight: 18,
+        itemWidth: 18,
         itemGap: 25,
       },
-      animationThreshold: 2 ** 32,
-      hoverLayerThreshold: 2 ** 32,
+      animationThreshold: 65536,
+      hoverLayerThreshold: 65536,
       series: [
         {
           name: '引力图',
-          zlevel: 1,
           type: 'graph',
           layout: 'force',
           nodes: this.nodes,
@@ -87,7 +82,6 @@ export class Chart {
         },
         {
           name: '树图',
-          zlevel: 2,
           type: 'tree',
           data: [this.tree],
           roam: true,
@@ -99,10 +93,14 @@ export class Chart {
         },
       ],
     }
-    this.echart.setOption(options)
+    this.setChartOptions(options)
   }
 
-  private reSetChartOptions() {
+  private setChartOptions(options?: any) {
+    if (options) {
+      this.echart?.setOption(options)
+      return
+    }
     this.echart?.setOption({
       series: [
         {
