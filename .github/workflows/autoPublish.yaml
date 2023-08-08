@@ -27,10 +27,11 @@ jobs:
         run: pnpm config set store-dir $PNPM_CACHE_FOLDER
       - name: install dependencies
         run: pnpm install
+      - name: start build
+         run: pnpm build
       - name: create and publish versions
         uses: changesets/action@v1
         with:
-          build: pnpm build
           version: pnpm changeset version
           commit: "chore: update versions"
           title: "chore: update versions"
