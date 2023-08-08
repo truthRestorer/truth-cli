@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
   const graph = readFileSync(`${webPath}/graph.json`)
   const relations = readFileSync(`${webPath}/relations.json`)
   const tree = readFileSync(`${webPath}/tree.json`)
-  const versions = readFileSync(`${webPath}/tree.json`)
+  const versions = readFileSync(`${webPath}/versions.json`)
   if (req.url === '/')
     res.end(html)
   else if (req.url === '/graph.json')
