@@ -59,11 +59,7 @@ export interface IVersions {
   }
 }
 
-interface ICategories {
-  name: '依赖' | '项目名' | '项目依赖'
-}
-
-export const categories: ICategories[] = [
+export const categories = [
   {
     name: '依赖',
   },
