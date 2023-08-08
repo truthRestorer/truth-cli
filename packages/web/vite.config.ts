@@ -6,7 +6,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile'
 export default defineConfig({
   plugins: [vue(), viteSingleFile()],
   build: {
-    outDir: '../../dist/web',
+    outDir: '../../dist/',
+    copyPublicDir: false,
   },
-  base: './',
 })

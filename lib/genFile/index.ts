@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { devWebPath, logFileWirteError, logFileWirteFinished, webPath } from '../utils/const.js'
+import { devWebPath, distPath, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
 import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'
@@ -32,7 +32,7 @@ export async function genFiles(
   isDev: boolean,
 ) {
   const { relations, graph, tree, versions } = await genData(dep)
-  const writePath = isDev ? `${devWebPath}/public` : webPath
+  const writePath = isDev ? `${devWebPath}/public` : distPath
   await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await fs.writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await fs.writeFile(`${writePath}/tree.json`, JSON.stringify(tree))

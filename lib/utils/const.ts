@@ -66,5 +66,5 @@ export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and s
 
 export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
 
-export const webPath = path.resolve(__root, './dist/web/')
+export const distPath = path.resolve(__root, './dist/')
 export const devWebPath = path.resolve(__root, '../packages/web/')

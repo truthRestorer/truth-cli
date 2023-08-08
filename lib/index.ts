@@ -1,14 +1,14 @@
 import http from 'node:http'
 import { readFileSync } from 'node:fs'
-import { logAnalyzeFinish, logFileWirteError, logFileWirteFinished, webPath } from './utils/const.js'
+import { distPath, logAnalyzeFinish, logFileWirteError, logFileWirteFinished } from './utils/const.js'
 import { genFiles } from './genFile/index.js'
 
 const server = http.createServer((req, res) => {
-  const html = readFileSync(`${webPath}/index.html`)
-  const graph = readFileSync(`${webPath}/graph.json`)
-  const relations = readFileSync(`${webPath}/relations.json`)
-  const tree = readFileSync(`${webPath}/tree.json`)
-  const versions = readFileSync(`${webPath}/versions.json`)
+  const html = readFileSync(`${distPath}/index.html`)
+  const graph = readFileSync(`${distPath}/graph.json`)
+  const relations = readFileSync(`${distPath}/relations.json`)
+  const tree = readFileSync(`${distPath}/tree.json`)
+  const versions = readFileSync(`${distPath}/versions.json`)
   if (req.url === '/')
     res.end(html)
   else if (req.url === '/graph.json')
