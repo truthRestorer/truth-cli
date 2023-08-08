@@ -51,11 +51,6 @@ export class Chart {
     if (isEmptyObj(deps))
       return
     for (const [pkgName, pkgVersion] of Object.entries(deps)) {
-      const link = this.linkMap.get(pkgName)
-      if (!link)
-        this.linkMap.set(pkgName, 1)
-      else
-        this.linkMap.set(pkgName, link + 1)
       this.links.push({
         source: pkgName,
         target: name,
