@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lilming123/dep_cli.git"
+    "url": "git+https://github.com/truthRestorer/truth-cli.git"
   },
   "keywords": [
     "node_moudles",
@@ -33,9 +33,9 @@
   "author": "truthRestorer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lilming123/dep_cil/issues"
+    "url": "https://github.com/truthRestorer/truth-cli/issues"
   },
-  "homepage": "https://github.com/lilming123/dep_cil#readme",
+  "homepage": "https://github.com/truthRestorer/truth-cli#readme",
   "devDependencies": {
     "@truth-cli/shared": "workspace:^",
     "commander": "^11.0.0",
