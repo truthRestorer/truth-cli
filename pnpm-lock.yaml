@@ -7,19 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@truth-cli/shared':
-        specifier: workspace:^
-        version: link:packages/shared
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
-      commander:
-        specifier: ^11.0.0
-        version: 11.0.0
-      local-pkg:
-        specifier: ^0.4.3
-        version: 0.4.3
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.39.8
@@ -48,6 +35,9 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.2
         version: 11.1.2(rollup@3.26.3)(typescript@5.1.6)
+      '@truth-cli/shared':
+        specifier: workspace:^
+        version: link:packages/shared
       '@types/koa':
         specifier: ^2.13.8
         version: 2.13.8
@@ -57,6 +47,12 @@ importers:
       '@types/node':
         specifier: ^20.4.7
         version: 20.4.7
+      chalk:
+        specifier: ^5.3.0
+        version: 5.3.0
+      commander:
+        specifier: ^11.0.0
+        version: 11.0.0
       commitizen:
         specifier: ^4.3.0
         version: 4.3.0
@@ -72,6 +68,9 @@ importers:
       lint-staged:
         specifier: ^13.2.3
         version: 13.2.3
+      local-pkg:
+        specifier: ^0.4.3
+        version: 0.4.3
       prettier:
         specifier: ^3.0.1
         version: 3.0.1
@@ -2033,7 +2032,7 @@ packages:
   /chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: false
+    dev: true
 
   /character-entities-legacy@1.1.4:
     resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
@@ -2168,7 +2167,7 @@ packages:
   /commander@11.0.0:
     resolution: {integrity: sha512-9HMlXtt/BNoYr8ooyjjNRdIilOTkVJXB+GhxMTtOKwk0R4j4lS4NpjuqmRxroBfnfTSHQIHQB7wryHhXarNjmQ==}
     engines: {node: '>=16'}
-    dev: false
+    dev: true
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -3988,6 +3987,7 @@ packages:
   /local-pkg@0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
+    dev: true
 
   /locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
