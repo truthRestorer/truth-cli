@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import type { IPkgs } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
-import { genPkgs } from './genFile/pkgs.js'
-import { genRelations } from './genFile/relations.js'
+import { genPkgs } from './pkgs.js'
+import { genRelations } from './relations.js'
 
 interface IContext {
   source: string
@@ -60,7 +60,7 @@ function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number, ctx: IContext) 
   dealNewLine(tabCount)
 }
 
-export async function genTreeFile(maxDep: number) {
+export async function genPkgTree(maxDep: number) {
   await genRelations()
   const { name, version, packages } = genPkgs(maxDep)
   const ctx = createContext()
