@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { readFile } from 'packages/shared'
+import { readFile } from '../tools'
 
 describe('readFile test', async () => {
-  const result = await readFile('./package.json')
+  const result = await readFile('package.json')
   test('result should be object', () => {
     expect(result).toBeTypeOf('object')
   })
