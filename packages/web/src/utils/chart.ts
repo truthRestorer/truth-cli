@@ -53,6 +53,7 @@ export class Chart {
   mountChart(chart: ECharts) {
     this.echart = chart
     const options = {
+      tooltip: {},
       legend: {
         data: ['树图', '引力图'],
         selectedMode: 'single',
@@ -63,7 +64,6 @@ export class Chart {
       },
       animationThreshold: 2 ** 32,
       hoverLayerThreshold: 2 ** 32,
-      tooltip: {},
       series: [
         {
           name: '引力图',
