@@ -37,8 +37,6 @@ truth-cli analyze
 - tree 图：用树型结构展示 npm 依赖之间的关系，受参数 `dep` 影响
 - force 图：用引力布局的图结构展示 npm 依赖之间的关系，不受参数 `dep` 影响
 
-![image-20230803162829296](https://plumbiu.github.io/blogImg/image-20230803162829296.png)
-
 ## 指定深度
 
 **我们不建议设置过大的深度，正常情况下 <= 4 是最佳选项**
