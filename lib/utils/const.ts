@@ -66,5 +66,12 @@ export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and s
 
 export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
 
+const buildFinished = `
+${chalk.cyan.bold('Build Finished!')}
+➜  ${chalk.whiteBright.bold('File')}: ${chalk.cyan(path.resolve('./dist'))}`
+export function logBuildFinished(duration: number) {
+  console.log(`${buildFinished} \t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+}
+
 export const distPath = path.resolve(__root, './dist/')
 export const devWebPath = path.resolve(__root, '../packages/web/')
