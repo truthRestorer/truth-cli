@@ -51,6 +51,11 @@ export class Chart {
     if (isEmptyObj(deps))
       return
     for (const [pkgName, pkgVersion] of Object.entries(deps)) {
+      const link = this.linkMap.get(pkgName)
+      if (!link)
+        this.linkMap.set(pkgName, 1)
+      else
+        this.linkMap.set(pkgName, link + 1)
       this.links.push({
         source: pkgName,
         target: name,
@@ -65,15 +70,7 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.echart?.setOption({
-      series: [
-        {
-          name: '引力图',
-          nodes: this.nodes,
-          links: this.links,
-        },
-      ],
-    })
+    this.reSetChartOptions()
   }
 
   mountChart(chart: ECharts) {
@@ -107,6 +104,7 @@ export class Chart {
           force: {
             repulsion: 150,
             layoutAnimation: true,
+            friction: 0.2,
           },
           roam: true,
         },
@@ -125,6 +123,18 @@ export class Chart {
       ],
     }
     this.echart.setOption(options)
+  }
+
+  private reSetChartOptions() {
+    this.echart?.setOption({
+      series: [
+        {
+          name: '引力图',
+          nodes: this.nodes,
+          links: this.links,
+        },
+      ],
+    })
   }
 
   getRelation(name: string) {
@@ -150,7 +160,7 @@ export class Chart {
   }
 
   getVersions(name: string) {
-    return this.versions[name] ?? this.relations[name].version
+    return this.versions[name] ?? this.relations[name]?.version ?? ''
   }
 
   fuzzySearch(name: string) {

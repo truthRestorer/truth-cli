@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 
+const lengend = ref<'树图' | '引力图'>('树图')
 const pkg = ref()
 const pkgInfo = ref()
 const pkgVersions = ref()
@@ -41,6 +42,9 @@ onMounted(async () => {
     }
     if (seriesType === 'graph')
       c.addGraph(data.name)
+  })
+  chartInstance.on('legendselectchanged', (params: any) => {
+    lengend.value = params.name
   })
 })
 </script>
