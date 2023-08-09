@@ -10,6 +10,7 @@ import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import minimist from 'minimist'
+import { genByCommand } from '../packages/cli/src/index.js'
 
 const argv = minimist(process.argv.slice(2))
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -85,6 +86,8 @@ async function resolveBuild() {
     await buildShared()
     await buildWeb()
     await buildCli()
+    if (argv.deploy)
+      await genByCommand(3, false, true, true)
   }
 }
 

@@ -35,12 +35,13 @@ export async function genByCommand(
   dep: number,
   isBoth: boolean = false,
   isDev: boolean = false,
+  isDeploy: boolean = false,
 ) {
   const begin = Date.now()
   try {
     await genFiles(dep, isBoth, isDev)
     const webPath = isDev ? devDistPath : distPath
-    startWeb(webPath)
+    isDeploy || startWeb(webPath)
     const end = Date.now()
     logAnalyzeFinish(end - begin)
     isBoth && logFileWirteFinished(end - begin, './')
