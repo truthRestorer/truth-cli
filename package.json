@@ -1,4 +1,5 @@
 {
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "pnpm -F web dev",
@@ -48,6 +49,5 @@
     "*.{js,ts,vue}": [
       "eslint"
     ]
-  },
-  "version": "1.0.0"
+  }
 }
