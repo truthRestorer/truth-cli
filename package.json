@@ -4,10 +4,12 @@
   "scripts": {
     "dev": "pnpm -F web dev",
     "dev:test": "vitest",
-    "dev:cli": "pnpm build && nodemon",
+    "dev:cli": "nodemon",
     "dev:web": "pnpm -F web dev",
-    "test": "vitest run",
     "build": "ts-node scripts/build.ts",
+    "build:cli": "ts-node scripts/build.ts --cli",
+    "build:web": "ts-node scripts/build.ts --web",
+    "test": "vitest run",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -28,6 +30,7 @@
     "eslint": "^8.45.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
+    "minimist": "^1.2.8",
     "prettier": "^3.0.1",
     "rollup": "^3.26.3",
     "ts-node": "^10.9.1",

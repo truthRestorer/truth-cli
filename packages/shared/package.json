@@ -2,7 +2,7 @@
   "name": "@truth-cli/shared",
   "version": "0.1.0",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "lint-staged": {
     "!(*d).{js,ts}": [
       "eslint"
