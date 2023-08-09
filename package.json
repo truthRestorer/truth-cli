@@ -48,5 +48,6 @@
     "*.{js,ts,vue}": [
       "eslint"
     ]
-  }
+  },
+  "version": "1.0.0"
 }
