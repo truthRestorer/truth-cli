@@ -7,7 +7,9 @@
 	"ignore": [
 		"packages/web/*.ts",
 		"**/__test/*.ts",
-		"node_modules/**"
+		"node_modules/**",
+		"pkgs.json",
+		"treePkgs.json"
 
 	],
 	"exec": "ts-node ./scripts/dev-cli.ts"

@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "pnpm -F web dev",
     "dev:test": "vitest",
-    "dev:cli": "nodemon",
+    "dev:cli": "pnpm build && nodemon",
     "dev:web": "pnpm -F web dev",
     "test": "vitest run",
     "build": "ts-node scripts/build.ts",
