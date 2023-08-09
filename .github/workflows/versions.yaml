@@ -36,5 +36,7 @@ jobs:
           commit: "chore: update versions"
           title: "chore: update versions"
           publish: pnpm publish -r --no-git-checks
+      - name: store prune
+        run: pnpm store prune
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
