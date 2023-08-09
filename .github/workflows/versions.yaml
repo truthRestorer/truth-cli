@@ -27,8 +27,6 @@ jobs:
         run: pnpm install
       - name: start build
         run: pnpm build
-      - name: store prune
-        run: pnpm store prune
       - name: create and publish versions
         uses: changesets/action@v1
         with:
