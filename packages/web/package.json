@@ -7,9 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "dev": "vite"
   },
   "dependencies": {
     "echarts": "^5.4.3",
@@ -17,10 +15,8 @@
     "vue-json-viewer": "3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.8",
     "@types/echarts": "^4.9.18",
     "@vitejs/plugin-vue": "^4.2.3",
-    "eslint": "^8.45.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-singlefile": "^0.13.5",

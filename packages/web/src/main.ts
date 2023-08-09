@@ -4,6 +4,6 @@ import JsonViewer from 'vue-json-viewer'
 import App from './App.vue'
 
 const app = createApp(App)
-app.use(JsonViewer)
 
+app.use(JsonViewer)
 app.mount('#app')
