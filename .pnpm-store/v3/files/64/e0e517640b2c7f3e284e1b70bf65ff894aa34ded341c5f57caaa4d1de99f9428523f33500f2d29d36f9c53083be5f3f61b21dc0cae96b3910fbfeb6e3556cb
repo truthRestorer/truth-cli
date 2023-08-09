@@ -1,0 +1,25 @@
+{
+  "name": "eslint-plugin-antfu",
+  "version": "0.39.8",
+  "license": "MIT",
+  "homepage": "https://github.com/antfu/eslint-config",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@typescript-eslint/utils": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "unbuild": "^1.2.1",
+    "vitest": "^0.33.0"
+  },
+  "scripts": {
+    "build": "rimraf dist && unbuild",
+    "stub": "unbuild --stub",
+    "test": "vitest"
+  }
+}
