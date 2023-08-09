@@ -3,6 +3,7 @@ import type { CSSProperties } from 'vue'
 import { onMounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
+import { debounce } from '../utils/debounce'
 
 const lengend = ref<'树图' | '引力图'>('树图')
 const pkg = ref()
@@ -12,14 +13,14 @@ const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
 
-function handlerSearch() {
+const handlerSearch = debounce(() => {
   const searchResult = c.fuzzySearch(pkg.value)
   if (searchResult) {
     pkgInfo.value = searchResult
     pkgVersions.value = c.getVersions(searchResult.name)
     pkgCirculated.value = c.circulatedPkg(searchResult.name)
   }
-}
+})
 
 const jsonViewerStyle: CSSProperties = {
   'flex': 1,
@@ -103,21 +104,22 @@ div, input {
   flex-direction: column;
 }
 
-.versions, .info {
-  width: 15%;
+.versions {
+  width: 250px;
+}
+.info {
+  width: 280px;
 }
 .versions > div {
   flex: 1;
   overflow: hidden;
 }
-.info {
-  width: 17%;
-}
+
 .pkgSearch {
   outline-style: none ;
   border: 1px solid #ccc;
   border-radius: 4px;
-  padding: 12px 16px;
+  padding: 12px 8px;
   font-size: 26px;
   width: 100%;
 }

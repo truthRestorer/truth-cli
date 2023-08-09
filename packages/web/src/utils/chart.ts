@@ -76,7 +76,7 @@ export class Chart {
           force: {
             repulsion: 150,
             layoutAnimation: true,
-            friction: 0.2,
+            friction: 0.15,
           },
           roam: true,
         },
@@ -135,7 +135,7 @@ export class Chart {
   }
 
   getVersions(name: string) {
-    return this.versions[name] ?? this.relations[name]?.version ?? []
+    return this.versions[name] ?? []
   }
 
   fuzzySearch(name: string) {
