@@ -26,15 +26,16 @@ function addNode(name: string, version: string, category: number) {
  */
 export async function genGraph() {
   const { name, version, devDependencies, dependencies } = relations.__root__
+  const rootName = name ?? '_root_'
   for (const [pkgName, pkgVersion] of entries(Object.assign(devDependencies, dependencies))) {
     addNode(pkgName, pkgVersion, EDeps.ROOT_DEPENDENCY)
     links.push({
       source: pkgName,
-      target: name,
+      target: rootName,
       v: pkgVersion as string,
     })
   }
-  addNode(name, version, EDeps.ROOT)
+  addNode(rootName, version, EDeps.ROOT)
   return {
     nodes,
     links,

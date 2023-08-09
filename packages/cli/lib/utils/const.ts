@@ -74,5 +74,5 @@ export function logBuildFinished(duration: number) {
   console.log(`${buildFinished} \t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
-export const distPath = resolve(__root, './dist/')
-export const devWebPath = resolve(__root, '../packages/web/')
+export const distPath = resolve(__dirname, '../../dist/')
+export const devWebPath = resolve(__root, '../../web/')

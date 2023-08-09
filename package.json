@@ -28,7 +28,6 @@
     "eslint": "^8.45.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "local-pkg": "^0.4.3",
     "prettier": "^3.0.1",
     "rollup": "^3.26.3",
     "ts-node": "^10.9.1",

@@ -32,12 +32,11 @@ function startWeb() {
 export async function genByCommand(
   dep: number,
   isBoth: boolean = false,
-  isDev: boolean = false,
 ) {
   const begin = Date.now()
   try {
-    await genFiles(dep, isBoth, isDev)
-    !isDev && startWeb()
+    await genFiles(dep, isBoth)
+    startWeb()
     const end = Date.now()
     logAnalyzeFinish(end - begin)
     isBoth && logFileWirteFinished(end - begin, './')

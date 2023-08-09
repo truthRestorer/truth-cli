@@ -1,6 +1,14 @@
 {
-	"watch": ["bin", "lib"],
+	"watch": [
+		"packages/cli/bin",
+		"packages/cli/lib"
+	],
 	"ext": "ts,json",
-	"ignore": ["packages/**/*.ts", "**/__test/*.ts", "node_modules/**"],
+	"ignore": [
+		"packages/web/*.ts",
+		"**/__test/*.ts",
+		"node_modules/**"
+
+	],
 	"exec": "ts-node ./scripts/dev-cli.ts"
 }
