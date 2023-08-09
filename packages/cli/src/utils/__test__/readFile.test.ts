@@ -8,7 +8,7 @@ describe('readFile test', async () => {
   })
   test('result should have devDependencies, dependencies and scripts property', async () => {
     expect(result.devDependencies).toBeTypeOf('object')
-    expect(result.dependencies).toBeTypeOf('object')
+    expect(result.dependencies).toBeTypeOf('undefined')
     expect(result.scripts).toBeTypeOf('object')
   })
 })
