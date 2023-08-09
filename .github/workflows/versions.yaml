@@ -25,6 +25,8 @@ jobs:
           version: 7
       - name: dependenies install
         run: pnpm install
+      - name: Setup npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: start build
         run: pnpm build
       - name: create and publish versions
