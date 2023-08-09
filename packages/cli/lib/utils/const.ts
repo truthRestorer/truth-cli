@@ -6,7 +6,6 @@ import { Chalk } from 'chalk'
 
 const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const __root = resolve(__dirname, '..')
 
 // TODO: 根据项目根目录的 package.json 文件自动控制版本和描述
 // 之前直接 import 会导致 dev 命令失效，暂时没有什么好办法
@@ -75,4 +74,4 @@ export function logBuildFinished(duration: number) {
 }
 
 export const distPath = resolve(__dirname, './')
-export const devDistPath = resolve(__root, '../dist/')
+export const devDistPath = resolve(__dirname, '../../dist/')
