@@ -1,6 +1,3 @@
-import { logLogo } from '../lib/utils/const.js'
-import { genByCommand } from '../lib/index.js'
-
-logLogo()
+import { genByCommand } from 'packages/cli/lib/index'
 
 genByCommand(3, true, true)

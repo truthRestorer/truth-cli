@@ -7,13 +7,12 @@ import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
-import { logBuildFinished } from '../lib/utils/const.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 async function buildCli() {
   const inputOptions = {
-    input: ['bin/index.ts'],
+    input: path.resolve(__dirname, '../packages/cli/bin/index.ts'),
     plugins: [
       nodeResolve({
         preferBuiltins: true,
@@ -27,7 +26,7 @@ async function buildCli() {
     ],
   }
   const outputOptions = {
-    dir: 'dist',
+    dir: path.resolve(__dirname, '../packages/cli/dist'),
     format: 'es' as ModuleFormat,
     banner: '#! /usr/bin/env node',
   }
@@ -40,7 +39,7 @@ async function buildWeb() {
     root: path.resolve(__dirname, '../packages/web'),
     base: './',
     build: {
-      outDir: path.resolve(__dirname, '../dist'),
+      outDir: path.resolve(__dirname, '../packages/cli/dist'),
       copyPublicDir: false,
       emptyOutDir: true,
     },
@@ -48,11 +47,8 @@ async function buildWeb() {
 }
 
 async function resolveBuild() {
-  const begin = Date.now()
   await buildWeb()
   await buildCli()
-  const end = Date.now()
-  logBuildFinished(end - begin)
 }
 
 resolveBuild()

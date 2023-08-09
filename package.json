@@ -1,15 +1,5 @@
 {
-  "name": "truth-cli",
-  "version": "0.5.6",
-  "description": "A command-line tool for analyzing dependencies under node_moudles",
   "type": "module",
-  "main": "dist/index.js",
-  "bin": {
-    "truth-cli": "dist/index.js"
-  },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "dev": "pnpm -F web dev",
     "dev:test": "vitest",
@@ -21,21 +11,7 @@
     "commit": "git-cz",
     "ci:publish": "pnpm publish -r --no-git-checks"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/truthRestorer/truth-cli.git"
-  },
-  "keywords": [
-    "node_moudles",
-    "cli",
-    "node"
-  ],
-  "author": "truthRestorer",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/truthRestorer/truth-cli/issues"
-  },
-  "homepage": "https://github.com/truthRestorer/truth-cli#readme",
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@changesets/cli": "^2.26.2",
@@ -46,11 +22,7 @@
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@truth-cli/shared": "workspace:^",
-    "@types/koa": "^2.13.8",
-    "@types/koa-static": "^4.0.2",
     "@types/node": "^20.4.7",
-    "chalk": "^5.3.0",
-    "commander": "^11.0.0",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.0",
     "eslint": "^8.45.0",

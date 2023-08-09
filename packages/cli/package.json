@@ -1,0 +1,48 @@
+{
+  "name": "truth-cli",
+  "version": "0.5.6",
+  "description": "A command-line tool for analyzing dependencies under node_moudles",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "truth-cli": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truthRestorer/truth-cli.git"
+  },
+  "keywords": [
+    "node_moudles",
+    "cli",
+    "node"
+  ],
+  "author": "truthRestorer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/truthRestorer/truth-cli/issues"
+  },
+  "homepage": "https://github.com/truthRestorer/truth-cli#readme",
+  "devDependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "local-pkg": "^0.4.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git",
+      "useEmoji": true
+    }
+  },
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=6"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "eslint"
+    ]
+  }
+}
