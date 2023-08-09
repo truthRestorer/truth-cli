@@ -1,0 +1,25 @@
+{
+    "name": "@types/zrender",
+    "version": "4.0.3",
+    "description": "TypeScript definitions for zrender",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/zrender",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Roman",
+            "url": "https://github.com/iRON5",
+            "githubUsername": "iRON5"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/zrender"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "609a98035e68eceac73ea3cf76b1878547dc117a3865203d73c8d95dfa4c6501",
+    "typeScriptVersion": "4.0"
+}
