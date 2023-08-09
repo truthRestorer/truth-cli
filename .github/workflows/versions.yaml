@@ -23,6 +23,8 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 7
+      - name: dependenies install
+        run: pnpm install
       - name: start build
         run: pnpm build
       - name: store prune
