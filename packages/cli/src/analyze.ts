@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import type { PackageResolvingOptions } from 'local-pkg'
 import { getPackageInfo } from 'local-pkg'
-import { transPath } from 'packages/shared/tools'
+import { transPath } from '@truth-cli/shared/src/tools'
 import { logFileWirteError, logFileWirteFinished } from './utils/const'
 import type { ModuleInfo } from './utils/dependency'
 import { pkgData } from './utils/dependency'

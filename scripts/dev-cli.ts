@@ -1,3 +1,3 @@
-import { genByCommand } from '../packages/cli/lib/index.js'
+import { genByCommand } from '../packages/cli/src/index.js'
 
 genByCommand(3, true, true)
