@@ -6,7 +6,7 @@
       "repo": "truthRestorer/truth-cli"
     }
   ],
-  "commit": true,
+  "commit": false,
   "fixed": [],
   "linked": [],
   "access": "public",
