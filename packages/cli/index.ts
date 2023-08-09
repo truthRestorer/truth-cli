@@ -1,8 +1,8 @@
 import { Command } from 'commander'
-import { genByCommand } from '../lib'
-import { cleanFiles } from '../lib/cleanFile'
-import { genJSONFile } from '../lib/genFile'
-import { genPkgTree } from '../lib/genFile/pkgTree'
+import { genByCommand } from './lib'
+import { cleanFiles } from './lib/cleanFile'
+import { genJSONFile } from './lib/genFile'
+import { genPkgTree } from './lib/genFile/pkgTree'
 import {
   analyzeCommandWords,
   bothOptionWords,
@@ -13,7 +13,7 @@ import {
   logDepthError,
   logLogo,
   version,
-} from '../lib/utils/const.js'
+} from './lib/utils/const.js'
 
 const program = new Command()
 program

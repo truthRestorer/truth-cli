@@ -1,7 +1,7 @@
 import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
 import { devDistPath, distPath, logAnalyzeFinish, logFileWirteError, logFileWirteFinished } from './utils/const.js'
-import { genFiles } from './genFile/index.js'
+import { genFiles } from './genData/index.js'
 
 const server = function (webPath: string) {
   return createServer((req, res) => {
