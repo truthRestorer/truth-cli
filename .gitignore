@@ -32,3 +32,5 @@ tree.json
 versions.json
 /yarn.lock
 treePkgs.txt
+
+!packages/web/public/*.json

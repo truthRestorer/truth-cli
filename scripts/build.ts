@@ -10,7 +10,6 @@ import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import minimist from 'minimist'
-import { genByCommand } from '../packages/cli/src/index.js'
 
 const argv = minimist(process.argv.slice(2))
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -63,16 +62,20 @@ async function buildShared() {
   await bundle.write(shared.output)
 }
 
-async function buildWeb() {
-  await build({
+async function buildWeb(isDeploy?: boolean) {
+  const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
+  const buildBaseOpt: any = {
     root: path.resolve(__dirname, '../packages/web'),
     base: './',
     build: {
-      outDir: path.resolve(__dirname, '../packages/cli/dist'),
-      copyPublicDir: false,
-      emptyOutDir: true,
+      outDir: path.resolve(__dirname, webBuildPath),
     },
-  })
+  }
+  if (!isDeploy) {
+    buildBaseOpt.build.copyPublicDir = false
+    buildBaseOpt.build.emptyOutDir = true
+  }
+  await build(buildBaseOpt)
 }
 
 async function resolveBuild() {
@@ -80,14 +83,12 @@ async function resolveBuild() {
     await buildCli()
   }
   else if (argv.web) {
-    await buildWeb()
+    await buildWeb(argv.deploy)
   }
   else {
     await buildShared()
-    await buildWeb()
+    await buildWeb(argv.deploy)
     await buildCli()
-    if (argv.deploy)
-      await genByCommand(3, false, true, true)
   }
 }
 

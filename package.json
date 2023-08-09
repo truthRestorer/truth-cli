@@ -2,7 +2,6 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm -F web dev",
     "dev:test": "vitest",
     "dev:cli": "nodemon",
     "dev:web": "pnpm -F web dev",
