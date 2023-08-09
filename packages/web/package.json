@@ -15,6 +15,7 @@
     "vue-json-viewer": "3"
   },
   "devDependencies": {
+    "@truth-cli/shared": "workspace:^",
     "@types/echarts": "^4.9.18",
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
