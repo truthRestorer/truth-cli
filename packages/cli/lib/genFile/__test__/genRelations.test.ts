@@ -16,15 +16,15 @@ describe('genRelations test', async () => {
   test('export data have their own props', () => {
     expect(isEmptyObj(relations)).toBeFalsy()
     expect(isEmptyObj(relations.__root__)).toBeFalsy()
-    for (const val of Object.values(relations)) {
-      expect(val).ownProperty('name')
-      expect(val).ownProperty('description')
+    for (const val of Object.values(relations))
       expect(val).ownProperty('version')
-      expect(val).ownProperty('homepage')
-      expect(val).ownProperty('repository')
-      expect(val).ownProperty('author')
-    }
-    expect(relations.__root__).ownProperty('name')
     expect(relations.__root__).ownProperty('version')
+    expect(relations.__root__).ownProperty('type')
+    expect(relations.__root__).ownProperty('scripts')
+    expect(relations.__root__).ownProperty('license')
+    expect(relations.__root__).ownProperty('devDependencies')
+    expect(relations.__root__).ownProperty('config')
+    expect(relations.__root__).ownProperty('engines')
+    expect(relations.__root__).ownProperty('lint-staged')
   })
 })

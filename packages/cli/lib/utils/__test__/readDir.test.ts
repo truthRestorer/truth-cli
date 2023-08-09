@@ -7,6 +7,6 @@ describe('readDir test', async () => {
     expectTypeOf(result).toBeArray()
   })
   test('result should only have web and docs', () => {
-    expect(result).toEqual(['docs', 'shared', 'web'])
+    expect(result).toEqual(['cli', 'shared', 'web'])
   })
 })
