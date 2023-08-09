@@ -16,7 +16,7 @@ export class Chart {
   ) {
     this.nodesSet = new Set(nodes.map((item: any) => item.name))
     this.versions = versions
-    this.rootName = links[0].source
+    this.rootName = relations.__root__.name
   }
 
   addGraph(name: string) {

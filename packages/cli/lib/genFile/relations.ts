@@ -15,6 +15,7 @@ export const relations: Partial<IRelations> = {}
 async function readGlob(p: string) {
   if (!p.includes('node_modules')) {
     const pkg: IRelations = await readFile(p)
+    pkg.name = pkg.name ?? '_root_'
     relations.__root__ = pkg
     relations[pkg.name] = pkg
     return
