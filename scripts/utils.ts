@@ -6,12 +6,13 @@ import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import type { InlineConfig } from 'vite'
+import { build } from 'vite'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const packagesDir = path.resolve(__dirname, '../packages/')
 
 export async function buildOptions() {
-  const dirs = await fs.readdir(packagesDir)
+  const dirs = await fs.readdir(path.resolve(__dirname, '../packages/'))
   const plugins = [
     nodeResolve({
       preferBuiltins: true,
@@ -39,4 +40,20 @@ export async function buildOptions() {
     }
   }
   return opts
+}
+
+export async function buildWeb(isDeploy?: boolean) {
+  const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
+  const buildBaseOpt: InlineConfig = {
+    root: path.resolve(__dirname, '../packages/web'),
+    base: './',
+    build: {
+      outDir: path.resolve(__dirname, webBuildPath),
+    },
+  }
+  if (!isDeploy) {
+    buildBaseOpt.build!.copyPublicDir = false
+    buildBaseOpt.build!.emptyOutDir = true
+  }
+  await build(buildBaseOpt)
 }

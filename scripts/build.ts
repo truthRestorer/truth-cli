@@ -1,29 +1,9 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import process from 'node:process'
-import { build } from 'vite'
 import { rollup } from 'rollup'
 import minimist from 'minimist'
-import { buildOptions } from './utils.js'
+import { buildOptions, buildWeb } from './utils.js'
 
 const argv = minimist(process.argv.slice(2))
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
-
-async function buildWeb(isDeploy?: boolean) {
-  const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
-  const buildBaseOpt: any = {
-    root: path.resolve(__dirname, '../packages/web'),
-    base: './',
-    build: {
-      outDir: path.resolve(__dirname, webBuildPath),
-    },
-  }
-  if (!isDeploy) {
-    buildBaseOpt.build.copyPublicDir = false
-    buildBaseOpt.build.emptyOutDir = true
-  }
-  await build(buildBaseOpt)
-}
 
 async function resolveBuild() {
   const opts = await buildOptions()
@@ -34,10 +14,10 @@ async function resolveBuild() {
     await bundle.write(output)
   }
   else if (argv.web) {
-    await buildWeb(argv.deploy)
+    await buildWeb(false)
   }
   else {
-    await buildWeb(argv.deploy)
+    await buildWeb(false)
     for (const val of opts.values()) {
       const [input, output] = val
       if (val === 'cli')

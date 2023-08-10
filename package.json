@@ -8,7 +8,7 @@
     "build": "ts-node scripts/build.ts",
     "build:cli": "ts-node scripts/build.ts --cli",
     "build:web": "ts-node scripts/build.ts --web",
-    "build:deploy": "ts-node scripts/build.ts --deploy",
+    "build:deploy": "ts-node scripts/deploy.ts",
     "test": "vitest run",
     "prepare": "husky install",
     "commit": "git-cz"
