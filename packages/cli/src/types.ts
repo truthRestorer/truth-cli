@@ -3,6 +3,7 @@ export interface IOptions {
   isBoth?: boolean
   isDev?: boolean
   isDeploy?: boolean
+  jsonPath?: boolean
 }
 
 export interface IContext {

@@ -1,7 +1,6 @@
 {
 	"watch": [
-		"packages/cli/bin",
-		"packages/cli/lib"
+		"packages/cli/**"
 	],
 	"ext": "ts,json",
 	"ignore": [
@@ -9,7 +8,8 @@
 		"**/__test/*.ts",
 		"node_modules/**",
 		"pkgs.json",
-		"treePkgs.json"
+		"treePkgs.json",
+		"**/dist/**"
 
 	],
 	"exec": "ts-node ./scripts/dev-cli.ts"

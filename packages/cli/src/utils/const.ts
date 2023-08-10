@@ -34,7 +34,7 @@ export function logLogo() {
 }
 
 const webStart = `  ${localPrefix} ${chalk.cyan('http://localhost:3002')}\t`
-export function logAnalyzeFinish(duration: number) {
+export function logWebStart(duration: number) {
   console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 

@@ -27,7 +27,8 @@ async function genData(treeDep: number) {
 /**
  * 方便命令行操作的函数
  */
-export async function genFiles(options: IOptions) {
+export async function genWebFile(options: IOptions) {
+  const begin = Date.now()
   const { dep, isBoth, isDev } = options
   const { relations, graph, tree, versions } = await genData(dep)
   const writePath = isDev ? devDistPath : distPath
@@ -38,15 +39,17 @@ export async function genFiles(options: IOptions) {
   if (isBoth) {
     const pkgs = genPkgs(dep)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
+    logFileWirteFinished(Date.now() - begin, './')
   }
 }
 
 /**
  * 只写入文件，不打开网页
  */
-export async function genJSONFile(pkgDep: number, p: string | boolean) {
+export async function genJSONFile(pkgDep: number, p?: string | boolean) {
   const begin = Date.now()
-  p = typeof p === 'boolean' ? './' : p
+  if (!p || typeof p === 'boolean')
+    p = './'
   try {
     await genRelations()
     const pkgs = genPkgs(pkgDep)

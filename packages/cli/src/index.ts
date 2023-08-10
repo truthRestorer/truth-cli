@@ -1,7 +1,7 @@
 import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
-import { devDistPath, distPath, logAnalyzeFinish, logFileWirteError, logFileWirteFinished } from './utils/const.js'
-import { genFiles } from './genData/index.js'
+import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from './utils/const.js'
+import { genJSONFile, genWebFile } from './genData/index.js'
 import type { IOptions } from './types.js'
 
 const server = function (webPath: string) {
@@ -26,22 +26,28 @@ const server = function (webPath: string) {
 /**
  * 启动服务器
  */
-function startWeb(webPath: string) {
-  server(webPath).listen(3002)
+function startWeb(begin: number, isDev?: boolean) {
+  logWebStart(Date.now() - begin)
+  const webStartPath = isDev ? devDistPath : distPath
+  server(webStartPath).listen(3002)
 }
 /**
  * 命令行操作函数
  */
 export async function genByCommand(options: IOptions) {
-  const { dep, isBoth, isDev, isDeploy } = options
+  logLogo()
+  const { dep, isBoth, isDev, isDeploy, jsonPath } = options
   const begin = Date.now()
   try {
-    await genFiles({ dep, isBoth, isDev })
-    const webPath = isDev ? devDistPath : distPath
-    isDeploy || startWeb(webPath)
-    const end = Date.now()
-    logAnalyzeFinish(end - begin)
-    isBoth && logFileWirteFinished(end - begin, './')
+    // 表示生成 pkgs.json 不打开网页
+    if (jsonPath) {
+      await genJSONFile(dep, jsonPath)
+      return
+    }
+    await genWebFile({ dep, isBoth, isDev })
+    // 如果是 deploy 环境下，不启动网页
+    if (!isDeploy)
+      startWeb(begin, isDev)
   }
   catch (err: any) {
     logFileWirteError(err.message)

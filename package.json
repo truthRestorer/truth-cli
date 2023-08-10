@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev:test": "vitest",
-    "dev:cli": "nodemon",
+    "dev:cli": "pnpm build && nodemon",
     "dev:web": "pnpm -F web dev",
     "build": "ts-node scripts/build.ts",
     "build:cli": "ts-node scripts/build.ts --cli",
