@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.3
+
+### Patch Changes
+
+- b608eb42: 修复node脚本执行问题
+
 ## 0.7.2
 
 ### Patch Changes
