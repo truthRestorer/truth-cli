@@ -24,10 +24,10 @@ export async function buildOptions() {
     commonjs(),
     terser(),
   ]
-  const opts = new Map()
+  const opts: { [key: string]: any } = {}
   for (let i = 0; i < dirs.length; i++) {
     if (dirs[i] !== 'web') {
-      opts.set(dirs[i], [
+      opts[dirs[i]] = [
         {
           input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
           plugins,
@@ -36,7 +36,9 @@ export async function buildOptions() {
           dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
           format: 'es' as ModuleFormat,
         },
-      ])
+      ]
+      if (dirs[i] === 'cli')
+        opts.cli[1].banner = '#! /usr/bin/env node'
     }
   }
   return opts

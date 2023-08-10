@@ -49,6 +49,9 @@ program
   .description(cleanCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '1')
   .action(async ({ dep }) => {
+    const depth = +dep
+    if (Number.isNaN(depth))
+      throw new TypeError('illegal type of depth')
     await genPkgTree(+dep)
   })
 

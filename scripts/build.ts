@@ -9,7 +9,6 @@ async function resolveBuild() {
   const opts = await buildOptions()
   if (argv.cli) {
     const [input, output] = opts.get('cli')
-    output.banner = '#! /usr/bin/env node'
     const bundle = await rollup(input)
     await bundle.write(output)
   }
@@ -18,10 +17,8 @@ async function resolveBuild() {
   }
   else {
     await buildWeb(false)
-    for (const [key, val] of opts.entries()) {
+    for (const val of Object.values(opts)) {
       const [input, output] = val
-      if (key === 'cli')
-        output.banner = '#! /usr/bin/env node'
       const bundle = await rollup(input)
       await bundle.write(output)
     }
