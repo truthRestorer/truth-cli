@@ -5,9 +5,9 @@ import { relations } from './relations.js'
 const versionMap: IVersions = {}
 
 export function vControl(v: string) {
-  if (v.startsWith('^'))
+  if (v[0] === '^')
     return v.slice(0, v.indexOf('.'))
-  if (v.startsWith('~'))
+  if (v[0] === '~')
     return v.slice(0, v.lastIndexOf('.'))
   return v
 }
