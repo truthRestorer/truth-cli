@@ -3,7 +3,6 @@ import type { ILinks, INodes, IRelations, ITree, IVersions } from '@truth-cli/sh
 import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 
 export class Chart {
-  private graphSet = new Set()
   private nodesSet: Set<string>
   echart: ECharts | undefined
   private rootName: string
@@ -20,10 +19,7 @@ export class Chart {
   }
 
   addGraph(name: string) {
-    if (name === this.rootName || this.graphSet.has(name))
-      return
-    this.graphSet.add(name)
-    if (!this.relations[name])
+    if (name === this.rootName || !this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
     const deps = Object.assign({}, devDependencies, dependencies)

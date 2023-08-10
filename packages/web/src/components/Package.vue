@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 import { debounce } from '../utils/debounce'
+import JsonView from './JsonView.vue'
 
+const graphSet = new Set()
 const lengend = ref<'树图' | '引力图'>('树图')
 const pkg = ref()
 const pkgInfo = ref()
@@ -12,7 +13,6 @@ const pkgVersions = ref()
 const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
-
 const handleSearch = debounce(() => {
   const searchResult = c.fuzzySearch(pkg.value)
   if (searchResult) {
@@ -21,14 +21,6 @@ const handleSearch = debounce(() => {
     pkgCirculated.value = c.getCirculation(searchResult.name)
   }
 })
-
-const jsonViewerStyle: CSSProperties = {
-  'flex': 1,
-  'width': '100%',
-  'white-space': 'pre-wrap',
-  'overflow-y': 'auto',
-  'overflow-x': 'hidden',
-}
 
 onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
@@ -41,8 +33,10 @@ onMounted(async () => {
       pkgVersions.value = c.getVersions(data.name)
       pkgCirculated.value = c.getCirculation(data.name)
     }
-    if (seriesType === 'graph')
+    if (seriesType === 'graph' && !graphSet.has(data.name)) {
+      graphSet.add(data.name)
       c.addGraph(data.name)
+    }
   })
   chartInstance.on('legendselectchanged', (params: any) => {
     lengend.value = params.name
@@ -55,41 +49,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="f-wrap-column info">
+  <div class="f-wrap-column info" style="width: 280px;">
     <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handleSearch">
-    <json-viewer
-      :expand-depth="2"
-      :value="pkgInfo ?? {}"
-      copyable
-      boxed
-      expanded
-      :style="jsonViewerStyle"
-    />
+    <JsonView :data="pkgInfo" />
   </div>
-  <div id="chart" />
-  <div class="f-wrap-column versions">
-    <div class="f-wrap-column">
+  <div id="chart" style="flex: 1" />
+  <div class="f-wrap-column" style="width: 250px;">
+    <div class="f-wrap-column version">
       <span class="pkgTitle">各个版本</span>
-      <json-viewer
-        :expand-depth="2"
-        :value="pkgVersions ?? {}"
-        copyable
-        boxed
-        expanded
-        :style="jsonViewerStyle"
-      />
+      <JsonView :data="pkgVersions" />
     </div>
-    <div class="f-wrap-column">
+    <div class="f-wrap-column version">
       <span class="pkgTitle">循环引用</span>
-      <json-viewer
-        :expand-depth="2"
-        :value="pkgCirculated ?? []"
-        :show-array-index="false"
-        copyable
-        boxed
-        expanded
-        :style="jsonViewerStyle"
-      />
+      <JsonView :data="pkgCirculated" />
     </div>
   </div>
 </template>
@@ -98,23 +70,13 @@ onUnmounted(() => {
 div, input {
   box-sizing: border-box;
 }
-
-#chart {
-  flex: 1;
-}
 .f-wrap-column {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
 }
 
-.versions {
-  width: 250px;
-}
-.info {
-  width: 280px;
-}
-.versions > div {
+.version {
   flex: 1;
   overflow: hidden;
 }
