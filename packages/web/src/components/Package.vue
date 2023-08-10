@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
-import { Chart, initData } from '../utils/index'
-import { debounce } from '../utils/debounce'
+import { Chart, debounce, initData } from '../utils/index'
 import JsonView from './JsonView.vue'
 
 const graphSet = new Set()
