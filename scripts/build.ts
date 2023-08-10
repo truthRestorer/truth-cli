@@ -18,9 +18,9 @@ async function resolveBuild() {
   }
   else {
     await buildWeb(false)
-    for (const val of opts.values()) {
+    for (const [key, val] of opts.entries()) {
       const [input, output] = val
-      if (val === 'cli')
+      if (key === 'cli')
         output.banner = '#! /usr/bin/env node'
       const bundle = await rollup(input)
       await bundle.write(output)
