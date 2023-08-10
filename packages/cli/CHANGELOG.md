@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.2
+
+### Patch Changes
+
+- 03969803: 文档更新
+
 ## 0.7.1
 
 ### Patch Changes
