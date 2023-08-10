@@ -5,7 +5,7 @@ import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 export class Chart {
   private graphSet = new Set()
   private nodesSet: Set<string>
-  private echart: ECharts | undefined
+  echart: ECharts | undefined
   private rootName: string
   constructor(
     private nodes: INodes[],
@@ -97,11 +97,13 @@ export class Chart {
   }
 
   private setChartOptions(options?: any) {
+    if (!this.echart)
+      return
     if (options) {
-      this.echart?.setOption(options)
+      this.echart.setOption(options)
       return
     }
-    this.echart?.setOption({
+    this.echart.setOption({
       series: [
         {
           name: '引力图',
@@ -117,7 +119,7 @@ export class Chart {
     return relation
   }
 
-  circulatedPkg(name: string) {
+  getCirculation(name: string) {
     if (!this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]

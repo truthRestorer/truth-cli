@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import echarts from '../plugins/echarts'
 import { Chart, initData } from '../utils/index'
 import { debounce } from '../utils/debounce'
@@ -13,12 +13,12 @@ const pkgCirculated = ref()
 const { nodes, links, tree, relations, versions } = await initData()
 const c = new Chart(nodes, links, tree, relations, versions)
 
-const handlerSearch = debounce(() => {
+const handleSearch = debounce(() => {
   const searchResult = c.fuzzySearch(pkg.value)
   if (searchResult) {
     pkgInfo.value = searchResult
     pkgVersions.value = c.getVersions(searchResult.name)
-    pkgCirculated.value = c.circulatedPkg(searchResult.name)
+    pkgCirculated.value = c.getCirculation(searchResult.name)
   }
 })
 
@@ -39,7 +39,7 @@ onMounted(async () => {
       pkg.value = data.name
       pkgInfo.value = c.getRelation(data.name)
       pkgVersions.value = c.getVersions(data.name)
-      pkgCirculated.value = c.circulatedPkg(data.name)
+      pkgCirculated.value = c.getCirculation(data.name)
     }
     if (seriesType === 'graph')
       c.addGraph(data.name)
@@ -48,11 +48,15 @@ onMounted(async () => {
     lengend.value = params.name
   })
 })
+onUnmounted(() => {
+  c.echart?.off('click')
+  c.echart?.off('legendselectchanged')
+})
 </script>
 
 <template>
   <div class="f-wrap-column info">
-    <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handlerSearch">
+    <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handleSearch">
     <json-viewer
       :expand-depth="2"
       :value="pkgInfo ?? {}"
