@@ -14,7 +14,7 @@ export class Chart {
     private relations: IRelations,
     private versions: IVersions,
   ) {
-    this.nodesSet = new Set(nodes.map((item: any) => item.name))
+    this.nodesSet = new Set(nodes.map((item: INodes) => item.name))
     this.versions = versions
     this.rootName = relations.__root__.name
   }
@@ -93,17 +93,11 @@ export class Chart {
         },
       ],
     }
-    this.setChartOptions(options)
+    this.echart.setOption(options)
   }
 
-  private setChartOptions(options?: any) {
-    if (!this.echart)
-      return
-    if (options) {
-      this.echart.setOption(options)
-      return
-    }
-    this.echart.setOption({
+  private setChartOptions() {
+    this.echart?.setOption({
       series: [
         {
           name: '引力图',
@@ -125,7 +119,7 @@ export class Chart {
     const { devDependencies, dependencies } = this.relations[name]
     const pkgs = assign(devDependencies, dependencies)
     const result = []
-    for (const pkg of Object.keys(pkgs) as any) {
+    for (const pkg of Object.keys(pkgs)) {
       if (this.relations[pkg]) {
         const { devDependencies, dependencies } = this.relations[pkg]
         const relationPkg = assign(devDependencies, dependencies)
