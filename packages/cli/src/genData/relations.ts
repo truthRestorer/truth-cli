@@ -10,16 +10,9 @@ import { readDir, readFile } from '../utils/tools.js'
  */
 export const relations: Partial<IRelations> = {}
 /**
- * 读取根目录和 node_modules 目录下的所有 package.json 文件
+ * 读取 node_modules 目录下的所有 package.json 文件
  */
 async function readGlob(p: string) {
-  if (!p.includes('node_modules')) {
-    const pkg: IRelations = await readFile(p)
-    pkg.name = pkg.name ?? '_root_'
-    relations.__root__ = pkg
-    relations[pkg.name] = pkg
-    return
-  }
   const pkgsRoot = await readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = resolve(p, `${pkgsRoot[i]}`)
@@ -45,7 +38,10 @@ async function readGlob(p: string) {
  * 导出易于命名行操作的函数
  */
 export async function genRelations() {
-  await readGlob('package.json')
+  const pkg: IRelations = await readFile('package.json')
+  pkg.name = pkg.name ?? '_root_'
+  relations.__root__ = pkg
+  relations[pkg.name] = pkg
   await readGlob('node_modules')
   return relations
 }
