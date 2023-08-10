@@ -3,7 +3,7 @@ import type { IPkgs } from '@truth-cli/shared'
 import { relations } from './relations.js'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
-const pkgSet = new Set()
+const pkgSet = new Set<string>()
 /**
  * 向 pkg 中添加节点
  */

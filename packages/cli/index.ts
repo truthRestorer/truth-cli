@@ -37,7 +37,7 @@ program
         genJSONFile(depth - 1, json)
         return
       }
-      await genByCommand(depth, both)
+      await genByCommand({ dep: depth, isBoth: both })
     }
     catch (err) {
       logDepthError()

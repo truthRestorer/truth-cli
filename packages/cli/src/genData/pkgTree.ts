@@ -1,16 +1,9 @@
 import { writeFile } from 'node:fs/promises'
 import type { IPkgs } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
+import type { IContext } from '../types.js'
 import { genPkgs } from './pkgs.js'
 import { genRelations } from './relations.js'
-
-interface IContext {
-  source: string
-  push: (symbol: string) => void
-  removeLastElm: () => string
-  dealNewLine: (tabCount: number, shouldAdd?: boolean) => void
-  dealEnd: () => void
-}
 
 enum ESymbol {
   TAB = ' ',
@@ -47,7 +40,7 @@ function createContext() {
   return context
 }
 
-function loadTreeFile(pkgs: IPkgs | undefined, tabCount: number, ctx: IContext) {
+function loadTreeFile(pkgs: IPkgs, tabCount: number, ctx: IContext) {
   if (!pkgs)
     return
   const { dealNewLine, push } = ctx

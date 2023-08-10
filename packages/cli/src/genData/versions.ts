@@ -2,7 +2,7 @@ import type { IVersions } from '@truth-cli/shared'
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
 import { relations } from './relations.js'
 
-const versionMap: IVersions = {}
+const versions: IVersions = {}
 
 export function vControl(v: string) {
   if (v[0] === '^')
@@ -17,11 +17,11 @@ function loadVersions() {
     const pkgs = assign(dependencies, devDependencies)
     if (!isEmptyObj(pkgs)) {
       for (const [pkgName, pkgVersion] of entries(pkgs)) {
-        const pkgMap = versionMap[pkgName]
+        const pkgMap = versions[pkgName]
         const v = vControl(pkgVersion)
         if (!pkgMap) {
-          versionMap[pkgName] = {}
-          versionMap[pkgName][v] = [name]
+          versions[pkgName] = {}
+          versions[pkgName][v] = [name]
         }
         else {
           if (pkgMap[v] && !pkgMap[v].includes(name))
@@ -36,9 +36,9 @@ function loadVersions() {
 
 export async function genVersions() {
   loadVersions()
-  for (const key of Object.keys(versionMap)) {
-    if (Object.keys(versionMap[key]).length === 1)
-      delete versionMap[key]
+  for (const key of Object.keys(versions)) {
+    if (Object.keys(versions[key]).length === 1)
+      delete versions[key]
   }
-  return versionMap
+  return versions
 }

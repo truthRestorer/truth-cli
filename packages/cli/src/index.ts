@@ -2,6 +2,7 @@ import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
 import { devDistPath, distPath, logAnalyzeFinish, logFileWirteError, logFileWirteFinished } from './utils/const.js'
 import { genFiles } from './genData/index.js'
+import type { IOptions } from './types.js'
 
 const server = function (webPath: string) {
   return createServer((req, res) => {
@@ -31,15 +32,11 @@ function startWeb(webPath: string) {
 /**
  * 命令行操作函数
  */
-export async function genByCommand(
-  dep: number,
-  isBoth: boolean = false,
-  isDev: boolean = false,
-  isDeploy: boolean = false,
-) {
+export async function genByCommand(options: IOptions) {
+  const { dep, isBoth, isDev, isDeploy } = options
   const begin = Date.now()
   try {
-    await genFiles(dep, isBoth, isDev)
+    await genFiles({ dep, isBoth, isDev })
     const webPath = isDev ? devDistPath : distPath
     isDeploy || startWeb(webPath)
     const end = Date.now()

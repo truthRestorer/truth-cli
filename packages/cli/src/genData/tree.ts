@@ -3,7 +3,7 @@ import type { ITree } from '@truth-cli/shared'
 import { relations } from './relations.js'
 
 // treeSet 用户记录已经记住的节点，在 maxDep > 4 不会删除记住过的节点
-const treeSet = new Set()
+const treeSet = new Set<string>()
 
 /**
  * 如果 treeSet 保存过这个 tree 名字，或者说 tree 没有依赖。

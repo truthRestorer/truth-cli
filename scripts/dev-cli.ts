@@ -1,3 +1,3 @@
 import { genByCommand } from '../packages/cli/src/index.js'
 
-genByCommand(3, true, true)
+genByCommand({ dep: 3, isBoth: true, isDev: true })

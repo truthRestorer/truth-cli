@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
+import type { IOptions } from '../types.js'
 import { genGraph } from './graph.js'
 import { genRelations } from './relations.js'
 import { genTree } from './tree.js'
@@ -26,11 +27,8 @@ async function genData(treeDep: number) {
 /**
  * 方便命令行操作的函数
  */
-export async function genFiles(
-  dep: number,
-  isBoth: boolean,
-  isDev: boolean,
-) {
+export async function genFiles(options: IOptions) {
+  const { dep, isBoth, isDev } = options
   const { relations, graph, tree, versions } = await genData(dep)
   const writePath = isDev ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
