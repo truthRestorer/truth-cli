@@ -1,5 +1,12 @@
 # truth-cli
 
+## 0.7.4
+
+### Patch Changes
+
+- 506a98cf: 完善docs文档说明和@truth-cli/web的测试
+- d051f348: 核心模块抽离
+
 ## 0.7.3
 
 ### Patch Changes
