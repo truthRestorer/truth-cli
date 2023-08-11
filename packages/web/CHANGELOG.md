@@ -1,5 +1,11 @@
 # @truth-cli/web
 
+## 0.1.3
+
+### Patch Changes
+
+- b8ba3a35: 使用自定义assign函数
+
 ## 0.1.2
 
 ### Patch Changes
