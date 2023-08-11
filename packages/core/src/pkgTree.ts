@@ -1,4 +1,3 @@
-import { writeFile } from 'node:fs/promises'
 import type { IContext, IPkgs } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
 import { genPkgs } from './pkgs.js'
@@ -59,5 +58,5 @@ export async function genPkgTree(maxDep: number) {
   ctx.push(`${name} ${version}:`)
   loadTreeFile(packages, 0, ctx)
   ctx.dealEnd()
-  await writeFile('treePkgs.txt', ctx.source)
+  return ctx.source
 }

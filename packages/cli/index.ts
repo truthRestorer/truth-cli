@@ -1,3 +1,4 @@
+import { writeFile } from 'node:fs/promises'
 import { Command } from 'commander'
 import { cleanFiles, genPkgTree } from '@truth-cli/core'
 import {
@@ -51,7 +52,8 @@ program
     const depth = +dep
     if (Number.isNaN(depth))
       throw new TypeError('illegal type of depth')
-    await genPkgTree(+dep)
+    const pkgTree = await genPkgTree(+dep)
+    await writeFile('treePkgs.txt', pkgTree)
   })
 
 program.parse()
