@@ -2,7 +2,7 @@
   "name": "@truth-cli/core",
   "version": "0.0.2",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
