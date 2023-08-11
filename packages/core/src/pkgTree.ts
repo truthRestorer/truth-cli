@@ -1,7 +1,6 @@
 import { writeFile } from 'node:fs/promises'
-import type { IPkgs } from '@truth-cli/shared'
+import type { IContext, IPkgs } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
-import type { IContext } from '../types.js'
 import { genPkgs } from './pkgs.js'
 import { genRelations } from './relations.js'
 

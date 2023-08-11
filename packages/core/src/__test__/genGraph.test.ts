@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { assign } from '@truth-cli/shared'
-import { readFile } from '../../utils/tools'
+import { assign, readFile } from '@truth-cli/shared'
 import { genGraph } from '../graph'
 import { genRelations } from '../relations'
 

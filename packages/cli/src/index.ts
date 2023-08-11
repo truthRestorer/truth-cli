@@ -1,8 +1,8 @@
 import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
-import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from './utils/const.js'
-import { genJSONFile, genWebFile } from './genData/index.js'
-import type { IOptions } from './types.js'
+import type { IOptions } from '@truth-cli/shared'
+import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from '@truth-cli/shared'
+import { genJSONFile, genWebFile } from './genFile.js'
 
 const server = function (webPath: string) {
   return createServer((req, res) => {

@@ -1,7 +1,5 @@
 import { Command } from 'commander'
-import { genByCommand } from './src/index.js'
-import { cleanFiles } from './src/cleanFile.js'
-import { genPkgTree } from './src/genData/pkgTree.js'
+import { cleanFiles, genPkgTree } from '@truth-cli/core'
 import {
   analyzeCommandWords,
   bothOptionWords,
@@ -11,7 +9,8 @@ import {
   filePathOptionWords,
   logDepthError,
   version,
-} from './src/utils/const.js'
+} from '@truth-cli/shared'
+import { genByCommand } from './src/index.js'
 
 const program = new Command()
 program

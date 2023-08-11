@@ -1,6 +1,7 @@
 import type { ECharts } from 'echarts/core'
 import type { ILinks, INodes, IRelations, ITree, IVersions } from '@truth-cli/shared'
-import { assign, categories, isEmptyObj } from '@truth-cli/shared'
+import { assign, isEmptyObj } from '@truth-cli/shared/src/tools'
+import { categories } from '@truth-cli/shared/src/types'
 
 export class Chart {
   private nodesSet: Set<string>

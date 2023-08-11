@@ -1,12 +1,8 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '../utils/const.js'
-import type { IOptions } from '../types.js'
-import { genGraph } from './graph.js'
-import { genRelations } from './relations.js'
-import { genTree } from './tree.js'
-import { genPkgs } from './pkgs.js'
-import { genVersions } from './versions.js'
+import { genGraph, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
+import type { IOptions } from '@truth-cli/shared'
+import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '@truth-cli/shared'
 
 /**
  * 生成网页所需要的数据(tree 图和 graph 图)

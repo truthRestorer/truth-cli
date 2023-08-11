@@ -1,6 +1,6 @@
 {
-  "name": "@truth-cli/shared",
-  "version": "0.1.1",
+  "name": "@truth-cli/core",
+  "version": "0.0.1",
   "type": "module",
   "main": "index.ts",
   "files": [
@@ -10,8 +10,5 @@
     "!(*d).{js,ts}": [
       "eslint"
     ]
-  },
-  "devDependencies": {
-    "chalk": "^5.3.0"
   }
 }
