@@ -10,9 +10,9 @@ import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '
 async function genData(treeDep: number) {
   // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
   const relations = await genRelations()
-  const graph = await genGraph()
-  const tree = await genTree(treeDep)
-  const versions = await genVersions()
+  const graph = genGraph()
+  const tree = genTree(treeDep)
+  const versions = genVersions()
   return {
     relations,
     graph,

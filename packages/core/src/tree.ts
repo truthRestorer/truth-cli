@@ -69,7 +69,7 @@ function loadTrees(
 /**
  * 导出易于和命令行操作的函数
  */
-export async function genTree(maxDep: number) {
+export function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const treeData: ITree = {
     name: name ?? '_root_',

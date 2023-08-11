@@ -24,7 +24,7 @@ function addNode(name: string, version: string, category: number) {
 /**
  * 导出易于命令行操作的函数
  */
-export async function genGraph() {
+export function genGraph() {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '_root_'
   for (const [pkgName, pkgVersion] of entries(Object.assign(devDependencies, dependencies))) {

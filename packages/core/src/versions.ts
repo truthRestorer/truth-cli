@@ -34,7 +34,7 @@ function loadVersions() {
   }
 }
 
-export async function genVersions() {
+export function genVersions() {
   loadVersions()
   for (const key of Object.keys(versions)) {
     if (Object.keys(versions[key]).length === 1)
