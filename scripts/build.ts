@@ -8,7 +8,7 @@ const argv = minimist(process.argv.slice(2))
 async function resolveBuild() {
   const opts = await buildOptions()
   if (argv.cli) {
-    const [input, output] = opts.get('cli')
+    const [input, output] = opts.cli
     const bundle = await rollup(input)
     await bundle.write(output)
   }
