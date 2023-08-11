@@ -23,7 +23,7 @@ export class Chart {
     if (name === this.rootName || !this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
-    const deps = Object.assign({}, devDependencies, dependencies)
+    const deps = assign(devDependencies, dependencies)
     if (isEmptyObj(deps))
       return
     for (const [pkgName, pkgVersion] of Object.entries(deps)) {

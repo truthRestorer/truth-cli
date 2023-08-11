@@ -1,4 +1,4 @@
-import { EDeps, entries } from '@truth-cli/shared'
+import { EDeps, assign, entries } from '@truth-cli/shared'
 import type { ILinks, INodes } from '@truth-cli/shared'
 import { relations } from './relations.js'
 
@@ -27,7 +27,7 @@ function addNode(name: string, version: string, category: number) {
 export function genGraph() {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '_root_'
-  for (const [pkgName, pkgVersion] of entries(Object.assign(devDependencies, dependencies))) {
+  for (const [pkgName, pkgVersion] of entries(assign(devDependencies, dependencies))) {
     addNode(pkgName, pkgVersion, EDeps.ROOT_DEPENDENCY)
     links.push({
       source: pkgName,
