@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { isEmptyObj } from 'packages/shared'
+import { isEmptyObj } from '@truth-cli/shared'
 
 describe('isEmptyObj function', () => {
   test('undefined or null should be truthy', () => {
