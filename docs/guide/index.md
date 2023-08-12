@@ -60,3 +60,49 @@ truth-cli analyze -b
 你可以访问 [Truth-cli on Vercel](https://truth-cli.vercel.app/) 查看 `truth-cli` 的网页端效果。
 
 > 由于 `truth-cli` 采用的是 pnpm 管理工具，所以有些依赖无法展示清楚。
+
+## 获取帮助
+
+查看 `truth-cli` 所有命令帮助：
+
+::: code-group
+```bash [--help]
+truth-cli --help
+```
+```bash [-h]
+truth-cli -h
+```
+:::
+
+查看 `analyze` 命令:
+
+::: code-group
+```bash [--help]
+truth-cli analyze --help
+```
+```bash [-h]
+truth-cli analyze -h
+```
+:::
+
+查看 `tree` 命令:
+
+::: code-group
+```bash [--help]
+truth-cli tree --help
+```
+```bash [-h]
+truth-cli tree -h
+```
+:::
+
+查看 `clean` 命令:
+
+::: code-group
+```bash [--help]
+truth-cli clean --help
+```
+```bash [-h]
+truth-cli clean -h
+```
+:::
