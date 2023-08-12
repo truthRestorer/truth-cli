@@ -4,7 +4,7 @@ import { relations } from './relations.js'
 
 // treeSet 用户记录已经记住的节点，在 maxDep > 4 不会删除记住过的节点
 const treeSet = new Set<string>()
-
+const rootPkgSet = new Set<string>()
 /**
  * 如果 treeSet 保存过这个 tree 名字，或者说 tree 没有依赖。
  * 那么删除该项的 children 属性，减少生成的 tree.json 文件大小
@@ -51,19 +51,17 @@ function loadTrees(
     const pkgs = assign(dependencies, devDependencies)
     addTree(tree.name, version, pkgs)
     for (const [name, version] of entries(pkgs)) {
-      if (relations[name]) {
-        const add: ITree = {
-          name,
-          value: version as string,
-          children: [],
-        }
-        const { devDependencies, dependencies } = relations[name]
-        deleteTreeChildren(add, name, assign(devDependencies, dependencies))
-        tree.children?.push(add)
+      const add: ITree = {
+        name,
+        value: version as string,
+        children: [],
       }
+      const { devDependencies, dependencies } = relations[name] ?? {}
+      deleteTreeChildren(add, name, assign(devDependencies, dependencies))
+      tree.children?.push(add)
     }
     loadTrees(tree.children, maxDep - 1, shouldOptimize)
-    shouldOptimize || treeSet.delete(tree.name)
+    shouldOptimize || treeSet.has(tree.name) || treeSet.delete(tree.name)
   }
 }
 /**
@@ -75,6 +73,7 @@ export function genTree(maxDep: number) {
     name: name ?? '_root_',
     value: version ?? 'latest',
     children: entries(assign(dependencies, devDependencies)).map(([name, version]) => {
+      rootPkgSet.add(name)
       treeSet.add(name)
       return {
         name,
