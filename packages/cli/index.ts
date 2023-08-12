@@ -9,6 +9,7 @@ import {
   description,
   filePathOptionWords,
   logDepthError,
+  treeCommandWords,
   version,
 } from '@truth-cli/shared'
 import { genByCommand } from './src/index.js'
@@ -46,7 +47,7 @@ program
 
 program
   .command('tree')
-  .description(cleanCommandWords)
+  .description(treeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '1')
   .action(async ({ dep }) => {
     const depth = +dep

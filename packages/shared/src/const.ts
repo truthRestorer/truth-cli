@@ -65,6 +65,7 @@ export const filePathOptionWords = chalk.yellowBright('The path to the pkgs.json
 export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and start webSite')
 
 export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
+export const treeCommandWords = chalk.cyan.bold('Generate treePkgs.txt file')
 
 const buildFinished = `
 ${chalk.cyan.bold('Build Finished!')}
