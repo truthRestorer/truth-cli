@@ -47,6 +47,7 @@ export async function buildOptions() {
 export async function buildWeb(isDeploy?: boolean) {
   const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
   const buildBaseOpt: InlineConfig = {
+    configFile: path.resolve(__dirname, '../vite.config.ts'),
     root: path.resolve(__dirname, '../packages/web'),
     base: './',
     build: {
