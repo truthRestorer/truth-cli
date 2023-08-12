@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/truth-cli/',
   title: 'Truth-cli',
   description: 'A command-line tool for analyzing dependencies under node_modules',
   themeConfig: {
