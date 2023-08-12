@@ -1,5 +1,12 @@
 # @truth-cli/core
 
+## 0.0.6
+
+### Patch Changes
+
+- 21dc94a3: 修复了tree图显示问题；修复了已知bug
+- c6c90137: 修复了已知问题
+
 ## 0.0.5
 
 ### Patch Changes
