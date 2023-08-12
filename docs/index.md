@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /markdown-examples
+      link: /guide/index.md
     - theme: alt
       text: 查看源码
       link: https://github.com/truthRestorer/truth-cli

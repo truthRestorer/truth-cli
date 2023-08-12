@@ -72,24 +72,3 @@
 ```
 
 不只是 `relation`，如果你深入了解 `truth-cli` 生成的文件，`truth-cli` 都对其体积进行了优化
-
-## 生成依赖文件的格式
-
-在项目根目录下运行 `truth-cli analyze --json` 会产生 `pkgs.json` 文件，格式如下：
-
-```json
-{
-  "name": "_root_",
-  "version": "1.0.0",
-  "type": 1,
-  "packages": {
-    "@antfu/eslint-config": {
-      "version": "^0.39.8",
-      "type": 0,
-      "packages": {
-        // ...
-      }
-    }
-  }
-}
-```
