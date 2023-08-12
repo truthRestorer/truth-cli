@@ -1,14 +1,18 @@
 {
 	"watch": [
 		"packages/cli/",
-		"packages/core/"
+		"packages/core/",
+		"packages/web/"
 	],
 	"ext": "ts,json",
 	"ignore": [
-		"packages/web/*.ts",
 		"**/__test/*.ts",
 		"node_modules/**",
 		"pkgs.json",
+		"graph.json",
+		"relations.json",
+		"tree.json",
+		"versions.json",
 		"treePkgs.json",
 		"**/dist/**"
 
