@@ -18,7 +18,7 @@
 
 ::: tip 前情提要
 
-1. 关于 echarts 中 graph 图的描述：[echarts - series.graph](https://echarts.apache.org/zh/option.html#series-graph)；
+1. 关于 `echarts` 中 graph 图的描述：[echarts - series.graph](https://echarts.apache.org/zh/option.html#series-graph)；
 2. `truth-cli` 对应的文件：[@truth-cli/core - genGraph](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/graph.ts)；
 3. npm 依赖是非常多的，为此 `graph` 只包含根目录中的 `package.json` 中的依赖引用，网页图点击节点也会自动扩展。
 
