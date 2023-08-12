@@ -17,7 +17,7 @@
     "esModuleInterop": true,
     "removeComments": false,
     "lib": ["esnext", "dom"],
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "rootDir": "."
   },
   "ts-node": {
@@ -26,6 +26,7 @@
   "include": [
     "packages/**/*.ts",
     "scripts/*.ts",
-    "packages/web/**/*.vue"
+    "packages/web/**/*.vue",
+    "vite.config.ts"
   ]
 }
