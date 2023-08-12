@@ -27,7 +27,7 @@
 
 `graph` 的生成很简单，我们只需要通过 `relations` 获取到根目录引用关系，将其添加到对应数据格式的节点中即可。
 
-需要额外说明的是：`echarts` 中的 graph 图的 node 节点名字是唯一的，所以我们定义好了一个 `Set` 数据结构，如果我们已经添加过这个节点了，那么就不重复添加了
+需要额外说明的是：`echarts` 中的 graph 图的 node 节点名字是唯一的，所以我们定义好了一个 `Set` 数据结构，如果我们已经添加过这个节点了，那么就不重复添加了。
 
 ### tree 图
 
@@ -37,7 +37,7 @@
 2. `truth-cli` 对应的文件：[@truth-cli/core - genTree](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/tree.ts)；
 :::
 
-`tree` 数据的生成采用了递归的方式，我们首先通过 `relations` 中的获取项目名，并将其引用的依赖作为当前节点的 `children`，在遍历 `children` 中的所有节点，将节点的引用的依赖作为该节点的 `children` 如此递归下去，便形成了我们的树状结构
+`tree` 数据的生成采用了递归的方式，我们首先通过 `relations` 中的获取项目名，并将其引用的依赖作为当前节点的 `children`，在遍历 `children` 中的所有节点，将节点的引用的依赖作为该节点的 `children` 如此递归下去，便形成了我们的树状结构。
 
 ### pkgs.json 文件
 
@@ -45,10 +45,33 @@
 
 1. `truth-cli` 对应的文件：[@truth-cli/core - genPkgs](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgs.ts)；
 
-2. `pkgs.json` 文件的数据生成方式与 `tree` 图类似
+2. `pkgs.json` 文件的数据生成方式与 `tree` 图类似。
 :::
 
 `pkgs.json` 与 `tree` 有以下不同：
 
 1. `tree` 引用的依赖在节点的 `children` 属性上，而 `pkgs.json` 引用的依赖在 `packages` 属性上
-2. 属性 `children` 是一个数组；属性 `packages` 是一个对象
+2. 属性 `children` 是一个数组；属性 `packages` 是一个对象。
+
+
+### treePkgs.txt 文件
+
+::: tip 前情提要
+
+1. `truth-cli` 对应的文件：[@truth-cli/core - genPkgTree](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgTree.ts)；
+
+2. `treePkgs.txt` 文件的数据通过遍历 `pkgs` 形成。
+:::
+
+`treePkgs.txt` 的包含了以下字符：
+
+```ts
+enum ESymbol {
+  TAB = ' ', // 空格字符
+  VERTICAL = '│', // 竖线字符
+  ADD = '├─', // 连接依赖的的添加字符
+  LINE = '\n', // 换行字符
+}
+```
+
+我们做的无非是递归遍历 `pkgs`，通过一些规律将上述字符和依赖名连接起来。
