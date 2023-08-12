@@ -57,6 +57,6 @@ truth-cli analyze -b
 
 ## Truth-cli 在线网页
 
-你可以访问 [Truth-cli on Vercel](truth-cli.vercel.app) 查看 `truth-cli` 的网页端效果。
+你可以访问 [Truth-cli on Vercel](https://truth-cli.vercel.app/) 查看 `truth-cli` 的网页端效果。
 
 > 由于 `truth-cli` 采用的是 pnpm 管理工具，所以有些依赖无法展示清楚。
