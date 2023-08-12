@@ -15,7 +15,6 @@ export class Chart {
     private versions: IVersions,
   ) {
     this.nodesSet = new Set(nodes.map((item: INodes) => item.name))
-    this.versions = versions
     this.rootName = relations.__root__.name
   }
 

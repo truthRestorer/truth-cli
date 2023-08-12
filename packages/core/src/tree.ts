@@ -61,7 +61,7 @@ function loadTrees(
       tree.children?.push(add)
     }
     loadTrees(tree.children, maxDep - 1, shouldOptimize)
-    shouldOptimize || treeSet.has(tree.name) || treeSet.delete(tree.name)
+    shouldOptimize || rootPkgSet.has(tree.name) || treeSet.delete(tree.name)
   }
 }
 /**
