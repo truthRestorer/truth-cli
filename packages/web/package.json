@@ -6,9 +6,6 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "dev": "vite"
-  },
   "dependencies": {
     "echarts": "^5.4.3",
     "vue": "^3.3.4",

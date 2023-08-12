@@ -2,9 +2,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "dev": "nodemon",
     "dev:test": "vitest",
-    "dev:cli": "nodemon",
-    "dev:web": "pnpm -F web dev",
     "build": "ts-node scripts/build.ts",
     "build:cli": "ts-node scripts/build.ts --cli",
     "build:web": "ts-node scripts/build.ts --web",
@@ -26,12 +25,12 @@
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
-    "@testing-library/vue": "^7.0.0",
     "@truth-cli/core": "workspace:^",
     "@truth-cli/shared": "workspace:^",
     "@types/minimist": "^1.2.2",
     "@types/node": "^20.4.7",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/test-utils": "^2.4.1",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.0",
     "eslint": "^8.45.0",
@@ -46,7 +45,8 @@
     "typescript": "^5.1.6",
     "vite": "^4.4.5",
     "vite-plugin-singlefile": "^0.13.5",
-    "vitest": "^0.34.1"
+    "vitest": "^0.34.1",
+    "vue": "^3.3.4"
   },
   "config": {
     "commitizen": {

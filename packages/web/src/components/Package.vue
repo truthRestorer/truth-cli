@@ -48,19 +48,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="f-wrap-column info" style="width: 280px;">
-    <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handleSearch">
-    <JsonView :data="pkgInfo" />
-  </div>
-  <div id="chart" style="flex: 1" />
-  <div class="f-wrap-column" style="width: 250px;">
-    <div class="f-wrap-column version">
-      <span class="pkgTitle">各个版本</span>
-      <JsonView :data="pkgVersions" />
+  <!-- eslint-disable vue/no-unused-refs -->
+  <div style="height: 100vh;display: flex;">
+    <div class="f-wrap-column" style="width: 280px;">
+      <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handleSearch">
+      <JsonView ref="VTU_COMPONENT" :data="pkgInfo" />
     </div>
-    <div class="f-wrap-column version">
-      <span class="pkgTitle">循环引用</span>
-      <JsonView :data="pkgCirculated" />
+    <div id="chart" style="flex: 1" />
+    <div class="f-wrap-column" style="width: 250px;">
+      <div class="f-wrap-column version">
+        <span class="pkgTitle">各个版本</span>
+        <JsonView ref="VTU_COMPONENT" :data="pkgVersions" />
+      </div>
+      <div class="f-wrap-column version">
+        <span class="pkgTitle">循环引用</span>
+        <JsonView ref="VTU_COMPONENT" :data="pkgCirculated" />
+      </div>
     </div>
   </div>
 </template>

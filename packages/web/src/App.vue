@@ -4,8 +4,6 @@ import Package from './components/Package.vue'
 
 <template>
   <Suspense>
-    <div style="height: 100vh;display: flex;">
-      <Package />
-    </div>
+    <Package />
   </Suspense>
 </template>
