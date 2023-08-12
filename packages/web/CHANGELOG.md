@@ -1,5 +1,11 @@
 # @truth-cli/web
 
+## 0.1.4
+
+### Patch Changes
+
+- 21dc94a3: 修复了tree图显示问题；修复了已知bug
+
 ## 0.1.3
 
 ### Patch Changes
