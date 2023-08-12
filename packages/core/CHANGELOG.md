@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.0.5
+
+### Patch Changes
+
+- b8ba3a35: 使用自定义assign函数
+
 ## 0.0.4
 
 ### Patch Changes
