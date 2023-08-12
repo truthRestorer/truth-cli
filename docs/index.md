@@ -15,7 +15,7 @@ hero:
       link: https://github.com/truthRestorer/truth-cli
 
 features:
-  - title: 🤯体积小⚡️速度快
+  - title: ⚡️体积小、速度快
     details: 基于深度优先遍历算法的优化
   - title: 🛠️功能丰富
     details: 可生成树形结构文本吗(灵感来自 tree 命令)以及 json 文件
