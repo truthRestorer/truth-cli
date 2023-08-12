@@ -17,10 +17,7 @@
   "devDependencies": {
     "@truth-cli/shared": "workspace:^",
     "@types/echarts": "^4.9.18",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-singlefile": "^0.13.5"
+    "typescript": "^5.0.2"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [
