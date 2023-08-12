@@ -11,19 +11,19 @@ export const relations: Partial<IRelations> = {}
 /**
  * 读取 node_modules 目录下的所有 package.json 文件
  */
-async function readGlob(p: string) {
-  const pkgsRoot = await readDir(p)
+function readGlob(p: string) {
+  const pkgsRoot = readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = resolve(p, `${pkgsRoot[i]}`)
     if (pkgsRoot[i].includes('.'))
       continue
       // 处理带有 @
     if (pkgsRoot[i].startsWith('@')) {
-      const dirs = await readDir(pkgPath)
-      for (let i = 0; i < dirs.length; i++) await readGlob(pkgPath)
+      const dirs = readDir(pkgPath)
+      for (let i = 0; i < dirs.length; i++) readGlob(pkgPath)
     }
     else {
-      const pkg: IRelations = await readFile(`${pkgPath}/package.json`)
+      const pkg: IRelations = readFile(`${pkgPath}/package.json`)
       const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
       relations[pkg.name] = {
         name, description, version, homepage, repository, author,
@@ -36,11 +36,11 @@ async function readGlob(p: string) {
 /**
  * 导出易于命名行操作的函数
  */
-export async function genRelations() {
-  const pkg: IRelations = await readFile('package.json')
+export function genRelations() {
+  const pkg: IRelations = readFile('package.json')
   pkg.name = pkg.name ?? '_root_'
   relations.__root__ = pkg
   relations[pkg.name] = pkg
-  await readGlob('node_modules')
+  readGlob('node_modules')
   return relations
 }

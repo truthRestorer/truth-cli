@@ -1,7 +1,6 @@
 import type { IContext, IPkgs } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
 import { genPkgs } from './pkgs.js'
-import { genRelations } from './relations.js'
 
 enum ESymbol {
   TAB = ' ',
@@ -51,8 +50,7 @@ function loadTreeFile(pkgs: IPkgs, tabCount: number, ctx: IContext) {
   dealNewLine(tabCount)
 }
 
-export async function genPkgTree(maxDep: number) {
-  await genRelations()
+export function genPkgTree(maxDep: number) {
   const { name, version, packages } = genPkgs(maxDep)
   const ctx = createContext()
   ctx.push(`${name} ${version}:`)

@@ -7,9 +7,9 @@ declare function genGraph(): {
 
 declare function genPkgs(depth: number): IPkgs
 
-declare function genPkgTree(maxDep: number): Promise<string>
+declare function genPkgTree(maxDep: number): string
 
-declare function genRelations(): Promise<Partial<IRelations>>
+declare function genRelations(): Partial<IRelations>
 
 declare function genTree(maxDep: number): ITree
 
