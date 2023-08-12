@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import { readFile } from '@truth-cli/shared'
 
-describe('readFile test', async () => {
-  const result = await readFile('package.json')
+describe('readFile test', () => {
+  const result = readFile('package.json')
   test('result should be object', () => {
     expect(result).toBeTypeOf('object')
   })

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { vControl } from '../versions'
 
-describe('vControl test', async () => {
+describe('vControl test', () => {
   test('basic test', () => {
     expect(vControl('^1.0.0')).toBe('^1')
     expect(vControl('^10.0.0')).toBe('^10')

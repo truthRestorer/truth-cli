@@ -3,8 +3,8 @@ import { assign } from '@truth-cli/shared'
 import { genTree } from '../tree'
 import { genRelations } from '../relations'
 
-describe('genTree test', async () => {
-  const relations = await genRelations()
+describe('genTree test', () => {
+  const relations = genRelations()
   const relationsNames = new Set([
     ...Object.keys(relations),
     ...Object.values(relations).map((item: any) => {
@@ -12,7 +12,7 @@ describe('genTree test', async () => {
       return Object.keys(deps)
     }).flat(),
   ])
-  const trees: any = await genTree(1)
+  const trees: any = genTree(1)
   test('tree and tree children should be empty', () => {
     expect(trees).toBeTruthy()
     expect(trees.children?.length).toBeTruthy()

@@ -3,9 +3,9 @@ import { assign, readFile } from '@truth-cli/shared'
 import { genGraph } from '../graph'
 import { genRelations } from '../relations'
 
-describe('genGraph test', async () => {
-  await genRelations()
-  const { nodes, links } = await genGraph()
+describe('genGraph test', () => {
+  genRelations()
+  const { nodes, links } = genGraph()
   test('nodes and links is not empty', () => {
     expect(nodes).toBeTruthy()
     expect(links).toBeTruthy()
