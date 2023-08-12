@@ -74,4 +74,4 @@ export function logBuildFinished(duration: number) {
 }
 
 export const distPath = resolve(__dirname, './')
-export const devDistPath = resolve(__dirname, '../../cli/dist/')
+export const devDistPath = resolve(__dirname, '../../web/public/')

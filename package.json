@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev:test": "vitest",
-    "dev:cli": "pnpm build && nodemon",
+    "dev:cli": "nodemon",
     "dev:web": "pnpm -F web dev",
     "build": "ts-node scripts/build.ts",
     "build:cli": "ts-node scripts/build.ts --cli",
@@ -33,6 +33,7 @@
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.0",
     "eslint": "^8.45.0",
+    "fs-extra": "^11.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "minimist": "^1.2.8",

@@ -7,9 +7,9 @@ import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '
 /**
  * 生成网页所需要的数据(tree 图和 graph 图)
  */
-async function genData(treeDep: number) {
+function genData(treeDep: number) {
   // relaitons 是一切 json 数据生成的基础，所以应该放在最前面
-  const relations = await genRelations()
+  const relations = genRelations()
   const graph = genGraph()
   const tree = genTree(treeDep)
   const versions = genVersions()
@@ -26,7 +26,7 @@ async function genData(treeDep: number) {
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
   const { dep, isBoth, isDev } = options
-  const { relations, graph, tree, versions } = await genData(dep)
+  const { relations, graph, tree, versions } = genData(dep)
   const writePath = isDev ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
@@ -35,7 +35,7 @@ export async function genWebFile(options: IOptions) {
   if (isBoth) {
     const pkgs = genPkgs(dep)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
-    logFileWirteFinished(Date.now() - begin, './')
+    isDev || logFileWirteFinished(Date.now() - begin, './')
   }
 }
 
@@ -47,11 +47,10 @@ export async function genJSONFile(pkgDep: number, p?: string | boolean) {
   if (!p || typeof p === 'boolean')
     p = './'
   try {
-    await genRelations()
+    genRelations()
     const pkgs = genPkgs(pkgDep)
     await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
-    const end = Date.now()
-    logFileWirteFinished(end - begin, p)
+    logFileWirteFinished(Date.now() - begin, p)
   }
   catch (err: any) {
     logFileWirteError(err.message)

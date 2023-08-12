@@ -27,7 +27,7 @@ const server = function (webPath: string) {
  * 启动服务器
  */
 function startWeb(begin: number, isDev?: boolean) {
-  logWebStart(Date.now() - begin)
+  isDev || logWebStart(Date.now() - begin)
   const webStartPath = isDev ? devDistPath : distPath
   server(webStartPath).listen(3002)
 }
