@@ -10,7 +10,7 @@ async function createPlaygroundServer() {
   })
   await genJSONFile(3, playgroundAssetsPath, true)
   await genTxtFile(3, playgroundAssetsPath, true)
-  buildWeb({
+  await buildWeb({
     isDeploy: true,
     buildPath: path.resolve(__scriptName, '../playground/dist'),
     root: path.resolve(__scriptName, '../playground/'),
