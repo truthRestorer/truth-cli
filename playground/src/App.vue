@@ -15,12 +15,12 @@ const selectComp = shallowRef(Relations)
   <div class="main">
     <div class="select">
       <Header />
-      <span :class="{ active: selectComp === Relations }" @click="selectComp = Relations">Relations.json</span>
-      <span :class="{ active: selectComp === Graph }" @click="selectComp = Graph">Graph.json</span>
-      <span :class="{ active: selectComp === Pkgs }" @click="selectComp = Pkgs">Pkgs.json</span>
-      <span :class="{ active: selectComp === Tree }" @click="selectComp = Tree">Tree.json</span>
-      <span :class="{ active: selectComp === Versions }" @click="selectComp = Versions">Versions.json</span>
-      <span :class="{ active: selectComp === TreePkgs }" @click="selectComp = TreePkgs">TreePkgs.txt</span>
+      <span :class="{ active: selectComp === Relations }" @click="selectComp = Relations">genRelations</span>
+      <span :class="{ active: selectComp === Graph }" @click="selectComp = Graph">genGraph</span>
+      <span :class="{ active: selectComp === Tree }" @click="selectComp = Tree">genTree</span>
+      <span :class="{ active: selectComp === Versions }" @click="selectComp = Versions">genVersions</span>
+      <span :class="{ active: selectComp === Pkgs }" @click="selectComp = Pkgs">genPkgs</span>
+      <span :class="{ active: selectComp === TreePkgs }" @click="selectComp = TreePkgs">genPkgTree</span>
     </div>
     <div class="jsonView">
       <KeepAlive>
