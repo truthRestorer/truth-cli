@@ -44,6 +44,7 @@ onMounted(async () => {
 onUnmounted(() => {
   c.echart?.off('click')
   c.echart?.off('legendselectchanged')
+  c.echart?.dispose()
 })
 </script>
 
