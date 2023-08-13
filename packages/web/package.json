@@ -13,8 +13,7 @@
   },
   "devDependencies": {
     "@truth-cli/shared": "workspace:^",
-    "@types/echarts": "^4.9.18",
-    "typescript": "^5.0.2"
+    "@types/echarts": "^4.9.18"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [
