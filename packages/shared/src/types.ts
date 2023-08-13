@@ -77,6 +77,7 @@ export interface IOptions {
   isDev?: boolean
   isDeploy?: boolean
   jsonPath?: boolean
+  writePath?: string
 }
 
 export interface IContext {

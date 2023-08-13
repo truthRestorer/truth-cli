@@ -25,9 +25,10 @@ function genData(treeDep: number) {
  */
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
-  const { dep, isBoth, isDev } = options
+  let { dep, isBoth, isDev, writePath } = options
   const { relations, graph, tree, versions } = genData(dep)
-  const writePath = isDev ? devDistPath : distPath
+  if (!writeFile)
+    writePath = isDev ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
@@ -42,15 +43,15 @@ export async function genWebFile(options: IOptions) {
 /**
  * 只写入文件，不打开网页
  */
-export async function genJSONFile(pkgDep: number, p?: string | boolean) {
+export async function genJSONFile(pkgDep: number, p?: string | boolean, onlyPlayground = false) {
   const begin = Date.now()
   if (!p || typeof p === 'boolean')
     p = './'
   try {
-    genRelations()
+    onlyPlayground || genRelations()
     const pkgs = genPkgs(pkgDep)
     await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
-    logFileWirteFinished(Date.now() - begin, p)
+    onlyPlayground || logFileWirteFinished(Date.now() - begin, p)
   }
   catch (err: any) {
     logFileWirteError(err.message)
