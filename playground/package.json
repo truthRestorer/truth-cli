@@ -1,5 +1,5 @@
 {
-  "name": "playground",
+  "name": "@truth-cli/playground",
   "version": "0.0.0",
   "type": "module",
   "files": [
