@@ -2,8 +2,16 @@
   "name": "playground",
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "vue": "^3.3.4",
     "vue-json-viewer": "3"
+  },
+  "lint-staged": {
+    "!(*d).{js,ts,vue}": [
+      "eslint"
+    ]
   }
 }

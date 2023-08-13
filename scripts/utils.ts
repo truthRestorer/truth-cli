@@ -6,18 +6,18 @@ import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
 import plugins from './plugins.js'
 
-export const __scriptName = fileURLToPath(new URL('.', import.meta.url))
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export async function buildOptions() {
-  const dirs = await fs.readdir(path.resolve(__scriptName, '../packages/'))
+  const dirs = await fs.readdir(path.resolve(__dirname, '../packages/'))
   const opts: { [key: string]: any } = {}
   for (let i = 0; i < dirs.length; i++) {
     if (dirs[i] !== 'web') {
       opts[dirs[i]] = [{
-        input: path.resolve(__scriptName, `../packages/${dirs[i]}/index.ts`),
+        input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
         plugins,
       }, {
-        dir: path.resolve(__scriptName, `../packages/${dirs[i]}/dist`),
+        dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
         format: 'es' as ModuleFormat,
       }]
       if (dirs[i] === 'cli')
@@ -30,9 +30,9 @@ export async function buildOptions() {
 export async function buildWeb(options: { isDeploy?: boolean; buildPath: string; root?: string }) {
   let { isDeploy, buildPath, root } = options
   if (!root)
-    root = path.resolve(__scriptName, '../packages/web')
+    root = path.resolve(__dirname, '../packages/web')
   const buildBaseOpt: InlineConfig = {
-    configFile: path.resolve(__scriptName, '../vite.config.ts'),
+    configFile: path.resolve(__dirname, '../vite.config.ts'),
     root,
     base: './',
     build: {
@@ -48,7 +48,7 @@ export async function buildWeb(options: { isDeploy?: boolean; buildPath: string;
 
 export async function createViteServer(vitePath: string, port: number = 1337) {
   const server = await createServer({
-    configFile: path.resolve(__scriptName, '../vite.config.ts'),
+    configFile: path.resolve(__dirname, '../vite.config.ts'),
     root: vitePath,
     server: { port },
   })
