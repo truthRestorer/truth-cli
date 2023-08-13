@@ -1,0 +1,10 @@
+{
+  "name": "playground",
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "@truth-cli/core": "workspace:^",
+    "vue": "^3.3.4",
+    "vue-json-viewer": "3"
+  }
+}
