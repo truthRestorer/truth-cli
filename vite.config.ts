@@ -14,16 +14,11 @@ export default defineConfig({
   test: {
     exclude: ['node_modules/**'],
     globals: true,
-    // simulate DOM with happy-dom
     environment: 'happy-dom',
     deps: {
       inline: [
         'echarts',
       ],
     },
-    api: true,
-  },
-  resolve: {
-    mainFields: ['module'],
   },
 })
