@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import Relations from './views/Relations.vue'
 import Header from './components/Header.vue'
 import Graph from './views/Graph.vue'
@@ -8,31 +8,19 @@ import Tree from './views/Tree.vue'
 import Versions from './views/Versions.vue'
 import TreePkgs from './views/TreePkgs.vue'
 
-const selectComp = ref(Relations)
+const selectComp = shallowRef(Relations)
 </script>
 
 <template>
-  <Header />
   <div class="main">
     <div class="select">
-      <button @click="selectComp = Relations">
-        Relations
-      </button>
-      <button @click="selectComp = Graph">
-        Graph
-      </button>
-      <button @click="selectComp = Pkgs">
-        Pkgs
-      </button>
-      <button @click="selectComp = Tree">
-        Tree
-      </button>
-      <button @click="selectComp = Versions">
-        Versions
-      </button>
-      <button @click="selectComp = TreePkgs">
-        TreePkgs
-      </button>
+      <Header />
+      <span :class="{ active: selectComp === Relations }" @click="selectComp = Relations">Relations.json</span>
+      <span :class="{ active: selectComp === Graph }" @click="selectComp = Graph">Graph.json</span>
+      <span :class="{ active: selectComp === Pkgs }" @click="selectComp = Pkgs">Pkgs.json</span>
+      <span :class="{ active: selectComp === Tree }" @click="selectComp = Tree">Tree.json</span>
+      <span :class="{ active: selectComp === Versions }" @click="selectComp = Versions">Versions.json</span>
+      <span :class="{ active: selectComp === TreePkgs }" @click="selectComp = TreePkgs">TreePkgs.txt</span>
     </div>
     <div class="jsonView">
       <KeepAlive>
@@ -48,14 +36,28 @@ const selectComp = ref(Relations)
   margin-top: 60px;
 }
 .select {
-  position: fixed;
-  z-index: 9998;
-  width: 80px;
   display: flex;
-  flex-direction: column;
-  margin: 25px;
+  position: fixed;
+  z-index: 9999;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 1px 4px #bbb;
+}
+
+.active {
+  border-bottom: 3px solid #416574;
+}
+
+.select > span {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: color .15s;
+}
+.select > span:hover {
+  color: #aaa;
 }
 .jsonView {
-  margin-left: 125px;
+  padding-top: 40px;
 }
 </style>

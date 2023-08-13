@@ -4,7 +4,7 @@ import tree from '../assets/tree.json'
 </script>
 
 <template>
-  <JsonView :data="tree" depth="3" />
+  <JsonView :data="tree" :depth="3" />
 </template>
 
 <style scoped></style>

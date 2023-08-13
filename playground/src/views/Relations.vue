@@ -4,7 +4,7 @@ import relations from '../assets/relations.json'
 </script>
 
 <template>
-  <JsonView :data="relations" depth="2" />
+  <JsonView :data="relations" :depth="2" />
 </template>
 
 <style scoped></style>

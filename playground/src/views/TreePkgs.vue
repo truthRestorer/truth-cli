@@ -4,7 +4,7 @@ import treePkgs from '../assets/treePkgs.txt?raw'
 </script>
 
 <template>
-  <JsonView :data="treePkgs" depth="3" />
+  <JsonView :data="treePkgs" :depth="3" />
 </template>
 
 <style scoped></style>
