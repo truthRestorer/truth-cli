@@ -2,41 +2,24 @@ import path from 'node:path'
 import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { ModuleFormat } from 'rollup'
-import typescript from '@rollup/plugin-typescript'
-import commonjs from '@rollup/plugin-commonjs'
-import terser from '@rollup/plugin-terser'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
 import type { InlineConfig } from 'vite'
-import { build } from 'vite'
+import { build, createServer } from 'vite'
+import plugins from './plugins'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export async function buildOptions() {
   const dirs = await fs.readdir(path.resolve(__dirname, '../packages/'))
-  const plugins = [
-    nodeResolve({
-      preferBuiltins: true,
-      exportConditions: ['node'],
-    }),
-    typescript({
-      exclude: ['packages/web/**/*.ts', '**/__test__/**', 'node_modules/**'],
-    }),
-    commonjs(),
-    terser(),
-  ]
   const opts: { [key: string]: any } = {}
   for (let i = 0; i < dirs.length; i++) {
     if (dirs[i] !== 'web') {
-      opts[dirs[i]] = [
-        {
-          input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
-          plugins,
-        },
-        {
-          dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
-          format: 'es' as ModuleFormat,
-        },
-      ]
+      opts[dirs[i]] = [{
+        input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
+        plugins,
+      }, {
+        dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
+        format: 'es' as ModuleFormat,
+      }]
       if (dirs[i] === 'cli')
         opts.cli[1].banner = '#! /usr/bin/env node'
     }
@@ -44,7 +27,8 @@ export async function buildOptions() {
   return opts
 }
 
-export async function buildWeb(isDeploy?: boolean) {
+export async function buildWeb(options: { isDeploy?: boolean }) {
+  const { isDeploy } = options
   const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
   const buildBaseOpt: InlineConfig = {
     configFile: path.resolve(__dirname, '../vite.config.ts'),
@@ -59,4 +43,16 @@ export async function buildWeb(isDeploy?: boolean) {
     buildBaseOpt.build!.emptyOutDir = true
   }
   await build(buildBaseOpt)
+}
+
+export async function createViteServer() {
+  const server = await createServer({
+    configFile: path.resolve(__dirname, '../vite.config.ts'),
+    root: path.resolve(__dirname, '../packages/web'),
+    server: {
+      port: 1337,
+    },
+  })
+
+  return server
 }
