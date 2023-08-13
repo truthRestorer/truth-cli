@@ -1,6 +1,5 @@
-import { writeFile } from 'node:fs/promises'
 import { Command } from 'commander'
-import { cleanFiles, genPkgTree, genRelations } from '@truth-cli/core'
+import { cleanFiles } from '@truth-cli/core'
 import {
   analyzeCommandWords,
   bothOptionWords,
@@ -13,6 +12,7 @@ import {
   version,
 } from '@truth-cli/shared'
 import { genByCommand } from './src/index.js'
+import { genTxtFile } from './src/genFile.js'
 
 const program = new Command()
 program
@@ -49,13 +49,12 @@ program
   .command('tree')
   .description(treeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '1')
-  .action(async ({ dep }) => {
+  .option('-f, --file [file-path]', filePathOptionWords)
+  .action(async ({ dep, json }) => {
     const depth = +dep
     if (Number.isNaN(depth))
       throw new TypeError('illegal type of depth')
-    genRelations()
-    const pkgTree = genPkgTree(+dep)
-    await writeFile('treePkgs.txt', pkgTree)
+    await genTxtFile(dep, json)
   })
 
 program.parse()

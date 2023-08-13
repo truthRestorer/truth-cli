@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { genGraph, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
+import { genGraph, genPkgTree, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
 import type { IOptions } from '@truth-cli/shared'
 import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '@truth-cli/shared'
 
@@ -51,6 +51,21 @@ export async function genJSONFile(pkgDep: number, p?: string | boolean, onlyPlay
     onlyPlayground || genRelations()
     const pkgs = genPkgs(pkgDep)
     await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(pkgs))
+    onlyPlayground || logFileWirteFinished(Date.now() - begin, p)
+  }
+  catch (err: any) {
+    logFileWirteError(err.message)
+  }
+}
+
+export async function genTxtFile(pkgDep: number, p?: string | boolean, onlyPlayground = false) {
+  const begin = Date.now()
+  if (!p || typeof p === 'boolean')
+    p = './'
+  try {
+    onlyPlayground || genRelations()
+    const pkgTree = genPkgTree(pkgDep)
+    await writeFile(path.resolve(p, './treePkgs.txt'), pkgTree)
     onlyPlayground || logFileWirteFinished(Date.now() - begin, p)
   }
   catch (err: any) {
