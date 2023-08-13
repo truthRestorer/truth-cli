@@ -27,7 +27,7 @@ export async function genWebFile(options: IOptions) {
   const begin = Date.now()
   let { dep, isBoth, isDev, writePath } = options
   const { relations, graph, tree, versions } = genData(dep)
-  if (!writeFile)
+  if (!writePath)
     writePath = isDev ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
