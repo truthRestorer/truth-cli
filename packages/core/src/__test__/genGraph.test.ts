@@ -15,7 +15,7 @@ describe('genGraph test', () => {
     const pkgs = assign(dependencies, devDependencies)
     const nodesNames = nodes.map(item => item.name)
     const linksNames = new Set([...links.map(item => item.target), ...links.map(item => item.source)])
-    expect(nodesNames).toContain(name ?? '_root_')
+    expect(nodesNames).toContain(name ?? '__root__')
     for (const key of Object.keys(pkgs)) {
       expect(nodesNames).toContain(key)
       expect(linksNames).toContain(key)

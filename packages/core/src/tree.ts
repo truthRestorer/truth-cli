@@ -70,7 +70,7 @@ function loadTrees(
 export function genTree(maxDep: number) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const treeData: ITree = {
-    name: name ?? '_root_',
+    name: name ?? '__root__',
     value: version ?? 'latest',
     children: entries(assign(dependencies, devDependencies)).map(([name, version]) => {
       rootPkgSet.add(name)

@@ -61,7 +61,7 @@ export const version = chalk.greenBright.bold(v)
 
 export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm packages')
 export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
-export const filePathOptionWords = chalk.yellowBright('The path to the pkgs.json file')
+export const filePathOptionWords = chalk.yellowBright('The path of output file')
 export const bothOptionWords = chalk.yellowBright('Generate pkgs.json file and start webSite')
 
 export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
