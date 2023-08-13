@@ -17,5 +17,5 @@
 		"**/dist/**"
 
 	],
-	"exec": "ts-node ./scripts/dev-cli.ts"
+	"exec": "ts-node ./scripts/dev.ts"
 }

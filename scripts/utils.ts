@@ -6,18 +6,18 @@ import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
 import plugins from './plugins.js'
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+export const __scriptName = fileURLToPath(new URL('.', import.meta.url))
 
 export async function buildOptions() {
-  const dirs = await fs.readdir(path.resolve(__dirname, '../packages/'))
+  const dirs = await fs.readdir(path.resolve(__scriptName, '../packages/'))
   const opts: { [key: string]: any } = {}
   for (let i = 0; i < dirs.length; i++) {
     if (dirs[i] !== 'web') {
       opts[dirs[i]] = [{
-        input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
+        input: path.resolve(__scriptName, `../packages/${dirs[i]}/index.ts`),
         plugins,
       }, {
-        dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
+        dir: path.resolve(__scriptName, `../packages/${dirs[i]}/dist`),
         format: 'es' as ModuleFormat,
       }]
       if (dirs[i] === 'cli')
@@ -27,15 +27,14 @@ export async function buildOptions() {
   return opts
 }
 
-export async function buildWeb(options: { isDeploy?: boolean }) {
-  const { isDeploy } = options
-  const webBuildPath = isDeploy ? '../packages/web/dist' : '../packages/cli/dist'
+export async function buildWeb(options: { isDeploy?: boolean; buildPath: string }) {
+  const { isDeploy, buildPath } = options
   const buildBaseOpt: InlineConfig = {
-    configFile: path.resolve(__dirname, '../vite.config.ts'),
-    root: path.resolve(__dirname, '../packages/web'),
+    configFile: path.resolve(__scriptName, '../vite.config.ts'),
+    root: path.resolve(__scriptName, '../packages/web'),
     base: './',
     build: {
-      outDir: path.resolve(__dirname, webBuildPath),
+      outDir: buildPath,
     },
   }
   if (!isDeploy) {
@@ -47,8 +46,8 @@ export async function buildWeb(options: { isDeploy?: boolean }) {
 
 export async function createViteServer() {
   const server = await createServer({
-    configFile: path.resolve(__dirname, '../vite.config.ts'),
-    root: path.resolve(__dirname, '../packages/web'),
+    configFile: path.resolve(__scriptName, '../vite.config.ts'),
+    root: path.resolve(__scriptName, '../packages/web'),
     server: {
       port: 1337,
     },
