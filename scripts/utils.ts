@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import type { ModuleFormat } from 'rollup'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
-import plugins from './plugins'
+import plugins from './plugins.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 

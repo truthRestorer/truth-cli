@@ -1,4 +1,4 @@
-import { buildWeb } from './utils'
+import { buildWeb } from './utils.js'
 
 buildWeb({
   isDeploy: false,

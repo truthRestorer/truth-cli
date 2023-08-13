@@ -1,5 +1,5 @@
 import { rollup } from 'rollup'
-import { buildOptions } from './utils'
+import { buildOptions } from './utils.js'
 
 async function buildCli() {
   const { cli } = await buildOptions()
