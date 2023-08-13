@@ -11,8 +11,7 @@ async function createPlaygroundServer() {
     dep: 3,
     writePath: playgroundAssetsPath,
   })
-  await genOutputFile(3, 'json', playgroundAssetsPath)
-  await genOutputFile(3, 'txt', playgroundAssetsPath)
+  await genOutputFile(3, 'both', playgroundAssetsPath)
   await buildWeb({
     isDeploy: true,
     buildPath: path.resolve(__dirname, '../playground/dist'),

@@ -31,7 +31,11 @@ program
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      await genByCommand({ dep: depth, isBoth: both, jsonPath: json })
+      if (json) {
+        await genOutputFile(depth, 'json', json)
+        return
+      }
+      await genByCommand({ dep: depth, isBoth: both })
     }
     catch (err) {
       logDepthError()

@@ -74,9 +74,7 @@ export const categories = [
 export interface IOptions {
   dep: number
   isBoth?: boolean
-  isDev?: boolean
-  isDeploy?: boolean
-  jsonPath?: boolean
+  isBuild?: boolean
   writePath?: string
 }
 

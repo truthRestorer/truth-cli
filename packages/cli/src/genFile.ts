@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { genGraph, genPkgTree, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
 import type { IOptions } from '@truth-cli/shared'
-import { devDistPath, distPath, logFileWirteError, logFileWirteFinished } from '@truth-cli/shared'
+import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo } from '@truth-cli/shared'
 
 const relations = genRelations()
 /**
@@ -10,7 +10,7 @@ const relations = genRelations()
  */
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
-  let { dep, isBoth, isDev, writePath } = options
+  let { dep, isBoth, isBuild: isDev, writePath } = options
   const graph = genGraph()
   const tree = genTree(dep)
   const versions = genVersions()
@@ -32,20 +32,24 @@ export async function genWebFile(options: IOptions) {
  */
 export async function genOutputFile(
   dep: number,
-  fileType: 'json' | 'txt',
+  fileType: 'json' | 'txt' | 'both',
   p?: string | boolean,
 ) {
+  logLogo()
   const begin = Date.now()
   if (!p || typeof p === 'boolean')
     p = './'
   try {
-    let pkgs = ''
-    if (fileType === 'json')
-      pkgs = JSON.stringify(genPkgs(dep))
-    else
-      pkgs = genPkgTree(dep)
-    const writeName = fileType === 'json' ? './pkgs.json' : './treePkgs.txt'
-    await writeFile(path.resolve(p, writeName), pkgs)
+    if (fileType === 'json') {
+      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep)))
+    }
+    else if (fileType === 'txt') {
+      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep))
+    }
+    else {
+      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep)))
+      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep))
+    }
     logFileWirteFinished(Date.now() - begin, p)
   }
   catch (err: any) {
