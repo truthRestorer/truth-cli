@@ -44,13 +44,11 @@ export async function buildWeb(options: { isDeploy?: boolean; buildPath: string 
   await build(buildBaseOpt)
 }
 
-export async function createViteServer() {
+export async function createViteServer(vitePath: string, port: number = 1337) {
   const server = await createServer({
     configFile: path.resolve(__scriptName, '../vite.config.ts'),
-    root: path.resolve(__scriptName, '../packages/web'),
-    server: {
-      port: 1337,
-    },
+    root: vitePath,
+    server: { port },
   })
 
   return server
