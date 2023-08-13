@@ -2,6 +2,7 @@
 // TODO: 完成各种报错以及其他打印语句
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
+import fs from 'node:fs'
 import { Chalk } from 'chalk'
 
 const chalk = new Chalk({ level: 3 })
@@ -9,8 +10,8 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 // TODO: 根据项目根目录的 package.json 文件自动控制版本和描述
 // 之前直接 import 会导致 dev 命令失效，暂时没有什么好办法
-const v = '0.3.81'
-const c = 'A command-line tool for analyzing dependencies under node_moudles'
+
+const { version: v, description: c } = JSON.parse(fs.readFileSync(resolve('./packages/cli/package.json')).toString())
 const errorPrefix = chalk.bgRedBright('Error!')
 const localPrefix = `➜  ${chalk.whiteBright.bold('Local')}:`
 const filePrefix = `➜  ${chalk.whiteBright.bold('File:')}:`

@@ -10,12 +10,12 @@ const relations = genRelations()
  */
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
-  let { dep, isBoth, isBuild: isDev, writePath } = options
+  let { dep, isBoth, isBuild, writePath } = options
   const graph = genGraph()
   const tree = genTree(dep)
   const versions = genVersions()
   if (!writePath)
-    writePath = isDev ? devDistPath : distPath
+    writePath = isBuild ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
   await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
   await writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
@@ -23,7 +23,7 @@ export async function genWebFile(options: IOptions) {
   if (isBoth) {
     const pkgs = genPkgs(dep)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
-    isDev || logFileWirteFinished(Date.now() - begin, './')
+    isBuild || logFileWirteFinished(Date.now() - begin, './')
   }
 }
 
