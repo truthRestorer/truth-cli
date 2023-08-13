@@ -12,7 +12,7 @@ import {
   version,
 } from '@truth-cli/shared'
 import { genByCommand } from './src/index.js'
-import { genTxtFile } from './src/genFile.js'
+import { genOutputFile } from './src/genFile.js'
 
 const program = new Command()
 program
@@ -50,11 +50,16 @@ program
   .description(treeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '1')
   .option('-f, --file [file-path]', filePathOptionWords)
-  .action(async ({ dep, json }) => {
-    const depth = +dep
-    if (Number.isNaN(depth))
-      throw new TypeError('illegal type of depth')
-    await genTxtFile(dep, json)
+  .action(async ({ dep, file }) => {
+    try {
+      const depth = +dep
+      if (Number.isNaN(depth))
+        throw new TypeError('illegal type of depth')
+      await genOutputFile(dep, 'txt', file)
+    }
+    catch (err) {
+      logDepthError()
+    }
   })
 
 program.parse()

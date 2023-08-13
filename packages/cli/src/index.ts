@@ -2,7 +2,7 @@ import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
 import type { IOptions } from '@truth-cli/shared'
 import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from '@truth-cli/shared'
-import { genJSONFile, genWebFile } from './genFile.js'
+import { genOutputFile, genWebFile } from './genFile.js'
 
 const server = function (webPath: string) {
   return createServer((req, res) => {
@@ -41,7 +41,7 @@ export async function genByCommand(options: IOptions) {
   try {
     // 表示生成 pkgs.json 不打开网页
     if (jsonPath) {
-      await genJSONFile(dep, jsonPath)
+      await genOutputFile(dep, 'json', jsonPath)
       return
     }
     await genWebFile({ dep, isBoth, isDev })
