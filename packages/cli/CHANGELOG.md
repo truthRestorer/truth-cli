@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.8
+
+### Patch Changes
+
+- 75eb64c9: 版本号更新获取
+
 ## 0.7.7
 
 ### Patch Changes

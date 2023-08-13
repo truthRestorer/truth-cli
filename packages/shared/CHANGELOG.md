@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.1.5
+
+### Patch Changes
+
+- 75eb64c9: 版本号更新获取
+
 ## 0.1.4
 
 ### Patch Changes
