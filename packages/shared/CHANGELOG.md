@@ -1,5 +1,12 @@
 # @truth-cli/shared
 
+## 0.1.4
+
+### Patch Changes
+
+- f7204792: 完善web测试和文档说明
+- 5c27f645: 添加playground测试；修复已知bug
+
 ## 0.1.3
 
 ### Patch Changes
