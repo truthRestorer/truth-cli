@@ -15,10 +15,10 @@ function readGlob(p: string) {
   const pkgsRoot = readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = resolve(p, `${pkgsRoot[i]}`)
-    if (pkgsRoot[i].includes('.'))
+    if (pkgsRoot[i][0] === '.')
       continue
       // 处理带有 @
-    if (pkgsRoot[i].startsWith('@')) {
+    if (pkgsRoot[i][0] === '@') {
       const dirs = readDir(pkgPath)
       for (let i = 0; i < dirs.length; i++) readGlob(pkgPath)
     }
