@@ -6,7 +6,7 @@ async function resolveBuild() {
   const opts = await buildOptions()
   await buildWeb({
     isDeploy: false,
-    buildPath: path.resolve(__scriptName, '.../packages/cli/dist'),
+    buildPath: path.resolve(__scriptName, '../packages/cli/dist'),
   })
   for (const val of Object.values(opts)) {
     const [input, output] = val
