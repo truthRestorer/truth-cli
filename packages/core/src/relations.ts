@@ -38,9 +38,7 @@ function readGlob(p: string) {
  */
 export function genRelations() {
   const pkg: IRelations = readFile('package.json')
-  pkg.name = pkg.name ?? '_root_'
   relations.__root__ = pkg
-  relations[pkg.name] = pkg
   readGlob('node_modules')
   return relations
 }
