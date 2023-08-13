@@ -1,6 +1,13 @@
-# Truth-cli🤩
-
-> 一个用于分析 npm 包结构的 cli 工具。
+<div align="center">
+	<h1>Truth-cli🤩</h1>
+	<div style="color:cyan;font-weight:700;">一个用于分析 npm 包结构的 cli 工具。</div>
+	<p>
+		<a href="https://truthrestorer.github.io/truth-cli/">文档</a> | 
+    <a href="https://www.npmjs.com/package/truth-cli">当前版本：v0.7.6</a> | 
+    <a href="https://truth-cli.vercel.app/">网页效果</a> | 
+    <a href="https://truth-cli-playground.vercel.app/">playground</a>
+	</p>
+</div>
 
 # 特点
 
