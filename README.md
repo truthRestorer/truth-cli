@@ -2,12 +2,13 @@
 	<h1>Truth-cli🤩</h1>
 	<p style="font-weight:400;padding:10px 0;">一个用于分析 npm 依赖结构的 cli 工具。</p>
 	<p>
-		<a style="margin: 0 8px" href="https://truthrestorer.github.io/truth-cli/">中文文档</a>|
-    <a style="margin: 0 8px" href="https://www.npmjs.com/package/truth-cli">V0.7.6</a>|
-    <a style="margin: 0 8px" href="https://truth-cli.vercel.app/">网页效果</a>|
+		<a style="margin: 0 8px" href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
+    <a style="margin: 0 8px" href="https://www.npmjs.com/package/truth-cli">V0.7.6</a>
+    <a style="margin: 0 8px" href="https://truth-cli.vercel.app/">网页效果</a>
     <a style="margin: 0 8px" href="https://truth-cli-playground.vercel.app/">playground</a>
 	</p>
 </div>
+
 # 特点
 
 - 🤯体积小
