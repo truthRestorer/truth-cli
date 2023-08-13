@@ -4,7 +4,7 @@ import versions from '../assets/versions.json'
 </script>
 
 <template>
-  <JsonView :data="versions" />
+  <JsonView :data="versions" depth="3" />
 </template>
 
 <style scoped></style>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import JsonView from '../components/JsonView.vue'
-import tree from '../assets/tree.json'
+import treePkgs from '../assets/treePkgs.txt?raw'
 </script>
 
 <template>
-  <JsonView :data="tree" depth="3" />
+  <JsonView :data="treePkgs" depth="3" />
 </template>
 
 <style scoped></style>

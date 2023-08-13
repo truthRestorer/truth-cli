@@ -6,6 +6,7 @@ import Graph from './views/Graph.vue'
 import Pkgs from './views/Pkgs.vue'
 import Tree from './views/Tree.vue'
 import Versions from './views/Versions.vue'
+import TreePkgs from './views/TreePkgs.vue'
 
 const selectComp = ref(Relations)
 </script>
@@ -14,20 +15,23 @@ const selectComp = ref(Relations)
   <Header />
   <div class="main">
     <div class="select">
+      <button @click="selectComp = Relations">
+        Relations
+      </button>
       <button @click="selectComp = Graph">
         Graph
       </button>
       <button @click="selectComp = Pkgs">
         Pkgs
       </button>
-      <button @click="selectComp = Relations">
-        Relations
-      </button>
       <button @click="selectComp = Tree">
         Tree
       </button>
       <button @click="selectComp = Versions">
         Versions
+      </button>
+      <button @click="selectComp = TreePkgs">
+        TreePkgs
       </button>
     </div>
     <div class="jsonView">
@@ -40,10 +44,18 @@ const selectComp = ref(Relations)
 
 <style scoped>
 .main {
+  position: relative;
   margin-top: 60px;
-  display: flex;
 }
-.main > div {
-  flex: 1;
+.select {
+  position: fixed;
+  z-index: 9998;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+}
+.jsonView {
+  margin-left: 125px;
 }
 </style>
