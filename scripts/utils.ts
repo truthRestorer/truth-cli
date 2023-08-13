@@ -27,11 +27,13 @@ export async function buildOptions() {
   return opts
 }
 
-export async function buildWeb(options: { isDeploy?: boolean; buildPath: string }) {
-  const { isDeploy, buildPath } = options
+export async function buildWeb(options: { isDeploy?: boolean; buildPath: string; root?: string }) {
+  let { isDeploy, buildPath, root } = options
+  if (!root)
+    root = path.resolve(__scriptName, '../packages/web')
   const buildBaseOpt: InlineConfig = {
     configFile: path.resolve(__scriptName, '../vite.config.ts'),
-    root: path.resolve(__scriptName, '../packages/web'),
+    root,
     base: './',
     build: {
       outDir: buildPath,
