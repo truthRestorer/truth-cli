@@ -1,5 +1,12 @@
 # @truth-cli/core
 
+## 0.0.7
+
+### Patch Changes
+
+- f7204792: 完善web测试和文档说明
+- 5c27f645: 添加playground测试；修复已知bug
+
 ## 0.0.6
 
 ### Patch Changes
