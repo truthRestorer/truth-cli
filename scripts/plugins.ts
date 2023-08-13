@@ -9,7 +9,7 @@ export default [
     exportConditions: ['node'],
   }),
   typescript({
-    exclude: ['packages/web/**/*.ts', '**/__test__/**', 'node_modules/**'],
+    exclude: ['packages/web/**', '**/__test__/**', 'node_modules/**', 'playground/**'],
   }),
   commonjs(),
   terser(),
