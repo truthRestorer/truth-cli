@@ -3,7 +3,7 @@ import { genJSONFile, genTxtFile, genWebFile } from '../packages/cli/src/genFile
 import { __scriptName, buildWeb } from './utils.js'
 
 async function createPlaygroundServer() {
-  const playgroundAssetsPath = path.resolve(__scriptName, '../playground/src/assets/')
+  const playgroundAssetsPath = path.resolve(__scriptName, '../playground/src/assets')
   await genWebFile({
     dep: 3,
     writePath: playgroundAssetsPath,
