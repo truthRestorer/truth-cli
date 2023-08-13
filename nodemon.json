@@ -1,8 +1,8 @@
 {
 	"watch": [
-		"packages/cli/",
-		"packages/core/",
-		"packages/web/"
+		"packages/cli/**",
+		"packages/core/**",
+		"packages/web/**"
 	],
 	"ext": "ts,json",
 	"ignore": [
