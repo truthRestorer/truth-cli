@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.1.6
+
+### Patch Changes
+
+- b3bc2dff: 修复版本问题
+
 ## 0.1.5
 
 ### Patch Changes
