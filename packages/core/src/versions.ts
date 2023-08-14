@@ -13,7 +13,9 @@ export function vControl(v: string) {
 }
 
 function loadVersions() {
-  for (const { dependencies, devDependencies, name } of Object.values(relations)) {
+  for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
+    if (name === '__extra__')
+      continue
     const pkgs = assign(dependencies, devDependencies)
     if (!isEmptyObj(pkgs)) {
       for (const [pkgName, pkgVersion] of entries(pkgs)) {
@@ -21,12 +23,14 @@ function loadVersions() {
         const v = vControl(pkgVersion)
         if (!pkgMap) {
           versions[pkgName] = {}
-          versions[pkgName][v] = name ?? '__root__'
+          versions[pkgName][v] = (name ?? '__root__') as any
         }
         else {
           if (pkgMap[v] && !pkgMap[v].includes(name)) {
-            pkgMap[v] = [pkgMap[v]]
-            pkgMap[v].push(name)
+            if (Array.isArray(pkgMap[v]))
+              pkgMap[v].push(name)
+            else
+              pkgMap[v] = [pkgMap[v], name]
           }
           else {
             pkgMap[v] = name
