@@ -40,59 +40,36 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.setChartOptions()
+    this.reSetChartOptions()
   }
 
   mountChart(chart: ECharts) {
     this.echart = chart
     const options = {
       tooltip: {},
-      legend: {
-        data: ['树图', '引力图'],
-        selectedMode: 'single',
-        itemHeight: 18,
-        itemWidth: 18,
-        itemGap: 25,
-      },
       animationThreshold: 65536,
       hoverLayerThreshold: 65536,
-      series: [
-        {
-          name: '引力图',
-          type: 'graph',
-          layout: 'force',
-          nodes: this.nodes,
-          links: this.links,
-          categories,
-          draggable: false,
-          label: {
-            show: true,
-            position: 'right',
-          },
-          force: {
-            repulsion: 150,
-            layoutAnimation: true,
-            friction: 0.15,
-          },
-          roam: true,
+      series: {
+        name: '树图',
+        type: 'tree',
+        left: '3%',
+        bottom: '6%',
+        top: '6%',
+        data: [this.tree],
+        roam: true,
+        symbolSize: 10,
+        label: {
+          show: true,
+          position: 'right',
         },
-        {
-          name: '树图',
-          type: 'tree',
-          data: [this.tree],
-          roam: true,
-          label: {
-            show: true,
-          },
-          initialTreeDepth: 1,
-          expandAndCollapse: true,
-        },
-      ],
+        initialTreeDepth: 1,
+        expandAndCollapse: true,
+      },
     }
     this.echart.setOption(options)
   }
 
-  private setChartOptions() {
+  private reSetChartOptions() {
     this.echart?.setOption({
       series: [
         {
@@ -102,6 +79,53 @@ export class Chart {
         },
       ],
     })
+  }
+
+  toggleLegend(legend: string) {
+    if (legend === 'force') {
+      this.echart?.setOption({
+        series: {
+          name: 'tree',
+          type: 'tree',
+          left: '3%',
+          bottom: '6%',
+          top: '6%',
+          data: [this.tree],
+          roam: true,
+          symbolSize: 10,
+          label: {
+            show: true,
+            position: 'right',
+          },
+          initialTreeDepth: 1,
+          expandAndCollapse: true,
+        },
+      })
+      return 'tree'
+    }
+    this.echart?.setOption({
+      series: {
+        name: 'force',
+        type: 'graph',
+        layout: 'force',
+        nodes: this.nodes,
+        links: this.links,
+        categories,
+        draggable: false,
+        symbolSize: 14,
+        label: {
+          show: true,
+          position: 'top',
+        },
+        force: {
+          repulsion: 350,
+          layoutAnimation: true,
+          friction: 0.15,
+        },
+        roam: true,
+      },
+    })
+    return 'force'
   }
 
   getRelation(name: string) {

@@ -13,11 +13,10 @@ const style: CSSProperties = {
 
 <template>
   <json-viewer
-    expand-depth="2"
-    :value="data ?? ''"
+    :expand-depth="2"
+    :value="data"
     :style="style"
     copyable
-    boxed
     expanded
   />
 </template>
