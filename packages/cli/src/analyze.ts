@@ -137,7 +137,7 @@ export default class Analyze {
 
       await pkgData.writeFile(p)
       const end = Date.now()
-      logFileWirteFinished(end - begin, p)
+      logFileWirteFinished(end - begin, p, 'txt')
     }
     catch (err: any) {
       logFileWirteError(err.message)

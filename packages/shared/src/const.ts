@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-console */
 // TODO: 完成各种报错以及其他打印语句
 import { fileURLToPath } from 'node:url'
@@ -40,8 +39,17 @@ export function logWebStart(duration: number) {
   console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
-export function logFileWirteFinished(duration: number, p: string) {
-  console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './${fileName}'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt' | 'both') {
+  if (fileType === 'json') {
+    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  }
+  else if (fileType === 'txt') {
+    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './treePkgs.txt'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  }
+  else {
+    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './treePkgs.txt'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  }
 }
 
 const cleanError = `

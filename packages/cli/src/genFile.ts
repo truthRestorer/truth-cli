@@ -23,7 +23,7 @@ export async function genWebFile(options: IOptions) {
   if (isBoth) {
     const pkgs = genPkgs(dep)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
-    isBuild || logFileWirteFinished(Date.now() - begin, './')
+    isBuild || logFileWirteFinished(Date.now() - begin, './', 'json')
   }
 }
 
@@ -50,7 +50,7 @@ export async function genOutputFile(
       await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep)))
       await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep))
     }
-    logFileWirteFinished(Date.now() - begin, p)
+    logFileWirteFinished(Date.now() - begin, p, fileType)
   }
   catch (err: any) {
     logFileWirteError(err.message)
