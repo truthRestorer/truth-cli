@@ -7,6 +7,8 @@ export class Chart {
   private nodesSet: Set<string>
   echart: ECharts | undefined
   private rootName: string
+  private treeOptions
+  private graphOptions
   constructor(
     private nodes: INodes[],
     private links: ILinks[],
@@ -16,45 +18,13 @@ export class Chart {
   ) {
     this.nodesSet = new Set(nodes.map((item: INodes) => item.name))
     this.rootName = relations.__root__.name
-  }
-
-  addGraph(name: string) {
-    if (name === this.rootName || !this.relations[name])
-      return
-    const { devDependencies, dependencies } = this.relations[name]
-    const deps = assign(devDependencies, dependencies)
-    if (isEmptyObj(deps))
-      return
-    for (const [pkgName, pkgVersion] of Object.entries(deps)) {
-      this.links.push({
-        source: pkgName,
-        target: name,
-        v: pkgVersion as string,
-      })
-      if (!this.nodesSet.has(pkgName)) {
-        this.nodes.push({
-          name: pkgName,
-          value: pkgVersion as string,
-          category: 0,
-        })
-        this.nodesSet.add(pkgName)
-      }
-    }
-    this.reSetChartOptions()
-  }
-
-  mountChart(chart: ECharts) {
-    this.echart = chart
-    const options = {
-      tooltip: {},
-      animationThreshold: 65536,
-      hoverLayerThreshold: 65536,
+    this.treeOptions = {
       series: {
-        name: '树图',
+        name: 'Tree',
         type: 'tree',
         left: '3%',
-        bottom: '8%',
-        top: '3%',
+        bottom: '6%',
+        top: '6%',
         data: [this.tree],
         roam: true,
         symbolSize: 10,
@@ -66,44 +36,7 @@ export class Chart {
         expandAndCollapse: true,
       },
     }
-    this.echart.setOption(options)
-  }
-
-  private reSetChartOptions() {
-    this.echart?.setOption({
-      series: [
-        {
-          name: '引力图',
-          nodes: this.nodes,
-          links: this.links,
-        },
-      ],
-    })
-  }
-
-  toggleLegend(legend: string) {
-    if (legend === 'Force') {
-      this.echart?.setOption({
-        series: {
-          name: 'Tree',
-          type: 'tree',
-          left: '3%',
-          bottom: '6%',
-          top: '6%',
-          data: [this.tree],
-          roam: true,
-          symbolSize: 10,
-          label: {
-            show: true,
-            position: 'right',
-          },
-          initialTreeDepth: 1,
-          expandAndCollapse: true,
-        },
-      })
-      return 'Tree'
-    }
-    this.echart?.setOption({
+    this.graphOptions = {
       series: {
         name: 'Force',
         type: 'graph',
@@ -124,13 +57,51 @@ export class Chart {
         },
         roam: true,
       },
-    })
-    return 'Force'
+    }
   }
 
-  getRelation(name: string) {
-    const relation = this.relations[name]
-    return relation
+  addGraph(name: string) {
+    if (name === this.rootName || !this.relations[name])
+      return
+    const { devDependencies, dependencies } = this.relations[name]
+    const deps = assign(devDependencies, dependencies)
+    if (isEmptyObj(deps))
+      return
+    for (const [pkgName, pkgVersion] of Object.entries(deps)) {
+      this.links.push({
+        source: pkgName,
+        target: name,
+      })
+      if (!this.nodesSet.has(pkgName)) {
+        this.nodes.push({
+          name: pkgName,
+          value: pkgVersion as string,
+          category: 0,
+        })
+        this.nodesSet.add(pkgName)
+      }
+    }
+    this.echart?.setOption(this.graphOptions)
+  }
+
+  mountChart(chart: ECharts) {
+    this.echart = chart
+    const options = {
+      tooltip: {},
+      animationThreshold: 65536,
+      hoverLayerThreshold: 65536,
+      ...this.treeOptions,
+    }
+    this.echart.setOption(options)
+  }
+
+  toggleLegend(legend: string) {
+    if (legend === 'Force') {
+      this.echart?.setOption(this.treeOptions)
+      return 'Tree'
+    }
+    this.echart?.setOption(this.graphOptions)
+    return 'Force'
   }
 
   getCirculation(name: string) {
@@ -147,22 +118,37 @@ export class Chart {
           result.push(pkg)
       }
     }
-    return result
-  }
-
-  getVersions(name: string) {
-    return this.versions[name] ?? []
+    return result.length ? result : null
   }
 
   fuzzySearch(name: string) {
     const relatedPkg = this.relations[name]
-    if (relatedPkg)
-      return relatedPkg
-    const findPkg = Object.keys(this.relations).find((key) => {
+    if (relatedPkg) {
+      return {
+        relatedPkg,
+        relatedName: name,
+      }
+    }
+    const findPkgKey = Object.keys(this.relations).find((key) => {
       return key.toLocaleLowerCase().includes(name.toLocaleLowerCase())
     })
-    if (!findPkg)
+    if (!findPkgKey)
       return {}
-    return this.relations[findPkg]
+    return {
+      relatedPkg: this.relations[findPkgKey],
+      relatedName: findPkgKey,
+    }
+  }
+
+  getPkgInfo(name: string) {
+    const { relatedPkg, relatedName } = this.fuzzySearch(name)
+    const result: any = {}
+    if (relatedName && relatedPkg)
+      result[`🍇 ${relatedName}`] = relatedPkg
+    if (this.getCirculation(name))
+      result['🍇 循环引用'] = this.getCirculation(name)
+    if (this.versions[name])
+      result['🍇 多个版本'] = this.versions[name]
+    return isEmptyObj(result) ? '🍇 没有找到该包的信息喔' : result
   }
 }

@@ -6,19 +6,14 @@ import { Chart, debounce, initData } from '../utils/index'
 
 const graphSet = new Set()
 const { nodes, links, tree, relations, versions } = await initData()
+const pkgName = ref()
 const lengend = ref<'Tree' | 'Force'>('Tree')
-const pkg = ref()
 const pkgInfo = ref(relations.__root__)
 const c = new Chart(nodes, links, tree, relations, versions)
 const handleSearch = debounce(() => {
-  const searchResult = c.fuzzySearch(pkg.value)
-  if (searchResult) {
-    pkgInfo.value = {
-      依赖名: searchResult,
-      循环引用: c.getCirculation(searchResult.name),
-      多版本: c.getVersions(searchResult.name),
-    }
-  }
+  const searchResult = c.getPkgInfo(pkgName.value)
+  if (searchResult)
+    pkgInfo.value = searchResult
 })
 
 onMounted(async () => {
@@ -26,14 +21,8 @@ onMounted(async () => {
   c.mountChart(chartInstance)
   chartInstance.on('click', (params: any) => {
     const { data, seriesType, collapsed } = params
-    if (!collapsed) {
-      pkg.value = data.name
-      pkgInfo.value = {
-        依赖名: c.getRelation(data.name),
-        循环引用: c.getCirculation(data.name),
-        多版本: c.getVersions(data.name),
-      }
-    }
+    if (!collapsed)
+      pkgInfo.value = c.getPkgInfo(data.name)
     if (seriesType === 'graph' && !graphSet.has(data.name)) {
       graphSet.add(data.name)
       c.addGraph(data.name)
@@ -54,12 +43,9 @@ onUnmounted(() => {
       <div class="logo">
         LOGO
       </div>
-      <div style="font-size: 24px;font-weight: 500;">
-        <span style="margin-right:35px;">{{ lengend }} 图</span>
-      </div>
     </div>
     <div class="right">
-      <ElInput v-model="pkg" placeholder="搜索依赖" @input="handleSearch">
+      <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
           <ElIcon>
             <Search />
