@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import fs from 'node:fs'
 import { isEmptyObj, readDir, readFile } from '@truth-cli/shared'
 import type { IRelations } from '@truth-cli/shared'
 
@@ -11,6 +12,18 @@ export const relations: Partial<IRelations> = {}
 /**
  * 读取 node_modules 目录下的所有 package.json 文件
  */
+
+function dealMultiVersions(p: string, rootName: string) {
+  const pkg = readFile(p)
+  const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
+  const extraName = `${name}__${version}`
+  relations.__extra__[extraName] = {
+    name, related: rootName, description, version, homepage, repository, author,
+  }
+  isEmptyObj(dependencies) || (relations.__extra__[extraName].dependencies = dependencies)
+  isEmptyObj(devDependencies) || (relations.__extra__[extraName].devDependencies = devDependencies)
+}
+
 function readGlob(p: string) {
   const pkgsRoot = readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
@@ -30,6 +43,21 @@ function readGlob(p: string) {
       }
       isEmptyObj(dependencies) || (relations[pkg.name].dependencies = dependencies)
       isEmptyObj(devDependencies) || (relations[pkg.name].devDependencies = devDependencies)
+      if (fs.existsSync(`${pkgPath}/node_modules`)) {
+        const dirs = readDir(`${pkgPath}/node_modules`)
+        for (let i = 0; i < dirs.length; i++) {
+          if (dirs[i][0] === '.')
+            continue
+          const nodePath = `${pkgPath}/node_modules/${dirs[i]}`
+          if (dirs[i][0] === '@') {
+            const subDirs = readDir(nodePath)
+            for (let j = 0; j < subDirs.length; j++) dealMultiVersions(`${nodePath}/${subDirs[j]}/package.json`, name)
+          }
+          else {
+            dealMultiVersions(`${nodePath}/package.json`, name)
+          }
+        }
+      }
     }
   }
 }
@@ -39,6 +67,7 @@ function readGlob(p: string) {
 export function genRelations() {
   const pkg: IRelations = readFile('package.json')
   relations.__root__ = pkg
+  relations.__extra__ = {}
   readGlob('node_modules')
   return relations
 }
