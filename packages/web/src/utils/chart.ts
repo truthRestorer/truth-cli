@@ -53,8 +53,8 @@ export class Chart {
         name: '树图',
         type: 'tree',
         left: '3%',
-        bottom: '6%',
-        top: '6%',
+        bottom: '8%',
+        top: '3%',
         data: [this.tree],
         roam: true,
         symbolSize: 10,
@@ -82,10 +82,10 @@ export class Chart {
   }
 
   toggleLegend(legend: string) {
-    if (legend === 'force') {
+    if (legend === 'Force') {
       this.echart?.setOption({
         series: {
-          name: 'tree',
+          name: 'Tree',
           type: 'tree',
           left: '3%',
           bottom: '6%',
@@ -101,11 +101,11 @@ export class Chart {
           expandAndCollapse: true,
         },
       })
-      return 'tree'
+      return 'Tree'
     }
     this.echart?.setOption({
       series: {
-        name: 'force',
+        name: 'Force',
         type: 'graph',
         layout: 'force',
         nodes: this.nodes,
@@ -125,7 +125,7 @@ export class Chart {
         roam: true,
       },
     })
-    return 'force'
+    return 'Force'
   }
 
   getRelation(name: string) {

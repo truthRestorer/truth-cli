@@ -6,3 +6,12 @@ body {
 .jv-more {
   display: none;
 }
+.vjs-tree {
+  padding: 0 10px;
+}
+.vjs-key {
+  white-space: nowrap;
+}
+.vjs-value {
+  word-break: normal!important;
+}

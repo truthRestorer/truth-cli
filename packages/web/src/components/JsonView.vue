@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
+import { ref } from 'vue'
+import VueJsonPretty from 'vue-json-pretty'
+import 'vue-json-pretty/lib/styles.css'
 
 defineProps(['data'])
+
+const selectedValue = ref('')
 const style: CSSProperties = {
-  'flex': 1,
-  'width': '100%',
-  'white-space': 'pre-wrap',
-  'overflow-y': 'auto',
-  'overflow-x': 'hidden',
+  overflow: 'hidden',
 }
 </script>
 
 <template>
-  <json-viewer
-    :expand-depth="2"
-    :value="data"
+  <VueJsonPretty
+    :deep="2"
+    :data="data"
     :style="style"
-    copyable
-    expanded
+    :show-line="false"
+    :show-double-quotes="false"
+    :selected-value="selectedValue"
+    show-line-number
   />
 </template>

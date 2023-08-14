@@ -9,11 +9,13 @@
   "dependencies": {
     "echarts": "^5.4.3",
     "vue": "^3.3.4",
-    "vue-json-viewer": "3"
+    "vue-json-pretty": "^2.2.4"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@truth-cli/shared": "workspace:^",
-    "@types/echarts": "^4.9.18"
+    "@types/echarts": "^4.9.18",
+    "element-plus": "^2.3.9"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [

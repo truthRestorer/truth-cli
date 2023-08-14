@@ -14,8 +14,9 @@
 		"tree.json",
 		"versions.json",
 		"treePkgs.json",
-		"**/dist/**"
-
+		"**/dist/**",
+		"auto-imports.d.ts",
+		"components.d.ts"
 	],
 	"exec": "ts-node ./scripts/dev.ts"
 }

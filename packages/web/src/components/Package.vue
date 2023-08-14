@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
 import echarts from '../plugins/echarts'
 import { Chart, debounce, initData } from '../utils/index'
-import JsonView from './JsonView.vue'
 
 const graphSet = new Set()
-const lengend = ref<'tree' | 'force'>('tree')
-const pkg = ref()
-const pkgInfo = ref()
 const { nodes, links, tree, relations, versions } = await initData()
+const lengend = ref<'Tree' | 'Force'>('Tree')
+const pkg = ref()
+const pkgInfo = ref(relations.__root__)
 const c = new Chart(nodes, links, tree, relations, versions)
 const handleSearch = debounce(() => {
   const searchResult = c.fuzzySearch(pkg.value)
@@ -49,32 +49,80 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="chart" style="flex: 1" />
-  <div class="f-wrap-column" style="width: 320px;">
-    <button @click="lengend = c.toggleLegend(lengend)">
-      ff
-    </button>
-    <input v-model="pkg" class="pkgSearch" placeholder="请输入查找的包名" type="text" @input="handleSearch">
-    <JsonView :data="pkgInfo" />
+  <div class="header">
+    <div class="left">
+      <div class="logo">
+        LOGO
+      </div>
+      <div style="font-size: 24px;font-weight: 500;">
+        <span style="margin-right:35px;">{{ lengend }} 图</span>
+      </div>
+    </div>
+    <div class="right">
+      <ElInput v-model="pkg" placeholder="搜索依赖" @input="handleSearch">
+        <template #suffix>
+          <ElIcon>
+            <Search />
+          </ElIcon>
+        </template>
+      </ElInput>
+      <ElButton @click="lengend = c.toggleLegend(lengend)">
+        切换实例
+      </ElButton>
+      <div class="link">
+        <a target="_blank" href="https://truth-cli-playground.vercel.app/">演练场</a>
+        <a target="_blank" href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
+      </div>
+      <Github />
+    </div>
+  </div>
+  <div style="display:flex;height: 100vh;padding-top: 60px;box-sizing: border-box;">
+    <div id="chart" style="flex: 1;" />
+    <ElScrollbar always>
+      <div class="f-wrap-column" style="width: max-content;min-width: 350px;max-width:400px;padding: 0 5px;">
+        <JsonView :data="pkgInfo" />
+      </div>
+    </ElScrollbar>
   </div>
 </template>
 
 <style scoped>
-input {
-  box-sizing: border-box;
-}
 .f-wrap-column {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
 }
-
-.pkgSearch {
-  outline-style: none ;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 12px 8px;
-  font-size: 26px;
-  width: 100%;
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 40px;
+  max-height: 60px;
+  box-shadow: 0 1px 12px #efefef;
+  z-index: 9999;
+}
+.right, .left, .link {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.link {
+  gap: 10px;
+  min-width: max-content;
+}
+.link a {
+  color: #434343;
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.35s;
+}
+.link a:hover {
+  border-color: #26a3eb;
+  color: #000;
 }
 </style>
