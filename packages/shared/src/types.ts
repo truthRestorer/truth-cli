@@ -8,7 +8,6 @@ export interface INodes {
 export interface ILinks {
   source: string
   target: string
-  v: string
 }
 
 export enum EDeps {

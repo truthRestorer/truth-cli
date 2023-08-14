@@ -14,11 +14,11 @@ function dealMultiVersions(p: string, rootName: string) {
   const pkg = readFile(p)
   const { name, version, dependencies, devDependencies, homepage } = pkg
   if (relations.__extra__[rootName]) {
-    relations.__extra__[rootName][name] = { name, version, homepage }
+    relations.__extra__[rootName][name] = { version, homepage }
   }
   else {
     relations.__extra__[rootName] = {
-      [name]: { name, version, homepage },
+      [name]: { version, homepage },
     }
   }
   isEmptyObj(dependencies) || (relations.__extra__[rootName][name].dependencies = dependencies)
@@ -42,7 +42,7 @@ function readGlob(p: string) {
       const pkg: IRelations = readFile(`${pkgPath}/package.json`)
       const { name, version, dependencies, devDependencies, homepage } = pkg
       relations[pkg.name] = {
-        name, version, homepage,
+        version, homepage,
       }
       isEmptyObj(dependencies) || (relations[pkg.name].dependencies = dependencies)
       isEmptyObj(devDependencies) || (relations[pkg.name].devDependencies = devDependencies)
@@ -68,8 +68,8 @@ function readGlob(p: string) {
  * 导出易于命名行操作的函数
  */
 export function genRelations() {
-  const { name, version, dependencies, devDependencies, homepage } = readFile('package.json')
-  relations.__root__ = { name, version, dependencies, devDependencies, homepage }
+  const { version, dependencies, devDependencies, homepage } = readFile('package.json')
+  relations.__root__ = { version, dependencies, devDependencies, homepage }
   relations.__extra__ = {}
   readGlob('node_modules')
   return relations

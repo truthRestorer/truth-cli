@@ -32,7 +32,6 @@ export function genGraph() {
     links.push({
       source: pkgName,
       target: rootName,
-      v: pkgVersion as string,
     })
   }
   addNode(rootName, version, EDeps.ROOT)
