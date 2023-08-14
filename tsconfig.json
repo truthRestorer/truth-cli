@@ -28,7 +28,6 @@
     "scripts/*.ts",
     "packages/web/**/*.vue",
     "playground/**/*.vue",
-    "playground/**/*.ts",
-    "vite.config.ts"
+    "playground/**/*.ts"
   ]
 }
