@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.0.8
+
+### Patch Changes
+
+- b3bc2dff: 修复版本问题
+
 ## 0.0.7
 
 ### Patch Changes
