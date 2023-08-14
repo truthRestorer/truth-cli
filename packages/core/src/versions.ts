@@ -21,7 +21,7 @@ function loadVersions() {
         const v = vControl(pkgVersion)
         if (!pkgMap) {
           versions[pkgName] = {}
-          versions[pkgName][v] = [name]
+          versions[pkgName][v] = [name ?? '__root__']
         }
         else {
           if (pkgMap[v] && !pkgMap[v].includes(name))
