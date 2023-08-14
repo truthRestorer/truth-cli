@@ -9,21 +9,24 @@ import type { IRelations } from '@truth-cli/shared'
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
 export const relations: Partial<IRelations> = {}
-/**
- * 读取 node_modules 目录下的所有 package.json 文件
- */
 
 function dealMultiVersions(p: string, rootName: string) {
   const pkg = readFile(p)
   const { name, description, version, dependencies, devDependencies, repository, author, homepage } = pkg
-  const extraName = `${name}__${version}`
-  relations.__extra__[extraName] = {
-    name, related: rootName, description, version, homepage, repository, author,
+  if (relations.__extra__[rootName]) {
+    relations.__extra__[rootName][name] = { name, description, version, homepage, repository, author }
   }
-  isEmptyObj(dependencies) || (relations.__extra__[extraName].dependencies = dependencies)
-  isEmptyObj(devDependencies) || (relations.__extra__[extraName].devDependencies = devDependencies)
+  else {
+    relations.__extra__[rootName] = {
+      [name]: { name, description, version, homepage, repository, author },
+    }
+  }
+  isEmptyObj(dependencies) || (relations.__extra__[rootName][name].dependencies = dependencies)
+  isEmptyObj(devDependencies) || (relations.__extra__[rootName][name].devDependencies = devDependencies)
 }
-
+/**
+ * 读取 node_modules 目录下的所有 package.json 文件
+ */
 function readGlob(p: string) {
   const pkgsRoot = readDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
