@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import Relations from './views/Relations.vue'
-import Header from './components/Header.vue'
 import Graph from './views/Graph.vue'
 import Pkgs from './views/Pkgs.vue'
 import Tree from './views/Tree.vue'
