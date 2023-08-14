@@ -3,7 +3,7 @@
 ::: tip 首先说明
 `truth-cli` 只是一个命令行工具，提供 api 的依赖是 `@truth-cli/core`。
 
-注：如果要使用 API，请务必先调用 `genRelations` 函数，否则会报错！！！[关于为什么](http://localhost:5173/truth-cli/about/how.html#%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90)
+注：如果要使用 API，请务必先调用 `genRelations` 函数，否则会报错！！！[关于为什么](https://truthrestorer.github.io/truth-cli/about/how.html#%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90)
 :::
 
 如果你想更好的使用 `@truth-cli/core` 的 API，可以查看我们的 [Playground](https://truth-cli-playground.vercel.app/) 各个 API 返回值。
