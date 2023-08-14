@@ -58,11 +58,10 @@ function loadPkgs(
  * 便于命令行操作的生成文件函数
  */
 export function genPkgs(depth: number) {
-  const { devDependencies, dependencies, name, version } = relations.__root__
-  const pkgs: IPkgs = {
-    name,
+  const { devDependencies, dependencies, version } = relations.__root__
+  const pkgs: any = {
+    name: '__root__',
     version,
-    type: EDep.DEPENDENCY,
     packages: {} as IPkgs,
   }
   addPkg(pkgs, devDependencies, EDep.DEVDEPENDENCY, true)
