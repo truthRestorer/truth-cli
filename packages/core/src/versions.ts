@@ -17,17 +17,20 @@ function loadVersions() {
     const pkgs = assign(dependencies, devDependencies)
     if (!isEmptyObj(pkgs)) {
       for (const [pkgName, pkgVersion] of entries(pkgs)) {
-        const pkgMap = versions[pkgName]
+        const pkgMap: any = versions[pkgName]
         const v = vControl(pkgVersion)
         if (!pkgMap) {
           versions[pkgName] = {}
-          versions[pkgName][v] = [name ?? '__root__']
+          versions[pkgName][v] = name ?? '__root__'
         }
         else {
-          if (pkgMap[v] && !pkgMap[v].includes(name))
+          if (pkgMap[v] && !pkgMap[v].includes(name)) {
+            pkgMap[v] = [pkgMap[v]]
             pkgMap[v].push(name)
-          else
-            pkgMap[v] = [name]
+          }
+          else {
+            pkgMap[v] = name
+          }
         }
       }
     }
