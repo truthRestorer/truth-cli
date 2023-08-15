@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.0.9
+
+### Patch Changes
+
+- 85072365: 进一步完善功能
+
 ## 0.0.8
 
 ### Patch Changes

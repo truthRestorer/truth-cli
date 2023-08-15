@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.10
+
+### Patch Changes
+
+- 85072365: 进一步完善功能
+
 ## 0.7.8
 
 ### Patch Changes
