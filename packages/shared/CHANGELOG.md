@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.1.8
+
+### Patch Changes
+
+- 8d9a641c: 忽略不需要发布的依赖
+
 ## 0.1.7
 
 ### Patch Changes
