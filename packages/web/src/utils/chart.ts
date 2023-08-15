@@ -88,8 +88,8 @@ export class Chart {
     this.echart = chart
     const options = {
       tooltip: {},
-      animationThreshold: 65536,
-      hoverLayerThreshold: 65536,
+      animationThreshold: 16777216,
+      hoverLayerThreshold: 16777216,
       ...this.graphOptions,
     }
     this.echart.setOption(options)

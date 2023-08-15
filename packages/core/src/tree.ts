@@ -73,6 +73,6 @@ export function genTree(maxDep: number, relations: Relations) {
       shouldOptimize || rootPkgSet.has(tree.name) || treeSet.delete(tree.name)
     }
   }
-  loadTrees(treeData.children, maxDep - 1, maxDep > 5)
+  loadTrees(treeData.children, maxDep - 1, maxDep > 7)
   return treeData
 }
