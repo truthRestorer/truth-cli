@@ -12,5 +12,11 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@truth-cli/example"]
+  "ignore": [
+    "@truth-cli/example",
+    "@truth-cli/playground",
+    "@truth-cli/docs",
+    "@truth-cli/playground",
+    "@truth-cli/web"
+  ]
 }
