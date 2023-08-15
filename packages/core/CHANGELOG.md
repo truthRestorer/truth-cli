@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.0.10
+
+### Patch Changes
+
+- 8d9a641c: 忽略不需要发布的依赖
+
 ## 0.0.9
 
 ### Patch Changes
