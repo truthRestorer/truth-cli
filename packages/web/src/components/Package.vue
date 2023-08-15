@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { ElButton, ElIcon, ElInput, ElScrollbar } from 'element-plus'
+
 import echarts from '../plugins/echarts'
 import { Chart, debounce, initData } from '../utils/index'
+import JsonView from './JsonView.vue'
+import Github from './Github.vue'
 
 const graphSet = new Set()
 const { nodes, links, tree, relations, versions } = await initData()
@@ -62,10 +66,10 @@ onUnmounted(() => {
       <Github />
     </div>
   </div>
-  <div style="display:flex;height: 100vh;padding-top: 60px;box-sizing: border-box;">
+  <div style="display:flex;height:100vh;padding-top:60px;box-sizing:border-box;">
     <div id="chart" style="flex: 1;" />
     <ElScrollbar always>
-      <div class="f-wrap-column" style="width: max-content;min-width: 350px;max-width:400px;padding: 0 5px;">
+      <div class="f-wrap-column" style="width:max-content;min-width:350px;max-width:400px;padding:0 5px;">
         <JsonView :data="pkgInfo" />
       </div>
     </ElScrollbar>
