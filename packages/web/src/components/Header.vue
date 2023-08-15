@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ElButton, ElIcon, ElInput } from 'element-plus'
+import { ElButton, ElIcon, ElInput, ElSwitch } from 'element-plus'
+import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import type { Ref } from 'vue'
 import { inject, ref } from 'vue'
+import { useDark } from '@vueuse/core'
 import { debounce } from '../utils'
 import Github from './Github.vue'
 
-const lengend = ref<'Tree' | 'Force'>('Tree')
+const lengend = ref<'Tree' | 'Force'>('Force')
 const drawer = inject('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<any>>('pkgInfo')!
@@ -15,6 +17,7 @@ const handleSearch = debounce(() => {
   if (searchResult)
     pkgInfo.value = searchResult
 })
+const isDark = useDark()
 </script>
 
 <template>
@@ -38,6 +41,13 @@ const handleSearch = debounce(() => {
       <ElButton @click="lengend = chartInstance.toggleLegend(lengend)">
         切换图表
       </ElButton>
+      <ElSwitch
+        v-model="isDark"
+        :active-action-icon="Sunny"
+        :inactive-action-icon="Moon"
+        style="--el-switch-on-color:#434343"
+        size="large"
+      />
       <div class="link">
         <a target="_blank" href="https://truth-cli-playground.vercel.app/">演练场</a>
         <a target="_blank" href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
@@ -55,10 +65,11 @@ const handleSearch = debounce(() => {
   right: 0;
   display: flex;
   justify-content: space-between;
-  background-color: #fefefe;
+  background-color: var(--el-bg-color);
   padding: 8px 15px 8px 40px;
   max-height: 60px;
-  box-shadow: 0 1px 12px #efefef;
+  box-shadow: 0 1px 4px rgba(100, 100, 100, .4);
+  transition: background-color .4s!important;
   & .right, .left, .link{
     display: flex;
     align-items: center;
@@ -81,7 +92,7 @@ const handleSearch = debounce(() => {
     align-items: center;
     min-width: max-content;
     & a {
-      color: #434343;
+      color: var(--el-text-color-regular);
       font-size: 14px;
       text-decoration: none;
       border-bottom: 2px solid transparent;
@@ -89,7 +100,6 @@ const handleSearch = debounce(() => {
     }
     & a:hover {
       border-color: #75dcff;
-      color: #1a1b1b;
     }
   }
 }

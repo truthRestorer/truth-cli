@@ -2,6 +2,8 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow: auto;
+  background-color: var(--el-bg-color-overlay);
+  transition: background-color .4s!important;
 }
 .vjs-tree {
   padding: 0 10px;

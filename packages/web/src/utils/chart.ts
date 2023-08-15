@@ -90,7 +90,7 @@ export class Chart {
       tooltip: {},
       animationThreshold: 65536,
       hoverLayerThreshold: 65536,
-      ...this.treeOptions,
+      ...this.graphOptions,
     }
     this.echart.setOption(options)
   }

@@ -1,5 +1,5 @@
 <template>
-  <a target="_blank" href="https://github.com/truthRestorer/truth-cli" style="color:black;">
+  <a target="_blank" href="https://github.com/truthRestorer/truth-cli">
     <svg
       preserveAspectRatio="xMidYMid meet"
       viewBox="0 0 24 24"
