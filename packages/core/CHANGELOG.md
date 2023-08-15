@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.7.12
+
+### Patch Changes
+
+- 73d7afb4: 版本号一致
+
 ## 0.0.10
 
 ### Patch Changes
