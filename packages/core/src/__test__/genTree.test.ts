@@ -12,7 +12,7 @@ describe('genTree test', () => {
       return Object.keys(deps)
     }).flat(),
   ])
-  const trees: any = genTree(1)
+  const trees: any = genTree(1, relations)
   test('tree and tree children should be empty', () => {
     expect(trees).toBeTruthy()
     expect(trees.children?.length).toBeTruthy()

@@ -1,6 +1,5 @@
 import { EDeps, assign, entries } from '@truth-cli/shared'
-import type { ILinks, INodes } from '@truth-cli/shared'
-import { relations } from './relations.js'
+import type { ILinks, INodes, IRelations } from '@truth-cli/shared'
 
 const nodesSet = new Set<string>() // 避免相同的 node
 const nodes: INodes[] = []
@@ -24,7 +23,7 @@ function addNode(name: string, version: string, category: number) {
 /**
  * 导出易于命令行操作的函数
  */
-export function genGraph() {
+export function genGraph(relations: IRelations) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '__root__'
   for (const [pkgName, pkgVersion] of entries(assign(devDependencies, dependencies))) {
@@ -34,7 +33,7 @@ export function genGraph() {
       target: rootName,
     })
   }
-  addNode(rootName, version, EDeps.ROOT)
+  addNode(rootName, version ?? 'latest', EDeps.ROOT)
   return {
     nodes,
     links,

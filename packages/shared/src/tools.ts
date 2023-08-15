@@ -1,4 +1,4 @@
-export function assign(...rest: object[]) {
+export function assign(...rest: (object | undefined)[]) {
   return Object.assign({}, ...rest)
 }
 

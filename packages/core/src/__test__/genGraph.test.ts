@@ -4,8 +4,8 @@ import { genGraph } from '../graph'
 import { genRelations } from '../relations'
 
 describe('genGraph test', () => {
-  genRelations()
-  const { nodes, links } = genGraph()
+  const relations = genRelations()
+  const { nodes, links } = genGraph(relations)
   test('nodes and links is not empty', () => {
     expect(nodes).toBeTruthy()
     expect(links).toBeTruthy()

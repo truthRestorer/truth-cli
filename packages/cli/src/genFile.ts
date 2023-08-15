@@ -11,9 +11,9 @@ const relations = genRelations()
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
   let { dep, isBoth, isBuild, writePath } = options
-  const graph = genGraph()
-  const tree = genTree(dep)
-  const versions = genVersions()
+  const graph = genGraph(relations)
+  const tree = genTree(dep, relations)
+  const versions = genVersions(relations)
   if (!writePath)
     writePath = isBuild ? devDistPath : distPath
   await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
@@ -21,7 +21,7 @@ export async function genWebFile(options: IOptions) {
   await writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
   await writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
   if (isBoth) {
-    const pkgs = genPkgs(dep)
+    const pkgs = genPkgs(dep, relations)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
     isBuild || logFileWirteFinished(Date.now() - begin, './', 'json')
   }
@@ -41,14 +41,14 @@ export async function genOutputFile(
     p = './'
   try {
     if (fileType === 'json') {
-      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep)))
+      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep, relations)))
     }
     else if (fileType === 'txt') {
-      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep))
+      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep, relations))
     }
     else {
-      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep)))
-      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep))
+      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep, relations)))
+      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep, relations))
     }
     logFileWirteFinished(Date.now() - begin, p, fileType)
   }

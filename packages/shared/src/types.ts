@@ -21,22 +21,15 @@ export interface ITree {
   children?: ITree[]
 }
 
-interface IRelationRepository {
-  type: string
-  url: string
-  [key: string]: string
-}
-
-export interface IRelations {
-  name: string
-  description: string
+export interface IRelation {
   version: string
   dependencies: { [key: string]: string }
   devDependencies: { [key: string]: string }
-  repository: IRelationRepository[]
-  author: string
   homepage: string
   [key: string]: any
+}
+export interface IRelations {
+  [key: string]: IRelation | Partial<IRelation>
 }
 
 export enum EDep {
@@ -45,7 +38,6 @@ export enum EDep {
 }
 
 export interface IPkgs {
-  name: string
   version: string
   type: EDep
   packages: IPkgs

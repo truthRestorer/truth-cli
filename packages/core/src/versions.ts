@@ -1,6 +1,5 @@
-import type { IVersions } from '@truth-cli/shared'
+import type { IRelations, IVersions } from '@truth-cli/shared'
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
-import { relations } from './relations.js'
 
 const versions: IVersions = {}
 
@@ -12,36 +11,35 @@ export function vControl(v: string) {
   return v
 }
 
-function loadVersions() {
-  for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
-    if (name === '__extra__')
-      continue
-    const pkgs = assign(dependencies, devDependencies)
-    if (!isEmptyObj(pkgs)) {
-      for (const [pkgName, pkgVersion] of entries(pkgs)) {
-        const pkgMap: any = versions[pkgName]
-        const v = vControl(pkgVersion)
-        if (!pkgMap) {
-          versions[pkgName] = {}
-          versions[pkgName][v] = (name ?? '__root__') as any
-        }
-        else {
-          if (pkgMap[v] && !pkgMap[v].includes(name)) {
-            if (Array.isArray(pkgMap[v]))
-              pkgMap[v].push(name)
-            else
-              pkgMap[v] = [pkgMap[v], name]
+export function genVersions(relations: IRelations) {
+  function loadVersions() {
+    for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
+      if (name === '__extra__')
+        continue
+      const pkgs = assign(dependencies, devDependencies)
+      if (!isEmptyObj(pkgs)) {
+        for (const [pkgName, pkgVersion] of entries(pkgs)) {
+          const pkgMap: any = versions[pkgName]
+          const v = vControl(pkgVersion)
+          if (!pkgMap) {
+            versions[pkgName] = {}
+            versions[pkgName][v] = (name ?? '__root__') as any
           }
           else {
-            pkgMap[v] = name
+            if (pkgMap[v] && !pkgMap[v].includes(name)) {
+              if (Array.isArray(pkgMap[v]))
+                pkgMap[v].push(name)
+              else
+                pkgMap[v] = [pkgMap[v], name]
+            }
+            else {
+              pkgMap[v] = name
+            }
           }
         }
       }
     }
   }
-}
-
-export function genVersions() {
   loadVersions()
   for (const key of Object.keys(versions)) {
     if (Object.keys(versions[key]).length === 1)

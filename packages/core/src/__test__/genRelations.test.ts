@@ -4,7 +4,7 @@ import { genRelations } from '../relations'
 
 describe('genRelations test', async () => {
   const result = genRelations()
-  const { relations } = await import('../relations')
+  const relations = genRelations()
   test('export data should have corret type and it is not empty', () => {
     expectTypeOf(result).toBeObject()
     expectTypeOf(result).toBeObject()

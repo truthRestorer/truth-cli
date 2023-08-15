@@ -1,4 +1,4 @@
-import type { IContext, IPkgs } from '@truth-cli/shared'
+import type { IContext, IPkgs, IRelations } from '@truth-cli/shared'
 import { entries } from '@truth-cli/shared'
 import { genPkgs } from './pkgs.js'
 
@@ -50,8 +50,8 @@ function loadTreeFile(pkgs: IPkgs, tabCount: number, ctx: IContext) {
   dealNewLine(tabCount)
 }
 
-export function genPkgTree(maxDep: number) {
-  const { name, version, packages } = genPkgs(maxDep)
+export function genPkgTree(maxDep: number, relations: IRelations) {
+  const { name, version, packages } = genPkgs(maxDep, relations)
   const ctx = createContext()
   ctx.push(`${name} ${version}:`)
   loadTreeFile(packages, 0, ctx)
