@@ -1,7 +1,7 @@
-import type { IRelations, IVersions } from '@truth-cli/shared'
+import type { Relations, Versions } from '@truth-cli/shared'
 import { assign, entries, isEmptyObj } from '@truth-cli/shared'
 
-const versions: IVersions = {}
+const versions: Versions = {}
 
 export function vControl(v: string) {
   if (v[0] === '^')
@@ -11,7 +11,7 @@ export function vControl(v: string) {
   return v
 }
 
-export function genVersions(relations: IRelations) {
+export function genVersions(relations: Relations) {
   function loadVersions() {
     for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
       if (name === '__extra__')

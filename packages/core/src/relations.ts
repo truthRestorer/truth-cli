@@ -1,7 +1,7 @@
 import { resolve } from 'node:path'
 import fs from 'node:fs'
 import { isEmptyObj, readDir, readFile } from '@truth-cli/shared'
-import type { IRelation, IRelations } from '@truth-cli/shared'
+import type { Relation, Relations } from '@truth-cli/shared'
 
 /**
  * `truth-cli` 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
@@ -9,7 +9,7 @@ import type { IRelation, IRelations } from '@truth-cli/shared'
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
 const { version, dependencies, devDependencies, homepage } = readFile('package.json')
-const relations: IRelations = {
+const relations: Relations = {
   __root__: { version, dependencies, devDependencies, homepage },
   __extra__: {},
 }
@@ -17,16 +17,10 @@ const relations: IRelations = {
 function dealMultiVersions(p: string, rootName: string) {
   const pkg = readFile(p)
   const { name, version, dependencies, devDependencies, homepage } = pkg
-  if (relations.__extra__[rootName]) {
-    relations.__extra__[rootName][name] = { version, homepage }
-  }
-  else {
-    relations.__extra__[rootName] = {
-      [name]: { version, homepage },
-    }
-  }
-  isEmptyObj(dependencies) || (relations.__extra__[rootName][name].dependencies = dependencies)
-  isEmptyObj(devDependencies) || (relations.__extra__[rootName][name].devDependencies = devDependencies)
+  const pkgName = `${name}__${version}`
+  relations.__extra__[pkgName] = { version, homepage, related: rootName }
+  isEmptyObj(dependencies) || (relations.__extra__[pkgName]!.dependencies = dependencies)
+  isEmptyObj(devDependencies) || (relations.__extra__[pkgName]!.devDependencies = devDependencies)
 }
 /**
  * 读取 node_modules 目录下的所有 package.json 文件
@@ -43,7 +37,7 @@ function readGlob(p: string) {
       for (let i = 0; i < dirs.length; i++) readGlob(pkgPath)
     }
     else {
-      const pkg: IRelation = readFile(`${pkgPath}/package.json`)
+      const pkg: Relation = readFile(`${pkgPath}/package.json`)
       const { name, version, dependencies, devDependencies, homepage } = pkg
       relations[pkg.name] = {
         version, homepage,

@@ -1,52 +1,58 @@
-export interface INodes {
+export interface Nodes {
   name: string
   category: number
   value: string
   symbolSize?: number
 }
 
-export interface ILinks {
+export interface Links {
   source: string
   target: string
 }
 
-export enum EDeps {
+export enum GraphDependency {
   DEPENDENCY,
   ROOT_DEPENDENCY,
   ROOT,
 }
-export interface ITree {
+export interface Tree {
   name: string
   value: string
-  children?: ITree[]
+  children?: Tree[]
 }
 
-export interface IRelation {
+export interface Relation {
   version: string
-  dependencies: { [key: string]: string }
-  devDependencies: { [key: string]: string }
+  dependencies?: { [key: string]: string }
+  devDependencies?: { [key: string]: string }
   homepage: string
   [key: string]: any
 }
-export interface IRelations {
-  [key: string]: IRelation | Partial<IRelation>
+
+interface Extra extends Relation {
+  related: string
+}
+export interface Relations {
+  __extra__: Partial<{ [key: string]: Extra }>
+  __root__: Relation
+  [key: string]: Relation | Partial<Relation>
 }
 
-export enum EDep {
+export enum PkgDependency {
   'DEVDEPENDENCY',
   'DEPENDENCY',
 }
 
-export interface IPkgs {
+export interface Pkgs {
   version: string
-  type: EDep
-  packages: IPkgs
+  type: PkgDependency
+  packages?: Pkgs
   [key: string]: any
 }
 
-export interface IVersions {
+export interface Versions {
   [key: string]: {
-    [key: string]: string[]
+    [key: string]: string[] | string
   }
 }
 

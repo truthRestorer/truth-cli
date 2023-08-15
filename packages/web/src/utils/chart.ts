@@ -1,5 +1,5 @@
 import type { ECharts } from 'echarts/core'
-import type { ILinks, INodes, IRelations, ITree, IVersions } from '@truth-cli/shared'
+import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { assign, isEmptyObj } from '@truth-cli/shared/src/tools'
 import { categories } from '@truth-cli/shared/src/types'
 
@@ -10,13 +10,13 @@ export class Chart {
   private treeOptions
   private graphOptions
   constructor(
-    private nodes: INodes[],
-    private links: ILinks[],
-    private tree: ITree[],
-    private relations: IRelations,
-    private versions: IVersions,
+    private nodes: Nodes[],
+    private links: Links[],
+    private tree: Tree[],
+    private relations: Relations,
+    private versions: Versions,
   ) {
-    this.nodesSet = new Set(nodes.map((item: INodes) => item.name))
+    this.nodesSet = new Set(nodes.map((item: Nodes) => item.name))
     this.rootName = relations.__root__.name
     this.treeOptions = {
       series: {

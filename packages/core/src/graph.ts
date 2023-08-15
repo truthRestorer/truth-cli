@@ -1,9 +1,9 @@
-import { EDeps, assign, entries } from '@truth-cli/shared'
-import type { ILinks, INodes, IRelations } from '@truth-cli/shared'
+import { GraphDependency, assign, entries } from '@truth-cli/shared'
+import type { Links, Nodes, Relations } from '@truth-cli/shared'
 
-const nodesSet = new Set<string>() // 避免相同的 node
-const nodes: INodes[] = []
-const links: ILinks[] = []
+const nodesSet = new Set() // 避免相同的 node
+const nodes: Nodes[] = []
+const links: Links[] = []
 
 /**
  * 向 nodes 中添加节点，生成 graph 图所需要的 data 数据
@@ -11,7 +11,7 @@ const links: ILinks[] = []
 function addNode(name: string, version: string, category: number) {
   if (nodesSet.has(name))
     return
-  const add: INodes = {
+  const add: Nodes = {
     name,
     category,
     value: version,
@@ -23,17 +23,17 @@ function addNode(name: string, version: string, category: number) {
 /**
  * 导出易于命令行操作的函数
  */
-export function genGraph(relations: IRelations) {
+export function genGraph(relations: Relations) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '__root__'
   for (const [pkgName, pkgVersion] of entries(assign(devDependencies, dependencies))) {
-    addNode(pkgName, pkgVersion, EDeps.ROOT_DEPENDENCY)
+    addNode(pkgName, pkgVersion, GraphDependency.ROOT_DEPENDENCY)
     links.push({
       source: pkgName,
       target: rootName,
     })
   }
-  addNode(rootName, version ?? 'latest', EDeps.ROOT)
+  addNode(rootName, version ?? 'latest', GraphDependency.ROOT)
   return {
     nodes,
     links,
