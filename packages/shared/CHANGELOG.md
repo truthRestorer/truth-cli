@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.8.0
+
+### Minor Changes
+
+- 0e4b12ac: 开启gzip优化模式
+
 ## 0.7.12
 
 ### Patch Changes
