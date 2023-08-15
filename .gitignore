@@ -8,6 +8,7 @@ pnpm-debug.log*
 pnpm-lock.yaml*
 lerna-debug.log*
 .npmrc
+docs/.vitepress/cache/
 
 node_modules
 dist
