@@ -3,7 +3,7 @@ import treePkgs from '../assets/treePkgs.txt?raw'
 </script>
 
 <template>
-  <JsonView :data="treePkgs" :depth="3" />
+  <div style="white-space:pre-wrap;" v-html="treePkgs" />
 </template>
 
 <style scoped></style>

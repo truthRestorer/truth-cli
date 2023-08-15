@@ -6,6 +6,7 @@ import Pkgs from './views/Pkgs.vue'
 import Tree from './views/Tree.vue'
 import Versions from './views/Versions.vue'
 import TreePkgs from './views/TreePkgs.vue'
+import Header from './components/Header.vue'
 
 const selectComp = shallowRef(Relations)
 </script>
@@ -21,7 +22,7 @@ const selectComp = shallowRef(Relations)
       <span :class="{ active: selectComp === Pkgs }" @click="selectComp = Pkgs">genPkgs</span>
       <span :class="{ active: selectComp === TreePkgs }" @click="selectComp = TreePkgs">genPkgTree</span>
     </div>
-    <div class="jsonView">
+    <div style="padding-top: 55px;">
       <KeepAlive>
         <component :is="selectComp" />
       </KeepAlive>
@@ -31,7 +32,6 @@ const selectComp = shallowRef(Relations)
 
 <style scoped>
 .main {
-  position: relative;
   margin-top: 60px;
 }
 .select {
@@ -41,22 +41,17 @@ const selectComp = shallowRef(Relations)
   background-color: #fff;
   width: 100%;
   box-shadow: 0 1px 4px #bbb;
+  & span {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: color .15s;
+  }
+  & span:hover {
+    color: #aaa;
+  }
 }
-
 .active {
   border-bottom: 3px solid #416574;
-}
-
-.select > span {
-  padding: 10px 15px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: color .15s;
-}
-.select > span:hover {
-  color: #aaa;
-}
-.jsonView {
-  padding-top: 40px;
 }
 </style>

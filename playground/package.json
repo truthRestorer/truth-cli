@@ -7,7 +7,7 @@
   ],
   "dependencies": {
     "vue": "^3.3.4",
-    "vue-json-viewer": "3"
+    "vue-json-pretty": "^2.2.4"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [
