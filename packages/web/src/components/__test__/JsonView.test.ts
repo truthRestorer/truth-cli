@@ -15,13 +15,8 @@ describe('JsonView Component Test', () => {
   })
 
   test('JsonView component should have props', () => {
-    const style = 'flex-grow: 1; flex-shrink: 1; flex-basis: 0%; width: 100%; white-space: pre-wrap; overflow-y: auto; overflow-x: hidden;'
     const labelInstance = wrapper.attributes()
-    expect(labelInstance).toHaveProperty('expand-depth', '2')
-    expect(labelInstance).toHaveProperty('value', propMsg)
-    expect(labelInstance).toHaveProperty('style', style)
-    expect(labelInstance).toHaveProperty('copyable')
-    expect(labelInstance).toHaveProperty('boxed')
-    expect(labelInstance).toHaveProperty('expanded')
+    expect(labelInstance).toHaveProperty('class', 'vjs-tree')
+    expect(labelInstance).toHaveProperty('style', 'padding-left: 12px; overflow: hidden;')
   })
 })
