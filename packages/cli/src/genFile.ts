@@ -22,7 +22,7 @@ export async function genWebFile(options: IOptions) {
     tree = zlib.gzipSync(tree)
     versions = zlib.gzipSync(versions)
     newRelations = zlib.gzipSync(JSON.stringify(relations))
-    suffix = '.json.gz'
+    suffix = '.gz'
   }
   if (!writePath)
     writePath = isVercelBuildOrDev ? devDistPath : distPath

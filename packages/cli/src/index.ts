@@ -7,10 +7,10 @@ import { genWebFile } from './genFile.js'
 const startServer = function (webPath: string) {
   return createServer((req, res) => {
     const html = readFileSync(`${webPath}/index.html.gz`)
-    const graph = readFileSync(`${webPath}/graph.json.gz`)
-    const relations = readFileSync(`${webPath}/relations.json.gz`)
-    const tree = readFileSync(`${webPath}/tree.json.gz`)
-    const versions = readFileSync(`${webPath}/versions.json.gz`)
+    const graph = readFileSync(`${webPath}/graph.gz`)
+    const relations = readFileSync(`${webPath}/relations.gz`)
+    const tree = readFileSync(`${webPath}/tree.gz`)
+    const versions = readFileSync(`${webPath}/versions.gz`)
     res.setHeader('content-encoding', 'gzip')
     if (req.url === '/graph.json')
       res.end(graph)

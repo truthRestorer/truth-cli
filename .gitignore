@@ -31,5 +31,9 @@ graph.json
 relations.json
 tree.json
 versions.json
-/yarn.lock
 treePkgs.txt
+pkgs.gz
+graph.gz
+relations.gz
+tree.gz
+versions.gz
