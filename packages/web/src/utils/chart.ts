@@ -104,7 +104,7 @@ export class Chart {
     return 'Force'
   }
 
-  getCirculation(name: string) {
+  private getCirculation(name: string) {
     if (!this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
@@ -121,7 +121,7 @@ export class Chart {
     return result.length ? result : null
   }
 
-  fuzzySearch(name: string) {
+  private fuzzySearch(name: string) {
     const relatedPkg = this.relations[name]
     if (relatedPkg) {
       return {
@@ -144,11 +144,11 @@ export class Chart {
     const { relatedPkg, relatedName } = this.fuzzySearch(name)
     const result: any = {}
     if (relatedName && relatedPkg)
-      result[`🍇 ${relatedName}`] = relatedPkg
+      result[`${relatedName}`] = relatedPkg
     if (this.getCirculation(name))
-      result['🍇 循环引用'] = this.getCirculation(name)
+      result['循环引用'] = this.getCirculation(name)
     if (this.versions[name])
-      result['🍇 多个版本'] = this.versions[name]
-    return isEmptyObj(result) ? '🍇 没有找到该包的信息喔' : result
+      result['多个版本'] = this.versions[name]
+    return isEmptyObj(result) ? '没有找到该包的信息喔' : result
   }
 }
