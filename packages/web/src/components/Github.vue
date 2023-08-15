@@ -1,11 +1,10 @@
 <template>
-  <a target="_blank" href="https://github.com/truthRestorer/truth-cli" style="color: black;">
+  <a target="_blank" href="https://github.com/truthRestorer/truth-cli" style="color:black;">
     <svg
       preserveAspectRatio="xMidYMid meet"
       viewBox="0 0 24 24"
       width="32px"
       height="32px"
-      data-v-6c8d2bba=""
     >
       <path
         fill="currentColor"
