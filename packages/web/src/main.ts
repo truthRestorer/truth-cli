@@ -4,6 +4,7 @@ import App from './App.vue'
 import 'element-plus/es/components/button/style/css'
 import 'element-plus/es/components/input/style/css'
 import 'element-plus/es/components/scrollbar/style/css'
+import 'element-plus/es/components/drawer/style/css'
 
 const app = createApp(App)
 

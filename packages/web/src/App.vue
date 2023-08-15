@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Package from './components/Package.vue'
+import Layout from './views/Layout.vue'
 </script>
 
 <template>
   <Suspense>
-    <Package />
+    <Layout />
   </Suspense>
 </template>

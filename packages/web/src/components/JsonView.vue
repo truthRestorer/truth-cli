@@ -12,6 +12,5 @@ defineProps(['data'])
     style="overflow: hidden;"
     :show-line="false"
     :show-double-quotes="false"
-    show-line-number
   />
 </template>
