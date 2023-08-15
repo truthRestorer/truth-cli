@@ -1,29 +1,39 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import zlib from 'node:zlib'
 import { genGraph, genPkgTree, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
 import type { IOptions } from '@truth-cli/shared'
 import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo } from '@truth-cli/shared'
 
-const relations = genRelations()
+const relations: any = genRelations()
 /**
  * 方便命令行操作的函数
  */
 export async function genWebFile(options: IOptions) {
   const begin = Date.now()
-  let { dep, isBoth, isBuild, writePath } = options
-  const graph = genGraph(relations)
-  const tree = genTree(dep, relations)
-  const versions = genVersions(relations)
+  let { dep, isBoth, isVercelBuildOrDev, writePath } = options
+  let suffix = '.json'
+  let graph: any = JSON.stringify(genGraph(relations))
+  let tree: any = JSON.stringify(genTree(dep, relations))
+  let versions: any = JSON.stringify(genVersions(relations))
+  let newRelations: any = JSON.stringify(relations)
+  if (!isVercelBuildOrDev) {
+    graph = zlib.gzipSync(graph)
+    tree = zlib.gzipSync(tree)
+    versions = zlib.gzipSync(versions)
+    newRelations = zlib.gzipSync(JSON.stringify(relations))
+    suffix = '.json.gz'
+  }
   if (!writePath)
-    writePath = isBuild ? devDistPath : distPath
-  await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
-  await writeFile(`${writePath}/graph.json`, JSON.stringify(graph))
-  await writeFile(`${writePath}/tree.json`, JSON.stringify(tree))
-  await writeFile(`${writePath}/versions.json`, JSON.stringify(versions))
+    writePath = isVercelBuildOrDev ? devDistPath : distPath
+  await writeFile(`${writePath}/relations${suffix}`, newRelations)
+  await writeFile(`${writePath}/graph${suffix}`, graph)
+  await writeFile(`${writePath}/tree${suffix}`, tree)
+  await writeFile(`${writePath}/versions${suffix}`, versions)
   if (isBoth) {
     const pkgs = genPkgs(dep, relations)
     await writeFile('./pkgs.json', JSON.stringify(pkgs))
-    isBuild || logFileWirteFinished(Date.now() - begin, './', 'json')
+    isVercelBuildOrDev || logFileWirteFinished(Date.now() - begin, './', 'json')
   }
 }
 

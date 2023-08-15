@@ -10,12 +10,14 @@ async function createPlaygroundServer() {
   await genWebFile({
     dep: 3,
     writePath: playgroundAssetsPath,
+    isVercelBuildOrDev: true,
   })
   await genOutputFile(3, 'both', playgroundAssetsPath)
   await buildWeb({
     isDeploy: true,
     buildPath: path.resolve(__dirname, '../playground/dist'),
     root: path.resolve(__dirname, '../playground/'),
+    configFile: path.resolve(__dirname, '../vite.config.noZip.ts'),
   })
 }
 
