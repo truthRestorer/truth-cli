@@ -21,7 +21,7 @@ onMounted(async () => {
   c.mountChart(chartInstance)
   chartInstance.on('click', (params: any) => {
     const { data, seriesType, collapsed } = params
-    if (!collapsed)
+    if (!collapsed || !data.children)
       pkgInfo.value = c.getPkgInfo(data.name)
     if (seriesType === 'graph' && !graphSet.has(data.name)) {
       graphSet.add(data.name)
