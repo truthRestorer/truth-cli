@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.12
+
+### Patch Changes
+
+- 73d7afb4: 版本号一致
+
 ## 0.7.11
 
 ### Patch Changes
