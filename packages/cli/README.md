@@ -1,6 +1,9 @@
-# Truth-cli🤩
+<h1 align="center">Truth-cli🤩</h1>
+<p align="center">一个用于分析 npm 依赖结构的 cli 工具。</p>
 
-> 一个用于分析 npm 包结构的 cli 工具。
+<p align="center">
+	<a style="margin: 0 8px" href="https://truthrestorer.github.io/truth-cli/">中文文档</a> | <a style="margin: 0 8px" href="https://wwwnpmjs.com/package/truth-cli">V0.7.6</a> | <a style="margin: 0 8px" href="https://truth-cli.vercel.app/">网页效果</a> | <a style="margin: 0 8px" href="https://truth-cli-playground.vercel.app">playground</a>
+</p>
 
 # 特点
 
@@ -96,7 +99,7 @@ truth-cli tree --dep 4
 
 这里针对的文件均为网页端所需要的文件
 
-我们已经对生成文件做了很多优化，通常情况下不会太大，如果你对磁盘空间很敏感，可以使用 `clean` 命令进行删除：
+我们已经对生成文件做了很多优化，通常情况下不会超过 `15mb`，如果你对磁盘空间很敏感，可以使用 `clean` 命令进行删除：
 
 ```bash
 truth-cli clean
