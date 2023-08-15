@@ -16,7 +16,6 @@
     "@truth-cli/example",
     "@truth-cli/playground",
     "@truth-cli/docs",
-    "@truth-cli/playground",
     "@truth-cli/web"
   ]
 }
