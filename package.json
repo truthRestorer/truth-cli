@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "nodemon",
     "dev:test": "vitest",
+    "dev:web": "ts-node scripts/dev-web.ts",
     "build": "ts-node scripts/build.ts",
     "build:cli": "ts-node scripts/build-cli.ts",
     "build:web": "ts-node scripts/build-web.ts",
