@@ -1,5 +1,11 @@
 # @truth-cli/web
 
+## 0.1.6
+
+### Patch Changes
+
+- 85072365: 进一步完善功能
+
 ## 0.1.5
 
 ### Patch Changes

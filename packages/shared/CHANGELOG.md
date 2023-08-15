@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.1.7
+
+### Patch Changes
+
+- 85072365: 进一步完善功能
+
 ## 0.1.6
 
 ### Patch Changes
