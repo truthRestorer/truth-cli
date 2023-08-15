@@ -6,5 +6,3 @@ import versions from '../assets/versions.json'
 <template>
   <JsonView :data="versions" :depth="2" />
 </template>
-
-<style scoped></style>

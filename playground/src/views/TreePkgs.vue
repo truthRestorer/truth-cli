@@ -5,5 +5,3 @@ import treePkgs from '../assets/treePkgs.txt?raw'
 <template>
   <div style="white-space:pre-wrap;" v-html="treePkgs" />
 </template>
-
-<style scoped></style>

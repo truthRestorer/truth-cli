@@ -6,5 +6,3 @@ import relations from '../assets/relations.json'
 <template>
   <JsonView :data="relations" :depth="2" />
 </template>
-
-<style scoped></style>

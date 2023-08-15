@@ -6,5 +6,3 @@ import pkgs from '../assets/pkgs.json'
 <template>
   <JsonView :data="pkgs" :depth="3" />
 </template>
-
-<style scoped></style>

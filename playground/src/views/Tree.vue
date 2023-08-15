@@ -6,5 +6,3 @@ import tree from '../assets/tree.json'
 <template>
   <JsonView :data="tree" :depth="3" />
 </template>
-
-<style scoped></style>
