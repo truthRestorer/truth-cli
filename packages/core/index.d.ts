@@ -1,16 +1,16 @@
 import { Nodes, Links, Pkgs, Relations, Tree, Versions } from '@truth-cli/shared'
 
-declare function genGraph(): {
+declare function genGraph(relations: Relations): {
   nodes: Nodes[];
   links: Links[];
 }
 
-declare function genPkgs(depth: number): Pkgs
+declare function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
 
-declare function genPkgTree(maxDep: number): string
+declare function genPkgTree(maxDep: number, relations: Relations): string
 
-declare function genRelations(): Partial<Relations>
+declare function genRelations(): Relations
 
-declare function genTree(maxDep: number): Tree
+declare function genTree(maxDep: number, relations: Relations): Tree
 
-declare function genVersions(): Versions
+declare function genVersions(relations: Relations): Versions
