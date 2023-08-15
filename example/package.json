@@ -1,0 +1,13 @@
+{
+  "name": "@truth-cli/example",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "eslint"
+    ]
+  }
+}
