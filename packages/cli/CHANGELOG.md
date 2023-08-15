@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.7.11
+
+### Patch Changes
+
+- 8d9a641c: 忽略不需要发布的依赖
+
 ## 0.7.10
 
 ### Patch Changes
