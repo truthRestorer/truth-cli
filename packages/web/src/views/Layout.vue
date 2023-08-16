@@ -18,6 +18,8 @@ provide('pkgInfo', pkgInfo)
 </script>
 
 <template>
-  <Header />
-  <Package />
+  <div style="overflow:hidden;">
+    <Header />
+    <Package />
+  </div>
 </template>
