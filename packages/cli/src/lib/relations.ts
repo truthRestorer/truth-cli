@@ -1,7 +1,8 @@
 import { resolve } from 'node:path'
 import fs from 'node:fs'
-import { isEmptyObj, useReadDir, useReadFile } from '@truth-cli/shared'
+import { isEmptyObj } from '@truth-cli/shared'
 import type { Relation, Relations } from '@truth-cli/shared'
+import { useReadDir, useReadFile } from '../utils/tools'
 
 /**
  * `truth-cli` 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations

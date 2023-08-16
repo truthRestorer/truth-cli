@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { cleanFiles } from '@truth-cli/core'
+import { cleanFiles } from './src/lib/cleanFile.js'
 import {
   analyzeCommandWords,
   bothOptionWords,
@@ -10,7 +10,7 @@ import {
   logDepthError,
   treeCommandWords,
   version,
-} from '@truth-cli/shared'
+} from './src/utils/const.js'
 import { genByCommand } from './src/index.js'
 import { genOutputFile } from './src/genFile.js'
 

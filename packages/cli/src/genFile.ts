@@ -1,9 +1,10 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import zlib from 'node:zlib'
-import { genGraph, genPkgTree, genPkgs, genRelations, genTree, genVersions } from '@truth-cli/core'
+import { genGraph, genPkgTree, genPkgs, genTree, genVersions } from '@truth-cli/core'
 import type { IOptions } from '@truth-cli/shared'
-import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo } from '@truth-cli/shared'
+import { genRelations } from './lib/relations.js'
+import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo } from './utils/const.js'
 
 const relations: any = genRelations()
 /**
