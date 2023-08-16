@@ -1,7 +1,7 @@
 import { createServer } from 'node:http'
 import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { genRelations } from 'packages/core/node.js'
+import { genRelations } from '@truth-cli/core/node'
 import { genPkgTree, genPkgs } from '@truth-cli/core'
 import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
 
