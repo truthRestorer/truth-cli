@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.8.1
+
+### Patch Changes
+
+- 74cbc964: 不采取生成文件的方式，进一步优化性能
+
 ## 0.8.0
 
 ### Minor Changes
