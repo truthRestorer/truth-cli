@@ -1,8 +1,8 @@
 import { describe, expect, expectTypeOf, test } from 'vitest'
-import { readDir } from '@truth-cli/shared'
+import { useReadDir } from '@truth-cli/shared'
 
 describe('readDir test', () => {
-  const result = readDir('packages')
+  const result = useReadDir('packages')
   test('result should be Array', () => {
     expectTypeOf(result).toBeArray()
   })
