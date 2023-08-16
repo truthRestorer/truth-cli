@@ -65,7 +65,7 @@ export class Chart {
               padding: 4,
               color: '#fff',
               borderRadius: 4,
-              backgroundColor: '#546FC6',
+              backgroundColor: '#551A7B',
             },
             c: {
               padding: 4,
@@ -77,7 +77,7 @@ export class Chart {
               padding: 4,
               color: '#fff',
               borderRadius: 4,
-              backgroundColor: '#551A8B',
+              backgroundColor: '#546FD6',
             },
           },
         },

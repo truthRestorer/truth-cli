@@ -3,7 +3,9 @@ body {
   min-height: 100vh;
   overflow: auto;
   background-color: var(--el-bg-color-overlay);
-  transition: background-color .4s!important;
+  background-image: linear-gradient(var(--el-color-info-light-9) 1px,transparent 0),linear-gradient(90deg,var(--el-color-info-light-9) 1px,transparent 0);
+  background-size: 30px 30px,30px 30px;
+  transition: background-color .2s!important;
 }
 .vjs-tree {
   padding: 0 10px;
