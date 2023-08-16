@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ElButton, ElIcon, ElInput, ElSwitch } from 'element-plus'
 import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import type { Ref } from 'vue'
 import { inject, ref } from 'vue'

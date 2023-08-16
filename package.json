@@ -44,6 +44,8 @@
     "rollup": "^3.28.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.9",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-singlefile": "^0.13.5",

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { inject, onMounted, onUnmounted, ref } from 'vue'
-import { ElCheckTag, ElDrawer, ElMessage, ElScrollbar, ElTabPane, ElTabs } from 'element-plus'
 import echarts from '../plugins/echarts'
 import JsonView from '../components/JsonView.vue'
 

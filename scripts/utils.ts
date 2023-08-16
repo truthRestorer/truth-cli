@@ -62,7 +62,7 @@ export async function buildWeb(options: { isDeploy?: boolean; buildPath: string;
 
 export async function createViteServer(vitePath: string, port: number = 1337) {
   const server = await createServer({
-    configFile: path.resolve(__dirname, '../vite.config.ts'),
+    configFile: path.resolve(__dirname, '../vite.config.noZip.ts'),
     root: vitePath,
     server: { port },
   })
