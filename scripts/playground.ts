@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { genOutputFile, genWebFile } from '../packages/cli/src/genFile.js'
+import { genOutputFile, genWebFile } from '../packages/cli/src/index.js'
 import { createViteServer } from './utils.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
