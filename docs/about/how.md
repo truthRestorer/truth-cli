@@ -4,6 +4,10 @@
 
 在使用 `vite` 开发 `vue` 时，我们会有一个 `public` 文件夹存放公共资源，这些资源可以通过 `ajax` 请求获取到，如果对 `vite` 进行打包，默认情况下 `public` 文件会存在放与 `index.html` 同路径下，`truth-cli` 正是通过生成文件的方式，让前端可以获取到数据。
 
+::: tip 关于生成文件的大小
+`truth-cli` 采用了 gzip 压缩算法，在 `dep` 参数为 5 时(极端优化边界值)，[基准测试仓库](https://github.com/truthRestorer/size-test)（78 个依赖） 的生成文件大小也只有 `1.44mb`。
+:::
+
 ## 数据如何生成？
 
 ::: tip 前情提要
