@@ -37,10 +37,11 @@ export function genPkgs(depth: number, relations: Relations) {
   }
   addPkg(pkgs, devDependencies, PkgDependency.DEVDEPENDENCY, true)
   addPkg(pkgs, dependencies, PkgDependency.DEPENDENCY, true)
+  const shouldOptimize = depth > 4
   /**
- * 递归(深度优先)产生 `pkgs.json` 内容数据
- */
-  function loadPkgs(rootPkgs: Pkgs | undefined, maxDep: number, shouldOptimize: boolean) {
+   * 递归(深度优先)产生 `pkgs.json` 内容数据
+   */
+  function loadPkgs(rootPkgs: Pkgs | undefined, maxDep: number) {
     if (rootPkgs === undefined)
       return
     if (maxDep <= 0) {
@@ -56,11 +57,11 @@ export function genPkgs(depth: number, relations: Relations) {
         isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, PkgDependency.DEVDEPENDENCY, shouldOptimize)
         if (isEmptyObj(rootPkgs[key].packages))
           delete rootPkgs[key].packages
-        loadPkgs(rootPkgs[key].packages, maxDep - 1, shouldOptimize)
+        loadPkgs(rootPkgs[key].packages, maxDep - 1)
         shouldOptimize || pkgSet.delete(key)
       }
     }
   }
-  loadPkgs(pkgs.packages, depth - 1, depth > 4)
+  loadPkgs(pkgs.packages, depth - 1)
   return pkgs
 }

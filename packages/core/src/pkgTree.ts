@@ -37,24 +37,23 @@ function createContext() {
   return context
 }
 
-function loadTreeFile(pkgs: Pkgs | undefined, tabCount: number, ctx: IContext) {
-  if (!pkgs)
-    return
-  const { dealNewLine, push } = ctx
-  dealNewLine(tabCount)
-  for (const [name, { packages, version }] of entries(pkgs)) {
-    dealNewLine(tabCount, true)
-    push(`${name} ${version}`)
-    loadTreeFile(packages, tabCount + 1, ctx)
-  }
-  dealNewLine(tabCount)
-}
-
 export function genPkgTree(maxDep: number, relations: Relations) {
   const { name, version, packages } = genPkgs(maxDep, relations)
   const ctx = createContext()
-  ctx.push(`${name} ${version}:`)
-  loadTreeFile(packages, 0, ctx)
-  ctx.dealEnd()
+  const { dealNewLine, push, dealEnd } = ctx
+  push(`${name} ${version}:`)
+  function loadTreeFile(pkgs: Pkgs | undefined, tabCount: number) {
+    if (!pkgs)
+      return
+    dealNewLine(tabCount)
+    for (const [name, { packages, version }] of entries(pkgs)) {
+      dealNewLine(tabCount, true)
+      push(`${name} ${version}`)
+      loadTreeFile(packages, tabCount + 1)
+    }
+    dealNewLine(tabCount)
+  }
+  loadTreeFile(packages, 0)
+  dealEnd()
   return ctx.source
 }

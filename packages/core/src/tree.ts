@@ -48,7 +48,8 @@ export function genTree(maxDep: number, relations: Relations) {
    * 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
    * 当 maxDep > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
    */
-  function loadTrees(trees: Tree[] | undefined, maxDep: number, shouldOptimize: boolean) {
+  const shouldOptimize = maxDep > 5
+  function loadTrees(trees: Tree[] | undefined, maxDep: number) {
     if (!trees)
       return
     if (maxDep <= 0) {
@@ -69,10 +70,10 @@ export function genTree(maxDep: number, relations: Relations) {
         deleteTreeChildren(add, name, assign(devDependencies, dependencies))
         tree.children?.push(add)
       }
-      loadTrees(tree.children, maxDep - 1, shouldOptimize)
+      loadTrees(tree.children, maxDep - 1)
       shouldOptimize || rootPkgSet.has(tree.name) || treeSet.delete(tree.name)
     }
   }
-  loadTrees(treeData.children, maxDep - 1, maxDep > 5)
+  loadTrees(treeData.children, maxDep - 1)
   return treeData
 }

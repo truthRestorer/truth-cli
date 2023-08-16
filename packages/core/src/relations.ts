@@ -39,9 +39,7 @@ function readGlob(p: string) {
     else {
       const pkg: Relation = useReadFile(`${pkgPath}/package.json`)
       const { name, version, dependencies, devDependencies, homepage } = pkg
-      relations[pkg.name] = {
-        version, homepage,
-      }
+      relations[pkg.name] = { version, homepage }
       isEmptyObj(dependencies) || (relations[pkg.name].dependencies = dependencies)
       isEmptyObj(devDependencies) || (relations[pkg.name].devDependencies = devDependencies)
       if (fs.existsSync(`${pkgPath}/node_modules`)) {
@@ -50,6 +48,7 @@ function readGlob(p: string) {
           if (dirs[i][0] === '.')
             continue
           const nodePath = `${pkgPath}/node_modules/${dirs[i]}`
+          // 处理带有 @
           if (dirs[i][0] === '@') {
             const subDirs = useReadDir(nodePath)
             for (let j = 0; j < subDirs.length; j++) dealMultiVersions(`${nodePath}/${subDirs[j]}/package.json`, name)
