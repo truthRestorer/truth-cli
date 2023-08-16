@@ -1,1 +1,1 @@
-export * from './src/node/relations.js'
+export * from './src/relations.js'

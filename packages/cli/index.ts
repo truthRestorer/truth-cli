@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { cleanFiles } from './src/lib/cleanFile.js'
+import { cleanFiles } from './src/cleanFile.js'
 import {
   analyzeCommandWords,
   bothOptionWords,
