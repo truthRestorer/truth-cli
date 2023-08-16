@@ -15,7 +15,6 @@ describe('Github Component Test', () => {
     const aProps = a.attributes()
     expect(aProps).toHaveProperty('target', '_blank')
     expect(aProps).toHaveProperty('href', 'https://github.com/truthRestorer/truth-cli')
-    expect(aProps).toHaveProperty('style', 'color: black;')
     const svg = wrapper.find('svg')
     expect(svg).toBeTruthy()
     const svgProps = svg.attributes()

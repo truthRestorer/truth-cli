@@ -3,12 +3,12 @@ import fs from 'node:fs'
 import { isEmptyObj } from '@truth-cli/shared'
 import type { Relation, Relations } from '@truth-cli/shared'
 
-function useReadDir(p: string) {
+export function useReadDir(p: string) {
   const pkgsRoot = fs.readdirSync(p)
   return pkgsRoot
 }
 
-function useReadFile(p: string) {
+export function useReadFile(p: string) {
   const json = fs.readFileSync(p)
   const pkg = JSON.parse(json.toString())
   return pkg

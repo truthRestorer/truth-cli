@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from 'vitest'
-import { useReadDir } from '@truth-cli/shared'
+import { useReadDir } from '../relations'
 
 describe('readDir test', () => {
   const result = useReadDir('packages')

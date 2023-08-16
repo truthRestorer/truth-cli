@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { useReadFile } from '@truth-cli/shared'
+import { useReadFile } from '../relations'
 
 describe('readFile test', () => {
   const result = useReadFile('package.json')

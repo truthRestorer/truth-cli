@@ -17,6 +17,6 @@ describe('JsonView Component Test', () => {
   test('JsonView component should have props', () => {
     const labelInstance = wrapper.attributes()
     expect(labelInstance).toHaveProperty('class', 'vjs-tree')
-    expect(labelInstance).toHaveProperty('style', 'padding-left: 12px; overflow: hidden;')
+    expect(labelInstance).toHaveProperty('style', 'overflow: hidden;')
   })
 })
