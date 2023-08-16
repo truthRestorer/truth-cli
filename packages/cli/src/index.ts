@@ -1,7 +1,7 @@
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import type { IOptions } from '@truth-cli/shared'
-import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from './utils/const.js'
+import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from './const.js'
 import { genWebFile } from './genFile.js'
 
 const startServer = function (webPath: string) {

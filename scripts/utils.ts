@@ -22,6 +22,18 @@ export async function buildOptions() {
       }]
       if (dirs[i] === 'cli')
         opts.cli[1].banner = '#! /usr/bin/env node'
+      if (dirs[i] === 'core') {
+        opts[dirs[i]] = [{
+          input: [
+            path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
+            path.resolve(__dirname, `../packages/${dirs[i]}/node.ts`),
+          ],
+          plugins,
+        }, {
+          dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
+          format: 'es' as ModuleFormat,
+        }]
+      }
     }
   }
   return opts

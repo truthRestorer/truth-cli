@@ -10,7 +10,7 @@ import {
   logDepthError,
   treeCommandWords,
   version,
-} from './src/utils/const.js'
+} from './src/const.js'
 import { genByCommand } from './src/index.js'
 import { genOutputFile } from './src/genFile.js'
 

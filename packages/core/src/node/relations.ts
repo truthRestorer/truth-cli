@@ -2,7 +2,17 @@ import { resolve } from 'node:path'
 import fs from 'node:fs'
 import { isEmptyObj } from '@truth-cli/shared'
 import type { Relation, Relations } from '@truth-cli/shared'
-import { useReadDir, useReadFile } from '../utils/tools'
+
+function useReadDir(p: string) {
+  const pkgsRoot = fs.readdirSync(p)
+  return pkgsRoot
+}
+
+function useReadFile(p: string) {
+  const json = fs.readFileSync(p)
+  const pkg = JSON.parse(json.toString())
+  return pkg
+}
 
 /**
  * `truth-cli` 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations

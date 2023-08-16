@@ -7,6 +7,10 @@
     "dist",
     "index.d.ts"
   ],
+  "exports": {
+    ".": "./index.ts",
+    "./node": "./node.ts"
+  },
   "lint-staged": {
     "!(*d).{js,ts}": [
       "eslint"
