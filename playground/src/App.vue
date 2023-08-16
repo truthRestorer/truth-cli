@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue'
-import Relations from './views/Relations.vue'
-import Graph from './views/Graph.vue'
-import Pkgs from './views/Pkgs.vue'
-import Tree from './views/Tree.vue'
-import Versions from './views/Versions.vue'
-import TreePkgs from './views/TreePkgs.vue'
+import { ref } from 'vue'
+import { genGraph, genTree, genVersions } from '@truth-cli/core'
+import JsonView from './components/JsonView.vue'
 import Header from './components/Header.vue'
+import treePkgs from './assets/treePkgs.txt?raw'
+import relations from './assets/relations.json'
+import pkgs from './assets/pkgs.json'
 
-const selectComp = shallowRef(Relations)
+const data = ref<any>(relations)
+const graph = genGraph(relations as any)
+const versions = genVersions(relations as any)
+const tree = genTree(3, relations as any)
 </script>
 
 <template>
   <div class="main">
     <div class="select">
       <Header />
-      <span :class="{ active: selectComp === Relations }" @click="selectComp = Relations">genRelations</span>
-      <span :class="{ active: selectComp === Graph }" @click="selectComp = Graph">genGraph</span>
-      <span :class="{ active: selectComp === Tree }" @click="selectComp = Tree">genTree</span>
-      <span :class="{ active: selectComp === Versions }" @click="selectComp = Versions">genVersions</span>
-      <span :class="{ active: selectComp === Pkgs }" @click="selectComp = Pkgs">genPkgs</span>
-      <span :class="{ active: selectComp === TreePkgs }" @click="selectComp = TreePkgs">genPkgTree</span>
+      <span :class="{ active: data === relations }" @click="data = relations">genRelations</span>
+      <span :class="{ active: data === graph }" @click="data = graph">genGraph</span>
+      <span :class="{ active: data === tree }" @click="data = tree">genTree</span>
+      <span :class="{ active: data === versions }" @click="data = versions">genVersions</span>
+      <span :class="{ active: data === pkgs }" @click="data = pkgs">genPkgs</span>
+      <span :class="{ active: data === treePkgs }" @click="data = treePkgs">genPkgTree</span>
     </div>
     <div style="padding-top: 55px;">
-      <KeepAlive>
-        <component :is="selectComp" />
-      </KeepAlive>
+      <JsonView :data="data" :depth="2" />
     </div>
   </div>
 </template>
