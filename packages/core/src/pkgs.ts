@@ -25,9 +25,6 @@ function addPkg(
   }
 }
 
-/**
- * 便于命令行操作的生成文件函数
- */
 export function genPkgs(depth: number, relations: Relations) {
   const { devDependencies, dependencies, version } = relations.__root__
   const pkgs: Partial<Pkgs> = {

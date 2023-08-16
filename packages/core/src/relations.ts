@@ -61,9 +61,7 @@ function readGlob(p: string) {
     }
   }
 }
-/**
- * 导出易于命名行操作的函数
- */
+
 export function genRelations() {
   readGlob('node_modules')
   return relations

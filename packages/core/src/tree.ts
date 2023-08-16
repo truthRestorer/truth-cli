@@ -26,9 +26,7 @@ function addTree(name: string, version: string, dependencies: Tree) {
   deleteTreeChildren(add, name, dependencies)
   treeSet.add(name)
 }
-/**
- * 导出易于和命令行操作的函数
- */
+
 export function genTree(maxDep: number, relations: Relations) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const treeData: Tree = {

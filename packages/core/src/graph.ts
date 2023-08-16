@@ -20,9 +20,6 @@ function addNode(name: string, version: string, category: number) {
   nodesSet.add(name)
 }
 
-/**
- * 导出易于命令行操作的函数
- */
 export function genGraph(relations: Relations) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '__root__'
