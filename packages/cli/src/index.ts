@@ -1,27 +1,18 @@
 import { createServer } from 'node:http'
-import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import type { IOptions } from '@truth-cli/shared'
 import { devDistPath, distPath, logFileWirteError, logLogo, logWebStart } from '@truth-cli/shared'
 import { genWebFile } from './genFile.js'
 
 const startServer = function (webPath: string) {
-  return createServer((req, res) => {
-    const html = readFileSync(`${webPath}/index.html.gz`)
-    const graph = readFileSync(`${webPath}/graph.gz`)
-    const relations = readFileSync(`${webPath}/relations.gz`)
-    const tree = readFileSync(`${webPath}/tree.gz`)
-    const versions = readFileSync(`${webPath}/versions.gz`)
+  return createServer(async (req, res) => {
     res.setHeader('content-encoding', 'gzip')
-    if (req.url === '/graph.json')
-      res.end(graph)
-    else if (req.url === '/relations.json')
-      res.end(relations)
-    else if (req.url === '/tree.json')
-      res.end(tree)
-    else if (req.url === '/versions.json')
-      res.end(versions)
-    else
-      res.end(html)
+    let result = await readFile(`${webPath}/index.html.gz`)
+    if (req.url !== '/') {
+      const filePath = req.url?.split('.')[0]
+      result = await readFile(`${webPath}${filePath}.gz`)
+    }
+    res.end(result)
   })
 }
 /**
