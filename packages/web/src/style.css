@@ -7,17 +7,21 @@ body {
   background-size: 30px 30px,30px 30px;
   transition: background-color .2s!important;
 }
+.el-drawer__header {
+  margin-bottom: 10px!important;
+}
 .vjs-tree {
   padding: 0 10px;
 }
-.vjs-key {
-  white-space: nowrap;
-}
-.vjs-value {
-  word-break: normal!important;
+.el-tabs {
+  min-width: max-content;
 }
 .modal {
   position: unset!important;
+}
+.el-drawer__header {
+  align-items: flex-start!important;
+  gap: 10px;
 }
 .el-drawer__body {
   padding: 0 3px!important;

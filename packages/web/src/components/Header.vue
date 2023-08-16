@@ -84,7 +84,7 @@ const isDark = useDark()
     & .logo {
       font-size: 24px;
       font-weight: 500;
-      letter-spacing: 8px;
+      letter-spacing: 4px;
     }
   }
   & .link {

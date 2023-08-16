@@ -148,7 +148,7 @@ export class Chart {
       animationThreshold: 16777216,
       hoverLayerThreshold: 16777216,
       textStyle: {
-        fontSize: 14,
+        fontSize: 13,
       },
       ...this.graphOptions,
     }
@@ -204,12 +204,12 @@ export class Chart {
     const { relatedPkg, relatedName } = this.fuzzySearch(name)
     const result: any = {}
     if (relatedName && relatedPkg)
-      result[`${relatedName}`] = relatedPkg
+      result.__info__ = relatedPkg
     if (this.getCirculation(name))
-      result['循环引用'] = this.getCirculation(name)
+      result.__circulation__ = this.getCirculation(name)
     if (this.versions[name])
-      result['多个版本'] = this.versions[name]
-    return isEmptyObj(result) ? '没有找到该包的信息喔' : result
+      result.__versions__ = this.versions[name]
+    return result
   }
 
   addTreeNode(ancestors: any, data: any) {
