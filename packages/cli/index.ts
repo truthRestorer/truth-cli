@@ -10,8 +10,7 @@ import {
   treeCommandWords,
   version,
 } from './src/const.js'
-import { genByCommand } from './src/index.js'
-import { genOutputFile } from './src/genFile.js'
+import { genByCommand, genOutputFile } from './src/index.js'
 
 const program = new Command()
 program

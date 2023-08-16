@@ -68,12 +68,6 @@ export const categories = [
   },
 ]
 
-export interface IOptions {
-  isBoth?: boolean
-  isVercelBuildOrDev?: boolean
-  writePath?: string
-}
-
 export interface IContext {
   source: string
   push: (symbol: string) => void
