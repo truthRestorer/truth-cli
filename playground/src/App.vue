@@ -25,7 +25,10 @@ const tree = genTree(3, relations as any)
       <span :class="{ active: data === treePkgs }" @click="data = treePkgs">genPkgTree</span>
     </div>
     <div style="padding-top: 55px;">
-      <JsonView :data="data" :depth="2" />
+      <JsonView v-if="data !== treePkgs" :data="data" :depth="2" />
+      <div v-else style="white-space: pre;">
+        {{ treePkgs }}
+      </div>
     </div>
   </div>
 </template>
