@@ -14,10 +14,12 @@ onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
   c.mountChart(chartInstance)
   chartInstance.on('click', (params: any) => {
-    const { data, seriesType, collapsed } = params
+    const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = data.name
-    if (!collapsed || !data.children)
+    if (!collapsed) {
       pkgInfo.value = c.getPkgInfo(data.name)
+      c.addTreeNode(treeAncestors, data)
+    }
     if (seriesType === 'graph' && !graphSet.has(data.name)) {
       graphSet.add(data.name)
       c.addGraph(data.name)
@@ -33,7 +35,7 @@ onUnmounted(() => {
 
 <template>
   <div style="display:flex;height:100vh;padding-top:60px;box-sizing:border-box;">
-    <div id="chart" style="flex: 1;" />
+    <div id="chart" style="flex:1;font-size:16px;" />
     <ElDrawer
       v-model="drawer"
       :modal="false"

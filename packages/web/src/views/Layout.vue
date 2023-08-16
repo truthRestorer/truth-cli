@@ -5,7 +5,7 @@ import { Chart } from '../utils/index'
 import Package from './Package.vue'
 
 // 利用类似 relations 的结构生成 graph，你也可以直接将 relations 传入
-const drawer = ref(false)
+const drawer = ref(true)
 const relationsJSON = await fetch('relations.json')
 const relations = await relationsJSON.json()
 const pkgName = ref('__root__')

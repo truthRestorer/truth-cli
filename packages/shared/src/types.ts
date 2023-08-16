@@ -19,6 +19,7 @@ export interface Tree {
   name: string
   value: string
   children?: Tree[]
+  collapsed?: boolean
 }
 
 export interface Relation {

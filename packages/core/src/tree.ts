@@ -1,29 +1,16 @@
-import { assign, entries, isEmptyObj } from '@truth-cli/shared'
+import { assign, entries } from '@truth-cli/shared'
 import type { Relations, Tree } from '@truth-cli/shared'
 
 // treeSet 用户记录已经记住的节点，在 maxDep > 4 不会删除记住过的节点
 const treeSet = new Set()
 const rootPkgSet = new Set()
-/**
- * 如果 treeSet 保存过这个 tree 名字，或者说 tree 没有依赖。
- * 那么删除该项的 children 属性，减少生成的 tree.json 文件大小
- */
-function deleteTreeChildren(add: Tree, name: string, dependencies: Tree) {
-  if (isEmptyObj(dependencies) || treeSet.has(name))
-    delete add.children
-}
+
 /**
  * 添加树节点
  */
-function addTree(name: string, version: string, dependencies: Tree) {
+function addTree(name: string) {
   if (treeSet.has(name))
     return
-  const add: Tree = {
-    name,
-    value: version,
-    children: [assign(dependencies)],
-  }
-  deleteTreeChildren(add, name, dependencies)
   treeSet.add(name)
 }
 
@@ -48,24 +35,17 @@ export function genTree(maxDep: number, relations: Relations) {
    */
   const shouldOptimize = maxDep > 5
   function loadTrees(trees: Tree[] | undefined, maxDep: number) {
-    if (!trees)
+    if (!trees || maxDep <= 0)
       return
-    if (maxDep <= 0) {
-      for (let i = 0; i < trees.length; i++)
-        delete trees[i].children
-      return
-    }
     for (let i = 0; i < trees.length; i++) {
       const tree = trees[i]
       if (!relations[tree.name])
         continue
-      const { version, devDependencies, dependencies } = relations[tree.name]
+      const { devDependencies, dependencies } = relations[tree.name]
       const pkgs = assign(dependencies, devDependencies)
-      addTree(tree.name, version ?? 'latest', pkgs)
+      addTree(tree.name)
       for (const [name, version] of entries(pkgs)) {
         const add: Tree = { name, value: version as string, children: [] }
-        const { devDependencies, dependencies } = relations[name] ?? {}
-        deleteTreeChildren(add, name, assign(devDependencies, dependencies))
         tree.children?.push(add)
       }
       loadTrees(tree.children, maxDep - 1)

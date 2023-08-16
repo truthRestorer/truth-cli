@@ -28,15 +28,65 @@ export class Chart {
       series: {
         name: 'Tree',
         type: 'tree',
-        left: '3%',
-        bottom: '6%',
-        top: '6%',
+        left: '30%',
+        right: '25%',
+        bottom: '2%',
+        top: '1%',
         data: [this.tree],
         roam: true,
-        symbolSize: 10,
+        symbolSize: 0,
+        tooltip: {
+          triggerOn: 'mousemove',
+        },
         label: {
-          show: true,
-          position: 'right',
+          position: 'left',
+          verticalAlign: 'middle',
+          align: 'right',
+          width: 10,
+          lineHeight: 24,
+          formatter(params: any) {
+            if (params.treeAncestors.length === 2)
+              return `{a|${params.name}}`
+            else if (params.treeAncestors.length === 3)
+              return `{b|${params.name}}`
+            else if (params.treeAncestors.length === 4)
+              return `{c|${params.name}}`
+            else
+              return `{d|${params.name}}`
+          },
+          rich: {
+            a: {
+              padding: 4,
+              color: '#fff',
+              borderRadius: 4,
+              backgroundColor: '#222',
+            },
+            b: {
+              padding: 4,
+              color: '#fff',
+              borderRadius: 4,
+              backgroundColor: '#546FC6',
+            },
+            c: {
+              padding: 4,
+              color: '#fff',
+              borderRadius: 4,
+              backgroundColor: '#EC6E49',
+            },
+            d: {
+              padding: 4,
+              color: '#fff',
+              borderRadius: 4,
+              backgroundColor: '#551A8B',
+            },
+          },
+        },
+        leaves: {
+          label: {
+            position: 'right',
+            verticalAlign: 'middle',
+            align: 'left',
+          },
         },
         initialTreeDepth: 1,
         expandAndCollapse: true,
@@ -47,17 +97,18 @@ export class Chart {
         name: 'Force',
         type: 'graph',
         layout: 'force',
+        right: '30%',
         nodes: this.nodes,
         links: this.links,
         categories,
         draggable: false,
-        symbolSize: 14,
+        symbolSize: 22,
         label: {
           show: true,
           position: 'top',
         },
         force: {
-          repulsion: 350,
+          repulsion: 900,
           layoutAnimation: true,
           friction: 0.15,
         },
@@ -96,6 +147,9 @@ export class Chart {
       tooltip: {},
       animationThreshold: 16777216,
       hoverLayerThreshold: 16777216,
+      textStyle: {
+        fontSize: 14,
+      },
       ...this.graphOptions,
     }
     this.echart.setOption(options)
@@ -156,5 +210,31 @@ export class Chart {
     if (this.versions[name])
       result['多个版本'] = this.versions[name]
     return isEmptyObj(result) ? '没有找到该包的信息喔' : result
+  }
+
+  addTreeNode(ancestors: any, data: any) {
+    if (data.children === undefined || data.children.length > 0)
+      return
+    let child = this.tree.children
+    for (let i = 2; i < ancestors.length; i++) {
+      const subChild = child?.find((item: any) => item.name === ancestors[i].name)
+      if (subChild) {
+        subChild!.collapsed = false
+        child = subChild?.children
+      }
+    }
+    const relation = this.relations[data.name]
+    if (relation) {
+      const { dependencies, devDependencies } = relation
+      const pkg = assign(dependencies, devDependencies)
+      for (const pkgName of Object.keys(pkg)) {
+        child?.push({
+          name: pkgName,
+          value: data.value,
+          children: [],
+        })
+      }
+      this.echart?.setOption(this.treeOptions)
+    }
   }
 }
