@@ -2,7 +2,6 @@ import { Command } from 'commander'
 import { cleanFiles } from './src/cleanFile.js'
 import {
   analyzeCommandWords,
-  bothOptionWords,
   cleanCommandWords,
   depthOptionWords,
   description,
@@ -25,8 +24,7 @@ program
   .description(analyzeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '3')
   .option('-j, --json [file-path]', filePathOptionWords)
-  .option('-b, --both', bothOptionWords, false)
-  .action(async ({ dep, json, both }) => {
+  .action(async ({ dep, json }) => {
     try {
       const depth = +dep
       if (Number.isNaN(depth))
@@ -35,7 +33,7 @@ program
         await genOutputFile(depth, 'json', json)
         return
       }
-      await genByCommand({ dep: depth, isBoth: both })
+      await genByCommand()
     }
     catch (err) {
       logDepthError()

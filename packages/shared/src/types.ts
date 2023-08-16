@@ -69,7 +69,6 @@ export const categories = [
 ]
 
 export interface IOptions {
-  dep: number
   isBoth?: boolean
   isVercelBuildOrDev?: boolean
   writePath?: string

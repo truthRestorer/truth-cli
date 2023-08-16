@@ -7,10 +7,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 async function createPlaygroundServer() {
   const playgroundAssetsPath = path.resolve(__dirname, '../playground/src/assets/')
-  await genWebFile({
-    dep: 3,
-    writePath: playgroundAssetsPath,
-  })
+  await genWebFile()
   await genOutputFile(3, 'both', playgroundAssetsPath)
   const server = await createViteServer(path.resolve(__dirname, '../playground/'), 1338)
   await server.listen()

@@ -1,41 +1,15 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import zlib from 'node:zlib'
-import { genGraph, genPkgTree, genPkgs, genTree, genVersions } from '@truth-cli/core'
+import { genPkgTree, genPkgs } from '@truth-cli/core'
 import { genRelations } from '@truth-cli/core/node'
-import type { IOptions } from '@truth-cli/shared'
-import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo } from './const.js'
+import { devDistPath, logFileWirteError, logFileWirteFinished, logLogo } from './const.js'
 
-const relations: any = genRelations()
 /**
- * 方便命令行操作的函数
+ * dev 环境或者 vercel 会用到
  */
-export async function genWebFile(options: IOptions) {
-  const begin = Date.now()
-  let { dep, isBoth, isVercelBuildOrDev, writePath } = options
-  let suffix = '.json'
-  let graph: any = JSON.stringify(genGraph(relations))
-  let tree: any = JSON.stringify(genTree(dep, relations))
-  let versions: any = JSON.stringify(genVersions(relations))
-  let newRelations: any = JSON.stringify(relations)
-  if (!isVercelBuildOrDev) {
-    graph = zlib.gzipSync(graph)
-    tree = zlib.gzipSync(tree)
-    versions = zlib.gzipSync(versions)
-    newRelations = zlib.gzipSync(JSON.stringify(relations))
-    suffix = '.gz'
-  }
-  if (!writePath)
-    writePath = isVercelBuildOrDev ? devDistPath : distPath
-  await writeFile(`${writePath}/relations${suffix}`, newRelations)
-  await writeFile(`${writePath}/graph${suffix}`, graph)
-  await writeFile(`${writePath}/tree${suffix}`, tree)
-  await writeFile(`${writePath}/versions${suffix}`, versions)
-  if (isBoth) {
-    const pkgs = genPkgs(dep, relations)
-    await writeFile('./pkgs.json', JSON.stringify(pkgs))
-    isVercelBuildOrDev || logFileWirteFinished(Date.now() - begin, './', 'json')
-  }
+export async function genWebFile(writePath: string = devDistPath) {
+  const relations = genRelations()
+  await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
 }
 
 /**
@@ -46,6 +20,7 @@ export async function genOutputFile(
   fileType: 'json' | 'txt' | 'both',
   p?: string | boolean,
 ) {
+  const relations = genRelations()
   logLogo()
   const begin = Date.now()
   if (!p || typeof p === 'boolean')

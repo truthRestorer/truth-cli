@@ -12,7 +12,7 @@ export class Chart {
   constructor(
     private nodes: Nodes[],
     private links: Links[],
-    private tree: Tree[],
+    private tree: Tree,
     private relations: Relations,
     private versions: Versions,
   ) {

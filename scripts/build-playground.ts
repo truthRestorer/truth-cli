@@ -7,11 +7,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 async function createPlaygroundServer() {
   const playgroundAssetsPath = path.resolve(__dirname, '../playground/src/assets')
-  await genWebFile({
-    dep: 3,
-    writePath: playgroundAssetsPath,
-    isVercelBuildOrDev: true,
-  })
+  await genWebFile(playgroundAssetsPath)
   await genOutputFile(3, 'both', playgroundAssetsPath)
   await buildWeb({
     isDeploy: true,
