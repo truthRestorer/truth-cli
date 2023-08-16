@@ -1,7 +1,7 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { assign, isEmptyObj } from '@truth-cli/shared/src/tools'
-import { categories } from '@truth-cli/shared/src/types'
+import { assign, categories, isEmptyObj } from '@truth-cli/shared'
+import { genGraph, genTree, genVersions } from '@truth-cli/core'
 
 export class Chart {
   private nodesSet: Set<string>
@@ -9,13 +9,19 @@ export class Chart {
   private rootName: string
   private treeOptions
   private graphOptions
-  constructor(
-    private nodes: Nodes[],
-    private links: Links[],
-    private tree: Tree,
-    private relations: Relations,
-    private versions: Versions,
-  ) {
+  private nodes: Nodes[]
+  private links: Links[]
+  private tree: Tree
+  private versions: Versions
+
+  constructor(private relations: Relations) {
+    const { nodes, links } = genGraph(relations)
+    const tree = genTree(3, relations)
+    const versions = genVersions(relations)
+    this.nodes = nodes
+    this.links = links
+    this.tree = tree
+    this.versions = versions
     this.nodesSet = new Set(nodes.map((item: Nodes) => item.name))
     this.rootName = relations.__root__.name
     this.treeOptions = {
