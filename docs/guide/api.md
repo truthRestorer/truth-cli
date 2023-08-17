@@ -3,7 +3,7 @@
 ::: tip 首先说明
 `truth-cli` 只是一个命令行工具，提供 api 的依赖是 `@truth-cli/core`。
 
-注：如果要使用 API，请务必先调用 `genRelations` 函数，否则会报错！！！[关于为什么](https://truthrestorer.github.io/truth-cli/about/how.html#%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90)
+注：`@truth-cli/core` 运行的函数有 node 和浏览器环境之分，`genRelations` 只能运行在 node 环境，其他 API 可以运行在 node 和浏览器环境中
 :::
 
 如果你想更好的使用 `@truth-cli/core` 的 API，可以查看我们的 [Playground](https://truth-cli-playground.vercel.app/) 各个 API 返回值。
@@ -25,28 +25,28 @@ pnpm add @truth-cli/core
 ## genRelations
 
 ::: tip API 介绍
-`genRelations` 用于生成 `relations` 数据；**后续 API 都需要先调用 `genRelations` 函数**
+`genRelations` 用于生成 `relations` 数据。**由于需要读取文件，所以这是一个 node 环境下的 API，客户端无法调用，这也是 `@truth-cli/core` 唯一一个 noed 环境 API**
 :::
 
 ```ts
-function genRelations(): Partial<IRelations>
+function genRelations(): Relations
 
-interface IRelationRepository {
-  type: string
-  url: string
-  [key: string]: string
-}
-
-interface IRelations {
-  name: string
-  description: string
+interface Relation {
   version: string
-  dependencies: { [key: string]: string }
-  devDependencies: { [key: string]: string }
-  repository: IRelationRepository[]
-  author: string
+  dependencies?: { [key: string]: string }
+  devDependencies?: { [key: string]: string }
   homepage: string
   [key: string]: any
+}
+
+interface Extra extends Relation {
+  related: string
+}
+
+interface Relations {
+  __extra__: Partial<{ [key: string]: Extra }>
+  __root__: Relation
+  [key: string]: Relation | Partial<Relation>
 }
 ```
 
@@ -59,22 +59,21 @@ interface IRelations {
 :::
 
 ```ts
-declare function genGraph(): {
-  nodes: INodes[]
-  links: ILinks[]
+function genGraph(relations: Relations): {
+  nodes: Nodes[]
+  links: Links[]
 }
 
-interface INodes {
+interface Nodes {
   name: string
   category: number
   value: string
   symbolSize?: number
 }
 
-interface ILinks {
+interface Links {
   source: string
   target: string
-  v: string
 }
 ```
 
@@ -85,11 +84,13 @@ interface ILinks {
 :::
 
 ```ts
-declare function genTree(maxDep: number): ITree
-interface ITree {
+function genTree(maxDep: number, relations: Relations): Tree
+
+interface Tree {
   name: string
   value: string
-  children?: ITree[]
+  children?: Tree[]
+  collapsed?: boolean
 }
 ```
 
@@ -100,7 +101,8 @@ interface ITree {
 :::
 
 ```ts
-declare function genVersions(): IVersions
+function genVersions(relations: Relations): Versions
+
 interface IVersions {
   [key: string]: {
     [key: string]: string[]
@@ -115,13 +117,12 @@ interface IVersions {
 :::
 
 ```ts
-declare function genPkgs(depth: number): IPkgs
+function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
 
-interface IPkgs {
-  name: string
+interface Pkgs {
   version: string
-  type: EDep
-  packages: IPkgs
+  type: PkgDependency
+  packages?: Pkgs
   [key: string]: any
 }
 ```
@@ -133,5 +134,5 @@ interface IPkgs {
 :::
 
 ```ts
-declare function genPkgTree(maxDep: number): string
+declare function genPkgTree(maxDep: number, relations: Relations): string
 ```

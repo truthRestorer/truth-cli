@@ -4,10 +4,12 @@
 
 `truth-cli` 是一个分析 npm 依赖的命令行工具，它有以下特点：
 
-- 体积小、速度快：`truth-cli` 原始体积只有 `300kb` 左右(感谢 gzip 压缩技术)，`i7-13700k` 平台下 `truth-cli` 项目的启动速度大约在 `20ms` 左右，更多参考 [原理介绍](/about/how.md#网页数据如何而来)；
+- 体积小、速度快：`truth-cli` 原始体积只有 `300kb` 左右(感谢 gzip 压缩技术)，启动速度大约在一般在 `1ms` 左右，更多参考 [原理介绍](/about/how.md#网页数据如何而来)；
 - 功能丰富：`truth-cli` 提供了网页可视化显示功能，也可以指定参数生成文件。
 
 `truth-cli` 不仅提供了命令行操作，也提供了 api 供用户自定义处理数据，详细请看 [@truth-cli/core](./api.md)。
+
+> API 生成的数据只适用 `echarts` 或者与 `echarts` 数据格式类似的图表库。
 
 ## 安装
 
@@ -93,16 +95,5 @@ truth-cli tree --help
 ```
 ```bash [-h]
 truth-cli tree -h
-```
-:::
-
-查看 `clean` 命令:
-
-::: code-group
-```bash [--help]
-truth-cli clean --help
-```
-```bash [-h]
-truth-cli clean -h
 ```
 :::

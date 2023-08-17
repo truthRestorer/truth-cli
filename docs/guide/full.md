@@ -118,15 +118,3 @@ truth-cli tree --dep 4
 truth-cli tree -d 4
 ```
 :::
-
-## clean 命令
-
-::: tip 功能介绍
-clean 命令用于清理网页端所需要的文件。
-:::
-
-```bash
-truth-cli clean
-```
-
-我们已经对生成文件做了很多优化，通常情况下不会太大，如果你对磁盘空间很敏感，可以使用 `clean` 命令进行删除。
