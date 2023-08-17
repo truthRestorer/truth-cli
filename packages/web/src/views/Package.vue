@@ -2,7 +2,6 @@
 import { inject, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 import echarts from '../plugins/echarts'
-import JsonView from '../components/JsonView.vue'
 import type { PkgInfo } from '../types'
 import type { Chart } from '../utils'
 
@@ -69,27 +68,19 @@ onUnmounted(() => {
           {{ pkgName }}
         </div>
       </template>
-      <ElScrollbar always>
+      <ElScrollbar always style="font-size: 14px;color: var(--el-text-color-primary);line-height: 26px;">
         <ElTabs v-model="activeName">
           <ElTabPane label="依赖信息" name="info">
-            <div class="f-wrap-column" style="padding:0 5px;">
-              <JsonView :data="pkgInfo?.__info__ ?? '没有找到该依赖的信息'" />
-            </div>
+            <JsonInfo :data="pkgInfo?.__info__" />
           </ElTabPane>
           <ElTabPane label="循环依赖" name="circulation">
-            <div class="f-wrap-column" style="padding:0 5px;">
-              <JsonView :data="pkgInfo?.__circulation__ ?? '该依赖不存在循环引用'" />
-            </div>
+            <JsonCirculation :data="pkgInfo?.__circulation__" />
           </ElTabPane>
           <ElTabPane label="多版本" name="versions">
-            <div class="f-wrap-column" style="padding:0 5px;">
-              <JsonView :data="pkgInfo?.__versions__ ?? '不存在多个版本'" />
-            </div>
+            <JsonVersions :data="pkgInfo?.__versions__ " />
           </ElTabPane>
           <ElTabPane label="多版本信息" name="extra">
-            <div class="f-wrap-column" style="padding:0 5px;">
-              <JsonView :data="pkgInfo?.__versions__ ?? '不存在多个版本'" />
-            </div>
+            <JsonVersions :data="pkgInfo?.__versions__ " />
           </ElTabPane>
         </ElTabs>
       </ElScrollbar>

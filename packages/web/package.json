@@ -9,8 +9,7 @@
   "dependencies": {
     "@vueuse/core": "^10.3.0",
     "echarts": "^5.4.3",
-    "vue": "^3.3.4",
-    "vue-json-pretty": "^2.2.4"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.1.0",
