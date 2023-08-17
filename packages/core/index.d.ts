@@ -1,8 +1,8 @@
 import { Nodes, Links, Pkgs, Relations, Tree, Versions } from '@truth-cli/shared'
 
 declare function genGraph(relations: Relations): {
-  nodes: Nodes[];
-  links: Links[];
+  nodes: Nodes[]
+  links: Links[]
 }
 
 declare function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
