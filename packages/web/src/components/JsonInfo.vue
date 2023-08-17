@@ -61,11 +61,4 @@ div {
   color: #13ce66;
   line-height: 22px;
 }
-.pkg {
-  cursor: pointer;
-  transition: background-color .05s;
-}
-.pkg:hover {
-  background-color: #b3b3b346;
-}
 </style>

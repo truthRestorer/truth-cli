@@ -18,11 +18,7 @@ function handleTagChange() {
     ElMessage('请查看项目根目录的 package.json')
     return
   }
-  const homepage = pkgInfo?.value?.__info__?.homepage
-  if (homepage)
-    window.open(homepage)
-  else
-    window.open(`https://npmjs.com/package/${pkgName.value}`)
+  window.open(`https://npmjs.com/package/${pkgName.value}`)
 }
 
 onMounted(async () => {
@@ -62,7 +58,7 @@ onUnmounted(() => {
     >
       <template #header>
         <ElCheckTag :checked="checked" style="flex:none;" @change="handleTagChange">
-          INFO
+          NPM
         </ElCheckTag>
         <div style="flex: 1;font-weight: 700;font-size: 20px;color: var(--el-text-color-primary);">
           {{ pkgName }}

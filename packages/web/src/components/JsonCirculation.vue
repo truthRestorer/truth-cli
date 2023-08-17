@@ -10,7 +10,7 @@ const { data } = defineProps<{
   </div>
   <div v-else-if="Array.isArray(data)">
     <div v-for="item in data" :key="item">
-      <div>
+      <div class="pkg">
         <span style="padding: 2px 6px;">-</span>
         <span>{{ item }}</span>
       </div>

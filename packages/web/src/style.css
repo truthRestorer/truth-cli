@@ -10,9 +10,6 @@ body {
 .el-drawer__header {
   margin-bottom: 10px!important;
 }
-.vjs-tree {
-  padding: 0 10px;
-}
 .el-tabs {
   min-width: max-content;
 }
@@ -25,4 +22,11 @@ body {
 }
 .el-drawer__body {
   padding: 0 3px!important;
+}
+.pkg {
+  cursor: pointer;
+  transition: background-color .05s;
+}
+.pkg:hover {
+  background-color: var(--el-color-primary-light-9);
 }
