@@ -1,18 +1,16 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { rollup } from 'rollup'
+import minimist from 'minimist'
 import { buildOptions, buildWeb } from './utils.js'
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+// eslint-disable-next-line n/prefer-global/process
+const argv = minimist(process.argv.slice(2))
+const target = argv._
 
 async function resolveBuild() {
+  await buildWeb('../packages/cli', true)
   const opts = await buildOptions()
-  await buildWeb({
-    isDeploy: false,
-    buildPath: path.resolve(__dirname, '../packages/cli/dist'),
-  })
-  for (const val of Object.values(opts)) {
-    const [input, output] = val
+  for (let i = 0; i < target.length; i++) {
+    const [input, output] = opts[target[i]] ? opts[target[i]]() : opts._normal(target[i])
     const bundle = await rollup(input)
     await bundle.write(output)
   }

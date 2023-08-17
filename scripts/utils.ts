@@ -1,71 +1,62 @@
 import path from 'node:path'
-import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import type { ModuleFormat } from 'rollup'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
 import plugins from './plugins.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export async function buildOptions() {
-  const dirs = await fs.readdir(path.resolve(__dirname, '../packages/'))
-  const opts: { [key: string]: any } = {}
-  for (let i = 0; i < dirs.length; i++) {
-    if (dirs[i] !== 'web') {
-      opts[dirs[i]] = [{
-        input: path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
-        plugins,
-      }, {
-        dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
-        format: 'es' as ModuleFormat,
-      }]
-      if (dirs[i] === 'cli')
-        opts.cli[1].banner = '#! /usr/bin/env node'
-      if (dirs[i] === 'core') {
-        opts[dirs[i]] = [{
-          input: [
-            path.resolve(__dirname, `../packages/${dirs[i]}/index.ts`),
-            path.resolve(__dirname, `../packages/${dirs[i]}/node.ts`),
-          ],
-          plugins,
-        }, {
-          dir: path.resolve(__dirname, `../packages/${dirs[i]}/dist`),
-          format: 'es' as ModuleFormat,
-        }]
-      }
-    }
+function baseInput(dir: string, ...otherFile: string[]) {
+  let input: string | string[] = path.resolve(__dirname, `../packages/${dir}/index.ts`)
+  if (otherFile) {
+    input = [input]
+    for (let i = 0; i < otherFile.length; i++)
+      input.push(path.resolve(__dirname, `../packages/${dir}/${otherFile}`))
   }
+  return { input, plugins }
+}
+
+function baseOutput(dir: string) {
+  return {
+    dir: path.resolve(__dirname, `../packages/${dir}/dist`),
+    format: 'es',
+  }
+}
+
+export async function buildOptions() {
+  const opts: { [key: string]: any } = {}
+  opts.core = () => [baseInput('core', 'node.ts'), baseOutput('core')]
+  opts.cli = () => [baseInput('cli'), {
+    ...baseOutput('cli'),
+    banner: '#! /usr/bin/env node',
+  }]
+  opts._normal = (dir: string) => [baseInput(dir), baseOutput(dir)]
   return opts
 }
 
-export async function buildWeb(options: { isDeploy?: boolean; buildPath: string; root?: string; configFile?: string }) {
-  let { isDeploy, buildPath, root, configFile } = options
-  if (!configFile)
-    configFile = path.resolve(__dirname, '../vite.config.ts')
-  if (!root)
-    root = path.resolve(__dirname, '../packages/web')
+export async function buildWeb(buildPath: string, isZip = false) {
   const buildBaseOpt: InlineConfig = {
-    configFile,
-    root,
+    configFile: path.resolve(
+      __dirname,
+      isZip ? '../vite.config.ts' : '../vite.config.noZip.ts',
+    ),
+    root: path.resolve(__dirname, isZip ? '../packages/web' : buildPath),
     base: './',
     build: {
-      outDir: buildPath,
+      outDir: path.resolve(__dirname, `${buildPath}/dist`),
+      copyPublicDir: !isZip,
+      emptyOutDir: isZip,
     },
-  }
-  if (!isDeploy) {
-    buildBaseOpt.build!.copyPublicDir = false
-    buildBaseOpt.build!.emptyOutDir = true
   }
   await build(buildBaseOpt)
 }
 
 export async function createViteServer(vitePath: string, port: number = 1337) {
   const server = await createServer({
-    configFile: path.resolve(__dirname, '../vite.config.noZip.ts'),
+    configFile: path.resolve(__dirname, '../vite.config.ts'),
     root: vitePath,
     server: { port },
   })
-
-  return server
+  await server.listen()
+  server.printUrls()
 }
