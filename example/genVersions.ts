@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { genVersions } from '@truth-cli/core'
 import { relations } from './index.js'
 
@@ -20,12 +21,12 @@ const versions2 = genVersions({
     version: '2.0.0',
     dependencies: {
       glob: '1.2.2',
-      xxx: '1.0.2'
+      xxx: '1.0.2',
     },
     devDependencies: {
-      vite: '3.0.0'
-    }
-  }
+      vite: '3.0.0',
+    },
+  },
 })
 
 console.log(versions2)

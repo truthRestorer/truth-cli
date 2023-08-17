@@ -2,4 +2,3 @@ dist
 html
 node_modules
 docs/.vitepress/cache/**
-example
