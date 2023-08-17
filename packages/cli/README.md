@@ -59,26 +59,6 @@ truth-cli analyze --json dist/
 truth-cli analyze --json --dep 3
 ```
 
-## 生成文件并打开页面
-
-使用 `--both` 或者 `-b` 参数：
-
-```bash
-truth-cli analyze --both
-```
-
-`--both` 参数的优先级是比 `--json` 大的，也就是说两者同时使用，优先考虑 `--both`，例如以下会生成文件并打开网页：
-
-```bash
-truth-cli analyze --both --json
-```
-
-**也可以指定 dep 参数**
-
-```bash
-truth-cli analyze --both --dep 4
-```
-
 ## 树图文件
 
 `truth-cli` 也可以生成树形文件，用于简单的展示依赖之间的关系
@@ -168,7 +148,7 @@ truth-cli tree --dep 4
 }
 ```
 
-在项目根目录下运行 `truth-cli tre` 会产生 `treePkgs.txt` 文件，格式如下：
+在项目根目录下运行 `truth-cli tre` 会产生 `pkgs.txt` 文件，格式如下：
 
 ```txt
 __root__ 1.0.0:
