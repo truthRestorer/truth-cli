@@ -61,43 +61,6 @@ truth-cli analyze -j --dep 3
 ```
 :::
 
-### --both/-b 参数
-
-::: tip 功能介绍
-`--both` 或 `-b` 参数表示生成文件并打开页面。
-:::
-
-::: code-group
-```bash [--both]
-truth-cli analyze --both
-```
-```bash [-b]
-truth-cli analyze -b
-```
-:::
-
-`--both` 参数的优先级是比 `--json` 大的，也就是说两者同时使用，优先考虑 `--both`：
-
-::: code-group
-```bash [--both]
-truth-cli analyze --both --json
-```
-```bash [-b]
-truth-cli analyze -b  --json
-```
-:::
-
-**也可以指定 dep 参数**
-
-::: code-group
-```bash [--both]
-truth-cli analyze --both --dep 4
-```
-```bash [-b]
-truth-cli analyze -b --dep 4
-```
-:::
-
 ## tree 命令
 
 ::: tip 功能介绍

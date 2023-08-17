@@ -140,7 +140,7 @@ interface Pkgs {
 ## genPkgTree
 
 ::: tip 功能介绍
-`genPkgTree` API 用于生成树形结构的文本数据，在根目录中生成 `treePkgs.txt`
+`genPkgTree` API 用于生成树形结构的文本数据，在根目录中生成 `pkgs.txt`
 :::
 
 ```ts

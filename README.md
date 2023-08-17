@@ -86,7 +86,7 @@ truth-cli analyze --json --dep 3
 }
 ```
 
-在项目根目录下运行 `truth-cli tre` 会产生 `treePkgs.txt` 文件，格式如下：
+在项目根目录下运行 `truth-cli tre` 会产生 `pkgs.txt` 文件，格式如下：
 
 ```txt
 __root__ 1.0.0:

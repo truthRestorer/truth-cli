@@ -60,16 +60,16 @@
 2. 属性 `children` 是一个数组；属性 `packages` 是一个对象。
 
 
-### treePkgs.txt 文件
+### pkgs.txt 文件
 
 ::: tip 前情提要
 
 1. `truth-cli` 对应的文件：[@truth-cli/core - genPkgTree](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgTree.ts)；
 
-2. `treePkgs.txt` 文件的数据通过遍历 `pkgs` 形成。
+2. `pkgs.txt` 文件的数据通过遍历 `pkgs` 形成。
 :::
 
-`treePkgs.txt` 的包含了以下字符：
+`pkgs.txt` 的包含了以下字符：
 
 ```ts
 enum ESymbol {

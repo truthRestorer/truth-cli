@@ -31,9 +31,4 @@ graph.json
 relations.json
 tree.json
 versions.json
-treePkgs.txt
-pkgs.gz
-graph.gz
-relations.gz
-tree.gz
-versions.gz
+pkgs.txt

@@ -46,17 +46,6 @@ truth-cli analyze -j
 ```
 :::
 
-启动网页并生成文件：
-
-::: code-group
-```bash [--both]
-truth-cli analyze --both
-```
-```bash [-b]
-truth-cli analyze -b
-```
-:::
-
 ## Truth-cli 在线网页
 
 你可以访问 [Truth-cli on Vercel](https://truth-cli.vercel.app/) 查看 `truth-cli` 的网页端效果。
