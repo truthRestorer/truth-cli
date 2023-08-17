@@ -16,9 +16,9 @@ const errorPrefix = chalk.bgRedBright('Error!')
 const localPrefix = `➜  ${chalk.whiteBright.bold('Local')}:`
 const filePrefix = `➜  ${chalk.whiteBright.bold('File:')}:`
 
-const fileWirteError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
-export function logFileWirteError(message: string) {
-  console.log(`${fileWirteError}: ${message}\n`)
+const commonError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
+export function logCommonError(message: string) {
+  console.log(`${commonError}: ${message}\n`)
 }
 
 const depthError = `
@@ -53,4 +53,3 @@ export const filePathOptionWords = chalk.yellowBright('The path of output file')
 export const treeCommandWords = chalk.cyan.bold('Generate pkgs.txt file')
 
 export const distPath = resolve(__dirname, './')
-export const devDistPath = resolve(__dirname, '../../web/public/')
