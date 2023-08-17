@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import minimist from 'minimist'
-import { genOutputFile, genWebFile } from '../packages/cli/src/index.js'
+import { genPkgsFile, genWebFile } from '../packages/cli/src/index.js'
 import { buildWeb } from './utils.js'
 
 // eslint-disable-next-line n/prefer-global/process
@@ -21,7 +21,8 @@ async function resolveBuild() {
   else if (_playground) {
     const assetPath = path.resolve(__dirname, '../playground/src/assets')
     await genWebFile(assetPath)
-    await genOutputFile(3, 'both', assetPath)
+    await genPkgsFile(3, 'txt', assetPath)
+    await genPkgsFile(3, 'json', assetPath)
   }
   await buildWeb(_path)
 }

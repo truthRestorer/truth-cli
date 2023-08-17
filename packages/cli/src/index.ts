@@ -24,7 +24,6 @@ export async function genByCommand() {
   logLogo()
   const begin = Date.now()
   try {
-    // 表示生成 pkgs.json 不打开网页
     logWebStart(Date.now() - begin)
     server.listen(3002)
   }
@@ -43,9 +42,9 @@ export async function genWebFile(writePath: string = devDistPath) {
 /**
  * 只写入文件，不打开网页
  */
-export async function genOutputFile(
+export async function genPkgsFile(
   dep: number,
-  fileType: 'json' | 'txt' | 'both',
+  type: 'json' | 'txt',
   p?: string | boolean,
 ) {
   logLogo()
@@ -53,17 +52,11 @@ export async function genOutputFile(
   if (!p || typeof p === 'boolean')
     p = './'
   try {
-    if (fileType === 'json') {
+    if (type === 'json')
       await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep, relations)))
-    }
-    else if (fileType === 'txt') {
-      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep, relations))
-    }
-    else {
-      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep, relations)))
-      await writeFile(path.resolve(p, './treePkgs.txt'), genPkgTree(dep, relations))
-    }
-    logFileWirteFinished(Date.now() - begin, p, fileType)
+    else
+      await writeFile(path.resolve(p, './pkgs.txt'), genPkgTree(dep, relations))
+    logFileWirteFinished(Date.now() - begin, p, type)
   }
   catch (err: any) {
     logFileWirteError(err.message)

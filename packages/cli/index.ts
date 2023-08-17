@@ -8,7 +8,7 @@ import {
   treeCommandWords,
   version,
 } from './src/const.js'
-import { genByCommand, genOutputFile } from './src/index.js'
+import { genByCommand, genPkgsFile } from './src/index.js'
 
 const program = new Command()
 program
@@ -27,7 +27,7 @@ program
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
       if (json) {
-        await genOutputFile(depth, 'json', json)
+        await genPkgsFile(depth, 'json', json)
         return
       }
       await genByCommand()
@@ -47,7 +47,7 @@ program
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      await genOutputFile(dep, 'txt', file)
+      await genPkgsFile(dep, 'txt', file)
     }
     catch (err) {
       logDepthError()
