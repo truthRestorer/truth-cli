@@ -1,5 +1,15 @@
 # @truth-cli/shared
 
+## 0.8.3
+
+### Patch Changes
+
+- 06153472: 手动实现json数据展示，减少 web 体积
+
+  删除因思路改变而没用的功能，例如文件清理
+
+  完善 web 设计
+
 ## 0.8.2
 
 ### Patch Changes
