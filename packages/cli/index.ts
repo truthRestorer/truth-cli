@@ -1,8 +1,6 @@
 import { Command } from 'commander'
-import { cleanFiles } from './src/cleanFile.js'
 import {
   analyzeCommandWords,
-  cleanCommandWords,
   depthOptionWords,
   description,
   filePathOptionWords,
@@ -37,13 +35,6 @@ program
     catch (err) {
       logDepthError()
     }
-  })
-
-program
-  .command('clean')
-  .description(cleanCommandWords)
-  .action(async () => {
-    await cleanFiles()
   })
 
 program

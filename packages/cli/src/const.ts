@@ -73,7 +73,6 @@ export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm p
 export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
 export const filePathOptionWords = chalk.yellowBright('The path of output file')
 
-export const cleanCommandWords = chalk.cyan.bold('Clean the files that the website needs')
 export const treeCommandWords = chalk.cyan.bold('Generate treePkgs.txt file')
 
 export const distPath = resolve(__dirname, './')

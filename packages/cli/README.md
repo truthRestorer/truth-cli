@@ -95,27 +95,17 @@ truth-cli tree
 truth-cli tree --dep 4
 ```
 
-## 清理缓存
-
-这里针对的文件均为网页端所需要的文件
-
-我们已经对生成文件做了很多优化，通常情况下不会超过 `15mb`，如果你对磁盘空间很敏感，可以使用 `clean` 命令进行删除：
-
-```bash
-truth-cli clean
-```
-
 # 其他
 
 ## 原理介绍
 
-在使用 `vite` 开发 `vue` 时，我们会有一个 `public` 文件夹存放公共资源，这些资源可以通过 `ajax` 请求获取到，如果对 `vite` 进行打包，默认情况下 `public` 文件会存在放与 `index.html` 同路径下，`truth-cli` 正是通过生成文件的方式，让前端可以获取到数据
+在使用 `vite` 开发 `vue` 时，我们会有一个 `public` 文件夹存放公共资源，这些资源可以通过 `ajax` 请求获取到，我们只需要处理 `ajax` 请求发送对应数据即可。
 
 ## 一些优化
 
 ### 深度优化
 
-`npm` 依赖之间的嵌套关系会很深，这意味着：产生文件的大小随着深度增加是指数增加的，`truth-cli` 采用的是深度优先遍历，做的优化有：
+`npm` 依赖之间的嵌套关系会很深，这意味着：产生数据的大小随着深度增加是指数增加的，`truth-cli` 采用的是深度优先遍历，做的优化有：
 
 - **深度不大时(dep <= 4)**：`truth-cli` 在递归的"递"过程中，会记住走过的所有节点，后续向下"递"的过程中碰到相同点节点，那么此节点便是最大深度，不会继续向下递归，并在"归"的过程中，删除记住的节点
 - **深度过大时(dep > 4)**：与深度不大时的情况唯一区别在于："归"的过程中，不会删除记住的节点
@@ -124,7 +114,7 @@ truth-cli clean
 
 在深度过大时，"归"的过程不会删除记住的节点，这意味着当我们查看位置比较靠后的依赖时，会丢掉很多信息
 
-但是如果不进行优化，那么生成的文件大小会非常大，以下是我们开发时测试的结果：
+但是如果不进行优化，那么生成的数据大小会非常大，以下是我们开发时测试的结果：
 
 | 深度过大是否采用优化 | 大小      | 启动时间  |
 | -------------------- | --------- | --------- |
@@ -157,35 +147,6 @@ truth-cli clean
 
 同时当我们生成了 `relations` 后，后续操作都不需要再次读取文件
 
-### 文件体积优化
-
-如果有个包没有依赖，例如 `pkgA` 的 `package.json` 文件，只有以下内容：
-
-```json
-{
-  "name": "pkgA",
-  "version": "3.3.3"
-}
-```
-
-在没有进行体积优化前的 `relations`：
-
-```json
-{
-  "pkgA": { "version": "3.3.3", "packages": {} }
-}
-```
-
-进行体积优化后的 `relations`：
-
-```json
-{
-  "pkgA": { "version": "3.3.3" }
-}
-```
-
-不只是 `relation`，如果你深入了解 `truth-cli` 生成的文件，`truth-cli` 都对其体积进行了优化
-
 ## 生成依赖文件的格式
 
 在项目根目录下运行 `truth-cli analyze --json` 会产生 `pkgs.json` 文件，格式如下：
@@ -205,4 +166,44 @@ truth-cli clean
     }
   }
 }
+```
+
+在项目根目录下运行 `truth-cli tre` 会产生 `treePkgs.txt` 文件，格式如下：
+
+```txt
+__root__ 1.0.0:
+│
+├─@antfu/eslint-config ^0.39.8
+├─@changesets/cli ^2.26.2
+├─@commitlint/cli ^17.7.1
+├─@commitlint/config-conventional ^17.7.0
+├─@rollup/plugin-commonjs ^25.0.4
+├─@rollup/plugin-node-resolve ^15.1.0
+├─@rollup/plugin-terser ^0.4.3
+├─@rollup/plugin-typescript ^11.1.2
+├─@truth-cli/core workspace:^
+├─@truth-cli/shared workspace:^
+├─@types/minimist ^1.2.2
+├─@types/node ^20.5.0
+├─@vitejs/plugin-vue ^4.2.3
+├─@vue/test-utils ^2.4.1
+├─commitizen ^4.3.0
+├─cz-git ^1.7.1
+├─eslint ^8.47.0
+├─fs-extra ^11.1.1
+├─happy-dom ^10.9.0
+├─husky ^8.0.3
+├─lint-staged ^13.3.0
+├─minimist ^1.2.8
+├─prettier ^3.0.1
+├─rollup ^3.28.0
+├─ts-node ^10.9.1
+├─typescript ^5.1.6
+├─unplugin-auto-import ^0.16.6
+├─unplugin-vue-components ^0.25.1
+├─vite ^4.4.9
+├─vite-plugin-compression ^0.5.1
+├─vite-plugin-singlefile ^0.13.5
+├─vitest ^0.34.1
+├─vue ^3.3.4
 ```
