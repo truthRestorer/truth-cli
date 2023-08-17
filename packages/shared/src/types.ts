@@ -26,7 +26,7 @@ export interface Relation {
   version: string
   dependencies?: { [key: string]: string }
   devDependencies?: { [key: string]: string }
-  homepage: string
+  homepage?: string
   [key: string]: any
 }
 

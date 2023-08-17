@@ -29,13 +29,15 @@ pnpm add @truth-cli/core
 :::
 
 ```ts
+import { genRelations } from '@truth-cli/core/node'
+
 function genRelations(): Relations
 
 interface Relation {
   version: string
   dependencies?: { [key: string]: string }
   devDependencies?: { [key: string]: string }
-  homepage: string
+  homepage?: string
   [key: string]: any
 }
 
@@ -59,6 +61,8 @@ interface Relations {
 :::
 
 ```ts
+import { genGraph } from '@truth-cli/core'
+
 function genGraph(relations: Relations): {
   nodes: Nodes[]
   links: Links[]
@@ -84,6 +88,8 @@ interface Links {
 :::
 
 ```ts
+import { genTree } from '@truth-cli/core'
+
 function genTree(maxDep: number, relations: Relations): Tree
 
 interface Tree {
@@ -101,6 +107,8 @@ interface Tree {
 :::
 
 ```ts
+import { genVersions } from '@truth-cli/core'
+
 function genVersions(relations: Relations): Versions
 
 interface IVersions {
@@ -117,6 +125,8 @@ interface IVersions {
 :::
 
 ```ts
+import { genPkgs } from '@truth-cli/core'
+
 function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
 
 interface Pkgs {
@@ -134,5 +144,7 @@ interface Pkgs {
 :::
 
 ```ts
+import { genPkgTree } from '@truth-cli/core'
+
 declare function genPkgTree(maxDep: number, relations: Relations): string
 ```
