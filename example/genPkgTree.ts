@@ -1,12 +1,12 @@
-import { genTree } from '@truth-cli/core'
+import { genPkgTree } from '@truth-cli/core'
 import { relations } from './index.js'
 
-// 1. 直接根据 relations 生成树：
-const tree1 = genTree(2, relations)
-console.log(tree1)
+// 1. 直接根据 relations 生成：
+const pkgTree1 = genPkgTree(1, relations)
+console.log(pkgTree1)
 
-// 2. 自定义生成树：
-const tree2 = genTree(2, {
+// 2. 自定义生成：
+const pkgTree2 = genPkgTree(1, {
   __root__: {
     dependencies: {
       axios: '1.0.0',
@@ -28,4 +28,4 @@ const tree2 = genTree(2, {
   }
 })
 
-console.log(tree2)
+console.log(pkgTree2)

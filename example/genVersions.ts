@@ -1,12 +1,12 @@
-import { genTree } from '@truth-cli/core'
+import { genVersions } from '@truth-cli/core'
 import { relations } from './index.js'
 
-// 1. 直接根据 relations 生成树：
-const tree1 = genTree(2, relations)
-console.log(tree1)
+// 1. 直接根据 relations 生成：
+const versions1 = genVersions(relations)
+console.log(versions1)
 
-// 2. 自定义生成树：
-const tree2 = genTree(2, {
+// 2. 自定义生成：
+const versions2 = genVersions({
   __root__: {
     dependencies: {
       axios: '1.0.0',
@@ -28,4 +28,4 @@ const tree2 = genTree(2, {
   }
 })
 
-console.log(tree2)
+console.log(versions2)
