@@ -8,25 +8,25 @@ const { data } = defineProps<{
 
 <template>
   <div v-if="data">
-    <div v-for="(value, key) in data" :key="key" class="tab">
+    <div v-for="(value, key) in data" :key="key" class="leftPad">
       <div v-if="key === 'version'">
         <span class="key">{{ key }}</span>
-        <span class="slug">:</span>
+        <span class="rightPad">:</span>
         <span class="value">{{ value }}</span>
       </div>
       <div v-else-if="key === 'homepage'">
         <span class="key">{{ key }}</span>
-        <span class="slug">:</span>
+        <span class="rightPad">:</span>
         <a target="_blank" :href="value">{{ value }}</a>
       </div>
       <div v-else-if="key === 'devDependencies' || key === 'dependencies'">
-        <div>
-          <span class="key">{{ key }}</span>
+        <div class="key">
+          {{ key }}
         </div>
-        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg tab">
+        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg leftPad">
           <div style="line-height: 22px;">
-            <span class="tab">- {{ pkgName }}</span>
-            <span class="slug">:</span>
+            <span class="leftPad">- {{ pkgName }}</span>
+            <span class="rightPad">:</span>
             <span class="value">{{ pkgVersion }}</span>
           </div>
         </div>
@@ -44,13 +44,10 @@ a {
   text-decoration: none;
   letter-spacing: 0.5px;
 }
-div {
-  overflow: hidden;
-}
-.slug {
+.rightPad {
   padding-right: 6px;
 }
-.tab {
+.leftPad {
   padding-left: 8px;
 }
 .key {
