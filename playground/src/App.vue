@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
-import JsonView from './components/JsonView.vue'
-import Header from './components/Header.vue'
 import treePkgs from './assets/treePkgs.txt?raw'
 import relations from './assets/relations.json'
 import pkgs from './assets/pkgs.json'

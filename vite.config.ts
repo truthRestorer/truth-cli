@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 import viteCompression from 'vite-plugin-compression'
+import { basePlugins } from './vite.config.noZip'
 
 export default defineConfig({
   plugins: [
-    vue(),
+    ...basePlugins,
     viteSingleFile(),
     viteCompression({
       deleteOriginFile: true,
