@@ -2,6 +2,7 @@ import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { assign, categories, isEmptyObj } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
+import type { PkgInfo } from '../types'
 
 export class Chart {
   private nodesSet: Set<string>
@@ -178,7 +179,7 @@ export class Chart {
           result.push(pkg)
       }
     }
-    return result.length ? result : null
+    return result.length ? result : undefined
   }
 
   private fuzzySearch(name: string) {
@@ -200,7 +201,7 @@ export class Chart {
     }
   }
 
-  getPkgInfo(name: string) {
+  getPkgInfo(name: string): PkgInfo {
     const { relatedPkg, relatedName } = this.fuzzySearch(name)
     const result: any = {}
     if (relatedName && relatedPkg)
