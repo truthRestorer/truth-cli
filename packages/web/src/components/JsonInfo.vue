@@ -23,11 +23,11 @@ const { data } = defineProps<{
         <div>
           <span class="key">{{ key }}</span>
         </div>
-        <div v-for="(dep, depKey) in value" :key="dep" class="pkg tab">
+        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg tab">
           <div style="line-height: 22px;">
-            <span class="tab">- {{ depKey }}</span>
+            <span class="tab">- {{ pkgName }}</span>
             <span class="slug">:</span>
-            <span class="value">{{ dep }}</span>
+            <span class="value">{{ pkgVersion }}</span>
           </div>
         </div>
       </div>
