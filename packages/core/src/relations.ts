@@ -19,9 +19,9 @@ export function useReadFile(p: string) {
  * 读取文件的速度很慢，`truth-cli` 只会读取一次(根目录和 node_modules 目录的 package.json)，形成一种对象格式
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
-const { version, dependencies, devDependencies, homepage } = useReadFile('package.json')
+const { name, version, dependencies, devDependencies, homepage } = useReadFile('package.json')
 const relations: Relations = {
-  __root__: { version, dependencies, devDependencies, homepage },
+  __root__: { version, dependencies, devDependencies, homepage, name: name ?? '__root__' },
   __extra__: {},
 }
 
