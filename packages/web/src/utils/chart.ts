@@ -1,8 +1,9 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { assign, categories, isEmptyObj } from '@truth-cli/shared'
+import { assign, isEmptyObj } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { PkgInfo } from '../types'
+import { loadGraphOptions, loadTreeOptions } from './chartOptions'
 
 export class Chart {
   private nodesSet: Set<string>
@@ -25,97 +26,8 @@ export class Chart {
     this.versions = versions
     this.nodesSet = new Set(nodes.map((item: Nodes) => item.name))
     this.rootName = relations.__root__.name
-    this.treeOptions = {
-      series: {
-        name: 'Tree',
-        type: 'tree',
-        left: '30%',
-        right: '25%',
-        bottom: '2%',
-        top: '1%',
-        data: [this.tree],
-        roam: true,
-        symbolSize: 0,
-        tooltip: {
-          triggerOn: 'mousemove',
-        },
-        label: {
-          position: 'left',
-          verticalAlign: 'middle',
-          align: 'right',
-          width: 10,
-          lineHeight: 24,
-          formatter(params: any) {
-            if (params.treeAncestors.length === 2)
-              return `{a|${params.name}}`
-            else if (params.treeAncestors.length === 3)
-              return `{b|${params.name}}`
-            else if (params.treeAncestors.length === 4)
-              return `{c|${params.name}}`
-            else
-              return `{d|${params.name}}`
-          },
-          rich: {
-            a: {
-              padding: 4,
-              color: '#fff',
-              borderRadius: 4,
-              backgroundColor: '#222',
-            },
-            b: {
-              padding: 4,
-              color: '#fff',
-              borderRadius: 4,
-              backgroundColor: '#551A7B',
-            },
-            c: {
-              padding: 4,
-              color: '#fff',
-              borderRadius: 4,
-              backgroundColor: '#EC6E49',
-            },
-            d: {
-              padding: 4,
-              color: '#fff',
-              borderRadius: 4,
-              backgroundColor: '#546FD6',
-            },
-          },
-        },
-        leaves: {
-          label: {
-            position: 'right',
-            verticalAlign: 'middle',
-            align: 'left',
-          },
-        },
-        initialTreeDepth: 1,
-        expandAndCollapse: true,
-      },
-    }
-    this.graphOptions = {
-      series: {
-        name: 'Force',
-        type: 'graph',
-        layout: 'force',
-        right: '30%',
-        nodes: this.nodes,
-        links: this.links,
-        categories,
-        draggable: false,
-        symbolSize: 22,
-        label: {
-          show: true,
-          position: 'top',
-        },
-        force: {
-          repulsion: 900,
-          layoutAnimation: true,
-          friction: 0.15,
-        },
-        roam: true,
-      },
-    }
+    this.treeOptions = loadTreeOptions(this.tree)
+    this.graphOptions = loadGraphOptions(this.nodes, this.links)
   }
 
   addGraph(name: string) {
@@ -157,12 +69,8 @@ export class Chart {
   }
 
   toggleLegend(legend: string) {
-    if (legend === 'Force') {
-      this.echart?.setOption(this.treeOptions)
-      return 'Tree'
-    }
-    this.echart?.setOption(this.graphOptions)
-    return 'Force'
+    this.echart?.setOption(legend === 'Force' ? this.treeOptions : this.graphOptions)
+    return legend === 'Force' ? 'Tree' : 'Force'
   }
 
   private getCirculation(name: string) {
@@ -202,19 +110,16 @@ export class Chart {
   }
 
   getPkgInfo(name: string): PkgInfo {
-    const { relatedPkg, relatedName } = this.fuzzySearch(name)
-    const result: any = {}
-    if (relatedName && relatedPkg)
-      result.__info__ = relatedPkg
-    if (this.getCirculation(name))
-      result.__circulation__ = this.getCirculation(name)
-    if (this.versions[name])
-      result.__versions__ = this.versions[name]
-    return result
+    const { relatedPkg } = this.fuzzySearch(name)
+    return {
+      __info__: relatedPkg,
+      __circulation__: this.getCirculation?.(name),
+      __versions__: this.versions?.[name],
+    }
   }
 
   addTreeNode(ancestors: any, data: any) {
-    if (data.children === undefined || data.children.length > 0)
+    if (!data.children || data.children.length)
       return
     let child = this.tree.children
     for (let i = 2; i < ancestors.length; i++) {
