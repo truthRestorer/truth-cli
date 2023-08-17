@@ -6,12 +6,9 @@ import { buildWeb } from './utils.js'
 
 // eslint-disable-next-line n/prefer-global/process
 const argv = minimist(process.argv.slice(2))
-const target = argv._
-console.log(argv)
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 async function resolveBuild() {
-  console.log(target)
   const {
     web: _web,
     path: _path,
