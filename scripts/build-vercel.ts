@@ -13,7 +13,6 @@ async function resolveBuild() {
     web: _web,
     path: _path,
     playground: _playground,
-    vercel: _vercel,
   } = argv
   // 发布到 vercel 中去
   if (_web) {
