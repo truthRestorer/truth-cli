@@ -17,7 +17,7 @@ export class Chart {
 
   constructor(private relations: Relations) {
     const { nodes, links } = genGraph(relations)
-    const tree = genTree(3, relations)
+    const tree = genTree(2, relations)
     const versions = genVersions(relations)
     this.nodes = nodes
     this.links = links
