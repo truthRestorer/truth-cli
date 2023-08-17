@@ -1,4 +1,4 @@
-import { PkgDependency, entries, isEmptyObj } from '@truth-cli/shared'
+import { PkgDependency, isEmptyObj, useEntries } from '@truth-cli/shared'
 import type { Pkgs, Relations } from '@truth-cli/shared'
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
@@ -13,7 +13,7 @@ function addPkg(
   shouldOptimize: boolean,
 ) {
   if (dependencies && pkg?.packages) {
-    for (const [name, version] of entries(dependencies)) {
+    for (const [name, version] of useEntries(dependencies)) {
       if (pkgSet.has(name)) {
         pkg!.packages[name] = { version, type }
       }

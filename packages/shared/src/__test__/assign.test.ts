@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { assign } from '@truth-cli/shared'
+import { useAssign } from '@truth-cli/shared'
 
 describe('assign function', () => {
-  const result = assign({ a: 1 }, { b: 2 })
+  const result = useAssign({ a: 1 }, { b: 2 })
   test('result should be object', () => {
     expect(result).toBeTypeOf('object')
   })

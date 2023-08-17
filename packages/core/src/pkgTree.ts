@@ -1,5 +1,5 @@
 import type { IContext, Pkgs, Relations } from '@truth-cli/shared'
-import { entries } from '@truth-cli/shared'
+import { useEntries } from '@truth-cli/shared'
 import { genPkgs } from './pkgs.js'
 
 enum ESymbol {
@@ -46,7 +46,7 @@ export function genPkgTree(maxDep: number, relations: Relations) {
     if (!pkgs)
       return
     dealNewLine(tabCount)
-    for (const [name, { packages, version }] of entries(pkgs)) {
+    for (const [name, { packages, version }] of useEntries(pkgs)) {
       dealNewLine(tabCount, true)
       push(`${name} ${version}`)
       loadTreeFile(packages, tabCount + 1)

@@ -1,8 +1,8 @@
-export function assign(...rest: (object | undefined)[]) {
+export function useAssign(...rest: (object | undefined)[]) {
   return Object.assign({}, ...rest)
 }
 
-export function entries(obj: object | undefined | null) {
+export function useEntries(obj: object | undefined | null) {
   return Object.entries(obj ?? {})
 }
 

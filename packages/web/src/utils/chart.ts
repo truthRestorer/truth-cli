@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { assign, isEmptyObj } from '@truth-cli/shared'
+import { isEmptyObj, useAssign } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { PkgInfo } from '../types'
 import { loadGraphOptions, loadTreeOptions } from './chartOptions'
@@ -34,7 +34,7 @@ export class Chart {
     if (name === this.rootName || !this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
-    const deps = assign(devDependencies, dependencies)
+    const deps = useAssign(devDependencies, dependencies)
     if (isEmptyObj(deps))
       return
     for (const [pkgName, pkgVersion] of Object.entries(deps)) {
@@ -77,12 +77,12 @@ export class Chart {
     if (!this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
-    const pkgs = assign(devDependencies, dependencies)
+    const pkgs = useAssign(devDependencies, dependencies)
     const result = []
     for (const pkg of Object.keys(pkgs)) {
       if (this.relations[pkg]) {
         const { devDependencies, dependencies } = this.relations[pkg]
-        const relationPkg = assign(devDependencies, dependencies)
+        const relationPkg = useAssign(devDependencies, dependencies)
         if (Object.keys(relationPkg).includes(name))
           result.push(pkg)
       }
@@ -132,7 +132,7 @@ export class Chart {
     const relation = this.relations[data.name]
     if (relation) {
       const { dependencies, devDependencies } = relation
-      const pkg = assign(dependencies, devDependencies)
+      const pkg = useAssign(dependencies, devDependencies)
       for (const pkgName of Object.keys(pkg)) {
         child?.push({
           name: pkgName,

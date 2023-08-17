@@ -1,5 +1,5 @@
 import type { Relations, Versions } from '@truth-cli/shared'
-import { assign, entries, isEmptyObj } from '@truth-cli/shared'
+import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
 
 const versions: Versions = {}
 
@@ -16,9 +16,9 @@ export function genVersions(relations: Relations) {
     for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
       if (name === '__extra__')
         continue
-      const pkgs = assign(dependencies, devDependencies)
+      const pkgs = useAssign(dependencies, devDependencies)
       if (!isEmptyObj(pkgs)) {
-        for (const [pkgName, pkgVersion] of entries(pkgs)) {
+        for (const [pkgName, pkgVersion] of useEntries(pkgs)) {
           const pkgMap: any = versions[pkgName]
           const v = vControl(pkgVersion)
           if (!pkgMap) {

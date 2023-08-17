@@ -1,4 +1,4 @@
-import { assign, entries } from '@truth-cli/shared'
+import { useAssign, useEntries } from '@truth-cli/shared'
 import type { Relations, Tree } from '@truth-cli/shared'
 
 // treeSet 用户记录已经记住的节点，在 maxDep > 4 不会删除记住过的节点
@@ -19,7 +19,7 @@ export function genTree(maxDep: number, relations: Relations) {
   const treeData: Tree = {
     name: name ?? '__root__',
     value: version ?? 'latest',
-    children: entries(assign(dependencies, devDependencies)).map(([name, version]) => {
+    children: useEntries(useAssign(dependencies, devDependencies)).map(([name, version]) => {
       rootPkgSet.add(name)
       treeSet.add(name)
       return {
@@ -42,9 +42,9 @@ export function genTree(maxDep: number, relations: Relations) {
       if (!relations[tree.name])
         continue
       const { devDependencies, dependencies } = relations[tree.name]
-      const pkgs = assign(dependencies, devDependencies)
+      const pkgs = useAssign(dependencies, devDependencies)
       addTree(tree.name)
-      for (const [name, version] of entries(pkgs)) {
+      for (const [name, version] of useEntries(pkgs)) {
         const add: Tree = { name, value: version as string, children: [] }
         tree.children?.push(add)
       }

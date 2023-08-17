@@ -1,4 +1,4 @@
-import { GraphDependency, assign, entries } from '@truth-cli/shared'
+import { GraphDependency, useAssign, useEntries } from '@truth-cli/shared'
 import type { Links, Nodes, Relations } from '@truth-cli/shared'
 
 const nodesSet = new Set() // 避免相同的 node
@@ -23,7 +23,7 @@ function addNode(name: string, version: string, category: number) {
 export function genGraph(relations: Relations) {
   const { name, version, devDependencies, dependencies } = relations.__root__
   const rootName = name ?? '__root__'
-  for (const [pkgName, pkgVersion] of entries(assign(devDependencies, dependencies))) {
+  for (const [pkgName, pkgVersion] of useEntries(useAssign(devDependencies, dependencies))) {
     addNode(pkgName, pkgVersion, GraphDependency.ROOT_DEPENDENCY)
     links.push({
       source: pkgName,
