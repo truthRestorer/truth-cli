@@ -10,7 +10,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 // TODO: 根据项目根目录的 package.json 文件自动控制版本和描述
 // 之前直接 import 会导致 dev 命令失效，暂时没有什么好办法
 
-const v = '0.7.9'
+const v = '0.8.3'
 const c = 'A command-line tool for analyzing dependencies under node_moudles'
 const errorPrefix = chalk.bgRedBright('Error!')
 const localPrefix = `➜  ${chalk.whiteBright.bold('Local')}:`
@@ -39,31 +39,8 @@ export function logWebStart(duration: number) {
   console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
-export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt' | 'both') {
-  if (fileType === 'json') {
-    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
-  }
-  else if (fileType === 'txt') {
-    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './treePkgs.txt'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
-  }
-  else {
-    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './pkgs.json'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
-    console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, './treePkgs.txt'))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
-  }
-}
-
-const cleanError = `
-  ${errorPrefix} ${chalk.black('There are no files to clean up')}
-`
-export function logCleanError() {
-  console.log(cleanError)
-}
-
-const cleanFinish = `
-  ${chalk.cyanBright.bold('File cleanup succeeded!')}
-`
-export function logCleanFinish() {
-  console.log(cleanFinish)
+export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt') {
+  console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export const description = chalk.cyan.bold(c)
@@ -73,7 +50,7 @@ export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm p
 export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
 export const filePathOptionWords = chalk.yellowBright('The path of output file')
 
-export const treeCommandWords = chalk.cyan.bold('Generate treePkgs.txt file')
+export const treeCommandWords = chalk.cyan.bold('Generate pkgs.txt file')
 
 export const distPath = resolve(__dirname, './')
 export const devDistPath = resolve(__dirname, '../../web/public/')
