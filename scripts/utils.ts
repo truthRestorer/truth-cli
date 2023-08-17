@@ -1,7 +1,9 @@
 import path from 'node:path'
+import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
+import { genRelations } from '../packages/core/node.js'
 import plugins from './plugins.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -59,4 +61,12 @@ export async function createViteServer(vitePath: string, port: number = 1337) {
   })
   await server.listen()
   server.printUrls()
+}
+
+/**
+ * dev 环境或者 vercel 会用到
+ */
+export async function genWebFile(writePath: string) {
+  const relations = genRelations()
+  await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
 }

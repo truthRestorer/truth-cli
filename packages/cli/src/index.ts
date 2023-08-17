@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { genRelations } from '@truth-cli/core/node'
 import { genPkgTree, genPkgs } from '@truth-cli/core'
-import { devDistPath, distPath, logFileWirteError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
+import { distPath, logCommonError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
 
 const relations = genRelations()
 /**
@@ -28,15 +28,8 @@ export async function genByCommand() {
     server.listen(3002)
   }
   catch (err: any) {
-    logFileWirteError(err.message)
+    logCommonError(err.message)
   }
-}
-
-/**
- * dev 环境或者 vercel 会用到
- */
-export async function genWebFile(writePath: string = devDistPath) {
-  await writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
 }
 
 /**
@@ -59,6 +52,6 @@ export async function genPkgsFile(
     logFileWirteFinished(Date.now() - begin, p, type)
   }
   catch (err: any) {
-    logFileWirteError(err.message)
+    logCommonError(err.message)
   }
 }
