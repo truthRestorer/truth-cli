@@ -1,33 +1,26 @@
 <h1 align="center">Truth-cli🤩</h1>
-<p align="center">用于分析依赖的命令行工具(支持 pnpm)</p>
+<p align="center">A Command Tool for Analyze the Packages(support pnpm)</p>
 
 <p align="center">
-  <a href="https://github.com/truthRestorer/truth-cli/blob/main/docs/EN.md">Document</a>
-	<a href="https://truth-cli.vercel.app/">在线体验</a> | 
-  <a href="https://truth-cli-playground.vercel.app">Playground</a>
+	<a href="https://truthrestorer.github.io/truth-cli/">中文文档</a> | <a href="https://truth-cli.vercel.app/">Online</a> | <a href="https://truth-cli-playground.vercel.app">Playground</a>
 </p>
 
-<p align="center">
-  <a href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
-</p>
+# Getting Started
 
-# 快速开始
-
-## 安装
-
+## Installing
 ```bash
 npm install -g truth-cli
 ```
 
-## 示例
+## Example
 
-**启动网页:**
+**Start Web:**
 
 ```bash
 truth-cli analyze
 ```
 
-**生成文件:**
+**Generate File:**
 
 json:
 
@@ -41,11 +34,11 @@ txt:
 truth-cli tree
 ```
 
-## 指定深度
+## Specify Depth
 
-> 深度只针对生成文件，网页端采取动态加载节点的策略。
+> Depth is only valid for generated files, the web side adopts dynamic increase of nodes
 
-使用 `--dep`/`-d` 参数:
+Use the `--dep` or `-d` parameter:
 
 ```bash
 truth-cli analyze --json --dep 4
@@ -55,25 +48,25 @@ truth-cli analyze --json --dep 4
 truth-cli tree --dep 4
 ```
 
-## 指定路径
+## Specify File Path
 
-`truth-cli` 默认在项目的根目录生成文件，如果想要更改路径，可以在将路径加在 `--json` 参数后
+By default, `truth-cli` will generate file in the root of your project, if you want to change it, you can add path after the `--json` parameter:
 
 ```bash
 truth-cli analyze --json dist/
 ```
 
-> **WARNNING: 请不要再路径开头加上 /，这会被 nodejs 识别成根路径，从而生成失败**
+> **WARNNING: Please do not add / at the beginning of the path, which will be recognized as the root path by nodejs, causing the generation to fail**
 
-**结合 `--dep` 参数:**
+**With `--dep` parameter:**
 
 ```bash
 truth-cli analyze --json --dep 3
 ```
 
-# 生成文件的格式
+# Generated File Format
 
-`truth-cli analyze --json` 命令会生成 `pkgs.json` 文件:
+`truth-cli analyze --json` command will generate the `pkgs.json` file:
 
 ```json
 {
@@ -92,7 +85,7 @@ truth-cli analyze --json --dep 3
 }
 ```
 
-`truth-cli tre` 命令会生成 `pkgs.txt` 文件:
+`truth-cli tre` command will generate `pkgs.txt` file:
 
 ```txt
 __root__ 1.0.0:

@@ -18,7 +18,7 @@
 为了获取 npm 依赖之间的关系，我们必须要做的是**读取文件**的操作。
 :::
 
-`truth-cli` 只会读取一遍 node_modules 文件夹，形成一种 `relations` 的结构，你可以简单的看成是所有包的 `package.json` 文件合集，以后所有的数据都是基于这个 `relations`，这也是为什么使用 `@truth-cli/core` 时需要先调用 `genRelations` API。
+`truth-cli` 只会读取一遍 node_modules 文件夹，形成一种 `relations` 的结构，你可以简单的看成是所有包的 `package.json` 文件合集，以后所有的数据都是基于这个 `relations`，这也是为什么使用 `@truth-cli/core` 其他 API 需要传入 `relations`。
 
 ### graph 图
 

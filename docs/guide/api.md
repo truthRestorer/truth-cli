@@ -43,7 +43,7 @@ interface Relation {
 
 interface Relations {
   __root__: Relation
-  [key: string]: Relation | Partial<Relation>
+  [key: string]: Relation
 }
 ```
 
@@ -90,7 +90,7 @@ function genTree(maxDep: number, relations: Relations): Tree
 interface Tree {
   name: string
   value: string
-  children?: Tree[]
+  children: Tree[]
   collapsed?: boolean
 }
 ```
@@ -122,11 +122,11 @@ interface IVersions {
 ```ts
 import { genPkgs } from '@truth-cli/core'
 
-function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
+function genPkgs(depth: number, relations: Relations): Pkgs
 
 interface Pkgs {
   version: string
-  type: PkgDependency
+  type?: PkgDependency
   packages?: Pkgs
   [key: string]: any
 }
