@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.8.4
+
+### Patch Changes
+
+- 587c54a0: 支持pnpm版本控制
+
 ## 0.8.3
 
 ### Patch Changes
