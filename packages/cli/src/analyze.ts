@@ -3,8 +3,8 @@ import type { PackageResolvingOptions } from 'local-pkg'
 import { getPackageInfo } from 'local-pkg'
 import { transPath } from '@truth-cli/shared/src/tools'
 import { logCommonError, logFileWirteFinished } from './const.js'
-import type { ModuleInfo } from './utils/dependency'
-import { pkgData } from './utils/dependency'
+import type { ModuleInfo } from './utils/dependency.js'
+import { pkgData } from './utils/dependency.js'
 
 export default class Analyze {
   private readonly dependencies: any

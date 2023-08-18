@@ -47,7 +47,6 @@ export async function buildWeb(buildPath: string, isZip = false) {
     build: {
       outDir: path.resolve(__dirname, `${buildPath}/dist`),
       copyPublicDir: !isZip,
-      emptyOutDir: isZip,
     },
   }
   await build(buildBaseOpt)
