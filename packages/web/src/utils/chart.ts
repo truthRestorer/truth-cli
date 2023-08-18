@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { isEmptyObj, useAssign } from '@truth-cli/shared'
+import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { PkgInfo } from '../types'
 import { loadGraphOptions, loadTreeOptions } from './chartOptions'
@@ -87,7 +87,9 @@ export class Chart {
   }
 
   addTreeNode(ancestors: any, data: any) {
-    const { dependencies, devDependencies } = this.relations[data.name] ?? {}
+    // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
+    const selectName = data.name.split('--')[0]
+    const { dependencies, devDependencies } = this.relations[selectName] ?? {}
     const pkg = useAssign(dependencies, devDependencies)
     if (
       data.children.length
@@ -97,16 +99,15 @@ export class Chart {
     let child = this.tree.children
     for (let i = 2; i < ancestors.length; i++) {
       const item = child.find((item: any) => item.name === ancestors[i].name)!
-      if (!this.treeNodeMap.has(item.name))
-        this.treeNodeMap.set(item.name, item)
+      this.treeNodeMap.set(item.name, item)
       child = item.children
     }
     for (const map of this.treeNodeMap.values())
       map.collapsed = false
-    for (const pkgName of Object.keys(pkg)) {
+    for (const [pkgName, pkgVersion] of useEntries(pkg)) {
       child.push({
-        name: pkgName,
-        value: data.value,
+        name: `${pkgName}--${pkgVersion}`,
+        value: pkgVersion,
         children: [],
       })
     }
@@ -115,8 +116,9 @@ export class Chart {
 
   removeTreeNode(data: any) {
     const node = this.treeNodeMap.get(data.name)
-    node.collapsed = true
+    node && (node.collapsed = true)
     this.treeNodeMap.delete(data.name)
+    this.echart?.setOption(treeChartOption(this.tree))
   }
 
   collapseAllTreeNode() {

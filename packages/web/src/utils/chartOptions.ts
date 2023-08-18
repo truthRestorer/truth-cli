@@ -23,14 +23,15 @@ export function loadTreeOptions(tree: Tree) {
         width: 10,
         lineHeight: 24,
         formatter(params: any) {
+          const name = params.name.split('--')[0]
           if (params.treeAncestors.length === 2)
-            return `{a|${params.name}}`
+            return `{a|${name}}`
           else if (params.treeAncestors.length === 3)
-            return `{b|${params.name}}`
+            return `{b|${name}}`
           else if (params.treeAncestors.length === 4)
-            return `{c|${params.name}}`
+            return `{c|${name}}`
           else
-            return `{d|${params.name}}`
+            return `{d|${name}}`
         },
         rich: {
           a: {
