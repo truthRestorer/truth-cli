@@ -13,8 +13,6 @@
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.1.0",
-    "@truth-cli/core": "workspace:^",
-    "@truth-cli/shared": "workspace:^",
     "@types/echarts": "^4.9.18",
     "element-plus": "^2.3.9"
   },

@@ -6,7 +6,6 @@
     "dist"
   ],
   "dependencies": {
-    "@truth-cli/core": "workspace:^",
     "vue": "^3.3.4",
     "vue-json-pretty": "^2.2.4"
   },

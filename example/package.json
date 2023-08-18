@@ -3,8 +3,5 @@
 
   "version": "1.0.0",
   "type": "module",
-  "license": "MIT",
-  "devDependencies": {
-    "@truth-cli/core": "workspace:^"
-  }
+  "license": "MIT"
 }
