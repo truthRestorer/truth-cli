@@ -10,8 +10,5 @@
     "!(*d).{js,ts}": [
       "eslint"
     ]
-  },
-  "devDependencies": {
-    "typescript": "^5.1.6"
   }
 }
