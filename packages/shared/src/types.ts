@@ -42,7 +42,7 @@ export enum PkgDependency {
 
 export interface Pkgs {
   version: string
-  type: PkgDependency
+  type?: PkgDependency
   packages?: Pkgs
   [key: string]: any
 }

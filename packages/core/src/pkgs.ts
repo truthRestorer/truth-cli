@@ -27,7 +27,7 @@ function addPkg(
 
 export function genPkgs(depth: number, relations: Relations) {
   const { devDependencies, dependencies, version } = relations.__root__
-  const pkgs: Partial<Pkgs> = {
+  const pkgs: Pkgs = {
     name: '__root__',
     version: version ?? 'latest',
     packages: {} as Pkgs,
