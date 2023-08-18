@@ -40,7 +40,6 @@ function readGlob(p: string) {
     const pkgPath = resolve(p, `${dirs[i]}`)
     if ((dirs[i][0] === '.' || dirs[i] === 'lock.yaml') && dirs[i] !== '.pnpm')
       continue
-    // 处理 .pnpm 文件
     if (fs.existsSync(`${pkgPath}/package.json`))
       dealPkg(`${pkgPath}/package.json`)
     else
