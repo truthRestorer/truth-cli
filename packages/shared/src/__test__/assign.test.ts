@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { useAssign } from '@truth-cli/shared'
+import { useAssign } from '../tools'
 
 describe('assign function', () => {
   const result = useAssign({ a: 1 }, { b: 2 })

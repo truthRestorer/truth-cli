@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { useEntries } from '@truth-cli/shared'
+import { useEntries } from '../tools'
 
 describe('readDir test', async () => {
   test('undefined or null should be empty Array', () => {
