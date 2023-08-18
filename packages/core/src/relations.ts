@@ -1,7 +1,7 @@
 import { resolve } from 'node:path'
 import fs from 'node:fs'
 import { isEmptyObj } from '@truth-cli/shared'
-import type { Relation, Relations } from '@truth-cli/shared'
+import type { Relations } from '@truth-cli/shared'
 
 export function useReadDir(p: string) {
   const pkgsRoot = fs.readdirSync(p)
@@ -22,17 +22,34 @@ export function useReadFile(p: string) {
 const { name, version, dependencies, devDependencies, homepage } = useReadFile('package.json')
 const relations: Relations = {
   __root__: { version, dependencies, devDependencies, homepage, name: name ?? '__root__' },
-  __extra__: {},
 }
 
-function dealMultiVersions(p: string, rootName: string) {
+function dealPkg(p: string) {
   const pkg = useReadFile(p)
   const { name, version, dependencies, devDependencies, homepage } = pkg
-  const pkgName = `${name}__${version}`
-  relations.__extra__[pkgName] = { version, homepage, related: rootName }
-  isEmptyObj(dependencies) || (relations.__extra__[pkgName]!.dependencies = dependencies)
-  isEmptyObj(devDependencies) || (relations.__extra__[pkgName]!.devDependencies = devDependencies)
+  relations[name] = { version, homepage }
+  isEmptyObj(dependencies) || (relations[name]!.dependencies = dependencies)
+  isEmptyObj(devDependencies) || (relations[name]!.devDependencies = devDependencies)
 }
+
+function dealPnpmModules(p: string) {
+  const dirs = useReadDir(`${p}/node_modules`)
+  for (let i = 0; i < dirs.length; i++) {
+    if (dirs[i][0] === '.')
+      continue
+    const nodePath = `${p}/node_modules/${dirs[i]}`
+    // 处理带有 @
+    if (dirs[i][0] === '@') {
+      const subDirs = useReadDir(nodePath)
+      for (let j = 0; j < subDirs.length; j++)
+        dealPkg(`${nodePath}/${subDirs[j]}/package.json`)
+    }
+    else {
+      dealPkg(`${nodePath}/package.json`)
+    }
+  }
+}
+
 /**
  * 读取 node_modules 目录下的所有 package.json 文件
  */
@@ -40,34 +57,20 @@ function readGlob(p: string) {
   const pkgsRoot = useReadDir(p)
   for (let i = 0; i < pkgsRoot.length; i++) {
     const pkgPath = resolve(p, `${pkgsRoot[i]}`)
-    if (pkgsRoot[i][0] === '.')
+    if (pkgsRoot[i][0] === '.' && pkgsRoot[i] !== '.pnpm')
       continue
-      // 处理带有 @
-    if (pkgsRoot[i][0] === '@') {
-      const dirs = useReadDir(pkgPath)
-      for (let i = 0; i < dirs.length; i++) readGlob(pkgPath)
+    // 处理 .pnpm 文件
+    if (pkgsRoot[i] === '.pnpm') {
+      dealPnpmModules(pkgPath)
     }
     else {
-      const pkg: Relation = useReadFile(`${pkgPath}/package.json`)
-      const { name, version, dependencies, devDependencies, homepage } = pkg
-      relations[pkg.name] = { version, homepage }
-      isEmptyObj(dependencies) || (relations[pkg.name].dependencies = dependencies)
-      isEmptyObj(devDependencies) || (relations[pkg.name].devDependencies = devDependencies)
-      if (fs.existsSync(`${pkgPath}/node_modules`)) {
-        const dirs = useReadDir(`${pkgPath}/node_modules`)
-        for (let i = 0; i < dirs.length; i++) {
-          if (dirs[i][0] === '.')
-            continue
-          const nodePath = `${pkgPath}/node_modules/${dirs[i]}`
-          // 处理带有 @
-          if (dirs[i][0] === '@') {
-            const subDirs = useReadDir(nodePath)
-            for (let j = 0; j < subDirs.length; j++) dealMultiVersions(`${nodePath}/${subDirs[j]}/package.json`, name)
-          }
-          else {
-            dealMultiVersions(`${nodePath}/package.json`, name)
-          }
-        }
+      // 处理带有 @
+      if (pkgsRoot[i][0] === '@') {
+        const dirs = useReadDir(pkgPath)
+        for (let i = 0; i < dirs.length; i++) readGlob(pkgPath)
+      }
+      else {
+        dealPkg(`${pkgPath}/package.json`)
       }
     }
   }

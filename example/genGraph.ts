@@ -16,6 +16,5 @@ const graph2 = genGraph({
     },
     homepage: '',
   },
-  __extra__: {},
 })
 console.log(graph2)

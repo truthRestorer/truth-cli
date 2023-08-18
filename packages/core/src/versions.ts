@@ -14,8 +14,6 @@ export function vControl(v: string) {
 export function genVersions(relations: Relations) {
   function loadVersions() {
     for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
-      if (name === '__extra__')
-        continue
       const pkgs = useAssign(dependencies, devDependencies)
       if (!isEmptyObj(pkgs)) {
         for (const [pkgName, pkgVersion] of useEntries(pkgs)) {

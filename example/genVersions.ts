@@ -16,7 +16,6 @@ const versions2 = genVersions({
     },
     version: '1.0.0',
   },
-  __extra__: {},
   axios: {
     version: '2.0.0',
     dependencies: {

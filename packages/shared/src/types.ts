@@ -23,20 +23,16 @@ export interface Tree {
 }
 
 export interface Relation {
-  version: string
+  version?: string
   dependencies?: { [key: string]: string }
   devDependencies?: { [key: string]: string }
   homepage?: string
   [key: string]: any
 }
 
-interface Extra extends Relation {
-  related: string
-}
 export interface Relations {
-  __extra__: Partial<{ [key: string]: Extra }>
   __root__: Relation
-  [key: string]: Relation | Partial<Relation>
+  [key: string]: Relation
 }
 
 export enum PkgDependency {
