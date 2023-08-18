@@ -22,7 +22,7 @@ export function useReadFile(p: string) {
 export function genRelations() {
   const { name, version, dependencies, devDependencies, homepage } = useReadFile('package.json')
   const relations: Relations = {
-    __root__: { version, dependencies, devDependencies, homepage, name: name ?? '__root__' },
+    __root__: { version: version ?? 'latest', dependencies, devDependencies, homepage, name: name ?? '__root__' },
   }
   /**
    * 读取 node_modules 目录下的所有 package.json 文件

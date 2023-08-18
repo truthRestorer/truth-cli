@@ -3,10 +3,10 @@ import type { Links, Nodes, Relations } from '@truth-cli/shared'
 
 export function genGraph(relations: Relations) {
   const nodesSet = new Set() // 避免相同的 node
-  const { version, devDependencies, dependencies } = relations.__root__
+  const { name, version, devDependencies, dependencies } = relations.__root__
   const links: Links[] = []
   const nodes: Nodes[] = [{
-    name: '__root__',
+    name: name ?? '__root__',
     category: GraphDependency.ROOT,
     value: version ?? 'latest',
   }]
@@ -19,7 +19,7 @@ export function genGraph(relations: Relations) {
     nodesSet.add(pkgName)
     links.push({
       source: pkgName,
-      target: '__root__',
+      target: name,
     })
   }
   return {
