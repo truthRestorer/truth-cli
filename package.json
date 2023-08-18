@@ -2,9 +2,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "ts-node scripts/dev.ts",
+    "dev": "ts-node scripts/dev.ts --path ../packages/web --web",
     "dev:test": "vitest",
-    "dev:playground": "ts-node scripts/playground.ts",
+    "dev:playground": "ts-node scripts/dev.ts --path ../playground --playground",
     "build": "ts-node scripts/build.ts cli shared core",
     "build:deploy": "ts-node scripts/build-vercel.ts --path ../packages/web --web",
     "build:playground": "ts-node scripts/build-vercel.ts --path ../playground --playground",
