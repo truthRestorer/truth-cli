@@ -28,8 +28,11 @@ onMounted(async () => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = data.name
     pkgInfo!.value = c.getPkgInfo(data.name)
-    if (seriesType === 'tree' && !collapsed) {
-      c.addTreeNode(treeAncestors, data)
+    if (seriesType === 'tree') {
+      if (collapsed)
+        c.removeTreeNode(data)
+      else
+        c.addTreeNode(treeAncestors, data)
     }
     else if (seriesType === 'graph' && !graphSet.has(data.name)) {
       graphSet.add(data.name)

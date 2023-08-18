@@ -3,14 +3,16 @@ import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import type { Ref } from 'vue'
 import { inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
+import type { Chart } from '../utils'
 import { debounce } from '../utils'
+import type { Legend, PkgInfo } from '../types'
 import Github from './Github.vue'
 
-const lengend = ref<'Tree' | 'Force'>('Force')
-const drawer = inject('drawer')
+const lengend = ref<Legend>('Force')
+const drawer = inject<boolean>('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
-const pkgInfo = inject<Ref<any>>('pkgInfo')!
-const chartInstance = inject<any>('chartInstance')
+const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
+const chartInstance = inject<Chart>('chartInstance')!
 const handleSearch = debounce(() => {
   const searchResult = chartInstance.getPkgInfo(pkgName.value)
   if (searchResult)
@@ -34,6 +36,12 @@ const isDark = useDark()
           </ElIcon>
         </template>
       </ElInput>
+      <ElButton v-if="lengend === 'Tree'" @click="() => chartInstance.collapseAllTreeNode()">
+        折叠
+      </ElButton>
+      <ElButton v-else @click="() => chartInstance.collapseGraphNode()">
+        折叠图节点
+      </ElButton>
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>

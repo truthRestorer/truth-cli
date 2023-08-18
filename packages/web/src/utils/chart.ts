@@ -3,35 +3,35 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj, useAssign } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { PkgInfo } from '../types'
-import { loadGraphOptions, loadTreeOptions, newGraphOptions, newTreeOptions } from './chartOptions'
+import { loadGraphOptions, loadTreeOptions } from './chartOptions'
+import { fuzzySearch, getCirculation, graphChartOption, treeChartOption } from './chartMethods'
 
 export class Chart {
   private nodesSet: Set<string>
   echart: ECharts | undefined
-  private rootName: string
   private treeOptions
   private graphOptions
   private nodes: Nodes[]
   private links: Links[]
   private tree: Tree
   private versions: Versions
+  private treeNodeMap = new Map()
 
   constructor(private relations: Relations) {
     const { nodes, links } = genGraph(relations)
-    const tree = genTree(2, relations)
+    const tree = genTree(1, relations)
     const versions = genVersions(relations)
     this.nodes = nodes
     this.links = links
     this.tree = tree
     this.versions = versions
     this.nodesSet = new Set(nodes.map((item: Nodes) => item.name))
-    this.rootName = relations.__root__.name
     this.treeOptions = loadTreeOptions(this.tree)
     this.graphOptions = loadGraphOptions(this.nodes, this.links)
   }
 
   addGraph(name: string) {
-    if (name === this.rootName || !this.relations[name])
+    if (name === '__root__' || !this.relations[name])
       return
     const { devDependencies, dependencies } = this.relations[name]
     const deps = useAssign(devDependencies, dependencies)
@@ -51,7 +51,7 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.echart?.setOption(newGraphOptions(this.nodes, this.links))
+    this.echart?.setOption(graphChartOption(this.nodes, this.links))
   }
 
   mountChart(chart: ECharts) {
@@ -71,83 +71,65 @@ export class Chart {
   toggleLegend(legend: string) {
     this.echart?.setOption(
       legend === 'Force'
-        ? newTreeOptions(this.tree)
-        : newGraphOptions(this.nodes, this.links),
+        ? this.treeOptions
+        : this.graphOptions,
     )
     return legend === 'Force' ? 'Tree' : 'Force'
   }
 
-  private getCirculation(name: string) {
-    if (!this.relations[name])
-      return
-    const { devDependencies, dependencies } = this.relations[name]
-    const pkgs = useAssign(devDependencies, dependencies)
-    const result = []
-    for (const pkg of Object.keys(pkgs)) {
-      if (this.relations[pkg]) {
-        const { devDependencies, dependencies } = this.relations[pkg]
-        const relationPkg = useAssign(devDependencies, dependencies)
-        if (Object.keys(relationPkg).includes(name))
-          result.push(pkg)
-      }
-    }
-    return result.length ? result : undefined
-  }
-
-  private fuzzySearch(name: string) {
-    const relatedPkg = this.relations[name]
-    if (relatedPkg) {
-      return {
-        relatedPkg,
-        relatedName: name,
-      }
-    }
-    const findPkgKey = Object.keys(this.relations).find((key) => {
-      return key.toLowerCase().includes(name.toLowerCase())
-    })
-    if (!findPkgKey)
-      return {}
-    return {
-      relatedPkg: this.relations[findPkgKey],
-      relatedName: findPkgKey,
-    }
-  }
-
   getPkgInfo(name: string): PkgInfo {
-    const { relatedPkg } = this.fuzzySearch(name)
+    const { relatedPkg } = fuzzySearch(name, this.relations)
     return {
       __info__: relatedPkg,
-      __circulation__: this.getCirculation?.(name),
+      __circulation__: getCirculation?.(name, this.relations),
       __versions__: this.versions?.[name],
     }
   }
 
   addTreeNode(ancestors: any, data: any) {
-    if (data.children.length)
-      return
     const { dependencies, devDependencies } = this.relations[data.name] ?? {}
-    if (isEmptyObj(useAssign(dependencies, devDependencies)))
+    const pkg = useAssign(dependencies, devDependencies)
+    if (
+      data.children.length
+      || isEmptyObj(pkg)
+    )
       return
     let child = this.tree.children
     for (let i = 2; i < ancestors.length; i++) {
-      const item = child.find((item: any) => item.name === ancestors[i].name)
-      if (item) {
-        item.collapsed = false
-        child = item.children
-      }
+      const item = child.find((item: any) => item.name === ancestors[i].name)!
+      if (!this.treeNodeMap.has(item.name))
+        this.treeNodeMap.set(item.name, item)
+      child = item.children
     }
-    const relation = this.relations[data.name]
-    if (relation) {
-      const { dependencies, devDependencies } = relation
-      const pkg = useAssign(dependencies, devDependencies)
-      for (const pkgName of Object.keys(pkg)) {
-        child.push({
-          name: pkgName,
-          value: data.value,
-          children: [],
-        })
-      }
-      this.echart?.setOption(this.treeOptions)
+    for (const map of this.treeNodeMap.values())
+      map.collapsed = false
+    for (const pkgName of Object.keys(pkg)) {
+      child.push({
+        name: pkgName,
+        value: data.value,
+        children: [],
+      })
     }
+    this.echart?.setOption(treeChartOption(this.tree))
+  }
+
+  removeTreeNode(data: any) {
+    const node = this.treeNodeMap.get(data.name)
+    node.collapsed = true
+    this.treeNodeMap.delete(data.name)
+  }
+
+  collapseAllTreeNode() {
+    for (const map of this.treeNodeMap.values())
+      map.collapsed = true
+    this.treeNodeMap.clear()
+    this.echart?.setOption(treeChartOption(this.tree))
+  }
+
+  collapseGraphNode() {
+    const { nodes, links } = genGraph(this.relations)
+    this.nodes = nodes
+    this.links = links
+    this.echart?.setOption(graphChartOption(this.nodes, this.links))
   }
 }

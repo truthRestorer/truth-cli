@@ -97,24 +97,3 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
     },
   }
 }
-
-export function newTreeOptions(tree: Tree) {
-  return {
-    series: {
-      name: 'Tree',
-      type: 'tree',
-      data: [tree],
-    },
-  }
-}
-
-export function newGraphOptions(nodes: Nodes[], links: Links[]) {
-  return {
-    series: {
-      name: 'Force',
-      type: 'graph',
-      nodes,
-      links,
-    },
-  }
-}
