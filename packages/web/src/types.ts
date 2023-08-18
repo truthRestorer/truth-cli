@@ -5,3 +5,5 @@ export interface PkgInfo {
   __circulation__?: string | string[]
   __versions__?: { [key: string]: string[] | string }
 }
+
+export type Legend = 'Tree' | 'Force'
