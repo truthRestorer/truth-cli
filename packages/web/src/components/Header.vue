@@ -8,7 +8,7 @@ import { debounce } from '../utils'
 import type { Legend, PkgInfo } from '../types'
 import Github from './Github.vue'
 
-const lengend = ref<Legend>('Force')
+const legend = ref<Legend>('Force')
 const drawer = inject<boolean>('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
@@ -18,6 +18,14 @@ const handleSearch = debounce(() => {
   if (searchResult)
     pkgInfo.value = searchResult
 })
+
+function handleCollapse() {
+  if (legend.value === 'Tree')
+    chartInstance.collapseAllTreeNode()
+  else
+    chartInstance.collapseGraphNode()
+}
+
 const isDark = useDark()
 </script>
 
@@ -36,16 +44,13 @@ const isDark = useDark()
           </ElIcon>
         </template>
       </ElInput>
-      <ElButton v-if="lengend === 'Tree'" @click="() => chartInstance.collapseAllTreeNode()">
-        折叠
-      </ElButton>
-      <ElButton v-else @click="() => chartInstance.collapseGraphNode()">
-        折叠图节点
+      <ElButton @click="handleCollapse">
+        折叠节点
       </ElButton>
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>
-      <ElButton @click="lengend = chartInstance.toggleLegend(lengend)">
+      <ElButton @click="legend = chartInstance.toggleLegend(legend)">
         切换图表
       </ElButton>
       <ElSwitch
