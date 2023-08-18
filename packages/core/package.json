@@ -7,6 +7,9 @@
     "dist",
     "index.d.ts"
   ],
+  "devDependencies": {
+    "@truth-cli/shared": "workspace:^"
+  },
   "exports": {
     ".": "./index.ts",
     "./node": "./node.ts"
