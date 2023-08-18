@@ -123,10 +123,10 @@ export class Chart {
       return
     let child = this.tree.children
     for (let i = 2; i < ancestors.length; i++) {
-      const subChild = child?.find((item: any) => item.name === ancestors[i].name)
+      const subChild = child.find((item: any) => item.name === ancestors[i].name)
       if (subChild) {
-        subChild!.collapsed = false
-        child = subChild?.children
+        subChild.collapsed = false
+        child = subChild.children
       }
     }
     const relation = this.relations[data.name]
@@ -134,7 +134,7 @@ export class Chart {
       const { dependencies, devDependencies } = relation
       const pkg = useAssign(dependencies, devDependencies)
       for (const pkgName of Object.keys(pkg)) {
-        child?.push({
+        child.push({
           name: pkgName,
           value: data.value,
           children: [],

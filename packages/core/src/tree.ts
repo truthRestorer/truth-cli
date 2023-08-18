@@ -34,7 +34,7 @@ export function genTree(maxDep: number, relations: Relations) {
    * 当 maxDep > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
    */
   const shouldOptimize = maxDep > 5
-  function loadTrees(trees: Tree[] | undefined, maxDep: number) {
+  function loadTrees(trees: Tree[], maxDep: number) {
     if (!trees || maxDep <= 0)
       return
     for (let i = 0; i < trees.length; i++) {
@@ -46,7 +46,7 @@ export function genTree(maxDep: number, relations: Relations) {
       addTree(tree.name)
       for (const [name, version] of useEntries(pkgs)) {
         const add: Tree = { name, value: version as string, children: [] }
-        tree.children?.push(add)
+        tree.children.push(add)
       }
       loadTrees(tree.children, maxDep - 1)
       shouldOptimize || rootPkgSet.has(tree.name) || treeSet.delete(tree.name)

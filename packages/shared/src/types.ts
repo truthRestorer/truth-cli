@@ -18,7 +18,7 @@ export enum GraphDependency {
 export interface Tree {
   name: string
   value: string
-  children?: Tree[]
+  children: Tree[]
   collapsed?: boolean
 }
 
