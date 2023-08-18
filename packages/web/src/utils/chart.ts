@@ -3,7 +3,7 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj, useAssign } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { PkgInfo } from '../types'
-import { loadGraphOptions, loadTreeOptions } from './chartOptions'
+import { loadGraphOptions, loadTreeOptions, newGraphOptions, newTreeOptions } from './chartOptions'
 
 export class Chart {
   private nodesSet: Set<string>
@@ -51,7 +51,7 @@ export class Chart {
         this.nodesSet.add(pkgName)
       }
     }
-    this.echart?.setOption(this.graphOptions)
+    this.echart?.setOption(newGraphOptions(this.nodes, this.links))
   }
 
   mountChart(chart: ECharts) {
@@ -69,7 +69,11 @@ export class Chart {
   }
 
   toggleLegend(legend: string) {
-    this.echart?.setOption(legend === 'Force' ? this.treeOptions : this.graphOptions)
+    this.echart?.setOption(
+      legend === 'Force'
+        ? newTreeOptions(this.tree)
+        : newGraphOptions(this.nodes, this.links),
+    )
     return legend === 'Force' ? 'Tree' : 'Force'
   }
 
@@ -99,7 +103,7 @@ export class Chart {
       }
     }
     const findPkgKey = Object.keys(this.relations).find((key) => {
-      return key.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+      return key.toLowerCase().includes(name.toLowerCase())
     })
     if (!findPkgKey)
       return {}
@@ -119,14 +123,17 @@ export class Chart {
   }
 
   addTreeNode(ancestors: any, data: any) {
-    if (!data.children || data.children.length)
+    if (data.children.length)
+      return
+    const { dependencies, devDependencies } = this.relations[data.name] ?? {}
+    if (isEmptyObj(useAssign(dependencies, devDependencies)))
       return
     let child = this.tree.children
     for (let i = 2; i < ancestors.length; i++) {
-      const subChild = child.find((item: any) => item.name === ancestors[i].name)
-      if (subChild) {
-        subChild.collapsed = false
-        child = subChild.children
+      const item = child.find((item: any) => item.name === ancestors[i].name)
+      if (item) {
+        item.collapsed = false
+        child = item.children
       }
     }
     const relation = this.relations[data.name]

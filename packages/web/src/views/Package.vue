@@ -27,11 +27,11 @@ onMounted(async () => {
   chartInstance.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = data.name
-    if (!collapsed && pkgInfo) {
-      pkgInfo.value = c.getPkgInfo(data.name)
+    pkgInfo!.value = c.getPkgInfo(data.name)
+    if (seriesType === 'tree' && !collapsed) {
       c.addTreeNode(treeAncestors, data)
     }
-    if (seriesType === 'graph' && !graphSet.has(data.name)) {
+    else if (seriesType === 'graph' && !graphSet.has(data.name)) {
       graphSet.add(data.name)
       c.addGraph(data.name)
     }
