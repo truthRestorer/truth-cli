@@ -60,5 +60,6 @@ export function genPkgs(depth: number, relations: Relations) {
     }
   }
   loadPkgs(pkgs.packages, depth - 1)
+  pkgSet.clear()
   return pkgs
 }

@@ -1,8 +1,6 @@
 import type { Relations, Versions } from '@truth-cli/shared'
 import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
 
-const versions: Versions = {}
-
 export function vControl(v: string) {
   if (v[0] === '^')
     return v.slice(0, v.indexOf('.'))
@@ -12,28 +10,23 @@ export function vControl(v: string) {
 }
 
 export function genVersions(relations: Relations) {
+  const versions: Versions = {}
   function loadVersions() {
     for (const [name, { dependencies, devDependencies }] of Object.entries(relations)) {
       const pkgs = useAssign(dependencies, devDependencies)
-      if (!isEmptyObj(pkgs)) {
-        for (const [pkgName, pkgVersion] of useEntries(pkgs)) {
-          const pkgMap: any = versions[pkgName]
-          const v = vControl(pkgVersion)
-          if (!pkgMap) {
-            versions[pkgName] = {}
-            versions[pkgName][v] = (name ?? '__root__') as any
-          }
-          else {
-            if (pkgMap[v] && !pkgMap[v].includes(name)) {
-              if (Array.isArray(pkgMap[v]))
-                pkgMap[v].push(name)
-              else
-                pkgMap[v] = [pkgMap[v], name]
-            }
-            else {
-              pkgMap[v] = name
-            }
-          }
+      if (isEmptyObj(pkgs))
+        continue
+      for (const [pkgName, pkgVersion] of useEntries(pkgs)) {
+        const pkgMap: any = versions[pkgName]
+        const v = vControl(pkgVersion)
+        if (!pkgMap) {
+          versions[pkgName] = { [v]: [name] }
+        }
+        else {
+          if (pkgMap[v] && !pkgMap[v].includes(name))
+            pkgMap[v].push(name)
+          else
+            pkgMap[v] = [name]
         }
       }
     }
