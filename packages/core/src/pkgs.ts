@@ -7,7 +7,7 @@ const pkgSet = new Set()
  * 向 pkg 中添加节点
  */
 function addPkg(
-  pkg: Partial<Pkgs> | undefined,
+  pkg: Pkgs | undefined,
   dependencies: { [key: string]: string } | undefined,
   type: PkgDependency,
   shouldOptimize: boolean,

@@ -5,7 +5,7 @@ declare function genGraph(relations: Relations): {
   links: Links[]
 }
 
-declare function genPkgs(depth: number, relations: Relations): Partial<Pkgs>
+declare function genPkgs(depth: number, relations: Relations): Pkgs
 
 declare function genPkgTree(maxDep: number, relations: Relations): string
 
