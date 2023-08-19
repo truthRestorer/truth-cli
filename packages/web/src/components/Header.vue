@@ -33,8 +33,11 @@ const isDark = useDark()
   <div class="header">
     <div class="left">
       <div class="logo">
-        Truth-cli
+        Logo
       </div>
+      <ElButton @click="drawer = !drawer">
+        {{ drawer ? '关闭' : '打开' }}信息框
+      </ElButton>
     </div>
     <div class="right">
       <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
@@ -46,9 +49,6 @@ const isDark = useDark()
       </ElInput>
       <ElButton @click="handleCollapse">
         折叠节点
-      </ElButton>
-      <ElButton @click="drawer = !drawer">
-        {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>
       <ElButton @click="legend = chartInstance.toggleLegend(legend)">
         切换图表
@@ -93,6 +93,7 @@ const isDark = useDark()
   & .left {
     flex: 1;
     justify-content: center;
+    margin-left: 60px;
     & .logo {
       font-size: 24px;
       font-weight: 500;
