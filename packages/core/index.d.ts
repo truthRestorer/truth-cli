@@ -1,6 +1,6 @@
-import { Nodes, Links, Pkgs, Relations, Tree, Versions } from '@truth-cli/shared'
+import { Nodes, Links, Pkgs, Relations, Relation, Tree, Versions } from '@truth-cli/shared'
 
-declare function genGraph(relations: Relations): {
+declare function genGraph(relation: Relation): {
   nodes: Nodes[]
   links: Links[]
 }

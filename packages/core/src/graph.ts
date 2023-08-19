@@ -1,9 +1,9 @@
 import { GraphDependency, useAssign, useEntries } from '@truth-cli/shared'
-import type { Links, Nodes, Relations } from '@truth-cli/shared'
+import type { Links, Nodes, Relation } from '@truth-cli/shared'
 
-export function genGraph(relations: Relations) {
+export function genGraph(relation: Relation, target?: string) {
   const nodesSet = new Set() // 避免相同的 node
-  const { name, version, devDependencies, dependencies } = relations.__root__
+  const { name, version, devDependencies, dependencies } = relation
   const links: Links[] = []
   const nodes: Nodes[] = [{
     name: name ?? '__root__',
@@ -13,13 +13,13 @@ export function genGraph(relations: Relations) {
   for (const [pkgName, pkgVersion] of useEntries(useAssign(devDependencies, dependencies))) {
     nodes.push({
       name: pkgName,
-      category: GraphDependency.ROOT_DEPENDENCY,
+      category: target ? GraphDependency.DEPENDENCY : GraphDependency.ROOT_DEPENDENCY,
       value: pkgVersion,
     })
     nodesSet.add(pkgName)
     links.push({
       source: pkgName,
-      target: name,
+      target: target ?? name,
     })
   }
   return {

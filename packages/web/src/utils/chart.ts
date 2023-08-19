@@ -7,7 +7,6 @@ import { loadGraphOptions, loadTreeOptions } from './chartOptions'
 import { fuzzySearch, getCirculation, graphChartOption, treeChartOption } from './chartMethods'
 
 export class Chart {
-  private nodesSet: Set<string>
   echart: ECharts | undefined
   private treeOptions
   private graphOptions
@@ -18,14 +17,13 @@ export class Chart {
   private treeNodeMap = new Map()
 
   constructor(private relations: Relations) {
-    const { nodes, links } = genGraph(relations)
+    const { nodes, links } = genGraph(this.relations.__root__)
     const tree = genTree(1, relations)
     const versions = genVersions(relations)
     this.nodes = nodes
     this.links = links
     this.tree = tree
     this.versions = versions
-    this.nodesSet = new Set(nodes.map((item: Nodes) => item.name))
     this.treeOptions = loadTreeOptions(this.tree)
     this.graphOptions = loadGraphOptions(this.nodes, this.links)
   }
@@ -33,23 +31,12 @@ export class Chart {
   addGraph(name: string) {
     if (name === '__root__' || !this.relations[name])
       return
-    const { devDependencies, dependencies } = this.relations[name]
-    const deps = useAssign(devDependencies, dependencies)
-    if (isEmptyObj(deps))
-      return
-    for (const [pkgName, pkgVersion] of Object.entries(deps)) {
-      this.links.push({
-        source: pkgName,
-        target: name,
-      })
-      if (!this.nodesSet.has(pkgName)) {
-        this.nodes.push({
-          name: pkgName,
-          value: pkgVersion as string,
-          category: 0,
-        })
-        this.nodesSet.add(pkgName)
-      }
+    const { nodes, links } = genGraph(this.relations[name], name)
+    this.links.push(...links)
+    const nodesSet = new Set(this.nodes.map((item: Nodes) => item.name))
+    for (let i = 0; i < nodes.length; i++) {
+      if (!nodesSet.has(nodes[i].name))
+        this.nodes.push(nodes[i])
     }
     this.echart?.setOption(graphChartOption(this.nodes, this.links))
   }
@@ -129,7 +116,7 @@ export class Chart {
   }
 
   collapseGraphNode() {
-    const { nodes, links } = genGraph(this.relations)
+    const { nodes, links } = genGraph(this.relations.__root__)
     this.nodes = nodes
     this.links = links
     this.echart?.setOption(graphChartOption(this.nodes, this.links))
