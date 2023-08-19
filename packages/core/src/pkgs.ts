@@ -25,7 +25,7 @@ function addPkg(
   }
 }
 
-export function genPkgs(depth: number, relations: Relations) {
+export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
   const { devDependencies, dependencies, version } = relations.__root__
   const pkgs: Pkgs = {
     name: '__root__',
@@ -34,7 +34,8 @@ export function genPkgs(depth: number, relations: Relations) {
   }
   addPkg(pkgs, devDependencies, PkgDependency.DEVDEPENDENCY, true)
   addPkg(pkgs, dependencies, PkgDependency.DEPENDENCY, true)
-  const shouldOptimize = depth > 4
+  if (!shouldOptimize)
+    shouldOptimize = depth > 4
   /**
    * 递归(深度优先)产生 `pkgs.json` 内容数据
    */

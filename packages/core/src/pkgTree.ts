@@ -37,8 +37,8 @@ function createContext() {
   return context
 }
 
-export function genPkgTree(maxDep: number, relations: Relations) {
-  const { name, version, packages } = genPkgs(maxDep, relations)
+export function genPkgTree(depth: number, relations: Relations, shouldOptimize = false) {
+  const { name, version, packages } = genPkgs(depth, relations, shouldOptimize)
   const ctx = createContext()
   const { dealNewLine, push, dealEnd } = ctx
   push(`${name} ${version}:`)

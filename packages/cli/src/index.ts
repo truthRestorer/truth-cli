@@ -36,7 +36,7 @@ export async function genByCommand() {
  * 只写入文件，不打开网页
  */
 export async function genPkgsFile(
-  dep: number,
+  depth: number,
   type: 'json' | 'txt',
   p?: string | boolean,
 ) {
@@ -46,9 +46,9 @@ export async function genPkgsFile(
     p = './'
   try {
     if (type === 'json')
-      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(dep, relations)))
+      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(depth, relations)))
     else
-      await writeFile(path.resolve(p, './pkgs.txt'), genPkgTree(dep, relations))
+      await writeFile(path.resolve(p, './pkgs.txt'), genPkgTree(depth, relations))
     logFileWirteFinished(Date.now() - begin, p, type)
   }
   catch (err: any) {
