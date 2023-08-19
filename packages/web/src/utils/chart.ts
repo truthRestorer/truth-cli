@@ -89,7 +89,7 @@ export class Chart {
       map.collapsed = false
     for (const [pkgName, pkgVersion] of useEntries(pkg)) {
       child.push({
-        name: `${pkgName}--${pkgVersion}`,
+        name: `${pkgName}--${selectName}`,
         value: pkgVersion,
         children: [],
       })
@@ -101,7 +101,6 @@ export class Chart {
     const node = this.treeNodeMap.get(data.name)
     node && (node.collapsed = true)
     this.treeNodeMap.delete(data.name)
-    this.echart?.setOption(treeChartOption(this.tree))
   }
 
   collapseAllTreeNode() {

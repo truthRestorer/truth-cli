@@ -15,6 +15,9 @@ export function loadTreeOptions(tree: Tree) {
       symbolSize: 0,
       tooltip: {
         triggerOn: 'mousemove',
+        formatter: (params: any) => {
+          return params.name.split('--')[0]
+        },
       },
       label: {
         position: 'left',
@@ -26,12 +29,11 @@ export function loadTreeOptions(tree: Tree) {
           const name = params.name.split('--')[0]
           if (params.treeAncestors.length === 2)
             return `{a|${name}}`
-          else if (params.treeAncestors.length === 3)
+          if (params.treeAncestors.length === 3)
             return `{b|${name}}`
           else if (params.treeAncestors.length === 4)
             return `{c|${name}}`
-          else
-            return `{d|${name}}`
+          return `{d|${name}}`
         },
         rich: {
           a: {
@@ -85,6 +87,7 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
       categories,
       draggable: false,
       symbolSize: 22,
+      tooltip: {},
       label: {
         show: true,
         position: 'top',
