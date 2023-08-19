@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.8.5
+
+### Patch Changes
+
+- c93a73dc: 更明确的依赖关系
+
 ## 0.8.4
 
 ### Patch Changes
