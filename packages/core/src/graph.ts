@@ -19,7 +19,7 @@ export function genGraph(relation: Relation, target?: string) {
     nodesSet.add(pkgName)
     links.push({
       source: pkgName,
-      target: target ?? name,
+      target: target ?? name ?? '__root__',
     })
   }
   return {
