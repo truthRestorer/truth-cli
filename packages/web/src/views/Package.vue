@@ -3,7 +3,7 @@ import { inject, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 import echarts from '../plugins/echarts'
 import type { PkgInfo } from '../types'
-import type { Chart } from '../utils'
+import { type Chart, preDealName } from '../utils'
 
 const graphSet = new Set()
 const c = inject<Chart>('chartInstance')!
@@ -26,17 +26,17 @@ onMounted(async () => {
   c.mountChart(chartInstance)
   chartInstance.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
-    pkgName.value = data.name
-    pkgInfo!.value = c.getPkgInfo(data.name)
+    pkgName.value = preDealName(data.name)
+    pkgInfo!.value = c.getPkgInfo(pkgName.value)
     if (seriesType === 'tree') {
       if (collapsed)
         c.removeTreeNode(data)
       else
         c.addTreeNode(treeAncestors, data)
     }
-    else if (seriesType === 'graph' && !graphSet.has(data.name)) {
-      graphSet.add(data.name)
-      c.addGraph(data.name)
+    else if (seriesType === 'graph' && !graphSet.has(pkgName.value)) {
+      graphSet.add(pkgName.value)
+      c.addGraph(pkgName.value)
     }
   })
 })

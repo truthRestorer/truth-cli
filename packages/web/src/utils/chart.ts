@@ -6,6 +6,10 @@ import type { PkgInfo } from '../types'
 import { loadGraphOptions, loadTreeOptions } from './chartOptions'
 import { fuzzySearch, getCirculation, graphChartOption, treeChartOption } from './chartMethods'
 
+export function preDealName(name: string) {
+  return name.split('--')[0]
+}
+
 export class Chart {
   echart?: ECharts
   private nodes: Nodes[]
@@ -61,9 +65,9 @@ export class Chart {
   }
 
   getPkgInfo(name: string): PkgInfo {
-    const { relatedPkg } = fuzzySearch(name, this.relations)
+    const { relatedPkg, relatedName } = fuzzySearch(name, this.relations)
     return {
-      __info__: relatedPkg,
+      __info__: { name: relatedName, ...relatedPkg },
       __circulation__: getCirculation?.(name, this.relations),
       __versions__: this.versions?.[name],
     }
@@ -71,8 +75,8 @@ export class Chart {
 
   addTreeNode(ancestors: any, data: any) {
     // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
-    const selectName = data.name.split('--')[0]
-    const { dependencies, devDependencies } = this.relations[selectName] ?? {}
+    const name = preDealName(data.name)
+    const { dependencies, devDependencies } = this.relations[name] ?? {}
     const pkg = useAssign(dependencies, devDependencies)
     if (
       data.children.length
@@ -89,7 +93,7 @@ export class Chart {
       map.collapsed = false
     for (const [pkgName, pkgVersion] of useEntries(pkg)) {
       child.push({
-        name: `${pkgName}--${selectName}`,
+        name: `${pkgName}--${data.name}`,
         value: pkgVersion,
         children: [],
       })

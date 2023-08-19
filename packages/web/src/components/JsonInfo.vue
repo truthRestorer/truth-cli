@@ -9,12 +9,7 @@ const { data } = defineProps<{
 <template>
   <div v-if="data">
     <div v-for="(value, key) in data" :key="key" class="leftPad">
-      <div v-if="key === 'version'">
-        <span class="key">{{ key }}</span>
-        <span class="rightPad">:</span>
-        <span class="value">{{ value }}</span>
-      </div>
-      <div v-else-if="key === 'homepage'">
+      <div v-if="key === 'homepage'">
         <span class="key">{{ key }}</span>
         <span class="rightPad">:</span>
         <a target="_blank" :href="value">{{ value }}</a>
@@ -30,6 +25,11 @@ const { data } = defineProps<{
             <span class="value">{{ pkgVersion }}</span>
           </div>
         </div>
+      </div>
+      <div v-else>
+        <span class="key">{{ key }}</span>
+        <span class="rightPad">:</span>
+        <span class="value">{{ value }}</span>
       </div>
     </div>
   </div>
