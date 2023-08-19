@@ -10,18 +10,10 @@ function addPkg(
   pkg: Pkgs | undefined,
   dependencies: { [key: string]: string } | undefined,
   type: PkgDependency,
-  shouldOptimize: boolean,
 ) {
   if (dependencies && pkg?.packages) {
-    for (const [name, version] of useEntries(dependencies)) {
-      if (pkgSet.has(name)) {
-        pkg!.packages[name] = { version, type }
-      }
-      else {
-        shouldOptimize && pkgSet.add(name)
-        pkg!.packages[name] = { version, type, packages: {} }
-      }
-    }
+    for (const [name, version] of useEntries(dependencies))
+      pkg!.packages[name] = pkgSet.has(name) ? { version, type } : { version, type, packages: {} }
   }
 }
 
@@ -32,8 +24,8 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
     version: version ?? 'latest',
     packages: {} as Pkgs,
   }
-  addPkg(pkgs, devDependencies, PkgDependency.DEVDEPENDENCY, true)
-  addPkg(pkgs, dependencies, PkgDependency.DEPENDENCY, true)
+  addPkg(pkgs, devDependencies, PkgDependency.DEVDEPENDENCY)
+  addPkg(pkgs, dependencies, PkgDependency.DEPENDENCY)
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   /**
@@ -51,8 +43,8 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
       if (!key.startsWith('.')) {
         pkgSet.add(key)
         const { dependencies, devDependencies } = relations[key] ?? {}
-        isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, PkgDependency.DEPENDENCY, shouldOptimize)
-        isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, PkgDependency.DEVDEPENDENCY, shouldOptimize)
+        isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, PkgDependency.DEPENDENCY)
+        isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, PkgDependency.DEVDEPENDENCY)
         if (isEmptyObj(rootPkgs[key].packages))
           delete rootPkgs[key].packages
         loadPkgs(rootPkgs[key].packages, maxDep - 1)
