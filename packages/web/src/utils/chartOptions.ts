@@ -95,7 +95,7 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
       force: {
         repulsion: 900,
         layoutAnimation: true,
-        friction: 0.15,
+        friction: 0.1,
       },
       roam: true,
     },

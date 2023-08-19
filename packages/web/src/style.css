@@ -7,6 +7,9 @@ body {
   background-size: 30px 30px,30px 30px;
   transition: background-color .2s!important;
 }
+.el-button+.el-button {
+  margin-left: 0!important;
+}
 .el-drawer__header {
   margin-bottom: 10px!important;
 }
