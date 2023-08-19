@@ -2,7 +2,7 @@
 <p align="center">用于分析依赖的命令行工具(支持 pnpm)</p>
 
 <p align="center">
-  <a href="https://github.com/truthRestorer/truth-cli/blob/main/docs/EN.md">Document</a>
+  <a href="https://github.com/truthRestorer/truth-cli/blob/main/docs/EN.md">Document</a> | 
 	<a href="https://truth-cli.vercel.app/">在线体验</a> | 
   <a href="https://truth-cli-playground.vercel.app">Playground</a>
 </p>
