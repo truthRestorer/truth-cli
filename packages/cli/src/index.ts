@@ -21,11 +21,11 @@ const server = createServer(async (req, res) => {
 })
 
 export async function genByCommand() {
-  logLogo()
   const begin = Date.now()
+  logLogo()
   try {
-    logWebStart(Date.now() - begin)
     server.listen(3002)
+    logWebStart(Date.now() - begin)
   }
   catch (err: any) {
     logCommonError(err.message)
