@@ -22,8 +22,6 @@ provide('pkgInfo', pkgInfo)
 <template>
   <div style="overflow: hidden;">
     <Header />
-    <ElScrollbar always>
-      <Package />
-    </ElScrollbar>
+    <Package />
   </div>
 </template>

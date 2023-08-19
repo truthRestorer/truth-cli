@@ -48,40 +48,42 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div style="margin-top:60px;box-sizing:border-box;">
-    <div id="chart" style="height:calc(100vh - 60px);" />
-    <ElDrawer
-      v-model="drawer"
-      :modal="false"
-      modal-class="modal"
-      :title="pkgName"
-      direction="ltr"
-      size="22%"
-      style="--el-drawer-padding-primary:16px;position:fixed;z-index: 9999;"
-    >
-      <template #header>
-        <ElCheckTag :checked="checked" style="flex:none;" @change="handleTagChange">
-          NPM
-        </ElCheckTag>
-        <div style="flex: 1;font-weight: 700;font-size: 20px;color: var(--el-text-color-primary);">
-          {{ pkgName }}
-        </div>
-      </template>
-      <ElScrollbar always style="font-size: 14px;color: var(--el-text-color-primary);line-height: 26px;">
-        <ElTabs v-model="activeName">
-          <ElTabPane label="依赖信息" name="info">
-            <JsonInfo :data="pkgInfo?.__info__" />
-          </ElTabPane>
-          <ElTabPane label="循环依赖" name="circulation">
-            <JsonCirculation :data="pkgInfo?.__circulation__" />
-          </ElTabPane>
-          <ElTabPane label="多版本" name="versions">
-            <JsonVersions :data="pkgInfo?.__versions__ " />
-          </ElTabPane>
-        </ElTabs>
-      </ElScrollbar>
-    </ElDrawer>
-  </div>
+  <ElScrollbar>
+    <div style="margin-top:60px;box-sizing:border-box;">
+      <div id="chart" style="height:calc(100vh - 60px);" />
+      <ElDrawer
+        v-model="drawer"
+        :modal="false"
+        modal-class="modal"
+        :title="pkgName"
+        direction="ltr"
+        size="22%"
+        style="--el-drawer-padding-primary:16px;position:fixed;z-index: 9999;"
+      >
+        <template #header>
+          <ElCheckTag :checked="checked" style="flex:none;" @change="handleTagChange">
+            NPM
+          </ElCheckTag>
+          <div style="flex: 1;font-weight: 700;font-size: 20px;color: var(--el-text-color-primary);">
+            {{ pkgName }}
+          </div>
+        </template>
+        <ElScrollbar always style="font-size: 14px;color: var(--el-text-color-primary);line-height: 26px;">
+          <ElTabs v-model="activeName">
+            <ElTabPane label="依赖信息" name="info">
+              <JsonInfo :data="pkgInfo?.__info__" />
+            </ElTabPane>
+            <ElTabPane label="循环依赖" name="circulation">
+              <JsonCirculation :data="pkgInfo?.__circulation__" />
+            </ElTabPane>
+            <ElTabPane label="多版本" name="versions">
+              <JsonVersions :data="pkgInfo?.__versions__ " />
+            </ElTabPane>
+          </ElTabs>
+        </ElScrollbar>
+      </ElDrawer>
+    </div>
+  </ElScrollbar>
 </template>
 
 <style scoped>

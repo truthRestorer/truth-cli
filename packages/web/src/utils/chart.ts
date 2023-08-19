@@ -13,7 +13,7 @@ export function preDealName(name: string) {
 export class Chart {
   echart?: ECharts
   private initalHeight?: number
-  private height: number
+  private height?: number
   private nodes: Nodes[]
   private links: Links[]
   private tree: Tree
@@ -26,7 +26,6 @@ export class Chart {
     const versions = genVersions(relations)
     this.nodes = nodes
     this.links = links
-    this.height = nodes.length * 20
     this.tree = tree
     this.versions = versions
   }
@@ -56,10 +55,18 @@ export class Chart {
       ...loadGraphOptions(this.nodes, this.links),
     }
     this.initalHeight = chart.getHeight()
+    this.height = this.initalHeight
     this.echart.setOption(options)
   }
 
   toggleLegend(legend: string) {
+    legend === 'Tree' && this.echart?.resize({
+      height: this.initalHeight,
+    })
+    legend === 'Force' && this.echart?.resize({
+      height: this.height,
+    })
+
     this.echart?.setOption(
       legend === 'Force'
         ? loadTreeOptions(this.tree)
@@ -102,7 +109,7 @@ export class Chart {
         children: [],
       })
     }
-    this.height += Object.keys(pkg).length * 20
+    this.height! += Object.keys(pkg).length * 20
     this.echart?.resize({ height: this.height })
     this.echart?.setOption(treeChartOption(this.tree))
   }

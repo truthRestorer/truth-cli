@@ -11,7 +11,6 @@ export function loadTreeOptions(tree: Tree) {
       bottom: '2%',
       top: '1%',
       data: [tree],
-      roam: true,
       symbolSize: 0,
       tooltip: {
         triggerOn: 'mousemove',
