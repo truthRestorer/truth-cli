@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.8.7
+
+### Patch Changes
+
+- 98062f68: 修复打包问题
+
 ## 0.8.6
 
 ### Patch Changes
