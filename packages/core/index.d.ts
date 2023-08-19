@@ -7,10 +7,10 @@ declare function genGraph(relation: Relation, target?: string): {
 
 declare function genPkgs(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
 
-declare function genPkgTree(depth: number, relations: Relations, shouldOptimize?: boolean): string
+declare function genPkgTree(depth: number, relations: Relations): string
 
 declare function genRelations(): Relations
 
-declare function genTree(maxDep: number, relations: Relations, shouldOptimize?: boolean): Tree
+declare function genTree(maxDep: number, relations: Relations): Tree
 
 declare function genVersions(relations: Relations): Versions
