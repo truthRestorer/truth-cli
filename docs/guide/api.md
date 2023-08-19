@@ -58,7 +58,7 @@ interface Relations {
 ```ts
 import { genGraph } from '@truth-cli/core'
 
-function genGraph(relations: Relations): {
+function genGraph(relation: Relation, target?: string): {
   nodes: Nodes[]
   links: Links[]
 }
