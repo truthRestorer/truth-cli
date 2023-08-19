@@ -1,5 +1,12 @@
 # @truth-cli/shared
 
+## 0.8.6
+
+### Patch Changes
+
+- 2009614e: 优化接口的调用
+- 2009614e: 优化网页端生成数据的逻辑
+
 ## 0.8.5
 
 ### Patch Changes
