@@ -6,7 +6,7 @@ import relations from './assets/relations.json'
 import pkgs from './assets/pkgs.json'
 
 const data = ref<any>(relations)
-const graph = genGraph(relations as any)
+const graph = genGraph(relations.__root__ as any)
 const versions = genVersions(relations as any)
 const tree = genTree(3, relations as any)
 </script>
