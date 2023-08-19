@@ -78,9 +78,6 @@ onUnmounted(() => {
           <ElTabPane label="多版本" name="versions">
             <JsonVersions :data="pkgInfo?.__versions__ " />
           </ElTabPane>
-          <ElTabPane label="多版本信息" name="extra">
-            <JsonVersions :data="pkgInfo?.__versions__ " />
-          </ElTabPane>
         </ElTabs>
       </ElScrollbar>
     </ElDrawer>
