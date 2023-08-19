@@ -71,7 +71,8 @@ const isDark = useDark()
 
 <style scoped>
 .header {
-  position: absolute;
+  position: fixed;
+  z-index: 999;
   top: 0;
   left: 0;
   right: 0;

@@ -7,7 +7,7 @@ export function loadTreeOptions(tree: Tree) {
       name: 'Tree',
       type: 'tree',
       left: '30%',
-      right: '25%',
+      right: '15%',
       bottom: '2%',
       top: '1%',
       data: [tree],

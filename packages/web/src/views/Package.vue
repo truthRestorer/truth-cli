@@ -48,8 +48,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div style="display:flex;height:100vh;padding-top:60px;box-sizing:border-box;">
-    <div id="chart" style="flex:1;" />
+  <div style="margin-top:60px;box-sizing:border-box;">
+    <div id="chart" style="height:calc(100vh - 60px);" />
     <ElDrawer
       v-model="drawer"
       :modal="false"
@@ -57,7 +57,7 @@ onUnmounted(() => {
       :title="pkgName"
       direction="ltr"
       size="22%"
-      style="--el-drawer-padding-primary:16px"
+      style="--el-drawer-padding-primary:16px;position:fixed;z-index: 9999;"
     >
       <template #header>
         <ElCheckTag :checked="checked" style="flex:none;" @change="handleTagChange">
