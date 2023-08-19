@@ -1,7 +1,9 @@
 import path from 'node:path'
+import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import minimist from 'minimist'
-import { genPkgsFile } from '../packages/cli/src/index.js'
+import { genPkgTree, genPkgs } from '@truth-cli/core'
+import { genRelations } from '@truth-cli/core/node'
 import { buildWeb, genWebFile } from './utils.js'
 
 // eslint-disable-next-line n/prefer-global/process
@@ -18,8 +20,9 @@ async function resolveBuild() {
   const writePath = path.resolve(__dirname, `${_path}/${_web ? 'public' : '/src/assets'}`)
   await genWebFile(writePath)
   if (_playground) {
-    await genPkgsFile(3, 'txt', writePath)
-    await genPkgsFile(3, 'json', writePath)
+    const relations = genRelations()
+    await writeFile(`${writePath}/pkgs.json`, JSON.stringify(genPkgs(3, relations)))
+    await writeFile(`${writePath}/pkgs.txt`, genPkgTree(3, relations))
   }
   await buildWeb(_path)
 }
