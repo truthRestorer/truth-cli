@@ -8,7 +8,7 @@ const argv = minimist(process.argv.slice(2))
 const target = argv._
 
 async function resolveBuild() {
-  target.includes('web') && await buildWeb('../packages/cli', true)
+  target.length > 1 && await buildWeb('../packages/cli', true)
   const opts = await buildOptions()
   for (let i = 0; i < target.length; i++) {
     const [input, output] = opts[target[i]] ? opts[target[i]]() : opts._normal(target[i])
