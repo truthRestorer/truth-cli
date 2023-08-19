@@ -7,9 +7,7 @@ import { loadGraphOptions, loadTreeOptions } from './chartOptions'
 import { fuzzySearch, getCirculation, graphChartOption, treeChartOption } from './chartMethods'
 
 export class Chart {
-  echart: ECharts | undefined
-  private treeOptions
-  private graphOptions
+  echart?: ECharts
   private nodes: Nodes[]
   private links: Links[]
   private tree: Tree
@@ -24,8 +22,6 @@ export class Chart {
     this.links = links
     this.tree = tree
     this.versions = versions
-    this.treeOptions = loadTreeOptions(this.tree)
-    this.graphOptions = loadGraphOptions(this.nodes, this.links)
   }
 
   addGraph(name: string) {
@@ -50,7 +46,7 @@ export class Chart {
       textStyle: {
         fontSize: 13,
       },
-      ...this.graphOptions,
+      ...loadGraphOptions(this.nodes, this.links),
     }
     this.echart.setOption(options)
   }
@@ -58,8 +54,8 @@ export class Chart {
   toggleLegend(legend: string) {
     this.echart?.setOption(
       legend === 'Force'
-        ? this.treeOptions
-        : this.graphOptions,
+        ? loadTreeOptions(this.tree)
+        : loadGraphOptions(this.nodes, this.links),
     )
     return legend === 'Force' ? 'Tree' : 'Force'
   }
