@@ -85,7 +85,7 @@ interface Links {
 ```ts
 import { genTree } from '@truth-cli/core'
 
-function genTree(maxDep: number, relations: Relations): Tree
+declare function genPkgTree(depth: number, relations: Relations, shouldOptimize?: boolean): string
 
 interface Tree {
   name: string
@@ -122,7 +122,7 @@ interface IVersions {
 ```ts
 import { genPkgs } from '@truth-cli/core'
 
-function genPkgs(depth: number, relations: Relations): Pkgs
+declare function genPkgs(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
 
 interface Pkgs {
   version: string
@@ -141,5 +141,5 @@ interface Pkgs {
 ```ts
 import { genPkgTree } from '@truth-cli/core'
 
-declare function genPkgTree(maxDep: number, relations: Relations): string
+declare function genPkgTree(depth: number, relations: Relations, shouldOptimize?: boolean): string
 ```

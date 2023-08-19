@@ -5,12 +5,12 @@ declare function genGraph(relation: Relation, target?: string): {
   links: Links[]
 }
 
-declare function genPkgs(depth: number, relations: Relations): Pkgs
+declare function genPkgs(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
 
-declare function genPkgTree(maxDep: number, relations: Relations): string
+declare function genPkgTree(depth: number, relations: Relations, shouldOptimize?: boolean): string
 
 declare function genRelations(): Relations
 
-declare function genTree(maxDep: number, relations: Relations): Tree
+declare function genTree(maxDep: number, relations: Relations, shouldOptimize?: boolean): Tree
 
 declare function genVersions(relations: Relations): Versions
