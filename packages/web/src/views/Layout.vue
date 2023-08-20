@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Relations } from '@truth-cli/shared'
-import { onMounted, provide, ref } from 'vue'
+import { provide, ref } from 'vue'
 import Header from '../components/Header.vue'
 import { GraphChart, TreeChart } from '../utils/chart/index'
 import type { PkgInfo } from '../types'
@@ -18,10 +18,6 @@ provide('graphChart', graphChart)
 provide('drawer', drawer)
 provide('pkgName', pkgName)
 provide('pkgInfo', pkgInfo)
-
-onMounted(() => {
-
-})
 </script>
 
 <template>
