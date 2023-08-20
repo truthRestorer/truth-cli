@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.8.8
+
+### Patch Changes
+
+- d5d3a599: 修复了网页无法找到依赖bug
+
 ## 0.8.7
 
 ### Patch Changes
