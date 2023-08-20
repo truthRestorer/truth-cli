@@ -1,5 +1,7 @@
 import type { Links, Nodes, Tree } from '@truth-cli/shared'
 import { categories } from '@truth-cli/shared'
+import { preDealName } from '../preDealName'
+import type { Legend } from '../../types'
 
 export function loadTreeOptions(tree: Tree) {
   return {
@@ -7,7 +9,7 @@ export function loadTreeOptions(tree: Tree) {
       name: 'Tree',
       type: 'tree',
       left: '30%',
-      right: '15%',
+      right: '25%',
       bottom: '2%',
       top: '1%',
       data: [tree],
@@ -15,9 +17,10 @@ export function loadTreeOptions(tree: Tree) {
       tooltip: {
         triggerOn: 'mousemove',
         formatter: (params: any) => {
-          return params.name.split('--')[0]
+          return preDealName(params.name)
         },
       },
+      roam: true,
       label: {
         position: 'left',
         verticalAlign: 'middle',
@@ -25,7 +28,7 @@ export function loadTreeOptions(tree: Tree) {
         width: 10,
         lineHeight: 24,
         formatter(params: any) {
-          const name = params.name.split('--')[0]
+          const name = preDealName(params.name)
           if (params.treeAncestors.length === 2)
             return `{a|${name}}`
           if (params.treeAncestors.length === 3)
@@ -77,7 +80,7 @@ export function loadTreeOptions(tree: Tree) {
 export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
   return {
     series: {
-      name: 'Force',
+      name: 'Graph',
       type: 'graph',
       layout: 'force',
       right: '30%',
@@ -97,6 +100,29 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
         friction: 0.1,
       },
       roam: true,
+    },
+  }
+}
+
+export function resetOptions(type: Legend, data: {
+  tree?: Tree
+  nodes?: Nodes[]
+  links?: Links[]
+}) {
+  if (type === 'Tree') {
+    return {
+      series: {
+        roam: true,
+        name: 'Tree',
+        data: [data.tree],
+      },
+    }
+  }
+  return {
+    series: {
+      name: 'Force',
+      nodes: data.nodes,
+      links: data.links,
     },
   }
 }

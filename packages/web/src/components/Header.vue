@@ -3,27 +3,39 @@ import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import type { Ref } from 'vue'
 import { inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
-import type { Chart } from '../utils'
-import { debounce } from '../utils'
+import type { Relations } from '@truth-cli/shared'
+import type { GraphChart, TreeChart } from '../utils/chart/index'
+import { debounce } from '../utils/debounce'
 import type { Legend, PkgInfo } from '../types'
+import { getPkgInfo } from '../utils/chart/tools'
 import Github from './Github.vue'
 
-const legend = ref<Legend>('Force')
+const legend = ref<Legend>('Graph')
 const drawer = inject<boolean>('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
+const relations = inject<Relations>('relations')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
-const chartInstance = inject<Chart>('chartInstance')!
+const treeChart = inject<TreeChart>('treeChart')!
+const graphChart = inject<GraphChart>('graphChart')!
+
+function toggleLegend() {
+  if (legend.value === 'Tree')
+    legend.value = graphChart.renderChart()
+  else
+    legend.value = treeChart.renderChart()
+}
+
 const handleSearch = debounce(() => {
-  const searchResult = chartInstance.getPkgInfo(pkgName.value)
+  const searchResult = getPkgInfo(pkgName.value, relations)
   if (searchResult)
     pkgInfo.value = searchResult
 })
 
 function handleCollapse() {
   if (legend.value === 'Tree')
-    chartInstance.collapseAllTreeNode()
+    treeChart.collapseAllTreeNode()
   else
-    chartInstance.collapseGraphNode()
+    graphChart.collapseGraphNode()
 }
 
 const isDark = useDark()
@@ -50,7 +62,7 @@ const isDark = useDark()
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>
-      <ElButton @click="legend = chartInstance.toggleLegend(legend)">
+      <ElButton @click="toggleLegend">
         切换图表
       </ElButton>
       <ElSwitch

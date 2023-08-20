@@ -6,4 +6,4 @@ export interface PkgInfo {
   __versions__?: { [key: string]: string[] | string }
 }
 
-export type Legend = 'Tree' | 'Force'
+export type Legend = 'Tree' | 'Graph'

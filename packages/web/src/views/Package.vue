@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
+import type { Relations } from '@truth-cli/shared'
 import type { Ref } from 'vue'
 import echarts from '../plugins/echarts'
 import type { PkgInfo } from '../types'
-import { type Chart, preDealName } from '../utils'
+import type { GraphChart, TreeChart } from '../utils/chart/index'
+import { initChart } from '../utils/chart/index'
+import { getPkgInfo } from '../utils/chart/tools'
+import { preDealName } from '../utils/preDealName'
 
 const graphSet = new Set()
-const c = inject<Chart>('chartInstance')!
+const relations = inject<Relations>('relations')!
+const treeChart = inject<TreeChart>('treeChart')!
+const graphChart = inject<GraphChart>('graphChart')!
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo> >('pkgInfo')
 const drawer = inject<Ref<boolean>>('drawer')
@@ -23,32 +29,27 @@ function handleTagChange() {
 
 onMounted(async () => {
   const chartInstance = echarts.init(document.getElementById('chart'))
-  c.mountChart(chartInstance)
+  initChart(chartInstance, relations)
   chartInstance.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = preDealName(data.name)
-    pkgInfo!.value = c.getPkgInfo(pkgName.value)
+    pkgInfo!.value = getPkgInfo(pkgName.value, relations)
     if (seriesType === 'tree') {
       if (collapsed)
-        c.removeTreeNode(data)
+        treeChart.removeTreeNode(data)
       else
-        c.addTreeNode(treeAncestors, data)
+        treeChart.addTreeNode(treeAncestors, data)
     }
     else if (seriesType === 'graph' && !graphSet.has(pkgName.value)) {
       graphSet.add(pkgName.value)
-      c.addGraph(pkgName.value)
+      graphChart.addGraph(pkgName.value)
     }
   })
-})
-onUnmounted(() => {
-  c.echart?.off('click')
-  c.echart?.off('legendselectchanged')
-  c.echart?.dispose()
 })
 </script>
 
 <template>
-  <ElScrollbar>
+  <ElScrollbar :always="false">
     <div style="margin-top:60px;box-sizing:border-box;">
       <div id="chart" style="height:calc(100vh - 60px);" />
       <ElDrawer

@@ -1,7 +1,9 @@
-import type { Links, Nodes, Relations, Tree } from '@truth-cli/shared'
+import type { Relations } from '@truth-cli/shared'
 import { useAssign } from '@truth-cli/shared'
+import { genVersions } from '@truth-cli/core'
+import type { PkgInfo } from '../../types'
 
-export function getCirculation(name: string, relations: Relations) {
+function getCirculation(name: string, relations: Relations) {
   if (!relations[name])
     return
   const { devDependencies, dependencies } = relations[name]
@@ -18,7 +20,7 @@ export function getCirculation(name: string, relations: Relations) {
   return result.length ? result : undefined
 }
 
-export function fuzzySearch(name: string, relations: Relations) {
+function fuzzySearch(name: string, relations: Relations) {
   const relatedPkg = relations[name]
   if (relatedPkg) {
     return {
@@ -37,21 +39,12 @@ export function fuzzySearch(name: string, relations: Relations) {
   }
 }
 
-export function treeChartOption(data: Tree) {
+export function getPkgInfo(name: string, relations: Relations): PkgInfo {
+  const versions = genVersions(relations)
+  const { relatedPkg, relatedName } = fuzzySearch(name, relations)
   return {
-    series: {
-      name: 'Tree',
-      data: [data],
-    },
-  }
-}
-
-export function graphChartOption(nodes: Nodes[], links: Links[]) {
-  return {
-    series: {
-      name: 'Force',
-      nodes,
-      links,
-    },
+    __info__: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
+    __circulation__: getCirculation?.(name, relations),
+    __versions__: versions?.[name],
   }
 }
