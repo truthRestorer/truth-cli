@@ -9,7 +9,6 @@ import { initChart } from '../utils/chart/index'
 import { getPkgInfo } from '../utils/chart/tools'
 import { preDealName } from '../utils/preDealName'
 
-const graphSet = new Set()
 const relations = inject<Relations>('relations')!
 const treeChart = inject<TreeChart>('treeChart')!
 const graphChart = inject<GraphChart>('graphChart')!
@@ -40,9 +39,8 @@ onMounted(async () => {
       else
         treeChart.addTreeNode(treeAncestors, data)
     }
-    else if (seriesType === 'graph' && !graphSet.has(pkgName.value)) {
-      graphSet.add(pkgName.value)
-      graphChart.addGraph(pkgName.value)
+    else if (seriesType === 'graph') {
+      graphChart.addGraph(data.name)
     }
   })
 })

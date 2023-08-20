@@ -1,14 +1,11 @@
 <script setup lang="ts">
 const { data } = defineProps<{
-  data?: string | string[]
+  data?: string[]
 }>()
 </script>
 
 <template>
-  <div v-if="(typeof data === 'string')">
-    <span>{{ data }}</span>
-  </div>
-  <div v-else-if="Array.isArray(data)">
+  <div v-if="data">
     <div v-for="item in data" :key="item">
       <div class="pkg">
         <span style="padding: 2px 6px;">-</span>
