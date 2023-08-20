@@ -32,7 +32,7 @@ export class TreeChart {
 
   renderChart(): Legend {
     echart?.setOption(loadTreeOptions(this.tree))
-    return 'Graph'
+    return 'Tree'
   }
 
   addTreeNode(ancestors: any, data: any) {
@@ -80,6 +80,7 @@ export class TreeChart {
 export class GraphChart {
   nodes: Nodes[]
   links: Links[]
+  nodesSet = new Set()
   constructor(public relations: Relations) {
     const { nodes, links } = genGraph(relations.__root__)
     this.nodes = nodes
@@ -88,7 +89,7 @@ export class GraphChart {
 
   renderChart(): Legend {
     echart?.setOption(loadGraphOptions(this.nodes, this.links))
-    return 'Tree'
+    return 'Graph'
   }
 
   collapseGraphNode() {
@@ -110,6 +111,7 @@ export class GraphChart {
     for (let i = 0; i < nodes.length; i++) {
       if (!nodesSet.has(nodes[i].name))
         this.nodes.push(nodes[i])
+      nodesSet.add(nodes[i].name)
     }
     echart?.setOption(resetOptions('Graph', {
       nodes: this.nodes,
