@@ -13,9 +13,3 @@
     </svg>
   </a>
 </template>
-
-<style scoped>
-a {
-  color: var(--el-text-color-primary)
-}
-</style>

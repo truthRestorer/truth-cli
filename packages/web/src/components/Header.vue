@@ -89,14 +89,14 @@ const isDark = useDark()
   display: flex;
   justify-content: space-between;
   background-color: var(--el-bg-color);
-  padding: 8px 15px 8px 40px;
+  padding: 8px 15px;
   max-height: 60px;
-  box-shadow: 0 1px 4px rgba(100, 100, 100, .4);
+  box-shadow: 0 1px 4px rgba(100, 100, 100, .3);
   transition: background-color .4s!important;
   & .right, .left, .link{
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
   }
   & .right {
     flex: 3;
@@ -111,20 +111,13 @@ const isDark = useDark()
       letter-spacing: 4px;
     }
   }
-  & .link {
-    display: flex;
-    align-items: center;
-    min-width: max-content;
-    & a {
-      color: var(--el-text-color-regular);
-      font-size: 14px;
-      text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.25s;
-    }
-    & a:hover {
-      border-color: #75dcff;
-    }
-  }
+}
+a {
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s;
+}
+a:hover {
+  border-color: #75dcff;
 }
 </style>
