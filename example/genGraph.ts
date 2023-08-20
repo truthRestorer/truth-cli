@@ -17,7 +17,7 @@ const graph2 = genGraph({
 })
 console.log(graph2)
 
-// 3. 自定义生成，指定此 links 指向
+// 3. 自定义生成，指定此 links 指向自定义 target(函数的第二个参数)
 
 const graph3 = genGraph({
   version: '0.0.1',
