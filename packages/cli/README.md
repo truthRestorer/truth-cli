@@ -13,19 +13,6 @@
 - 📱可视化展示
 - 💡友好的提示
 
-<h1 align="center">Truth-cli🤩</h1>
-<p align="center">用于分析依赖的命令行工具(支持 pnpm)</p>
-
-<p align="center">
-  <a href="https://github.com/truthRestorer/truth-cli/blob/main/docs/EN.md">Document</a>
-	<a href="https://truth-cli.vercel.app/">在线体验</a> | 
-  <a href="https://truth-cli-playground.vercel.app">Playground</a>
-</p>
-
-<p align="center">
-  <a href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
-</p>
-
 # 快速开始
 
 ## 安装
