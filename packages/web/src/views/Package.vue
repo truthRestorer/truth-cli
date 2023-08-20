@@ -26,9 +26,9 @@ function handleTagChange() {
 
 onMounted(async () => {
   const relations = treeChart.relations
-  const chartInstance = echarts.init(document.getElementById('chart'))
-  initChart(chartInstance, relations)
-  chartInstance.on('click', (params: any) => {
+  const chartDOM = echarts.init(document.getElementById('chart'))
+  initChart(chartDOM, relations)
+  chartDOM.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = preDealName(data.name)
     pkgInfo!.value = getPkgInfo(pkgName.value, relations)
@@ -38,7 +38,7 @@ onMounted(async () => {
       else
         treeChart.addTreeNode(treeAncestors, data)
     }
-    else if (seriesType === 'graph') {
+    else {
       graphChart.addGraph(data.name)
     }
   })
