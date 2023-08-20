@@ -1,9 +1,14 @@
 import type { Links, Nodes, Tree } from '@truth-cli/shared'
-import { categories } from '@truth-cli/shared'
 import { preDealName } from '../preDealName'
+import { categories } from '../../types'
 import type { Legend } from '../../types'
 
 export function loadTreeOptions(tree: Tree) {
+  const richStyle = {
+    padding: 4,
+    color: '#fff',
+    borderRadius: 4,
+  }
   return {
     series: {
       name: 'Tree',
@@ -15,18 +20,12 @@ export function loadTreeOptions(tree: Tree) {
       data: [tree],
       symbolSize: 0,
       tooltip: {
-        triggerOn: 'mousemove',
         formatter: (params: any) => {
           return preDealName(params.name)
         },
       },
       roam: true,
       label: {
-        position: 'left',
-        verticalAlign: 'middle',
-        align: 'right',
-        width: 10,
-        lineHeight: 24,
         formatter(params: any) {
           const name = preDealName(params.name)
           if (params.treeAncestors.length === 2)
@@ -39,35 +38,25 @@ export function loadTreeOptions(tree: Tree) {
         },
         rich: {
           a: {
-            padding: 4,
-            color: '#fff',
-            borderRadius: 4,
+            ...richStyle,
             backgroundColor: '#222',
           },
           b: {
-            padding: 4,
-            color: '#fff',
-            borderRadius: 4,
+            ...richStyle,
             backgroundColor: '#551A7B',
           },
           c: {
-            padding: 4,
-            color: '#fff',
-            borderRadius: 4,
+            ...richStyle,
             backgroundColor: '#EC6E49',
           },
           d: {
-            padding: 4,
-            color: '#fff',
-            borderRadius: 4,
+            ...richStyle,
             backgroundColor: '#546FD6',
           },
         },
       },
       leaves: {
         label: {
-          position: 'right',
-          verticalAlign: 'middle',
           align: 'left',
         },
       },
@@ -83,21 +72,17 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
       name: 'Graph',
       type: 'graph',
       layout: 'force',
-      right: '30%',
       nodes,
       links,
       categories,
-      draggable: false,
       symbolSize: 22,
-      tooltip: {},
       label: {
         show: true,
         position: 'top',
       },
       force: {
         repulsion: 900,
-        layoutAnimation: true,
-        friction: 0.1,
+        friction: 0.15,
       },
       roam: true,
     },
@@ -112,7 +97,6 @@ export function resetOptions(type: Legend, data: {
   if (type === 'Tree') {
     return {
       series: {
-        roam: true,
         name: 'Tree',
         data: [data.tree],
       },
