@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue'
-import type { Relations } from '@truth-cli/shared'
 import type { Ref } from 'vue'
 import echarts from '../plugins/echarts'
 import type { PkgInfo } from '../types'
@@ -9,7 +8,6 @@ import { initChart } from '../utils/chart/index'
 import { getPkgInfo } from '../utils/chart/tools'
 import { preDealName } from '../utils/preDealName'
 
-const relations = inject<Relations>('relations')!
 const treeChart = inject<TreeChart>('treeChart')!
 const graphChart = inject<GraphChart>('graphChart')!
 const pkgName = inject<Ref<string>>('pkgName')!
@@ -27,6 +25,7 @@ function handleTagChange() {
 }
 
 onMounted(async () => {
+  const relations = treeChart.relations
   const chartInstance = echarts.init(document.getElementById('chart'))
   initChart(chartInstance, relations)
   chartInstance.on('click', (params: any) => {

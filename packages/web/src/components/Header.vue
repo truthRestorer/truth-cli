@@ -3,7 +3,6 @@ import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import type { Ref } from 'vue'
 import { inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
-import type { Relations } from '@truth-cli/shared'
 import type { GraphChart, TreeChart } from '../utils/chart/index'
 import { debounce } from '../utils/debounce'
 import type { Legend, PkgInfo } from '../types'
@@ -13,7 +12,6 @@ import Github from './Github.vue'
 const legend = ref<Legend>('Graph')
 const drawer = inject<boolean>('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
-const relations = inject<Relations>('relations')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const treeChart = inject<TreeChart>('treeChart')!
 const graphChart = inject<GraphChart>('graphChart')!
@@ -26,14 +24,14 @@ function toggleLegend() {
 }
 
 const handleSearch = debounce(() => {
-  const searchResult = getPkgInfo(pkgName.value, relations)
+  const searchResult = getPkgInfo(pkgName.value, treeChart.relations)
   if (searchResult)
     pkgInfo.value = searchResult
 })
 
 function handleCollapse() {
   if (legend.value === 'Tree')
-    treeChart.collapseAllTreeNode()
+    treeChart.collapseTreeNode()
   else
     graphChart.collapseGraphNode()
 }
