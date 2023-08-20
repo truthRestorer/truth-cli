@@ -8,23 +8,24 @@ const { data } = defineProps<{
 
 <template>
   <div v-if="data">
-    <div v-for="(value, key) in data" :key="key" class="leftPad">
+    <div v-for="(value, key) in data" :key="key" class="pl">
       <div v-if="key === 'devDependencies' || key === 'dependencies'">
         <div class="key">
           {{ key }}
         </div>
-        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg leftPad">
+        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg pl">
           <div style="line-height: 22px;">
-            <span class="leftPad">- {{ pkgName }}</span>
-            <span class="rightPad">:</span>
+            <span class="pl">- {{ pkgName }}</span>
+            <span class="pr">:</span>
             <span class="value">{{ pkgVersion }}</span>
           </div>
         </div>
       </div>
       <div v-else>
         <span class="key">{{ key }}</span>
-        <span class="rightPad">:</span>
-        <span class="value">{{ value }}</span>
+        <span class="pr">:</span>
+        <a v-if="key === 'homepage'" :href="value" target="_blank">{{ value }}</a>
+        <span v-else class="value">{{ value }}</span>
       </div>
     </div>
   </div>
@@ -36,13 +37,12 @@ const { data } = defineProps<{
 <style scoped>
 a {
   color: var(--el-color-primary);
-  text-decoration: none;
   letter-spacing: 0.5px;
 }
-.rightPad {
+.pr {
   padding-right: 6px;
 }
-.leftPad {
+.pl {
   padding-left: 8px;
 }
 .key {
