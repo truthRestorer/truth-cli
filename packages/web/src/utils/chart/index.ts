@@ -69,7 +69,7 @@ export class TreeChart {
     this.treeNodeMap.delete(data.name)
   }
 
-  collapseAllTreeNode() {
+  collapseTreeNode() {
     for (const map of this.treeNodeMap.values())
       map.collapsed = true
     this.treeNodeMap.clear()
@@ -80,11 +80,12 @@ export class TreeChart {
 export class GraphChart {
   nodes: Nodes[]
   links: Links[]
-  nodesSet = new Set()
+  nodesSet: Set<string>
   constructor(public relations: Relations) {
     const { nodes, links } = genGraph(relations.__root__)
     this.nodes = nodes
     this.links = links
+    this.nodesSet = new Set(this.nodes.map(item => item.name))
   }
 
   renderChart(): Legend {
@@ -96,6 +97,7 @@ export class GraphChart {
     const { nodes, links } = genGraph(this.relations.__root__)
     this.nodes = nodes
     this.links = links
+    this.nodesSet.clear()
     echart?.setOption(resetOptions('Graph', {
       nodes: this.nodes,
       links: this.links,
@@ -107,11 +109,11 @@ export class GraphChart {
       return
     const { nodes, links } = genGraph(this.relations[name], name)
     this.links.push(...links)
-    const nodesSet = new Set(this.nodes.map((item: Nodes) => item.name))
+    this.nodesSet.add(name)
     for (let i = 0; i < nodes.length; i++) {
-      if (!nodesSet.has(nodes[i].name))
+      if (!this.nodesSet.has(nodes[i].name))
         this.nodes.push(nodes[i])
-      nodesSet.add(nodes[i].name)
+      this.nodesSet.add(nodes[i].name)
     }
     echart?.setOption(resetOptions('Graph', {
       nodes: this.nodes,
