@@ -17,9 +17,3 @@ const { data } = defineProps<{
     该依赖不存在循环引用
   </JsonString>
 </template>
-
-<style scoped>
-span {
-  font-size: 14px;
-}
-</style>
