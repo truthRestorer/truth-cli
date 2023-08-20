@@ -53,18 +53,6 @@ export interface Versions {
   }
 }
 
-export const categories = [
-  {
-    name: '依赖',
-  },
-  {
-    name: '项目依赖',
-  },
-  {
-    name: '项目名',
-  },
-]
-
 export interface IContext {
   source: string
   push: (symbol: string) => void
