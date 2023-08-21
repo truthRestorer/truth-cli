@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
-import { resolve } from 'node:path'
+import path from 'node:path'
 import { Chalk } from 'chalk'
 import { description as c, version as v } from '../package.json'
 
@@ -35,7 +35,7 @@ export function logWebStart(duration: number) {
 }
 
 export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt') {
-  console.log(`  ${filePrefix} ${chalk.cyan(resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  console.log(`  ${filePrefix} ${chalk.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export const description = chalk.cyan.bold(c)
@@ -47,4 +47,4 @@ export const filePathOptionWords = chalk.yellowBright('The path of output file')
 
 export const treeCommandWords = chalk.cyan.bold('Generate pkgs.txt file')
 
-export const htmlPath = resolve(__dirname, 'index.html.gz')
+export const htmlPath = path.resolve(__dirname, 'index.html.gz')
