@@ -8,7 +8,7 @@ const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export function logCommonError(message: string) {
-  const commonError = `  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message:')}`
+  const commonError = `\n  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message:')}`
   console.log(`${commonError}: ${message}\n`)
 }
 
