@@ -11,14 +11,13 @@ const { data } = defineProps<{
     <div v-for="(item, key) in data" :key="key">
       <span size="large" class="key">{{ key }}</span>
       <div v-for="version in item" :key="version" class="item pkg">
-        <span>- </span>
-        <span>{{ version }}</span>
+        - {{ version }}
       </div>
     </div>
   </div>
-  <JsonString v-else>
+  <div v-else class="notFound">
     该依赖不存在多个版本
-  </JsonString>
+  </div>
 </template>
 
 <style scoped>

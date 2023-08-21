@@ -38,7 +38,7 @@ const isDark = useDark()
       Truth-cli
     </div>
     <div class="right">
-      <ElInput v-model="pkgName" style="max-width:300px;" placeholder="搜索依赖" @input="handleSearch">
+      <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
           <ElIcon>
             <Search />
@@ -128,7 +128,7 @@ const isDark = useDark()
   display: flex;
   justify-content: space-between;
   background-color: var(--el-bg-color);
-  padding: 0px 15px;
+  padding: 0px 16px;
   height: 50px;
   box-shadow: 0 1px 4px rgba(100, 100, 100, .3);
   transition: background-color .4s!important;

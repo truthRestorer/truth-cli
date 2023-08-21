@@ -13,7 +13,7 @@ const { data } = defineProps<{
       </div>
     </div>
   </div>
-  <JsonString v-else>
+  <div v-else class="notFound">
     该依赖不存在循环引用
-  </JsonString>
+  </div>
 </template>

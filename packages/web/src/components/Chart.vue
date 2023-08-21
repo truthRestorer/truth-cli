@@ -34,5 +34,5 @@ onMounted(async () => {
 
 <template>
   <Container />
-  <div id="chart" style="padding-top: 50px;height:calc(100vh - 60px);" />
+  <div id="chart" style="padding-top: 50px;height:calc(100vh - 50px);" />
 </template>

@@ -21,7 +21,6 @@ declare module 'vue' {
     Github: typeof import('./src/components/Github.vue')['default']
     JsonCirculation: typeof import('./src/components/JsonCirculation.vue')['default']
     JsonInfo: typeof import('./src/components/JsonInfo.vue')['default']
-    JsonString: typeof import('./src/components/JsonString.vue')['default']
     JsonVersions: typeof import('./src/components/JsonVersions.vue')['default']
   }
 }

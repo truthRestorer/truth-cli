@@ -1,11 +1,9 @@
 body {
   margin: 0;
-  min-height: 100vh;
-  overflow: auto;
+  height: 100vh;
   background-color: var(--el-bg-color-overlay);
   background-image: linear-gradient(var(--el-color-info-light-9) 1px,transparent 0),linear-gradient(90deg,var(--el-color-info-light-9) 1px,transparent 0);
   background-size: 30px 30px,30px 30px;
-  transition: background-color .2s!important;
 }
 a {
   color: var(--el-text-color-primary);
@@ -23,17 +21,14 @@ a {
 .modal {
   position: unset!important;
 }
-.el-drawer__header {
-  align-items: flex-start!important;
-  gap: 10px;
-}
-.el-drawer__body {
-  padding: 0 3px!important;
-}
 .pkg {
   cursor: pointer;
   transition: background-color .05s;
 }
 .pkg:hover {
   background-color: var(--el-color-primary-light-9);
+}
+.notFound {
+  color: var(--el-color-success);
+  padding: 0 6px;
 }
