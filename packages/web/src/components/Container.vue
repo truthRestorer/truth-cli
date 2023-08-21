@@ -86,7 +86,7 @@ const isDark = useDark()
           {{ pkgName }}
         </ElScrollbar>
       </div>
-      <ElDropdown @command="handlePkgInfo">
+      <ElDropdown trigger="click" @command="handlePkgInfo">
         <ElButton type="primary">
           INFO
           <ElIcon class="el-icon--right">
@@ -104,11 +104,11 @@ const isDark = useDark()
             <ElDropdownItem command="versions">
               版本信息
             </ElDropdownItem>
-            <ElDropdownItem>
-              <ElButton :checked="true" style="flex:none;" @click="handleTagChange">
+            <li style="padding:0 16px;">
+              <ElButton :checked="true" @click="handleTagChange">
                 NPM
               </ElButton>
-            </ElDropdownItem>
+            </li>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
