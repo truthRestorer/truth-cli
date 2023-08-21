@@ -16,7 +16,7 @@ export function loadTreeOptions(tree: Tree) {
       left: '30%',
       right: '25%',
       bottom: '2%',
-      top: '1%',
+      top: '2%',
       data: [tree],
       symbolSize: 0,
       tooltip: {

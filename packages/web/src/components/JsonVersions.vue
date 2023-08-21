@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data } = defineProps<{
   data?: {
-    [key: string]: string[] | string
+    [key: string]: string[]
   }
 }>()
 </script>

@@ -1,21 +1,28 @@
 <script setup lang="ts">
 import { Moon, Search, Sunny } from '@element-plus/icons-vue'
-import type { Ref } from 'vue'
-import { inject, ref } from 'vue'
+import { type Ref, inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
-import type { GraphChart, TreeChart } from '../utils/chart/index'
+import { type GraphChart, type TreeChart } from '../utils/chart/index'
 import { debounce } from '../utils/debounce'
 import type { Legend, PkgInfo } from '../types'
 import { getPkgInfo } from '../utils/chart/tools'
-import Github from './Github.vue'
 
 const legend = ref<Legend>('Graph')
-const drawer = inject<boolean>('drawer')
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const treeChart = inject<TreeChart>('treeChart')!
 const graphChart = inject<GraphChart>('graphChart')!
+const activeName = ref('info')
+const drawer = ref(true)
+const checked = ref(true)
 
+function handleTagChange() {
+  if (pkgName.value === '__root__') {
+    ElMessage('请查看项目根目录的 package.json')
+    return
+  }
+  window.open(`https://npmjs.com/package/${pkgName.value}`)
+}
 function toggleLegend() {
   if (legend.value === 'Tree')
     legend.value = graphChart.renderChart()
@@ -24,9 +31,7 @@ function toggleLegend() {
 }
 
 const handleSearch = debounce(() => {
-  const searchResult = getPkgInfo(pkgName.value, treeChart.relations)
-  if (searchResult)
-    pkgInfo.value = searchResult
+  pkgInfo.value = getPkgInfo(pkgName.value, treeChart.relations)
 })
 
 function handleCollapse() {
@@ -77,6 +82,37 @@ const isDark = useDark()
       <Github />
     </div>
   </div>
+  <ElDrawer
+    v-model="drawer"
+    :modal="false"
+    modal-class="modal"
+    :title="pkgName"
+    direction="ltr"
+    size="22%"
+    style="--el-drawer-padding-primary:16px;position:fixed;z-index: 9999;"
+  >
+    <template #header>
+      <ElCheckTag :checked="checked" style="flex:none;" @change="handleTagChange">
+        NPM
+      </ElCheckTag>
+      <div style="flex: 1;font-weight: 700;font-size: 20px;color: var(--el-text-color-primary);">
+        {{ pkgName }}
+      </div>
+    </template>
+    <ElScrollbar always style="font-size: 14px;color: var(--el-text-color-primary);line-height: 26px;">
+      <ElTabs v-model="activeName">
+        <ElTabPane label="依赖信息" name="info">
+          <JsonInfo :data="pkgInfo?.__info__" />
+        </ElTabPane>
+        <ElTabPane label="循环依赖" name="circulation">
+          <JsonCirculation :data="pkgInfo?.__circulation__" />
+        </ElTabPane>
+        <ElTabPane label="多版本" name="versions">
+          <JsonVersions :data="pkgInfo?.__versions__ " />
+        </ElTabPane>
+      </ElTabs>
+    </ElScrollbar>
+  </ElDrawer>
 </template>
 
 <style scoped>

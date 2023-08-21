@@ -32,6 +32,6 @@ export interface Relations {
 
 export interface Versions {
   [key: string]: {
-    [key: string]: string[] | string
+    [key: string]: string[]
   }
 }

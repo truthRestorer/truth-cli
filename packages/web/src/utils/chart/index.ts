@@ -15,9 +15,6 @@ export function initChart(chart: ECharts, relations: Relations) {
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
-    textStyle: {
-      fontSize: 13,
-    },
     ...loadGraphOptions(nodes, links),
   }
   echart.setOption(options)
