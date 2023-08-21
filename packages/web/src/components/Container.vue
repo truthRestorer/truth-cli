@@ -18,17 +18,10 @@ function handleTagChange() {
   }
   window.open(`https://npmjs.com/package/${pkgName.value}`)
 }
-function toggleLegend() {
-  legend.value = toggleChart(legend.value)
-}
 
 const handleSearch = debounce(() => {
   pkgInfo.value = getPkgInfo(pkgName.value)
 })
-
-function handleCollapse() {
-  collapseNode(legend.value)
-}
 
 const isDark = useDark()
 </script>
@@ -48,13 +41,13 @@ const isDark = useDark()
           </ElIcon>
         </template>
       </ElInput>
-      <ElButton @click="handleCollapse">
+      <ElButton @click="() => collapseNode(legend)">
         折叠节点
       </ElButton>
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>
-      <ElButton @click="toggleLegend">
+      <ElButton @click="() => legend = toggleChart(legend)">
         切换图表
       </ElButton>
       <ElSwitch
