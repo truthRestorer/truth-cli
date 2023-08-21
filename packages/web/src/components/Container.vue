@@ -140,9 +140,7 @@ const isDark = useDark()
     gap: 16px;
   }
   & .logo {
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: 4px;
+    font-size: 26px;
   }
   & .link {
     min-width: max-content;
