@@ -17,17 +17,17 @@ let tree: Tree
 let versions: Versions
 
 export function initChart(chart: ECharts, _relations: Relations) {
-  relations = _relations
-  const graph = genGraph(relations.__root__)
-  nodes = graph.nodes
-  links = graph.links
+  const graph = genGraph(_relations.__root__)
   const options = {
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
-    ...loadGraphOptions(nodes, links),
+    ...loadGraphOptions(graph.nodes, graph.links),
   }
   chart.setOption(options)
+  nodes = graph.nodes
+  links = graph.links
+  relations = _relations
   echart = chart
   tree = genTree(1, relations)
   versions = genVersions(relations)
