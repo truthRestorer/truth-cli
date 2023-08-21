@@ -8,34 +8,29 @@ const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 const errorPrefix = chalk.bgRedBright('Error!')
-const localPrefix = `➜  ${chalk.whiteBright.bold('Local')}:`
-const filePrefix = `➜  ${chalk.whiteBright.bold('File:')}:`
 
-const commonError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
 export function logCommonError(message: string) {
+  const commonError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
   console.log(`${commonError}: ${message}\n`)
 }
 
-const depthError = `
-  ${errorPrefix} ${chalk.redBright('illegal type of depth')}`
 export function logDepthError() {
+  const depthError = `\n  ${errorPrefix} ${chalk.redBright('illegal type of depth')}`
   console.log(`${depthError}\n`)
 }
 
-const logo = `
-  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright(`v${v}`)}
-`
 export function logLogo() {
+  const logo = `\n  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright(`v${v}`)}\n`
   console.log(logo)
 }
 
-const webStart = `  ${localPrefix} ${chalk.cyan('http://localhost:3002')}\t`
 export function logWebStart(duration: number) {
+  const webStart = `  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan('http://localhost:3002')}\t`
   console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt') {
-  console.log(`  ${filePrefix} ${chalk.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  console.log(`  ➜  ${chalk.whiteBright.bold('File:')}: ${chalk.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export const description = chalk.cyan.bold(c)
