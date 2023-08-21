@@ -4,7 +4,7 @@ import {
   depthOptionWords,
   description,
   filePathOptionWords,
-  logDepthError,
+  logCommonError,
   treeCommandWords,
   version,
 } from './src/const.js'
@@ -32,8 +32,8 @@ program
       }
       await genByCommand()
     }
-    catch (err) {
-      logDepthError()
+    catch (err: any) {
+      logCommonError(err.message)
     }
   })
 
@@ -49,8 +49,8 @@ program
         throw new TypeError('illegal type of depth')
       await genPkgsFile(dep, 'txt', file)
     }
-    catch (err) {
-      logDepthError()
+    catch (err: any) {
+      logCommonError(err.message)
     }
   })
 

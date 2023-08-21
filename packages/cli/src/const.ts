@@ -7,16 +7,9 @@ import { description as c, version as v } from '../package.json'
 const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-const errorPrefix = chalk.bgRedBright('Error!')
-
 export function logCommonError(message: string) {
-  const commonError = `  ${errorPrefix} ${chalk.cyan.yellow('Here is error message:')}`
+  const commonError = `  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message:')}`
   console.log(`${commonError}: ${message}\n`)
-}
-
-export function logDepthError() {
-  const depthError = `\n  ${errorPrefix} ${chalk.redBright('illegal type of depth')}`
-  console.log(`${depthError}\n`)
 }
 
 export function logLogo() {
