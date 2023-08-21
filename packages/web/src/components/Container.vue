@@ -35,9 +35,7 @@ const isDark = useDark()
 <template>
   <div class="header">
     <div class="left">
-      <div class="logo">
-        Truth-cli
-      </div>
+      Truth-cli
     </div>
     <div class="right">
       <ElInput v-model="pkgName" style="max-width:300px;" placeholder="搜索依赖" @input="handleSearch">
@@ -139,7 +137,7 @@ const isDark = useDark()
     align-items: center;
     gap: 16px;
   }
-  & .logo {
+  & .left {
     font-size: 26px;
   }
   & .link {
