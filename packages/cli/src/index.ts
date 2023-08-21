@@ -1,8 +1,9 @@
 import { createServer } from 'node:http'
+import path from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { genRelations } from '@truth-cli/core/node'
 import { genPkgTree, genPkgs } from '@truth-cli/core'
-import { distPath, logCommonError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
+import { htmlPath, logCommonError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
 
 const relations = genRelations()
 /**
@@ -11,7 +12,7 @@ const relations = genRelations()
 const server = createServer((req, res) => {
   if (req.url === '/') {
     res.setHeader('content-encoding', 'gzip')
-    const result = readFileSync(`${distPath}/index.html.gz`)
+    const result = readFileSync(htmlPath)
     res.end(result)
   }
   else {
@@ -44,7 +45,7 @@ export async function genPkgsFile(
   if (!p || typeof p === 'boolean')
     p = './'
   try {
-    const writePath = `${p}/pkgs.${type}`
+    const writePath = path.join(p, `pkgs.${type}`)
     if (type === 'json')
       writeFileSync(writePath, JSON.stringify(genPkgs(depth, relations)))
     else

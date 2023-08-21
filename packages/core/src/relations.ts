@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import { isEmptyObj } from '@truth-cli/shared'
 import type { Relations } from '@truth-cli/shared'
 
@@ -24,11 +25,12 @@ export function genRelations() {
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
-      const pkgPath = `${p}/${dirs[i]}`
+      const pkgPath = path.join(p, dirs[i])
       if ((dirs[i][0] === '.' || dirs[i] === 'lock.yaml') && dirs[i] !== '.pnpm')
         continue
-      if (fs.existsSync(`${pkgPath}/package.json`)) {
-        const pkg = useReadFile(`${pkgPath}/package.json`)
+      const filePath = path.join(pkgPath, 'package.json')
+      if (fs.existsSync(filePath)) {
+        const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
         relations[name] = { version, homepage }
         isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
