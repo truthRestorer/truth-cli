@@ -1,7 +1,15 @@
-import type { IContext, Relations } from '@truth-cli/shared'
+import type { Relations } from '@truth-cli/shared'
 import { useEntries } from '@truth-cli/shared'
 import type { Pkgs } from './pkgs.js'
 import { genPkgs } from './pkgs.js'
+
+interface IContext {
+  source: string
+  push: (symbol: string) => void
+  removeLastElm: () => string
+  dealNewLine: (tabCount: number, shouldAdd?: boolean) => void
+  dealEnd: () => void
+}
 
 enum ESymbol {
   TAB = ' ',
