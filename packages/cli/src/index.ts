@@ -1,6 +1,5 @@
 import { createServer } from 'node:http'
-import { readFile, writeFile } from 'node:fs/promises'
-import path from 'node:path'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { genRelations } from '@truth-cli/core/node'
 import { genPkgTree, genPkgs } from '@truth-cli/core'
 import { distPath, logCommonError, logFileWirteFinished, logLogo, logWebStart } from './const.js'
@@ -9,10 +8,10 @@ const relations = genRelations()
 /**
  * 启动服务器
  */
-const server = createServer(async (req, res) => {
+const server = createServer((req, res) => {
   if (req.url === '/') {
     res.setHeader('content-encoding', 'gzip')
-    const result = await readFile(`${distPath}/index.html.gz`)
+    const result = readFileSync(`${distPath}/index.html.gz`)
     res.end(result)
   }
   else {
@@ -45,10 +44,11 @@ export async function genPkgsFile(
   if (!p || typeof p === 'boolean')
     p = './'
   try {
+    const writePath = `${p}/pkgs.${type}`
     if (type === 'json')
-      await writeFile(path.resolve(p, './pkgs.json'), JSON.stringify(genPkgs(depth, relations)))
+      writeFileSync(writePath, JSON.stringify(genPkgs(depth, relations)))
     else
-      await writeFile(path.resolve(p, './pkgs.txt'), genPkgTree(depth, relations))
+      writeFileSync(writePath, genPkgTree(depth, relations))
     logFileWirteFinished(Date.now() - begin, p, type)
   }
   catch (err: any) {

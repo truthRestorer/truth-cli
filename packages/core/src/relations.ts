@@ -1,12 +1,6 @@
-import { resolve } from 'node:path'
 import fs from 'node:fs'
 import { isEmptyObj } from '@truth-cli/shared'
 import type { Relations } from '@truth-cli/shared'
-
-export function useReadDir(p: string) {
-  const pkgsRoot = fs.readdirSync(p)
-  return pkgsRoot
-}
 
 export function useReadFile(p: string) {
   const json = fs.readFileSync(p)
@@ -28,17 +22,17 @@ export function genRelations() {
    * 读取 node_modules 目录下的所有 package.json 文件
    */
   function readGlob(p: string) {
-    const dirs = useReadDir(p)
+    const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
-      const pkgPath = resolve(p, `${dirs[i]}`)
+      const pkgPath = `${p}/${dirs[i]}`
       if ((dirs[i][0] === '.' || dirs[i] === 'lock.yaml') && dirs[i] !== '.pnpm')
         continue
       if (fs.existsSync(`${pkgPath}/package.json`)) {
         const pkg = useReadFile(`${pkgPath}/package.json`)
         const { name, version, dependencies, devDependencies, homepage } = pkg
         relations[name] = { version, homepage }
-        isEmptyObj(dependencies) || (relations[name]!.dependencies = dependencies)
-        isEmptyObj(devDependencies) || (relations[name]!.devDependencies = devDependencies)
+        isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
+        isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
       }
       else {
         readGlob(pkgPath)

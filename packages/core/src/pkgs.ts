@@ -6,15 +6,20 @@ const pkgSet = new Set()
 /**
  * 向 pkg 中添加节点
  */
-function addPkg(
-  pkg: Pkgs | undefined,
+function getPackages(
   dependencies: { [key: string]: string } | undefined,
-  type: PkgDependency,
+  devDependencies: { [key: string]: string } | undefined,
 ) {
-  if (dependencies && pkg?.packages) {
-    for (const [name, version] of useEntries(dependencies))
-      pkg!.packages[name] = pkgSet.has(name) ? { version, type } : { version, type, packages: {} }
+  const pkgs: { [key: string]: any } = {}
+  for (const [name, version] of useEntries(dependencies)) {
+    const add = { version, type: PkgDependency.DEPENDENCY }
+    pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
   }
+  for (const [name, version] of useEntries(devDependencies)) {
+    const add = { version, type: PkgDependency.DEVDEPENDENCY }
+    pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
+  }
+  return pkgs as Pkgs
 }
 
 export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
@@ -24,32 +29,27 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
     version: version ?? 'latest',
     packages: {} as Pkgs,
   }
-  addPkg(pkgs, devDependencies, PkgDependency.DEVDEPENDENCY)
-  addPkg(pkgs, dependencies, PkgDependency.DEPENDENCY)
+  pkgs.packages = getPackages(dependencies, devDependencies)
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   /**
    * 递归(深度优先)产生 `pkgs.json` 内容数据
    */
-  function loadPkgs(rootPkgs: Pkgs | undefined, maxDep: number) {
-    if (rootPkgs === undefined)
-      return
+  function loadPkgs(rootPkgs: Pkgs, maxDep: number) {
     if (maxDep <= 0) {
       for (const key of Object.keys(rootPkgs))
         delete rootPkgs[key].packages
       return
     }
     for (const key of Object.keys(rootPkgs)) {
-      if (!key.startsWith('.')) {
-        pkgSet.add(key)
-        const { dependencies, devDependencies } = relations[key] ?? {}
-        isEmptyObj(dependencies) || addPkg(rootPkgs[key], dependencies, PkgDependency.DEPENDENCY)
-        isEmptyObj(devDependencies) || addPkg(rootPkgs[key], devDependencies, PkgDependency.DEVDEPENDENCY)
-        if (isEmptyObj(rootPkgs[key].packages))
-          delete rootPkgs[key].packages
+      pkgSet.add(key)
+      const { dependencies, devDependencies } = relations[key] ?? {}
+      rootPkgs[key].packages = getPackages(dependencies, devDependencies)
+      if (isEmptyObj(rootPkgs[key].packages))
+        delete rootPkgs[key].packages
+      else
         loadPkgs(rootPkgs[key].packages, maxDep - 1)
-        shouldOptimize || pkgSet.delete(key)
-      }
+      shouldOptimize || pkgSet.delete(key)
     }
   }
   loadPkgs(pkgs.packages, depth - 1)

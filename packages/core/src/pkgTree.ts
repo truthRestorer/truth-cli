@@ -25,10 +25,7 @@ function createContext() {
         context.push(ESymbol.VERTICAL)
         context.push(ESymbol.TAB.repeat(2))
       }
-      if (shouldAdd)
-        context.push(ESymbol.ADD)
-      else
-        context.push(ESymbol.VERTICAL)
+      context.push(shouldAdd ? ESymbol.ADD : ESymbol.VERTICAL)
     },
     dealEnd() {
       while (Object.values(ESymbol).includes(context.removeLastElm() as ESymbol)) { /* empty */ }
