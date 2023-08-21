@@ -27,6 +27,13 @@ export function initChart(chart: ECharts, _relations: Relations) {
   graphNodeSet = new Set(nodes.map(item => item.name))
   const options = {
     tooltip: {},
+    toolbox: {
+      feature: {
+        saveAsImage: {
+          name: 'NPM Relations',
+        },
+      },
+    },
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
     ...loadGraphOptions(nodes, links),

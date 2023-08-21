@@ -21,11 +21,14 @@ export function loadTreeOptions(tree: Tree) {
       symbolSize: 0,
       tooltip: {
         formatter: (params: any) => {
-          return preDealName(params.name)
+          const name = preDealName(params.name)
+          const value = params.value
+          return `${name} ${value}`
         },
       },
       roam: true,
       label: {
+        show: true,
         formatter(params: any) {
           const name = preDealName(params.name)
           if (params.treeAncestors.length === 2)
