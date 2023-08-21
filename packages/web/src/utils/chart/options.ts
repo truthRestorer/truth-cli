@@ -13,8 +13,8 @@ export function loadTreeOptions(tree: Tree) {
     series: {
       name: 'Tree',
       type: 'tree',
-      left: '30%',
-      right: '25%',
+      left: 400,
+      right: '20%',
       bottom: '2%',
       top: '2%',
       data: [tree],
@@ -72,6 +72,7 @@ export function loadTreeOptions(tree: Tree) {
 export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
   return {
     series: {
+      left: 350,
       name: 'Graph',
       type: 'graph',
       layout: 'force',

@@ -113,13 +113,11 @@ export function toggleChart(legend: Legend) {
   return 'Graph'
 }
 
-export function getPkgInfo(name: string, type: string) {
-  if (type === 'info') {
-    const { relatedPkg, relatedName } = fuzzySearch(name, relations)
-    return relatedName ? { name: relatedName, ...relatedPkg } : undefined
+export function getPkgInfo(name: string) {
+  const { relatedPkg, relatedName } = fuzzySearch(name, relations)
+  return {
+    info: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
+    circulation: getCirculation?.(name, relations),
+    versions: versions?.[name],
   }
-  else if (type === 'circulation') {
-    return getCirculation?.(name, relations)
-  }
-  return versions?.[name]
 }

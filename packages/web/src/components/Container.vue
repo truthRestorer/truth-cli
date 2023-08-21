@@ -21,12 +21,12 @@ function handleTagChange() {
 }
 
 const handleSearch = debounce(() => {
-  pkgInfo.value = getPkgInfo(pkgName.value, 'info')
+  pkgInfo.value = getPkgInfo(pkgName.value)
 })
 
 function handlePkgInfo(command: string) {
   showInfo.value = command
-  pkgInfo.value = getPkgInfo(pkgName.value, command)
+  pkgInfo.value = getPkgInfo(pkgName.value)
 }
 
 const isDark = useDark()
@@ -78,12 +78,9 @@ const isDark = useDark()
     :title="pkgName"
     direction="ltr"
     size="350"
-    style="--el-drawer-padding-primary:16px;position:fixed;z-index:999;top:55px;height: 100%;padding-bottom:80px;"
+    style="--el-drawer-padding-primary:16px;position:fixed;z-index:998;top:50px;height: 100%;padding-bottom:80px;"
   >
     <template #header>
-      <ElButton :checked="true" style="flex:none;" @click="handleTagChange">
-        NPM
-      </ElButton>
       <div class="pkgName">
         <ElScrollbar>
           {{ pkgName }}
@@ -107,14 +104,19 @@ const isDark = useDark()
             <ElDropdownItem command="versions">
               版本信息
             </ElDropdownItem>
+            <ElDropdownItem>
+              <ElButton :checked="true" style="flex:none;" @click="handleTagChange">
+                NPM
+              </ElButton>
+            </ElDropdownItem>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
     </template>
     <ElScrollbar style="font-size:14px;color:var(--el-text-color-primary);line-height:26px;">
-      <JsonInfo v-if="showInfo === 'info'" :data="pkgInfo" />
-      <JsonCirculation v-else-if="showInfo === 'circulation'" :data="pkgInfo" />
-      <JsonVersions v-else :data="pkgInfo" />
+      <JsonInfo v-if="showInfo === 'info'" :data="pkgInfo?.info" />
+      <JsonCirculation v-else-if="showInfo === 'circulation'" :data="pkgInfo?.circulation" />
+      <JsonVersions v-else :data="pkgInfo?.versions" />
     </ElScrollbar>
   </ElDrawer>
 </template>
@@ -158,7 +160,6 @@ a:hover {
 }
 
 .pkgName {
-  flex: 1;
   font-weight: 700;
   font-size: 20px;
   overflow: hidden;

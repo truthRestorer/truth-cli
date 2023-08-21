@@ -9,7 +9,7 @@ import { preDealName } from '../utils/preDealName'
 const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
 const pkgName = ref('__root__')
-const pkgInfo = ref<any>(relations.__root__)
+const pkgInfo = ref<any>({ info: relations.__root__ })
 const canvasRef = ref(null)
 const { width, height } = useElementSize(canvasRef)
 provide('pkgName', pkgName)
@@ -23,7 +23,7 @@ onMounted(async () => {
   chartDOM.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = preDealName(data.name)
-    pkgInfo!.value = getPkgInfo(pkgName.value, 'info')
+    pkgInfo!.value = getPkgInfo(pkgName.value)
     if (seriesType === 'tree') {
       if (collapsed)
         removeTreeNode(data)

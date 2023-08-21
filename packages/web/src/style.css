@@ -17,8 +17,8 @@ a {
 .el-drawer__header {
   margin-bottom: 10px!important;
 }
-.el-tabs {
-  min-width: max-content;
+.el-drawer {
+  box-shadow: none!important;
 }
 .modal {
   position: unset!important;
