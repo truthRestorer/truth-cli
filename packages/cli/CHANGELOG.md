@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.8.9
+
+### Patch Changes
+
+- 276e3201: 修复已知问题，性能提升
+
 ## 0.8.8
 
 ### Patch Changes
