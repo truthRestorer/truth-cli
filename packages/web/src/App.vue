@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import Layout from './views/Layout.vue'
+import Chart from './components/Chart.vue'
 </script>
 
 <template>
   <Suspense>
-    <Layout />
+    <div style="overflow: hidden;">
+      <Chart />
+    </div>
   </Suspense>
 </template>

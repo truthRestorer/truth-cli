@@ -1,16 +1,30 @@
 import type { ECharts } from 'echarts/core'
-import type { Links, Nodes, Relations, Tree } from '@truth-cli/shared'
+import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
-import { genGraph, genTree } from '@truth-cli/core'
+import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import { preDealName } from '../preDealName'
-import type { Legend } from '../../types'
+import type { Legend, PkgInfo } from '../../types'
 import { loadGraphOptions, loadTreeOptions, resetOptions } from './options'
+import { fuzzySearch, getCirculation } from './tools'
 
 let echart: ECharts
+let graphNodeSet: Set<string>
+const treeNodeMap = new Map()
+let relations: Relations
+let nodes: Nodes[]
+let links: Links[]
+let tree: Tree
+let versions: Versions
 
-export function initChart(chart: ECharts, relations: Relations) {
-  const { nodes, links } = genGraph(relations.__root__)
+export function initChart(chart: ECharts, _relations: Relations) {
+  relations = _relations
   echart = chart
+  const graph = genGraph(relations.__root__)
+  nodes = graph.nodes
+  links = graph.links
+  tree = genTree(1, relations)
+  versions = genVersions(relations)
+  graphNodeSet = new Set(nodes.map(item => item.name))
   const options = {
     tooltip: {},
     animationThreshold: 16777216,
@@ -20,101 +34,90 @@ export function initChart(chart: ECharts, relations: Relations) {
   echart.setOption(options)
 }
 
-export class TreeChart {
-  tree: Tree
-  private treeNodeMap = new Map()
-  constructor(public relations: Relations) {
-    this.tree = genTree(1, relations)
+export function collapseNode(legend: Legend) {
+  if (legend === 'Graph') {
+    const { nodes: _nodes, links: _links } = genGraph(relations.__root__)
+    nodes = _nodes
+    links = _links
+    graphNodeSet = new Set(_nodes.map(item => item.name))
+    echart?.setOption(resetOptions('Graph', {
+      nodes: _nodes,
+      links: _links,
+    }))
   }
-
-  renderChart(): Legend {
-    echart?.setOption(loadTreeOptions(this.tree))
-    return 'Tree'
-  }
-
-  addTreeNode(ancestors: any, data: any) {
-    // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
-    const name = preDealName(data.name)
-    const { dependencies, devDependencies } = this.relations[name] ?? {}
-    const pkg = useAssign(dependencies, devDependencies)
-    if (
-      data.children.length
-      || isEmptyObj(pkg)
-    )
-      return
-    let child = this.tree.children
-    for (let i = 2; i < ancestors.length; i++) {
-      const item = child.find((item: any) => item.name === ancestors[i].name)!
-      this.treeNodeMap.set(item.name, item)
-      child = item.children
-    }
-    for (const map of this.treeNodeMap.values())
-      map.collapsed = false
-    for (const [pkgName, pkgVersion] of useEntries(pkg)) {
-      child.push({
-        name: `${pkgName}--${data.name}`,
-        value: pkgVersion,
-        children: [],
-      })
-    }
-    echart?.setOption(resetOptions('Tree', { tree: this.tree }))
-  }
-
-  removeTreeNode(data: any) {
-    const node = this.treeNodeMap.get(data.name)
-    node && (node.collapsed = true)
-    this.treeNodeMap.delete(data.name)
-  }
-
-  collapseTreeNode() {
-    for (const map of this.treeNodeMap.values())
+  else {
+    for (const map of treeNodeMap.values())
       map.collapsed = true
-    this.treeNodeMap.clear()
-    echart?.setOption(resetOptions('Tree', { tree: this.tree }))
+    treeNodeMap.clear()
+    echart?.setOption(resetOptions('Tree', { tree }))
   }
 }
 
-export class GraphChart {
-  nodes: Nodes[]
-  links: Links[]
-  nodesSet: Set<string>
-  constructor(public relations: Relations) {
-    const { nodes, links } = genGraph(relations.__root__)
-    this.nodes = nodes
-    this.links = links
-    this.nodesSet = new Set(this.nodes.map(item => item.name))
+export function addTreeNode(ancestors: any, data: any) {
+  // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
+  const name = preDealName(data.name)
+  const { dependencies, devDependencies } = relations[name] ?? {}
+  const pkg = useAssign(dependencies, devDependencies)
+  if (
+    data.children.length
+    || isEmptyObj(pkg)
+  )
+    return
+  let child = tree.children
+  for (let i = 2; i < ancestors.length; i++) {
+    const item = child.find((item: any) => item.name === ancestors[i].name)!
+    treeNodeMap.set(item.name, item)
+    child = item.children
   }
-
-  renderChart(): Legend {
-    echart?.setOption(loadGraphOptions(this.nodes, this.links))
-    return 'Graph'
+  for (const map of treeNodeMap.values())
+    map.collapsed = false
+  for (const [pkgName, pkgVersion] of useEntries(pkg)) {
+    child.push({
+      name: `${pkgName}--${data.name}`,
+      value: pkgVersion,
+      children: [],
+    })
   }
+  echart?.setOption(resetOptions('Tree', { tree }))
+}
 
-  collapseGraphNode() {
-    const { nodes, links } = genGraph(this.relations.__root__)
-    this.nodes = nodes
-    this.links = links
-    this.nodesSet.clear()
-    echart?.setOption(resetOptions('Graph', {
-      nodes: this.nodes,
-      links: this.links,
-    }))
+export function addGraphNode(name: string) {
+  if (name === '__root__' || !relations[name])
+    return
+  const { nodes: _nodes, links: _links } = genGraph(relations[name], name)
+  links.push(..._links)
+  graphNodeSet.add(name)
+  for (let i = 0; i < _nodes.length; i++) {
+    if (!graphNodeSet.has(_nodes[i].name))
+      nodes.push(_nodes[i])
+    graphNodeSet.add(_nodes[i].name)
   }
+  echart?.setOption(resetOptions('Graph', {
+    nodes,
+    links,
+  }))
+}
 
-  addGraph(name: string) {
-    if (name === '__root__' || !this.relations[name])
-      return
-    const { nodes, links } = genGraph(this.relations[name], name)
-    this.links.push(...links)
-    this.nodesSet.add(name)
-    for (let i = 0; i < nodes.length; i++) {
-      if (!this.nodesSet.has(nodes[i].name))
-        this.nodes.push(nodes[i])
-      this.nodesSet.add(nodes[i].name)
-    }
-    echart?.setOption(resetOptions('Graph', {
-      nodes: this.nodes,
-      links: this.links,
-    }))
+export function removeTreeNode(data: any) {
+  const node = treeNodeMap.get(data.name)
+  node && (node.collapsed = true)
+  treeNodeMap.delete(data.name)
+}
+
+export function toggleChart(legend: Legend) {
+  if (legend === 'Graph') {
+    echart?.setOption(loadTreeOptions(tree))
+    return 'Tree'
+  }
+  echart.setOption(loadGraphOptions(nodes, links))
+  return 'Graph'
+}
+
+export function getPkgInfo(name: string): PkgInfo {
+  const { relatedPkg, relatedName } = fuzzySearch(name, relations)
+  return {
+    __info__: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
+    __circulation__: getCirculation?.(name, relations),
+    __versions__: versions?.[name],
   }
 }

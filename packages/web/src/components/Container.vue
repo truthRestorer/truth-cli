@@ -2,16 +2,13 @@
 import { Moon, Search, Sunny } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
-import { type GraphChart, type TreeChart } from '../utils/chart/index'
 import { debounce } from '../utils/debounce'
 import type { Legend, PkgInfo } from '../types'
-import { getPkgInfo } from '../utils/chart/tools'
+import { collapseNode, getPkgInfo, toggleChart } from '../utils/chart'
 
 const legend = ref<Legend>('Graph')
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
-const treeChart = inject<TreeChart>('treeChart')!
-const graphChart = inject<GraphChart>('graphChart')!
 const activeName = ref('info')
 const drawer = ref(true)
 const checked = ref(true)
@@ -24,21 +21,15 @@ function handleTagChange() {
   window.open(`https://npmjs.com/package/${pkgName.value}`)
 }
 function toggleLegend() {
-  if (legend.value === 'Tree')
-    legend.value = graphChart.renderChart()
-  else
-    legend.value = treeChart.renderChart()
+  legend.value = toggleChart(legend.value)
 }
 
 const handleSearch = debounce(() => {
-  pkgInfo.value = getPkgInfo(pkgName.value, treeChart.relations)
+  pkgInfo.value = getPkgInfo(pkgName.value)
 })
 
 function handleCollapse() {
-  if (legend.value === 'Tree')
-    treeChart.collapseTreeNode()
-  else
-    graphChart.collapseGraphNode()
+  collapseNode(legend.value)
 }
 
 const isDark = useDark()
@@ -117,11 +108,6 @@ const isDark = useDark()
 
 <style scoped>
 .header {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: space-between;
   background-color: var(--el-bg-color);
@@ -146,6 +132,9 @@ const isDark = useDark()
       font-weight: 500;
       letter-spacing: 4px;
     }
+  }
+  & .link {
+    min-width: max-content;
   }
 }
 a {
