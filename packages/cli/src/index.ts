@@ -20,7 +20,7 @@ const server = createServer((req, res) => {
   }
 })
 
-export async function genByCommand() {
+export function genByCommand() {
   const begin = Date.now()
   logLogo()
   try {
@@ -35,7 +35,7 @@ export async function genByCommand() {
 /**
  * 只写入文件，不打开网页
  */
-export async function genPkgsFile(
+export function genPkgsFile(
   depth: number,
   type: 'json' | 'txt',
   p?: string | boolean,

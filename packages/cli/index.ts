@@ -21,16 +21,16 @@ program
   .description(analyzeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '3')
   .option('-j, --json [file-path]', filePathOptionWords)
-  .action(async ({ dep, json }) => {
+  .action(({ dep, json }) => {
     try {
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
       if (json) {
-        await genPkgsFile(depth, 'json', json)
+        genPkgsFile(depth, 'json', json)
         return
       }
-      await genByCommand()
+      genByCommand()
     }
     catch (err: any) {
       logCommonError(err.message)
@@ -42,12 +42,12 @@ program
   .description(treeCommandWords)
   .option('-d, --dep [depth]', depthOptionWords, '1')
   .option('-f, --file [file-path]', filePathOptionWords)
-  .action(async ({ dep, file }) => {
+  .action(({ dep, file }) => {
     try {
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      await genPkgsFile(dep, 'txt', file)
+      genPkgsFile(dep, 'txt', file)
     }
     catch (err: any) {
       logCommonError(err.message)
