@@ -47,4 +47,4 @@ export const filePathOptionWords = chalk.yellowBright('The path of output file')
 
 export const treeCommandWords = chalk.cyan.bold('Generate pkgs.txt file')
 
-export const distPath = resolve(__dirname, './')
+export const htmlPath = resolve(__dirname, 'index.html.gz')
