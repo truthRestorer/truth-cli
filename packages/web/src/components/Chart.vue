@@ -38,9 +38,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ElScrollbar>
-    <Toolbox />
-    <Container />
-    <div id="chart" ref="canvasRef" style="padding-top: 50px;height:calc(100vh - 60px);" />
-  </ElScrollbar>
+  <Container />
+  <div id="chart" ref="canvasRef" style="padding-top: 50px;height:calc(100vh - 60px);" />
 </template>

@@ -4,8 +4,6 @@ import Chart from './components/Chart.vue'
 
 <template>
   <Suspense>
-    <div style="overflow: hidden;">
-      <Chart />
-    </div>
+    <Chart />
   </Suspense>
 </template>
