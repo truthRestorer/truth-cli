@@ -18,20 +18,20 @@ let versions: Versions
 
 export function initChart(chart: ECharts, _relations: Relations) {
   relations = _relations
-  echart = chart
   const graph = genGraph(relations.__root__)
   nodes = graph.nodes
   links = graph.links
-  tree = genTree(1, relations)
-  versions = genVersions(relations)
-  graphNodeSet = new Set(nodes.map(item => item.name))
   const options = {
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
     ...loadGraphOptions(nodes, links),
   }
-  echart.setOption(options)
+  chart.setOption(options)
+  echart = chart
+  tree = genTree(1, relations)
+  versions = genVersions(relations)
+  graphNodeSet = new Set(nodes.map(item => item.name))
 }
 
 export function collapseNode(legend: Legend) {
