@@ -19,7 +19,6 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     Github: typeof import('./src/components/Github.vue')['default']
-    Header: typeof import('./src/components/Header.vue')['default']
     JsonCirculation: typeof import('./src/components/JsonCirculation.vue')['default']
     JsonInfo: typeof import('./src/components/JsonInfo.vue')['default']
     JsonString: typeof import('./src/components/JsonString.vue')['default']
