@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { Moon, Search, Sunny } from '@element-plus/icons-vue'
+import { ArrowDown, Moon, Search, Sunny } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
 import { useDark } from '@vueuse/core'
 import { debounce } from '../utils/debounce'
-import type { Legend, PkgInfo } from '../types'
+import type { Legend } from '../types'
 import { collapseNode, getPkgInfo, toggleChart } from '../utils/chart'
 
+const showInfo = ref('info')
 const pkgName = inject<Ref<string>>('pkgName')!
-const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
+const pkgInfo = inject<Ref<any>>('pkgInfo')!
 const legend = ref<Legend>('Graph')
 const drawer = ref(true)
 
@@ -20,8 +21,13 @@ function handleTagChange() {
 }
 
 const handleSearch = debounce(() => {
-  pkgInfo.value = getPkgInfo(pkgName.value)
+  pkgInfo.value = getPkgInfo(pkgName.value, 'info')
 })
+
+function handlePkgInfo(command: string) {
+  showInfo.value = command
+  pkgInfo.value = getPkgInfo(pkgName.value, command)
+}
 
 const isDark = useDark()
 </script>
@@ -34,7 +40,7 @@ const isDark = useDark()
       </div>
     </div>
     <div class="right">
-      <ElInput v-model="pkgName" style="max-width: 300px;" placeholder="搜索依赖" @input="handleSearch">
+      <ElInput v-model="pkgName" style="max-width:300px;" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
           <ElIcon>
             <Search />
@@ -68,42 +74,62 @@ const isDark = useDark()
     v-model="drawer"
     :modal="false"
     modal-class="modal"
+    :show-close="false"
     :title="pkgName"
     direction="ltr"
-    size="22%"
-    style="--el-drawer-padding-primary:16px;position:fixed;z-index: 9999;"
+    size="350"
+    style="--el-drawer-padding-primary:16px;position:fixed;z-index:999;top:55px;height: 100%;padding-bottom:80px;"
   >
     <template #header>
-      <ElCheckTag :checked="true" style="flex:none;" @change="handleTagChange">
+      <ElButton :checked="true" style="flex:none;" @click="handleTagChange">
         NPM
-      </ElCheckTag>
-      <div style="flex: 1;font-weight: 700;font-size: 20px;color: var(--el-text-color-primary);">
-        {{ pkgName }}
+      </ElButton>
+      <div class="pkgName">
+        <ElScrollbar>
+          {{ pkgName }}
+        </ElScrollbar>
       </div>
+      <ElDropdown @command="handlePkgInfo">
+        <ElButton type="primary">
+          INFO
+          <ElIcon class="el-icon--right">
+            <ArrowDown />
+          </ElIcon>
+        </ElButton>
+        <template #dropdown>
+          <ElDropdownMenu>
+            <ElDropdownItem command="info">
+              依赖信息
+            </ElDropdownItem>
+            <ElDropdownItem command="circulation">
+              循环依赖
+            </ElDropdownItem>
+            <ElDropdownItem command="versions">
+              版本信息
+            </ElDropdownItem>
+          </ElDropdownMenu>
+        </template>
+      </ElDropdown>
     </template>
-    <ElScrollbar always style="font-size: 14px;color: var(--el-text-color-primary);line-height: 26px;">
-      <ElTabs active-name="info">
-        <ElTabPane label="依赖信息" name="info">
-          <JsonInfo :data="pkgInfo?.info" />
-        </ElTabPane>
-        <ElTabPane label="循环依赖" name="circulation">
-          <JsonCirculation :data="pkgInfo?.circulation" />
-        </ElTabPane>
-        <ElTabPane label="多版本" name="versions">
-          <JsonVersions :data="pkgInfo?.versions " />
-        </ElTabPane>
-      </ElTabs>
+    <ElScrollbar style="font-size:14px;color:var(--el-text-color-primary);line-height:26px;">
+      <JsonInfo v-if="showInfo === 'info'" :data="pkgInfo" />
+      <JsonCirculation v-else-if="showInfo === 'circulation'" :data="pkgInfo" />
+      <JsonVersions v-else :data="pkgInfo" />
     </ElScrollbar>
   </ElDrawer>
 </template>
 
 <style scoped>
 .header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   background-color: var(--el-bg-color);
-  padding: 8px 15px;
-  max-height: 60px;
+  padding: 0px 15px;
+  height: 50px;
   box-shadow: 0 1px 4px rgba(100, 100, 100, .3);
   transition: background-color .4s!important;
   & .right, .left, .link{
@@ -111,29 +137,32 @@ const isDark = useDark()
     align-items: center;
     gap: 16px;
   }
-  & .right {
-    flex: 3;
-    justify-content: flex-end;
-  }
-  & .left {
-    flex: 1;
-    margin-left: 22%;
-    & .logo {
-      font-size: 24px;
-      font-weight: 500;
-      letter-spacing: 4px;
-    }
+  & .logo {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 4px;
   }
   & .link {
     min-width: max-content;
   }
 }
+
 a {
   font-size: 14px;
   border-bottom: 2px solid transparent;
   transition: border-color 0.25s;
 }
+
 a:hover {
   border-color: #75dcff;
+}
+
+.pkgName {
+  flex: 1;
+  font-weight: 700;
+  font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--el-text-color-primary);
 }
 </style>

@@ -3,7 +3,7 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import { preDealName } from '../preDealName'
-import type { Legend, PkgInfo } from '../../types'
+import type { Legend } from '../../types'
 import { loadGraphOptions, loadTreeOptions, resetOptions } from './options'
 import { fuzzySearch, getCirculation } from './tools'
 
@@ -113,11 +113,13 @@ export function toggleChart(legend: Legend) {
   return 'Graph'
 }
 
-export function getPkgInfo(name: string): PkgInfo {
-  const { relatedPkg, relatedName } = fuzzySearch(name, relations)
-  return {
-    info: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
-    circulation: getCirculation?.(name, relations),
-    versions: versions?.[name],
+export function getPkgInfo(name: string, type: string) {
+  if (type === 'info') {
+    const { relatedPkg, relatedName } = fuzzySearch(name, relations)
+    return relatedName ? { name: relatedName, ...relatedPkg } : undefined
   }
+  else if (type === 'circulation') {
+    return getCirculation?.(name, relations)
+  }
+  return versions?.[name]
 }
