@@ -1,6 +1,7 @@
 body {
   margin: 0;
   height: 100vh;
+  overflow: hidden;
   background-color: var(--el-bg-color-overlay);
   background-image: linear-gradient(var(--el-color-info-light-9) 1px,transparent 0),linear-gradient(90deg,var(--el-color-info-light-9) 1px,transparent 0);
   background-size: 30px 30px,30px 30px;
