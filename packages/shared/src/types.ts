@@ -10,11 +10,6 @@ export interface Links {
   target: string
 }
 
-export enum GraphDependency {
-  DEPENDENCY,
-  ROOT_DEPENDENCY,
-  ROOT,
-}
 export interface Tree {
   name: string
   value: string
@@ -33,18 +28,6 @@ export interface Relation {
 export interface Relations {
   __root__: Relation
   [key: string]: Relation
-}
-
-export enum PkgDependency {
-  'DEVDEPENDENCY',
-  'DEPENDENCY',
-}
-
-export interface Pkgs {
-  version: string
-  type?: PkgDependency
-  packages?: Pkgs
-  [key: string]: any
 }
 
 export interface Versions {

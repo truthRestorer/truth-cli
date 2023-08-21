@@ -1,5 +1,17 @@
-import { PkgDependency, isEmptyObj, useEntries } from '@truth-cli/shared'
-import type { Pkgs, Relations } from '@truth-cli/shared'
+import { isEmptyObj, useEntries } from '@truth-cli/shared'
+import type { Relations } from '@truth-cli/shared'
+
+enum PkgDependency {
+  'DEVDEPENDENCY',
+  'DEPENDENCY',
+}
+
+export interface Pkgs {
+  version: string
+  type?: PkgDependency
+  packages?: Pkgs
+  [key: string]: any
+}
 
 // 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
 const pkgSet = new Set()

@@ -20,7 +20,7 @@ export function genTree(depth: number, relations: Relations) {
    * 当 depth > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
    */
   function loadTrees(trees: Tree[], depth: number) {
-    if (!trees || depth <= 0)
+    if (depth <= 0)
       return
     for (let i = 0; i < trees.length; i++) {
       const tree = trees[i]

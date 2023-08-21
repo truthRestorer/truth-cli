@@ -1,5 +1,6 @@
-import type { IContext, Pkgs, Relations } from '@truth-cli/shared'
+import type { IContext, Relations } from '@truth-cli/shared'
 import { useEntries } from '@truth-cli/shared'
+import type { Pkgs } from './pkgs.js'
 import { genPkgs } from './pkgs.js'
 
 enum ESymbol {

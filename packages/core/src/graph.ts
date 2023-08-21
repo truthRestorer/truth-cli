@@ -1,5 +1,11 @@
-import { GraphDependency, useAssign, useEntries } from '@truth-cli/shared'
+import { useAssign, useEntries } from '@truth-cli/shared'
 import type { Links, Nodes, Relation } from '@truth-cli/shared'
+
+enum GraphDependency {
+  DEPENDENCY,
+  ROOT_DEPENDENCY,
+  ROOT,
+}
 
 export function genGraph(relation: Relation, target?: string) {
   const nodesSet = new Set() // 避免相同的 node
