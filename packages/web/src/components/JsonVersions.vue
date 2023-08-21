@@ -10,7 +10,7 @@ const { data } = defineProps<{
   <div v-if="data">
     <div v-for="(item, key) in data" :key="key">
       <span size="large" class="key">{{ key }}</span>
-      <div v-for="version in item" :key="version" class="item pkg">
+      <div v-for="version in item" :key="version" class="item pkg" style="padding-left: 16px;">
         - {{ version }}
       </div>
     </div>
@@ -19,13 +19,3 @@ const { data } = defineProps<{
     该依赖不存在多个版本
   </div>
 </template>
-
-<style scoped>
-.key {
-  font-weight: 700;
-  padding: 5px;
-}
-.item {
-  padding-left: 24px;
-}
-</style>

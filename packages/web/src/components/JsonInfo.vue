@@ -13,7 +13,7 @@ const { data } = defineProps<{
         <div class="key">
           {{ key }}
         </div>
-        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg pl">
+        <div v-for="(pkgVersion, pkgName) in value" :key="pkgName" class="pkg pl" style="padding-left: 16px;">
           <div style="line-height: 22px;">
             <span>- {{ pkgName }}</span>
             <span class="value">{{ pkgVersion }}</span>
@@ -22,7 +22,7 @@ const { data } = defineProps<{
       </div>
       <div v-else>
         <span class="key">{{ key }}</span>
-        <a v-if="key === 'homepage'" :href="value" target="_blank" style="padding-left: 8px;">{{ value }}</a>
+        <a v-if="key === 'homepage'" :href="value" target="_blank" style="padding-left: 8px;color: var(--el-color-primary);">{{ value }}</a>
         <span v-else class="value">{{ value }}</span>
       </div>
     </div>
@@ -33,15 +33,6 @@ const { data } = defineProps<{
 </template>
 
 <style scoped>
-a {
-  color: var(--el-color-primary);
-}
-.pl {
-  padding-left: 16px;
-}
-.key {
-  font-weight: 700;
-}
 .value {
   padding-left: 8px;
   color: #13ce66;

@@ -32,3 +32,6 @@ a {
   color: var(--el-color-success);
   padding: 0 6px;
 }
+.key {
+  font-weight: 700;
+}
