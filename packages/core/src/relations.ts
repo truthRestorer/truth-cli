@@ -37,6 +37,9 @@ export function genRelations() {
         isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
       }
       else {
+        // 这里之所以不用判断是不是文件夹，是因为 node_modules 本身的性质
+        // 你可能会看到有的包下面还有 node_modules，一般情况下，这里面只包含 .bin 执行脚本
+        // 如果 node_modules 里面还有其他包，说明这个包可能打包有问题
         readGlob(pkgPath)
       }
     }
