@@ -10,18 +10,6 @@ a {
   color: var(--el-text-color-primary);
   text-decoration: none;
 }
-.el-button+.el-button {
-  margin-left: 0!important;
-}
-.el-drawer__header {
-  margin-bottom: 10px!important;
-}
-.el-drawer {
-  box-shadow: none!important;
-}
-.modal {
-  position: unset!important;
-}
 .pkg {
   cursor: pointer;
   transition: background-color .05s;

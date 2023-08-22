@@ -8,7 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Chart: typeof import('./src/components/Chart.vue')['default']
-    Container: typeof import('./src/components/Container.vue')['default']
+    Container: typeof import('./src/components/Container/index.vue')['default']
+    Drawer: typeof import('./src/components/Container/Drawer/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
@@ -18,9 +19,11 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
-    Github: typeof import('./src/components/Github.vue')['default']
-    JsonCirculation: typeof import('./src/components/JsonCirculation.vue')['default']
-    JsonInfo: typeof import('./src/components/JsonInfo.vue')['default']
-    JsonVersions: typeof import('./src/components/JsonVersions.vue')['default']
+    Header: typeof import('./src/components/Container/Header/index.vue')['default']
+    JsonCirculation: typeof import('./src/components/Json/JsonCirculation.vue')['default']
+    JsonInfo: typeof import('./src/components/Json/JsonInfo.vue')['default']
+    JsonVersions: typeof import('./src/components/Json/JsonVersions.vue')['default']
+    JsonView: typeof import('./src/components/Container/Drawer/JsonView.vue')['default']
+    Link: typeof import('./src/components/Container/Header/Link.vue')['default']
   }
 }
