@@ -37,13 +37,13 @@ export function initChart(chart: ECharts, _relations: Relations) {
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
     const { nodes: _nodes, links: _links } = genGraph(relations.__root__)
-    nodes = _nodes
-    links = _links
-    graphNodeSet = new Set(_nodes.map(item => item.name))
     echart?.setOption(resetOptions('Graph', {
       nodes: _nodes,
       links: _links,
     }))
+    nodes = _nodes
+    links = _links
+    graphNodeSet = new Set(_nodes.map(item => item.name))
   }
   else {
     for (const map of treeNodeMap.values())
