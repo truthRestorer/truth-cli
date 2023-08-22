@@ -36,14 +36,14 @@ export function initChart(chart: ECharts, _relations: Relations) {
 
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
-    const { nodes: _nodes, links: _links } = genGraph(relations.__root__)
+    const graph = genGraph(relations.__root__)
     echart?.setOption(resetOptions('Graph', {
-      nodes: _nodes,
-      links: _links,
+      nodes: graph.nodes,
+      links: graph.links,
     }))
-    nodes = _nodes
-    links = _links
-    graphNodeSet = new Set(_nodes.map(item => item.name))
+    nodes = graph.nodes
+    links = graph.links
+    graphNodeSet = new Set(nodes.map(item => item.name))
   }
   else {
     for (const map of treeNodeMap.values())
@@ -84,13 +84,13 @@ export function addTreeNode(ancestors: any, data: any) {
 export function addGraphNode(name: string) {
   if (name === '__root__' || !relations[name])
     return
-  const { nodes: _nodes, links: _links } = genGraph(relations[name], name)
-  links.push(..._links)
+  const graph = genGraph(relations[name], name)
+  links.push(...graph.links)
   graphNodeSet.add(name)
-  for (let i = 0; i < _nodes.length; i++) {
-    if (!graphNodeSet.has(_nodes[i].name))
-      nodes.push(_nodes[i])
-    graphNodeSet.add(_nodes[i].name)
+  for (let i = 0; i < graph.nodes.length; i++) {
+    if (!graphNodeSet.has(graph.nodes[i].name))
+      nodes.push(graph.nodes[i])
+    graphNodeSet.add(graph.nodes[i].name)
   }
   echart?.setOption(resetOptions('Graph', {
     nodes,
