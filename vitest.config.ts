@@ -7,12 +7,6 @@ export default mergeConfig(
     test: {
       exclude: ['node_modules/**'],
       globals: true,
-      environment: 'happy-dom',
-      deps: {
-        inline: [
-          'echarts',
-        ],
-      },
     },
   }),
 )
