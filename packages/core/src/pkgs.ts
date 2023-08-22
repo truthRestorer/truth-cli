@@ -18,6 +18,7 @@ const pkgSet = new Set()
 /**
  * 向 pkg 中添加节点
  */
+// FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
 function getPackages(
   dependencies: { [key: string]: string } | undefined,
   devDependencies: { [key: string]: string } | undefined,
