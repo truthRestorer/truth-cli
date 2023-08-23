@@ -52,15 +52,15 @@ const handleSearch = debounce(() => {
   background-color: var(--el-bg-color);
   padding: 0px 16px;
   height: 50px;
-  box-shadow: 0 1px 4px rgba(100, 100, 100, .3);
-  transition: background-color .4s!important;
-  & .right, .left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  & .left {
-    font-size: 26px;
-  }
+  box-shadow: var(--el-box-shadow-light);
+  transition: background-color 0.4s !important;
+}
+.right, .left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.left {
+  font-size: 26px;
 }
 </style>

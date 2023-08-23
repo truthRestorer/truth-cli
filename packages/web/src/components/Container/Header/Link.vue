@@ -38,13 +38,15 @@ const isDark = useDark()
   align-items: center;
   gap: 16px;
   min-width: max-content;
-  & a {
-    font-size: 14px;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.25s;
-  }
-  & a:hover {
-    border-color: #75dcff;
-  }
+}
+a {
+  color: var(--el-color-info-dark-2);
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s;
+}
+a:hover {
+  border-color: #75dcff;
 }
 </style>

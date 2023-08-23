@@ -38,4 +38,7 @@ const { data } = defineProps<{
   color: #13ce66;
   line-height: 22px;
 }
+a {
+  color: var(--el-text-color-primary);
+}
 </style>

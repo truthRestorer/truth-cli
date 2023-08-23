@@ -88,7 +88,7 @@ function handlePkgInfo(command: string) {
   margin-bottom: 10px;
 }
 .el-drawer {
-  box-shadow: none;
+  box-shadow: var(--el-box-shadow-lighter);
 }
 .modal {
   position: unset!important;
