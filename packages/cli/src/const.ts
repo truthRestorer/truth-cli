@@ -1,40 +1,48 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { Chalk } from 'chalk'
+import pc from 'picocolors'
 import { description as c, version as v } from '../package.json'
 
-const chalk = new Chalk({ level: 3 })
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export function logCommonError(message: string) {
-  const commonError = `\n  ${chalk.bgRedBright('Error!')} ${chalk.cyan.yellow('Here is error message:')}`
+export function logError(message: string) {
+  const commonError = `\n  ${pc.bgRed('Error!')} ${pc.yellow('Here is error message:')}`
   console.log(`${commonError}: ${message}\n`)
 }
 
 export function logLogo() {
-  const logo = `\n  ${chalk.greenBright.bold('TRUTH-CLI')} ${chalk.greenBright(`v${v}`)}\n`
+  const logo = `\n  ${pc.green(pc.bold('TRUTH-CLI'))} ${pc.green(`v${v}`)}\n`
   console.log(logo)
 }
 
 export function logWebStart(duration: number, port: number) {
   logLogo()
-  const webStart = `  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan(`http://localhost:${port}`)}\t`
-  console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  const webStart = `  ${pc.white(pc.bold('Local'))}: ${pc.cyan(`http://localhost:${port}`)}\t`
+  console.log(`${webStart} ${pc.dim('ready in')} ${pc.white(pc.bold(duration))} ${pc.dim('ms')}\n`)
 }
 
 export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt') {
   logLogo()
-  console.log(`  ➜  ${chalk.whiteBright.bold('File:')}: ${chalk.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
+  console.log(`  ${pc.white(pc.bold('File:'))}: ${pc.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${pc.dim('ready in')} ${pc.white(pc.bold(duration))} ${pc.dim('ms')}\n`)
 }
 
-export const description = chalk.cyan.bold(c)
-export const version = chalk.greenBright.bold(v)
+export function logRedload(times: number) {
+  const date = new Date()
+  const hh = date.getHours()
+  const mm = date.getMinutes()
+  const ss = date.getSeconds()
+  const reloadWords = `${pc.dim(`${hh}:${mm}:${ss}`)} ${pc.cyan(pc.bold('[truth-cli]'))} ${pc.dim('reload')} ${times ? '' : pc.yellow(pc.bold(`x${times}`))}`
+  console.log(reloadWords)
+}
 
-export const analyzeCommandWords = chalk.cyan.bold('Help developer analyze npm packages')
-export const depthOptionWords = chalk.yellowBright('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
-export const filePathOptionWords = chalk.yellowBright('The path of output file')
+export const description = pc.cyan(pc.bold(c))
+export const version = pc.green(pc.bold(v))
 
-export const treeCommandWords = chalk.cyan.bold('Generate pkgs.txt file')
+export const analyzeCommandWords = pc.cyan(pc.bold('Help developer analyze npm packages'))
+export const depthOptionWords = pc.yellow('The depth of the packages, 3 for tree and 2 for pkgs.json by default')
+export const filePathOptionWords = pc.yellow('The path of output file')
+
+export const treeCommandWords = pc.cyan(pc.bold('Generate pkgs.txt file'))
 
 export const htmlPath = path.resolve(__dirname, 'index.html.gz')
