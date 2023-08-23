@@ -1,8 +1,6 @@
 import { cac } from 'cac'
 import {
-  depOpts,
   logError,
-  pathOpts,
 } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
@@ -15,10 +13,10 @@ cli.command('web').action(() => {
 
 cli
   .command('json')
-  .option('--dep [dep]', depOpts(), {
+  .option('--dep [dep]', 'Dependency depth, default is 1', {
     default: 1,
   })
-  .option('--path [path]', pathOpts(), {
+  .option('--path [path]', 'Path to generate pkgs.json file, the default is ./', {
     default: './',
   })
   .action(({ dep, path }) => {
@@ -35,10 +33,10 @@ cli
 
 cli
   .command('tree')
-  .option('--dep [dep]', depOpts(), {
+  .option('--dep [dep]', 'Dependency depth, default is 1', {
     default: 1,
   })
-  .option('--path [path]', pathOpts(), {
+  .option('--path [path]', 'Path to generate pkgs.txt file, the default is ./', {
     default: './',
   })
   .action(({ dep, file }) => {
