@@ -1,52 +1,49 @@
-import { Command } from 'commander'
+import { cac } from 'cac'
 import {
-  analyzeCommandWords,
   depthOptionWords,
-  description,
   filePathOptionWords,
   logError,
-  treeCommandWords,
   version,
 } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
 
-const program = new Command()
-program
-  .name('truth-cli')
-  .description(description)
-  .version(version)
+const cli = cac('truth-cli')
 
-program
-  .command('analyze')
-  .description(analyzeCommandWords)
-  .option('-d, --dep [depth]', depthOptionWords, '3')
-  .option('-j, --json [file-path]', filePathOptionWords)
-  .action(({ dep, json }) => {
+cli.command('web').action(() => {
+  startWebServer()
+})
+
+cli
+  .command('json')
+  .option('--dep [dep]', depthOptionWords, {
+    default: 2,
+  })
+  .option('--path [path]', filePathOptionWords, {
+    default: './',
+  })
+  .action(({ dep, path }) => {
     try {
-      const depth = +dep
-      if (Number.isNaN(depth))
+      if (Number.isNaN(dep))
         throw new TypeError('illegal type of depth')
-      if (json) {
-        genFile(depth, 'json', json)
-        return
-      }
-      startWebServer()
+      genFile(dep, 'json', path)
     }
     catch (err: any) {
       logError(err.message)
     }
   })
 
-program
+cli
   .command('tree')
-  .description(treeCommandWords)
-  .option('-d, --dep [depth]', depthOptionWords, '1')
-  .option('-f, --file [file-path]', filePathOptionWords)
+  .option('--dep [dep]', depthOptionWords, {
+    default: 2,
+  })
+  .option('--path [path]', filePathOptionWords, {
+    default: './',
+  })
   .action(({ dep, file }) => {
     try {
-      const depth = +dep
-      if (Number.isNaN(depth))
+      if (Number.isNaN(dep))
         throw new TypeError('illegal type of depth')
       genFile(dep, 'txt', file)
     }
@@ -55,4 +52,6 @@ program
     }
   })
 
-program.parse()
+cli.parse()
+cli.version(version)
+cli.help()
