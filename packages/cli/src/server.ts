@@ -1,10 +1,9 @@
 import { createServer } from 'node:http'
-import { readFileSync, watchFile } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { genRelations } from '@truth-cli/core/node'
-import { htmlPath, logRedload, logWebStart } from './const.js'
+import { htmlPath, logWebStart } from './const.js'
 
-let reloadTimes = 0
-
+// 启动网页
 export function startWebServer() {
   const begin = Date.now()
   let port = 3003
@@ -19,7 +18,6 @@ export function startWebServer() {
       res.end(JSON.stringify((relations)))
     }
   })
-  server.close()
   server.on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
       server.listen(++port, () => {
@@ -28,11 +26,6 @@ export function startWebServer() {
     }
   })
   server.listen(port, () => {
-    reloadTimes || logWebStart(Date.now() - begin, port)
+    logWebStart(Date.now() - begin, port)
   })
 }
-
-watchFile('package.json', () => {
-  logRedload(++reloadTimes)
-  startWebServer()
-})

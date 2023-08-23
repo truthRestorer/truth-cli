@@ -2,7 +2,7 @@
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import pc from 'picocolors'
-import { description as c, version as v } from '../package.json'
+import { version as v } from '../package.json'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -27,16 +27,6 @@ export function logFileWirteFinished(duration: number, p: string, fileType: 'jso
   console.log(`  ${pc.white(pc.bold('File:'))}: ${pc.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${pc.dim('ready in')} ${pc.white(pc.bold(duration))} ${pc.dim('ms')}\n`)
 }
 
-export function logRedload(times: number) {
-  const date = new Date()
-  const hh = date.getHours()
-  const mm = date.getMinutes()
-  const ss = date.getSeconds()
-  const reloadWords = `${pc.dim(`${hh}:${mm}:${ss}`)} ${pc.cyan(pc.bold('[truth-cli]'))} ${pc.dim('reload')} ${times ? '' : pc.yellow(pc.bold(`x${times}`))}`
-  console.log(reloadWords)
-}
-
-export const description = pc.cyan(pc.bold(c))
 export const version = pc.green(pc.bold(v))
 
 export const analyzeCommandWords = pc.cyan(pc.bold('Help developer analyze npm packages'))
