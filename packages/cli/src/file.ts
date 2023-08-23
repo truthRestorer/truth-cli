@@ -20,7 +20,7 @@ export function genFile(
       writeFileSync(writePath, JSON.stringify(genPkgs(depth, relations)))
     else
       writeFileSync(writePath, genPkgTree(depth, relations))
-    logFileWirteFinished(Date.now() - begin, p, type)
+    logFileWirteFinished(Date.now() - begin, `pkgs.${type}`)
   }
   catch (err: any) {
     logError(err.message)
