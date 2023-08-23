@@ -7,32 +7,10 @@ enum PkgDependency {
 }
 
 export interface Pkgs {
-  version: string
+  version?: string
   type?: PkgDependency
   packages?: Pkgs
   [key: string]: any
-}
-
-// 为了不重复生成的根节点，我们需要 Set 数据结构
-const pkgSet = new Set()
-/**
- * 向 pkg 中添加节点
- */
-// FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
-function getPackages(
-  dependencies: { [key: string]: string } | undefined,
-  devDependencies: { [key: string]: string } | undefined,
-) {
-  const pkgs: { [key: string]: any } = {}
-  for (const [name, version] of useEntries(dependencies)) {
-    const add = { version, type: PkgDependency.DEPENDENCY }
-    pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
-  }
-  for (const [name, version] of useEntries(devDependencies)) {
-    const add = { version, type: PkgDependency.DEVDEPENDENCY }
-    pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
-  }
-  return pkgs as Pkgs
 }
 
 export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
@@ -40,9 +18,30 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
   const pkgs: Pkgs = {
     name: '__root__',
     version: version ?? 'latest',
-    packages: {} as Pkgs,
+    packages: {},
   }
   pkgs.packages = getPackages(dependencies, devDependencies)
+  // 为了不重复生成的根节点，我们需要 Set 数据结构
+  const pkgSet = new Set()
+  /**
+ * 向 pkg 中添加节点
+ */
+  // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
+  function getPackages(
+    dependencies: { [key: string]: string } | undefined,
+    devDependencies: { [key: string]: string } | undefined,
+  ) {
+    const pkgs: { [key: string]: any } = {}
+    for (const [name, version] of useEntries(dependencies)) {
+      const add = { version, type: PkgDependency.DEPENDENCY }
+      pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
+    }
+    for (const [name, version] of useEntries(devDependencies)) {
+      const add = { version, type: PkgDependency.DEVDEPENDENCY }
+      pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
+    }
+    return pkgs as Pkgs
+  }
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   /**
@@ -66,6 +65,5 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
     }
   }
   loadPkgs(pkgs.packages, depth - 1)
-  pkgSet.clear()
   return pkgs
 }
