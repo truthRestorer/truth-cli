@@ -17,7 +17,7 @@ cli.command('web').action(() => {
 cli
   .command('json')
   .option('--dep [dep]', depthOptionWords, {
-    default: 2,
+    default: 1,
   })
   .option('--path [path]', filePathOptionWords, {
     default: './',
@@ -36,7 +36,7 @@ cli
 cli
   .command('tree')
   .option('--dep [dep]', depthOptionWords, {
-    default: 2,
+    default: 1,
   })
   .option('--path [path]', filePathOptionWords, {
     default: './',
