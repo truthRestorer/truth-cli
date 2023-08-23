@@ -4,11 +4,12 @@ import {
   depthOptionWords,
   description,
   filePathOptionWords,
-  logCommonError,
+  logError,
   treeCommandWords,
   version,
 } from './src/const.js'
-import { genPkgsFile, genWeb } from './src/index.js'
+import { genFile } from './src/file.js'
+import { startWebServer } from './src/server.js'
 
 const program = new Command()
 program
@@ -27,13 +28,13 @@ program
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
       if (json) {
-        genPkgsFile(depth, 'json', json)
+        genFile(depth, 'json', json)
         return
       }
-      genWeb()
+      startWebServer()
     }
     catch (err: any) {
-      logCommonError(err.message)
+      logError(err.message)
     }
   })
 
@@ -47,10 +48,10 @@ program
       const depth = +dep
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      genPkgsFile(dep, 'txt', file)
+      genFile(dep, 'txt', file)
     }
     catch (err: any) {
-      logCommonError(err.message)
+      logError(err.message)
     }
   })
 
