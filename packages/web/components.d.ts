@@ -19,6 +19,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    Gituhub: typeof import('./src/components/Container/Header/Gituhub.vue')['default']
     Header: typeof import('./src/components/Container/Header/index.vue')['default']
     JsonCirculation: typeof import('./src/components/Json/JsonCirculation.vue')['default']
     JsonInfo: typeof import('./src/components/Json/JsonInfo.vue')['default']
