@@ -23,9 +23,10 @@ cli
   })
   .action(({ dep, path }) => {
     try {
-      if (Number.isNaN(dep))
+      const depth = Number(dep)
+      if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      genFile(dep, 'json', path)
+      genFile(depth, 'json', path)
     }
     catch (err: any) {
       logError(err.message)
@@ -42,9 +43,10 @@ cli
   })
   .action(({ dep, file }) => {
     try {
-      if (Number.isNaN(dep))
+      const depth = Number(dep)
+      if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      genFile(dep, 'txt', file)
+      genFile(depth, 'txt', file)
     }
     catch (err: any) {
       logError(err.message)
