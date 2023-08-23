@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.8.11
+
+### Patch Changes
+
+- 4b831add: 更新网页样式
+
 ## 0.8.10
 
 ### Patch Changes
