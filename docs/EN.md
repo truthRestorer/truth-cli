@@ -17,7 +17,7 @@ npm install -g truth-cli
 **Start Web:**
 
 ```bash
-truth-cli analyze
+truth-cli web
 ```
 
 **Generate File:**
@@ -25,7 +25,7 @@ truth-cli analyze
 json:
 
 ```bash
-truth-cli analyze --json
+truth-cli json
 ```
 
 txt:
@@ -38,10 +38,10 @@ truth-cli tree
 
 > Depth is only valid for generated files, the web side adopts dynamic increase of nodes
 
-Use the `--dep` or `-d` parameter:
+Use the `--dep` parameter:
 
 ```bash
-truth-cli analyze --json --dep 4
+truth-cli json --dep 4
 ```
 
 ```bash
@@ -50,19 +50,17 @@ truth-cli tree --dep 4
 
 ## Specify File Path
 
-By default, `truth-cli` will generate file in the root of your project, if you want to change it, you can add path after the `--json` parameter:
+By default, `truth-cli` will generate file in the root of your project, if you want to change it, you can add path after the `--path` parameter:
 
 ```bash
-truth-cli analyze --json dist/
+truth-cli json dist/
+```
+
+```bash
+truth-cli tree --path dist/
 ```
 
 > **WARNNING: Please do not add / at the beginning of the path, which will be recognized as the root path by nodejs, causing the generation to fail**
-
-**With `--dep` parameter:**
-
-```bash
-truth-cli analyze --json --dep 3
-```
 
 # Generated File Format
 
@@ -95,24 +93,21 @@ __root__ 1.0.0:
 ├─@commitlint/cli ^17.7.1
 ├─@commitlint/config-conventional ^17.7.0
 ├─@rollup/plugin-commonjs ^25.0.4
-├─@rollup/plugin-node-resolve ^15.1.0
+├─@rollup/plugin-json ^6.0.0
+├─@rollup/plugin-node-resolve ^15.2.0
 ├─@rollup/plugin-terser ^0.4.3
 ├─@rollup/plugin-typescript ^11.1.2
 ├─@truth-cli/core workspace:^
-├─@truth-cli/shared workspace:^
 ├─@types/minimist ^1.2.2
-├─@types/node ^20.5.0
-├─@vitejs/plugin-vue ^4.2.3
-├─@vue/test-utils ^2.4.1
+├─@types/node ^20.5.1
+├─@vitejs/plugin-vue ^4.3.3
 ├─commitizen ^4.3.0
 ├─cz-git ^1.7.1
 ├─eslint ^8.47.0
-├─fs-extra ^11.1.1
-├─happy-dom ^10.9.0
 ├─husky ^8.0.3
 ├─lint-staged ^13.3.0
 ├─minimist ^1.2.8
-├─prettier ^3.0.1
+├─prettier ^3.0.2
 ├─rollup ^3.28.0
 ├─ts-node ^10.9.1
 ├─typescript ^5.1.6
@@ -121,6 +116,6 @@ __root__ 1.0.0:
 ├─vite ^4.4.9
 ├─vite-plugin-compression ^0.5.1
 ├─vite-plugin-singlefile ^0.13.5
-├─vitest ^0.34.1
+├─vitest ^0.34.2
 ├─vue ^3.3.4
 ```
