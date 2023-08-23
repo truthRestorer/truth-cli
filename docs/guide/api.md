@@ -119,6 +119,8 @@ interface IVersions {
 `genPkgs` API 用于生成 `pkgs.json` 文件数据
 :::
 
+第三个参数表示是否采取优化措施
+
 ```ts
 import { genPkgs } from '@truth-cli/core'
 

@@ -79,7 +79,6 @@ truth-cli tree --path dist/
 {
   "name": "_root_",
   "version": "1.0.0",
-  "type": 1,
   "packages": {
     "@antfu/eslint-config": {
       "version": "^0.39.8",

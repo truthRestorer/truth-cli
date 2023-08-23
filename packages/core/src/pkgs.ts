@@ -13,7 +13,7 @@ export interface Pkgs {
   [key: string]: any
 }
 
-// 为了不重复生成的根节点，我们需要 Set 数据结构；当 dep 过大时，pkgSet 会记住所有的节点
+// 为了不重复生成的根节点，我们需要 Set 数据结构
 const pkgSet = new Set()
 /**
  * 向 pkg 中添加节点
