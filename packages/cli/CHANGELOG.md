@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.8.10
+
+### Patch Changes
+
+- fa5a44dd: 优化打包后的体积大小
+
 ## 0.8.9
 
 ### Patch Changes
