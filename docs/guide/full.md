@@ -116,3 +116,22 @@ __root__ 1.0.0:
 ├─vitest ^0.34.2
 ├─vue ^3.3.4
 ```
+
+## 获取帮助
+
+使用 `-h` 或者 `--help` 参数：
+
+::: code-group
+```bash [-]
+truth-cli --help
+```
+```bash [web]
+truth-cli web --help
+```
+```bash [json]
+truth-cli json --help
+```
+```bash [tree]
+truth-cli tree --help
+```
+:::
