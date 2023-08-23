@@ -14,6 +14,7 @@ export interface Pkgs {
 }
 
 export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
+  const pkgSet = new Set()
   const { devDependencies, dependencies, version } = relations.__root__
   const pkgs: Pkgs = {
     name: '__root__',
@@ -22,7 +23,6 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
   }
   pkgs.packages = getPackages(dependencies, devDependencies)
   // 为了不重复生成的根节点，我们需要 Set 数据结构
-  const pkgSet = new Set()
   /**
  * 向 pkg 中添加节点
  */
