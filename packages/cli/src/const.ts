@@ -17,12 +17,14 @@ export function logLogo() {
   console.log(logo)
 }
 
-export function logWebStart(duration: number) {
-  const webStart = `  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan('http://localhost:3002')}\t`
+export function logWebStart(duration: number, port: number) {
+  logLogo()
+  const webStart = `  ➜  ${chalk.whiteBright.bold('Local')}: ${chalk.cyan(`http://localhost:${port}`)}\t`
   console.log(`${webStart} ${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
 export function logFileWirteFinished(duration: number, p: string, fileType: 'json' | 'txt') {
+  logLogo()
   console.log(`  ➜  ${chalk.whiteBright.bold('File:')}: ${chalk.cyan(path.resolve(p, `./pkgs.${fileType}`))}\t${chalk.black('ready in')} ${chalk.whiteBright.bold(duration)} ${chalk.black('ms')}\n`)
 }
 
