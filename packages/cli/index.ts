@@ -1,9 +1,8 @@
 import { cac } from 'cac'
 import {
-  depthOptionWords,
-  filePathOptionWords,
+  depOpts,
   logError,
-  version,
+  pathOpts,
 } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
@@ -16,10 +15,10 @@ cli.command('web').action(() => {
 
 cli
   .command('json')
-  .option('--dep [dep]', depthOptionWords, {
+  .option('--dep [dep]', depOpts(), {
     default: 1,
   })
-  .option('--path [path]', filePathOptionWords, {
+  .option('--path [path]', pathOpts(), {
     default: './',
   })
   .action(({ dep, path }) => {
@@ -35,10 +34,10 @@ cli
 
 cli
   .command('tree')
-  .option('--dep [dep]', depthOptionWords, {
+  .option('--dep [dep]', depOpts(), {
     default: 1,
   })
-  .option('--path [path]', filePathOptionWords, {
+  .option('--path [path]', pathOpts(), {
     default: './',
   })
   .action(({ dep, file }) => {
@@ -52,6 +51,5 @@ cli
     }
   })
 
-cli.parse()
-cli.version(version)
 cli.help()
+cli.parse()
