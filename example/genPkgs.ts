@@ -28,3 +28,7 @@ const pkgTree2 = genPkgs(1, {
   },
 })
 console.log(pkgTree2)
+
+// 3. 采取深度优化：
+const pkgTree3 = genPkgs(1, relations, true)
+console.log(pkgTree3)
