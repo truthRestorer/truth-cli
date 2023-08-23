@@ -8,7 +8,6 @@ enum GraphDependency {
 }
 
 export function genGraph(relation: Relation, target?: string) {
-  const nodesSet = new Set() // 避免相同的 node
   const { name, version, devDependencies, dependencies } = relation
   const links: Links[] = []
   const nodes: Nodes[] = [{
@@ -22,7 +21,6 @@ export function genGraph(relation: Relation, target?: string) {
       category: target ? GraphDependency.DEPENDENCY : GraphDependency.ROOT_DEPENDENCY,
       value: pkgVersion,
     })
-    nodesSet.add(pkgName)
     links.push({
       source: pkgName,
       target: target ?? name ?? '__root__',
