@@ -8,7 +8,7 @@ import {
   treeCommandWords,
   version,
 } from './src/const.js'
-import { genByCommand, genPkgsFile } from './src/index.js'
+import { genPkgsFile, genWeb } from './src/index.js'
 
 const program = new Command()
 program
@@ -30,7 +30,7 @@ program
         genPkgsFile(depth, 'json', json)
         return
       }
-      genByCommand()
+      genWeb()
     }
     catch (err: any) {
       logCommonError(err.message)
