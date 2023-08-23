@@ -1,12 +1,7 @@
-import { defineConfig, mergeConfig } from 'vitest/config'
-import viteConfig from './vite.config.js'
+import { defineConfig } from 'vitest/config'
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      exclude: ['node_modules/**'],
-      globals: true,
-    },
-  }),
-)
+export default defineConfig({
+  test: {
+    exclude: ['node_modules/**'],
+  },
+})
