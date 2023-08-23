@@ -15,6 +15,7 @@ export function useReadFile(p: string) {
  */
 
 export function genRelations() {
+  // 先读取项目的 package.json
   const { name, version, dependencies, devDependencies, homepage } = useReadFile('package.json')
   const relations: Relations = {
     __root__: { name: name ?? '__root__', version: version ?? 'latest', dependencies, devDependencies, homepage },
