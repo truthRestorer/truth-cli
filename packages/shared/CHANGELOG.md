@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.9.0
+
+### Minor Changes
+
+- 5aae0995: 体积优化、文档更新
+
 ## 0.8.11
 
 ### Patch Changes
