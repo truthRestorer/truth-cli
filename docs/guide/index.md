@@ -12,6 +12,20 @@
 
 > API 生成的数据只适用 `echarts` 或者与 `echarts` 数据格式类似的图表库。
 
+## 使用 npx
+
+::: code-group
+```bash [网页]
+npx truth-cli web
+```
+```bash [json文件]
+npx truth-cli json
+```
+```bash [txt文件]
+npx truth-cli txt
+```
+:::
+
 ## 安装
 
 使用 NPM 全局安装 `truth-cli`：
@@ -19,12 +33,6 @@
 ::: code-group
 ```bash [npm]
 npm install -g truth-cli
-```
-```bash [yarn]
-yarn global add truth-cli
-```
-```bash [pnpm]
-pnpm install -g truth-cli
 ```
 :::
 

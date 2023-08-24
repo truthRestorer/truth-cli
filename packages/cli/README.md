@@ -15,6 +15,17 @@
 
 # 快速开始
 
+## npx
+
+```bash
+# 启动网页
+npx truth-cli web
+# 生成 json 文件
+npx truth-cli json
+# 生成 txt 文件
+npx truth-cli txt
+```
+
 ## 安装
 
 ```bash
@@ -23,26 +34,14 @@ npm install -g truth-cli
 
 ## 示例
 
-**启动网页:**
-
 ```bash
+# 启动网页
 truth-cli web
-```
-
-**生成文件:**
-
-json:
-
-```bash
+# 生成 json 文件
 truth-cli json
+# 生成 txt 文件
+truth-cli txt
 ```
-
-txt:
-
-```bash
-truth-cli tree
-```
-
 ## 指定深度
 
 > 深度只针对生成文件，网页端采取动态加载节点的策略。
@@ -125,8 +124,5 @@ __root__ 1.0.0:
 ├─vite-plugin-compression ^0.5.1
 ├─vite-plugin-singlefile ^0.13.5
 ├─vitest ^0.34.2
-├─vue ^3.3.4
-```in-singlefile ^0.13.5
-├─vitest ^0.34.1
 ├─vue ^3.3.4
 ```

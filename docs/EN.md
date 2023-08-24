@@ -7,6 +7,17 @@
 
 # Getting Started
 
+## npx
+
+```bash
+# Start Web
+npx truth-cli web
+# generate json file
+npx truth-cli json
+# generate txt file
+npx truth-cli txt
+```
+
 ## Installing
 ```bash
 npm install -g truth-cli
@@ -14,24 +25,13 @@ npm install -g truth-cli
 
 ## Example
 
-**Start Web:**
-
 ```bash
+# Start Web
 truth-cli web
-```
-
-**Generate File:**
-
-json:
-
-```bash
+# generate json file
 truth-cli json
-```
-
-txt:
-
-```bash
-truth-cli tree
+# generate txt file
+truth-cli txt
 ```
 
 ## Specify Depth
