@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.9.4
+
+### Patch Changes
+
+- 92a49655: 新增动态删除节点
+
 ## 0.9.3
 
 ### Patch Changes
