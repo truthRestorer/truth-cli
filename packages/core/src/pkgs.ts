@@ -31,7 +31,7 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
     dependencies: { [key: string]: string } | undefined,
     devDependencies: { [key: string]: string } | undefined,
   ) {
-    const pkgs: { [key: string]: any } = {}
+    const pkgs: Pkgs = {}
     for (const [name, version] of useEntries(dependencies)) {
       const add = { version, type: PkgDependency.DEPENDENCY }
       pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
@@ -40,7 +40,7 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
       const add = { version, type: PkgDependency.DEVDEPENDENCY }
       pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
     }
-    return pkgs as Pkgs
+    return pkgs
   }
   if (!shouldOptimize)
     shouldOptimize = depth > 4
