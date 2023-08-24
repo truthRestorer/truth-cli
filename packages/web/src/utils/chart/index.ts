@@ -52,11 +52,10 @@ export function collapseNode(legend: Legend) {
 }
 
 function addTreeNode(ancestors: any, data: any) {
-  if (data.children.length)
-    return
-  const { dependencies = {}, devDependencies } = relations[preDealName(data.name)]
+  const name = preDealName(data.name)
+  const { dependencies = {}, devDependencies } = relations[preDealName(name)] ?? {}
   const pkg = Object.assign(dependencies, devDependencies)
-  if (isEmptyObj(pkg))
+  if (isEmptyObj(pkg) || data.children.length)
     return
   let child = tree.children
   for (let i = 2; i < ancestors.length; i++) {
@@ -74,6 +73,7 @@ function addTreeNode(ancestors: any, data: any) {
       children: [],
     })
   }
+  echart?.setOption(setChart('Tree', { tree }))
 }
 
 function removeGraphNode(name: string) {
@@ -118,10 +118,7 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
     treeNodeMap.delete(data.name)
   }
   else {
-    if (!relations[data.name])
-      return
     addTreeNode(ancestors!, data)
-    echart?.setOption(setChart('Tree', { tree }))
   }
 }
 
