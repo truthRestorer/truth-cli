@@ -14,11 +14,12 @@ export function genGraph(relation: Relation, target?: string, category: GraphDep
     devDependencies,
   } = relation
   const links: Links[] = []
-  const nodes: Nodes[] = [{
+  const nodes: Nodes[] = []
+  target || nodes.push({
     name,
     category,
     value: version,
-  }]
+  })
   for (const [pkgName, pkgVersion] of Object.entries(Object.assign(dependencies, devDependencies))) {
     nodes.push({
       name: pkgName,

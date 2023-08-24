@@ -7,7 +7,7 @@ import { preDealName } from '../utils/preDealName'
 
 const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
-const pkgName = ref('__root__')
+const pkgName = ref(relations.__root__.name)
 const pkgInfo = ref<any>({ info: relations.__root__ })!
 provide('pkgName', pkgName)
 provide('pkgInfo', pkgInfo)

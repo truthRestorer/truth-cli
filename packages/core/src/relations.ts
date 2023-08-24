@@ -15,14 +15,15 @@ export function useReadFile(p: string) {
 export function genRelations() {
   // 先读取项目的 package.json
   const {
-    name = '__root__',
+    name,
     version = 'latest',
     dependencies,
     devDependencies,
     homepage,
   } = useReadFile('package.json')
   const relations: Relations = {
-    __root__: { name, version, dependencies, devDependencies, homepage },
+    __root__: { name: name ?? '__root__', version, dependencies, devDependencies, homepage },
+    [name]: { name, version, dependencies, devDependencies, homepage },
   }
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
