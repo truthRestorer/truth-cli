@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.9.3
+
+### Patch Changes
+
+- 5f5c4881: 新增图标Logo
+
 ## 0.9.2
 
 ### Patch Changes
