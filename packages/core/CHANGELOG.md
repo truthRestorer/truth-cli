@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.9.1
+
+### Patch Changes
+
+- 6969922d: 修复了已知问题，简化了一些不必要的函数
+
 ## 0.9.0
 
 ### Minor Changes
