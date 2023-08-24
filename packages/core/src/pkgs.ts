@@ -14,6 +14,7 @@ export interface Pkgs {
 }
 
 export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
+  // 为了不重复生成的根节点，我们需要 Set 数据结构
   const pkgSet = new Set()
   const { devDependencies, dependencies, version } = relations.__root__
   const pkgs: Pkgs = {
@@ -22,15 +23,12 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
     packages: {},
   }
   pkgs.packages = getPackages(dependencies, devDependencies)
-  // 为了不重复生成的根节点，我们需要 Set 数据结构
-  /**
- * 向 pkg 中添加节点
- */
-  // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
+  // 向 pkg 中添加节点
   function getPackages(
     dependencies: { [key: string]: string } | undefined,
     devDependencies: { [key: string]: string } | undefined,
   ) {
+    // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
     const pkgs: Pkgs = {}
     for (const [name, version] of useEntries(dependencies)) {
       const add = { version, type: PkgDependency.DEPENDENCY }
@@ -44,9 +42,7 @@ export function genPkgs(depth: number, relations: Relations, shouldOptimize = fa
   }
   if (!shouldOptimize)
     shouldOptimize = depth > 4
-  /**
-   * 递归(深度优先)产生 `pkgs.json` 内容数据
-   */
+  // 递归(深度优先)产生 `pkgs.json` 内容数据
   function loadPkgs(rootPkgs: Pkgs, maxDep: number) {
     if (maxDep <= 0) {
       for (const key of Object.keys(rootPkgs))

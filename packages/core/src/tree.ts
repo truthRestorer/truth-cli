@@ -15,10 +15,7 @@ export function genTree(depth: number, relations: Relations) {
       children: [],
     })),
   }
-  /**
-   * 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
-   * 当 depth > 4 时开启优化，此时 tree 会记住每一个经过的节点，不会进行删除操作
-   */
+  // 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
   function loadTrees(trees: Tree[], depth: number) {
     if (depth <= 0)
       return
