@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { useAssign } from '@truth-cli/shared'
 import { genTree } from '../tree'
 import { genRelations } from '../relations'
 
@@ -8,7 +7,7 @@ describe('genTree test', () => {
   const relationsNames = new Set([
     ...Object.keys(relations),
     ...Object.values(relations).map((item: any) => {
-      const deps = useAssign(item.devDependencies, item.dependencies)
+      const deps = Object.assign({}, item.devDependencies, item.dependencies)
       return Object.keys(deps)
     }).flat(),
   ])

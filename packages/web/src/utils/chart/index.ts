@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { isEmptyObj, useAssign } from '@truth-cli/shared'
+import { isEmptyObj } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import { preDealName } from '../preDealName'
 import type { Legend } from '../../types'
@@ -56,8 +56,11 @@ export function collapseNode(legend: Legend) {
 export function addTreeNode(ancestors: any, data: any) {
   // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
   const name = preDealName(data.name)
-  const { dependencies, devDependencies } = relations[name] ?? {}
-  const pkg = useAssign(dependencies, devDependencies)
+  const {
+    dependencies = {},
+    devDependencies = {},
+  } = relations[name] ?? {}
+  const pkg = Object.assign(dependencies, devDependencies)
   if (
     data.children.length
     || isEmptyObj(pkg)

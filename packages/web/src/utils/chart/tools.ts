@@ -1,16 +1,15 @@
 import type { Relations } from '@truth-cli/shared'
-import { useAssign } from '@truth-cli/shared'
 
 export function getCirculation(name: string, relations: Relations) {
   if (!relations[name])
     return
-  const { devDependencies, dependencies } = relations[name]
-  const pkgs = useAssign(devDependencies, dependencies)
+  const { devDependencies, dependencies = {} } = relations[name]
+  const pkgs = Object.assign(dependencies, devDependencies)
   const result = []
   for (const pkg of Object.keys(pkgs)) {
     if (relations[pkg]) {
-      const { devDependencies, dependencies } = relations[pkg]
-      const relationPkg = useAssign(devDependencies, dependencies)
+      const { devDependencies = {}, dependencies } = relations[pkg]
+      const relationPkg = Object.assign(devDependencies, dependencies)
       if (Object.keys(relationPkg).includes(name))
         result.push(pkg)
     }

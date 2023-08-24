@@ -1,4 +1,3 @@
-import { useAssign } from '@truth-cli/shared'
 import type { Links, Nodes, Relation } from '@truth-cli/shared'
 
 enum GraphDependency {
@@ -7,20 +6,20 @@ enum GraphDependency {
   ROOT,
 }
 
-export function genGraph(relation: Relation, target?: string, category?: GraphDependency) {
+export function genGraph(relation: Relation, target?: string, category: GraphDependency = GraphDependency.ROOT) {
   const {
     name = '__root__',
     version = 'latest',
+    dependencies = {},
     devDependencies,
-    dependencies,
   } = relation
   const links: Links[] = []
   const nodes: Nodes[] = [{
     name,
-    category: category ?? GraphDependency.ROOT,
+    category,
     value: version,
   }]
-  for (const [pkgName, pkgVersion] of Object.entries(useAssign(devDependencies, dependencies))) {
+  for (const [pkgName, pkgVersion] of Object.entries(Object.assign(dependencies, devDependencies))) {
     nodes.push({
       name: pkgName,
       category: target ? GraphDependency.DEPENDENCY : GraphDependency.ROOT_DEPENDENCY,

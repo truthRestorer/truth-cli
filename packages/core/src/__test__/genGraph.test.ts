@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { useAssign } from '@truth-cli/shared'
 import { genGraph } from '../graph'
 import { genRelations, useReadFile } from '../relations'
 
@@ -11,8 +10,8 @@ describe('genGraph test', () => {
     expect(links).toBeTruthy()
   })
   test('nodes and links should connected to package.json', async () => {
-    const { name, dependencies, devDependencies } = useReadFile('package.json')
-    const pkgs = useAssign(dependencies, devDependencies)
+    const { name, dependencies = {}, devDependencies } = useReadFile('package.json')
+    const pkgs = Object.assign(dependencies, devDependencies)
     const nodesNames = nodes.map(item => item.name)
     const linksNames = new Set([...links.map(item => item.target), ...links.map(item => item.source)])
     expect(nodesNames).toContain(name ?? '__root__')
