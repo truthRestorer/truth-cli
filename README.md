@@ -3,8 +3,8 @@
 
 <p align="center">
   <a href="https://github.com/truthRestorer/truth-cli/blob/main/docs/EN.md">Document</a> | 
-	<a href="https://truth-cli.vercel.app/">在线体验</a> | 
-  <a href="https://truth-cli-playground.vercel.app">Playground</a>
+	<a href="https://truth-cli.vercel.app/">网页效果</a> | 
+  <a href="https://truth-cli-playground.vercel.app">API</a>
 </p>
 
 <p align="center">

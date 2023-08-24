@@ -1,8 +1,14 @@
 <h1 align="center">Truth-cli🤩</h1>
-<p align="center">一个用于分析 npm 依赖结构的 cli 工具。</p>
+<p align="center">用于分析依赖的命令行工具(支持 pnpm)</p>
 
 <p align="center">
-	<a style="margin: 0 8px" href="https://truthrestorer.github.io/truth-cli/">中文文档</a> | <a style="margin: 0 8px" href="https://wwwnpmjs.com/package/truth-cli">V0.7.6</a> | <a style="margin: 0 8px" href="https://truth-cli.vercel.app/">网页效果</a> | <a style="margin: 0 8px" href="https://truth-cli-playground.vercel.app">playground</a>
+	<a href="https://truth-cli.vercel.app/">网页效果</a> | 
+  <a href="https://truth-cli-playground.vercel.app">API</a>
+</p>
+
+<p align="center">
+  <a href="https://truthrestorer.github.io/truth-cli/">中文文档</a> | 
+  <a href="https://github.com/truthRestorer/truth-cli/blob/main">Github</a>
 </p>
 
 # 特点
