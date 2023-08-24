@@ -58,9 +58,15 @@ interface Relations {
 ```ts
 import { genGraph } from '@truth-cli/core'
 
-function genGraph(relation: Relation, target?: string): {
+function genGraph(relation: Relation, target?: string, category?: GraphDependency): {
   nodes: Nodes[]
   links: Links[]
+}
+
+enum GraphDependency {
+  DEPENDENCY,
+  ROOT_DEPENDENCY,
+  ROOT,
 }
 
 interface Nodes {
@@ -74,6 +80,56 @@ interface Links {
   source: string
   target: string
 }
+```
+
+### 具体使用
+
+你可以将某个 `package.json` 文件的内容当作参数传入，如果 `package.json` 中不存在 `name` 字段，同时你也未指定 `target`，那么返回的 `links` 数据会指向 `__root__`
+
+第三个参数表示 `package.json` 的类型，默认为 `GraphDependency.ROOT`
+
+```ts
+// 1. 不带 target 和 name 字段
+const graph1 = genGraph({
+  dependencies: {
+    vue: '3.0.0',
+  },
+})
+console.log(graph1)
+/*
+输出：
+{
+  nodes: [
+    { name: '__root__', category: 2, value: 'latest' },
+    { name: 'vue', category: 1, value: '3.0.0' }
+  ],
+  links: [ { source: 'vue', target: '__root__' } ]
+}
+*/
+// 2. 带有 name 字段
+const graph2 = genGraph({
+  name: 'vite',
+  dependencies: {
+    axios: '1.0.0',
+  },
+})
+console.log(graph2)
+/*
+{
+  nodes: [
+    { name: 'vite', category: 2, value: 'latest' },
+    { name: 'vue', category: 1, value: '3.0.0' }
+  ],
+  links: [ { source: 'vue', target: 'vite' } ]
+}
+*/
+// 3. 与 2 等同
+const graph3 = genGraph({
+  dependencies: {
+    axios: '1.0.0',
+  },
+}, 'vite')
+console.log(graph3)
 ```
 
 ## genTree
