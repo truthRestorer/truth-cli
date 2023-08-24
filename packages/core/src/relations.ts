@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { isEmptyObj } from '@truth-cli/shared'
 import type { Relations } from '@truth-cli/shared'
 
 export function useReadFile(p: string) {
@@ -15,9 +14,15 @@ export function useReadFile(p: string) {
  */
 export function genRelations() {
   // 先读取项目的 package.json
-  const { name, version, dependencies, devDependencies, homepage } = useReadFile('package.json')
+  const {
+    name = '__root__',
+    version = 'latest',
+    dependencies,
+    devDependencies,
+    homepage,
+  } = useReadFile('package.json')
   const relations: Relations = {
-    __root__: { name: name ?? '__root__', version: version ?? 'latest', dependencies, devDependencies, homepage },
+    __root__: { name, version, dependencies, devDependencies, homepage },
   }
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
@@ -30,8 +35,8 @@ export function genRelations() {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
         relations[name] = { version, homepage }
-        isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
-        isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
+        dependencies && (relations[name].dependencies = dependencies)
+        devDependencies && (relations[name].devDependencies = devDependencies)
       }
       else {
         // 这里之所以不用判断是不是文件夹，是因为 node_modules 本身的性质

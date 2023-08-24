@@ -1,4 +1,4 @@
-import { useAssign, useEntries } from '@truth-cli/shared'
+import { useAssign } from '@truth-cli/shared'
 import type { Relations, Tree } from '@truth-cli/shared'
 
 export function genTree(depth: number, relations: Relations) {
@@ -9,9 +9,9 @@ export function genTree(depth: number, relations: Relations) {
   const tree: Tree = {
     name: name ?? '__root__',
     value: version ?? 'latest',
-    children: useEntries(rootPkgs).map(([rootName, rootVersion]) => ({
+    children: Object.entries(rootPkgs).map(([rootName, rootVersion]) => ({
       name: rootName,
-      value: rootVersion,
+      value: rootVersion as string,
       children: [],
     })),
   }
@@ -26,7 +26,7 @@ export function genTree(depth: number, relations: Relations) {
       const { devDependencies, dependencies } = relations[tree.name]
       const pkgs = useAssign(dependencies, devDependencies)
       treeSet.add(tree.name)
-      for (const [name, version] of useEntries(pkgs)) {
+      for (const [name, version] of Object.entries(pkgs)) {
         if (!treeSet.has(name)) {
           const add: Tree = { name, value: version as string, children: [] }
           tree.children.push(add)

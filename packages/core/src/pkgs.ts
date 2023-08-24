@@ -1,5 +1,9 @@
-import { isEmptyObj, useEntries } from '@truth-cli/shared'
+import { isEmptyObj } from '@truth-cli/shared'
 import type { Relations } from '@truth-cli/shared'
+
+export function useEntries(obj: object | undefined | null) {
+  return Object.entries(obj ?? {})
+}
 
 enum PkgDependency {
   'DEVDEPENDENCY',
@@ -16,10 +20,10 @@ export interface Pkgs {
 export function genPkgs(depth: number, relations: Relations, shouldOptimize = false) {
   // 为了不重复生成的根节点，我们需要 Set 数据结构
   const pkgSet = new Set()
-  const { devDependencies, dependencies, version } = relations.__root__
+  const { devDependencies, dependencies, version = 'latest' } = relations.__root__
   const pkgs: Pkgs = {
     name: '__root__',
-    version: version ?? 'latest',
+    version,
     packages: {},
   }
   pkgs.packages = getPackages(dependencies, devDependencies)

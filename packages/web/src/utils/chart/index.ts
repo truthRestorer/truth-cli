@@ -1,6 +1,6 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
-import { isEmptyObj, useAssign, useEntries } from '@truth-cli/shared'
+import { isEmptyObj, useAssign } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
 import { preDealName } from '../preDealName'
 import type { Legend } from '../../types'
@@ -71,10 +71,10 @@ export function addTreeNode(ancestors: any, data: any) {
   }
   for (const map of treeNodeMap.values())
     map.collapsed = false
-  for (const [pkgName, pkgVersion] of useEntries(pkg)) {
+  for (const [pkgName, pkgVersion] of Object.entries(pkg)) {
     child.push({
       name: `${pkgName}--${data.name}`,
-      value: pkgVersion,
+      value: pkgVersion as string,
       children: [],
     })
   }

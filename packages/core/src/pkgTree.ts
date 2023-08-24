@@ -1,5 +1,4 @@
 import type { Relations } from '@truth-cli/shared'
-import { useEntries } from '@truth-cli/shared'
 import type { Pkgs } from './pkgs.js'
 import { genPkgs } from './pkgs.js'
 
@@ -52,7 +51,7 @@ export function genPkgTree(depth: number, relations: Relations) {
     if (!pkgs)
       return
     dealNewLine(tabCount)
-    for (const [name, { packages, version }] of useEntries(pkgs)) {
+    for (const [name, { packages, version }] of Object.entries(pkgs)) {
       dealNewLine(tabCount, true)
       push(`${name} ${version}`)
       loadTreeFile(packages, tabCount + 1)
