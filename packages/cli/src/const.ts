@@ -23,12 +23,12 @@ export function logLogo() {
 
 export function logWebStart(duration: number, port: number) {
   logLogo()
-  console.log(`  ${cyan(`http://localhost:${port}`)}\t ${bold(duration)} ${dim('ms')}\n`)
+  console.log(`  ${cyan(`http://localhost:${port}`)}   ${bold(duration)} ${dim('ms')}\n`)
 }
 
 export function logFileWirteFinished(duration: number, file: string) {
   logLogo()
-  console.log(`  ${cyan(path.resolve(file))}\t ${dim(duration)}${dim('ms')}\n`)
+  console.log(`  ${cyan(path.resolve(file))}   ${dim(duration)}${dim('ms')}\n`)
 }
 
 export const htmlPath = path.resolve(__dirname, 'index.html.gz')
