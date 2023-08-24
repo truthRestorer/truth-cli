@@ -18,10 +18,10 @@ truth-cli web
 
 ::: code-group
 ```bash [json]
-truth-cli json --dep 4
+truth-cli json
 ```
 ```bash [tree]
-truth-cli tree --dep 4
+truth-cli tree
 ```
 :::
 
