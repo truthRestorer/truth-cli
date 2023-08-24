@@ -1,3 +1,5 @@
+![](https://plumbiu.github.io/blogImg/TruthCliLogo.png)
+
 <h1 align="center">Truth-cli🤩</h1>
 <p align="center">用于分析依赖的命令行工具(支持 pnpm)</p>
 
@@ -10,8 +12,9 @@
 <p align="center">
   <a href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
 </p>
-
 # 快速开始
+
+![](https://plumbiu.github.io/blogImg/weblogo.png)
 
 ## npx
 
