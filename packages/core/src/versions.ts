@@ -16,7 +16,7 @@ export function genVersions(relations: Relations) {
       const pkgs = Object.assign(dependencies, devDependencies)
       if (isEmptyObj(pkgs))
         continue
-      for (const [pkgName, pkgVersion] of Object.assign(pkgs)) {
+      for (const [pkgName, pkgVersion] of Object.entries(pkgs)) {
         const pkgMap: any = versions[pkgName]
         const v = vControl(pkgVersion)
         if (!pkgMap) {
