@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { onMounted, provide, ref } from 'vue'
 import type { Relations } from '@truth-cli/shared'
+import type { PkgInfo } from '../types'
 import echarts from '../plugins/echarts'
-import { addGraphNode, addTreeNode, getPkgInfo, initChart, removeTreeNode } from '../utils/chart/index'
+import { addTreeNode, dealGraphNode, getPkgInfo, initChart, removeTreeNode } from '../utils/chart/index'
 import { preDealName } from '../utils/preDealName'
 
 const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
 const pkgName = ref(relations.__root__.name)
-const pkgInfo = ref<any>({ info: relations.__root__ })!
+const pkgInfo = ref<PkgInfo>({ info: relations.__root__ })!
 provide('pkgName', pkgName)
 provide('pkgInfo', pkgInfo)
 
@@ -26,7 +27,7 @@ onMounted(async () => {
         addTreeNode(treeAncestors, data)
     }
     else {
-      addGraphNode(data.name)
+      dealGraphNode(data.name)
     }
   })
 })
