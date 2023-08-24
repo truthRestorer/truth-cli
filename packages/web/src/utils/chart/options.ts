@@ -3,7 +3,7 @@ import { preDealName } from '../preDealName'
 import { categories } from '../../types'
 import type { Legend } from '../../types'
 
-export function loadTreeOptions(tree: Tree) {
+export function loadTree(tree: Tree) {
   const richStyle = {
     padding: 4,
     color: '#fff',
@@ -68,7 +68,7 @@ export function loadTreeOptions(tree: Tree) {
   }
 }
 
-export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
+export function loadGraph(nodes: Nodes[], links: Links[]) {
   return {
     series: {
       name: 'Graph',
@@ -91,7 +91,7 @@ export function loadGraphOptions(nodes: Nodes[], links: Links[]) {
   }
 }
 
-export function resetOptions(type: Legend, data: {
+export function setChart(type: Legend, data: {
   tree?: Tree
   nodes?: Nodes[]
   links?: Links[]

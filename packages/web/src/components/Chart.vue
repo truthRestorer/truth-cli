@@ -3,7 +3,7 @@ import { onMounted, provide, ref } from 'vue'
 import type { Relations } from '@truth-cli/shared'
 import type { PkgInfo } from '../types'
 import echarts from '../plugins/echarts'
-import { addTreeNode, dealGraphNode, getPkgInfo, initChart, removeTreeNode } from '../utils/chart/index'
+import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../utils/chart/index'
 import { preDealName } from '../utils/preDealName'
 
 const relationsJSON = await fetch('relations.json')
@@ -20,15 +20,10 @@ onMounted(async () => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = preDealName(data.name)
     pkgInfo.value = getPkgInfo(pkgName.value)
-    if (seriesType === 'tree') {
-      if (collapsed)
-        removeTreeNode(data)
-      else
-        addTreeNode(treeAncestors, data)
-    }
-    else {
+    if (seriesType === 'tree')
+      dealTreeNode(data, collapsed, treeAncestors)
+    else
       dealGraphNode(data.name)
-    }
   })
 })
 </script>

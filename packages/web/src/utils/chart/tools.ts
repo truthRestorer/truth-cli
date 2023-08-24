@@ -35,3 +35,7 @@ export function fuzzySearch(name: string, relations: Relations) {
     relatedName: findPkgKey,
   }
 }
+
+export function keyOfPkg(dependencies: object, devDependencies?: object) {
+  return Object.keys(Object.assign(dependencies, devDependencies))
+}
