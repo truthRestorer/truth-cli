@@ -3,7 +3,7 @@
 
 <p align="center">
 	<a href="https://truth-cli.vercel.app/">网页效果</a> | 
-  <a href="https://truth-cli-playground.vercel.app">API</a>
+  <a href="https://truth-cli-playground.vercel.app">Playground</a>
 </p>
 
 <p align="center">
