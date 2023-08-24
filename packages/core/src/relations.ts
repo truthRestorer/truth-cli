@@ -37,8 +37,8 @@ export function genRelations() {
         const { name, version, dependencies, devDependencies, homepage } = pkg
         relations[name] = { version, homepage }
         // 像 @types/node 这种包，虽然没有依赖，但是却有 dependencies 字段，所以用 isEmptyObj 判断
-        isEmptyObj(dependencies) && (relations[name].dependencies = dependencies)
-        isEmptyObj(devDependencies) && (relations[name].devDependencies = devDependencies)
+        isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
+        isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
       }
       else {
         // 这里之所以不用判断是不是文件夹，是因为 node_modules 本身的性质
