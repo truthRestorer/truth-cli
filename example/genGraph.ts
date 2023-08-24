@@ -8,26 +8,27 @@ console.log(graph1)
 
 // 2. 自定义生成，默认生成的 links 会指向 __root__
 const graph2 = genGraph({
-  version: '0.0.1',
   dependencies: {
-    axios: '1.0.0',
     vue: '3.0.0',
   },
-  homepage: '',
 })
 console.log(graph2)
 
 // 3. 自定义生成，指定此 links 指向自定义 target(函数的第二个参数)
-
 const graph3 = genGraph({
-  version: '0.0.1',
   dependencies: {
     axios: '1.0.0',
-    vue: '3.0.0',
   },
-  homepage: '',
 }, 'vite')
 console.log(graph3)
+// 等同于上面
+const graph4 = genGraph({
+  name: 'vite',
+  dependencies: {
+    axios: '1.0.0',
+  },
+})
+console.log(graph4)
 
 // 自定义生成出的 nodes 可能会和之前的 nodes 重复，如果希望手动添加节点，建议使用 Set 数据结构判断一下节点是否已经存在
 const { nodes } = graph2
