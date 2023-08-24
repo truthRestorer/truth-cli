@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.9.2
+
+### Patch Changes
+
+- 2a319243: 正确处理package.json中name字段
+
 ## 0.9.1
 
 ### Patch Changes

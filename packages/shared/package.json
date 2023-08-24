@@ -1,6 +1,6 @@
 {
   "name": "@truth-cli/shared",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "type": "module",
   "main": "index.ts",
   "files": [
