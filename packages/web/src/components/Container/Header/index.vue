@@ -2,13 +2,23 @@
 import { Search } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
 import type { Legend, PkgInfo } from '../../../types'
-import { debounce } from '../../../utils/debounce'
 import { collapseNode, getPkgInfo, toggleChart } from '../../../utils/chart'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')
 const legend = ref<Legend>('Graph')
+
+function debounce(fn: () => void) {
+  let timer: NodeJS.Timeout | null = null
+  return function () {
+    if (timer)
+      clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn()
+    }, 200)
+  }
+}
 
 const handleSearch = debounce(() => {
   pkgInfo.value = getPkgInfo(pkgName.value)
