@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import { genPkgTree } from '@truth-cli/core'
+import { genTxt } from '@truth-cli/core'
 import { relations } from './index.js'
 
 // 1. 直接根据 relations 生成：
-const pkgTree1 = genPkgTree(1, relations)
+const pkgTree1 = genTxt(1, relations)
 console.log(pkgTree1)
 
 // 2. 自定义生成：
-const pkgTree2 = genPkgTree(1, {
+const pkgTree2 = genTxt(1, {
   __root__: {
     dependencies: {
       axios: '1.0.0',

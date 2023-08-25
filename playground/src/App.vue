@@ -19,8 +19,8 @@ const tree = genTree(3, relations as any)
       <span :class="{ active: data === graph }" @click="data = graph">genGraph</span>
       <span :class="{ active: data === tree }" @click="data = tree">genTree</span>
       <span :class="{ active: data === versions }" @click="data = versions">genVersions</span>
-      <span :class="{ active: data === pkgs }" @click="data = pkgs">genPkgs</span>
-      <span :class="{ active: data === treePkgs }" @click="data = treePkgs">genPkgTree</span>
+      <span :class="{ active: data === pkgs }" @click="data = pkgs">genJson</span>
+      <span :class="{ active: data === treePkgs }" @click="data = treePkgs">genTxt</span>
     </div>
     <div style="padding-top: 55px;">
       <JsonView v-if="data !== treePkgs" :data="data" :depth="2" />

@@ -48,7 +48,7 @@
 
 ::: tip 前情提要
 
-1. `truth-cli` 对应的文件：[@truth-cli/core - genPkgs](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgs.ts)；
+1. `truth-cli` 对应的文件：[@truth-cli/core - genJson](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgs.ts)；
 
 2. `pkgs.json` 文件的数据生成方式与 `tree` 图类似。
 :::
@@ -63,7 +63,7 @@
 
 ::: tip 前情提要
 
-1. `truth-cli` 对应的文件：[@truth-cli/core - genPkgTree](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgTree.ts)；
+1. `truth-cli` 对应的文件：[@truth-cli/core - genTxt](https://github.com/truthRestorer/truth-cli/blob/main/packages/core/src/pkgTree.ts)；
 
 2. `pkgs.txt` 文件的数据通过遍历 `pkgs` 形成。
 :::

@@ -60,7 +60,7 @@ truth-cli tree --dep 3
 
 ## 生成文件的格式
 
-可以查看 [Playground](https://truth-cli-playground.vercel.app/) 中的 `genPkgs` 和 `genPkgTree` 选项了解更多。
+可以查看 [Playground](https://truth-cli-playground.vercel.app/) 中的 `genJson` 和 `genTxt` 选项了解更多。
 
 `json` 文件，`type` 为 0 表示此依赖是 `devDependencies`，为 1 表示是 `devDependencies`:
 

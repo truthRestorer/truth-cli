@@ -141,7 +141,7 @@ console.log(graph3)
 ```ts
 import { genTree } from '@truth-cli/core'
 
-declare function genPkgTree(depth: number, relations: Relations): string
+declare function genTxt(depth: number, relations: Relations): string
 
 interface Tree {
   name: string
@@ -169,18 +169,18 @@ interface IVersions {
 }
 ```
 
-## genPkgs
+## genJson
 
 ::: tip 功能介绍
-`genPkgs` API 用于生成 `pkgs.json` 文件数据
+`genJson` API 用于生成 `pkgs.json` 文件数据
 :::
 
 第三个参数表示是否采取优化措施
 
 ```ts
-import { genPkgs } from '@truth-cli/core'
+import { genJson } from '@truth-cli/core'
 
-declare function genPkgs(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
+declare function genJson(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
 
 interface Pkgs {
   version: string
@@ -190,14 +190,14 @@ interface Pkgs {
 }
 ```
 
-## genPkgTree
+## genTxt
 
 ::: tip 功能介绍
-`genPkgTree` API 用于生成树形结构的文本数据，在根目录中生成 `pkgs.txt`
+`genTxt` API 用于生成树形结构的文本数据，在根目录中生成 `pkgs.txt`
 :::
 
 ```ts
-import { genPkgTree } from '@truth-cli/core'
+import { genTxt } from '@truth-cli/core'
 
-declare function genPkgTree(depth: number, relations: Relations): string
+declare function genTxt(depth: number, relations: Relations): string
 ```
