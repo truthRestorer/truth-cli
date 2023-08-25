@@ -16,8 +16,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "removeComments": false,
-    "lib": ["esnext", "dom"],
-    "types": ["node", "vitest/globals"],
+    "lib": ["esnext"],
+    "types": ["node"],
     "rootDir": "."
   },
   "ts-node": {
