@@ -1,6 +1,6 @@
 import type { Relations } from '@truth-cli/shared'
-import type { Pkgs } from './pkgs.js'
-import { genPkgs } from './pkgs.js'
+import type { Pkgs } from './json.js'
+import { genJson } from './json.js'
 
 interface IContext {
   source: string
@@ -42,23 +42,23 @@ function createContext() {
   return context
 }
 
-export function genPkgTree(depth: number, relations: Relations) {
-  const { name, version, packages } = genPkgs(depth, relations)
+export function genTxt(depth: number, relations: Relations) {
+  const { name, version, packages } = genJson(depth, relations)
   const ctx = createContext()
   const { dealNewLine, push, dealEnd } = ctx
   push(`${name} ${version}:`)
-  function loadTreeFile(pkgs: Pkgs | undefined, tabCount: number) {
+  function loadTxt(pkgs: Pkgs | undefined, tabCount: number) {
     if (!pkgs)
       return
     dealNewLine(tabCount)
     for (const [name, { packages, version }] of Object.entries(pkgs)) {
       dealNewLine(tabCount, true)
       push(`${name} ${version}`)
-      loadTreeFile(packages, tabCount + 1)
+      loadTxt(packages, tabCount + 1)
     }
     dealNewLine(tabCount)
   }
-  loadTreeFile(packages, 0)
+  loadTxt(packages, 0)
   dealEnd()
   return ctx.source
 }

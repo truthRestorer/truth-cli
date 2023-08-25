@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { useEntries } from '../pkgs'
+import { useEntries } from '../json'
 
 describe('readDir test', async () => {
   test('undefined or null should be empty Array', () => {
