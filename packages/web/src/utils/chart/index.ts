@@ -34,7 +34,7 @@ export function initChart(_echart: ECharts, _relations: Relations) {
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
     const graph = genGraph(relations.__root__)
-    echart?.setOption(setChart('Graph', {
+    echart.setOption(setChart('Graph', {
       nodes: nodes = graph.nodes,
       links: links = graph.links,
     }))
@@ -43,7 +43,7 @@ export function collapseNode(legend: Legend) {
   for (const map of treeNodeMap.values())
     map.collapsed = true
   treeNodeMap.clear()
-  echart?.setOption(setChart('Tree', { tree }))
+  echart.setOption(setChart('Tree', { tree }))
 }
 
 export function dealGraphNode(name: string) {
@@ -72,7 +72,7 @@ export function dealGraphNode(name: string) {
         nodes.push(_nodes[i])
     }
   }
-  echart?.setOption(setChart('Graph', {
+  echart.setOption(setChart('Graph', {
     nodes,
     links,
   }))
@@ -105,7 +105,7 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
       children: [],
     })
   }
-  echart?.setOption(setChart('Tree', { tree }))
+  echart.setOption(setChart('Tree', { tree }))
 }
 
 export function toggleChart(legend: Legend) {
