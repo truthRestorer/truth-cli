@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.9.6
+
+### Patch Changes
+
+- c3af123e: 修复路径打印错误问题
+
 ## 0.9.5
 
 ### Patch Changes
