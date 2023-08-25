@@ -14,7 +14,7 @@ export function genFile(depth: number, type: 'json' | 'txt', p: string) {
       writeFileSync(writePath, JSON.stringify(genJson(depth, relations)))
     else
       writeFileSync(writePath, genTxt(depth, relations))
-    logFileWirteFinished(Date.now() - begin, `pkgs.${type}`)
+    logFileWirteFinished(Date.now() - begin, writePath)
   }
   catch (err: any) {
     logError(err.message)
