@@ -12,6 +12,7 @@
     "test": "vitest run",
     "prepare": "husky install",
     "commit": "git-cz",
+    "bench": "vitest bench",
     "docs:dev": "pnpm -F docs dev",
     "docs:build": "pnpm -F docs build",
     "docs:preview": "pnpm -F docs preview"
