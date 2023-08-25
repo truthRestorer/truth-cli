@@ -23,8 +23,9 @@ export function genRelations() {
   } = useReadFile('package.json')
   const relations: Relations = {
     __root__: { name: name ?? '__root__', version, dependencies, devDependencies, homepage },
-    [name]: { name, version, dependencies, devDependencies, homepage },
   }
+  if (name)
+    relations[name] = { name, version, dependencies, devDependencies, homepage }
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
