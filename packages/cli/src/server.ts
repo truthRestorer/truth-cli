@@ -13,7 +13,7 @@ export function startWebServer() {
       const result = readFileSync(htmlPath)
       res.end(result)
     }
-    else {
+    else if (req.url === '/relations.json') {
       const relations = genRelations()
       res.end(JSON.stringify((relations)))
     }
