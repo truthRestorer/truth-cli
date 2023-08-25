@@ -38,12 +38,13 @@ export function collapseNode(legend: Legend) {
       nodes: nodes = graph.nodes,
       links: links = graph.links,
     }))
+    nodesSet.clear()
     return
   }
   for (const map of treeNodeMap.values())
     map.collapsed = true
-  treeNodeMap.clear()
   echart.setOption(setChart('Tree', { tree }))
+  treeNodeMap.clear()
 }
 
 export function dealGraphNode(name: string) {
