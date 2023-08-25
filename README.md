@@ -13,6 +13,7 @@
 <p align="center">
   <a href="https://truthrestorer.github.io/truth-cli/">中文文档</a>
 </p>
+
 # 快速开始
 
 ## npx
