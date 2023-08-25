@@ -1,5 +1,5 @@
 import type { Relations } from '@truth-cli/shared'
-import type { Pkgs } from './json.js'
+import type { PkgJson } from './json.js'
 import { genJson } from './json.js'
 
 interface IContext {
@@ -47,7 +47,7 @@ export function genTxt(depth: number, relations: Relations) {
   const ctx = createContext()
   const { dealNewLine, push, dealEnd } = ctx
   push(`${name} ${version}:`)
-  function loadTxt(pkgs: Pkgs | undefined, tabCount: number) {
+  function loadTxt(pkgs: PkgJson | undefined, tabCount: number) {
     if (!pkgs)
       return
     dealNewLine(tabCount)

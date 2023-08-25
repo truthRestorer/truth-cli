@@ -10,10 +10,10 @@ enum PkgDependency {
   'DEPENDENCY',
 }
 
-export interface Pkgs {
+export interface PkgJson {
   version?: string
   type?: PkgDependency
-  packages?: Pkgs
+  packages?: PkgJson
   [key: string]: any
 }
 
@@ -21,7 +21,7 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
   // 为了不重复生成的根节点，我们需要 Set 数据结构
   const pkgSet = new Set()
   const { devDependencies, dependencies, version = 'latest' } = relations.__root__
-  const pkgs: Pkgs = {
+  const pkgs: PkgJson = {
     name: '__root__',
     version,
     packages: {},
@@ -30,7 +30,7 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
   // 向 pkg 中添加节点
   function getPackages(dependencies: any, devDependencies: any) {
     // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
-    const pkgs: Pkgs = {}
+    const pkgs: PkgJson = {}
     for (const [name, version] of useEntries(dependencies)) {
       const add = { version, type: PkgDependency.DEPENDENCY }
       pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
@@ -44,7 +44,7 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   // 递归(深度优先)产生 `pkgs.json` 内容数据
-  function loadJson(rootPkgs: Pkgs, maxDep: number) {
+  function loadJson(rootPkgs: PkgJson, maxDep: number) {
     if (maxDep <= 0) {
       for (const key of Object.keys(rootPkgs))
         delete rootPkgs[key].packages

@@ -1,13 +1,14 @@
-import { Nodes, Links, Pkgs, Relations, Relation, Tree, Versions } from '@truth-cli/shared'
+import { Nodes, Links, Relations, Relation, Tree, Versions } from '@truth-cli/shared'
+import { PkgJson } from './src/json'
 
 declare function genGraph(relation: Relation, target?: string): {
   nodes: Nodes[]
   links: Links[]
 }
 
-declare function genPkgs(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
+declare function genJson(depth: number, relations: Relations, shouldOptimize?: boolean): PkgJson
 
-declare function genPkgTree(depth: number, relations: Relations): string
+declare function genTxt(depth: number, relations: Relations): string
 
 declare function genRelations(): Relations
 

@@ -32,7 +32,7 @@ cli
   })
 
 cli
-  .command('tree')
+  .command('txt')
   .option('--dep [dep]', 'Dependency depth, default is 1', {
     default: 1,
   })

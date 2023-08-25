@@ -53,7 +53,7 @@ truth-cli json --dep 4
 ```
 
 ```bash
-truth-cli tree --dep 4
+truth-cli txt --dep 4
 ```
 
 ## 指定路径
@@ -65,7 +65,7 @@ truth-cli json --path dist/
 ```
 
 ```bash
-truth-cli tree --path dist/
+truth-cli txt --path dist/
 ```
 
 > **WARNNING: 请不要再路径开头加上 /，这会被 nodejs 识别成根路径，从而生成失败**
