@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.9.5
+
+### Patch Changes
+
+- 4e976c2a: 版本依赖更新，新增节点拖拽效果
+
 ## 0.9.4
 
 ### Patch Changes
