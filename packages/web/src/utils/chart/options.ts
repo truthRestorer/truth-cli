@@ -77,6 +77,7 @@ export function loadGraph(nodes: Nodes[], links: Links[]) {
       nodes,
       links,
       categories,
+      cursor: 'pointer',
       symbolSize: 22,
       label: {
         show: true,
@@ -87,6 +88,7 @@ export function loadGraph(nodes: Nodes[], links: Links[]) {
         friction: 0.15,
       },
       roam: true,
+      draggable: true,
     },
   }
 }
