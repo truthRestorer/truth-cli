@@ -39,12 +39,12 @@ cli
   .option('--path [path]', 'Path to generate pkgs.txt file, the default is ./', {
     default: './',
   })
-  .action(({ dep, file }) => {
+  .action(({ dep, path }) => {
     try {
       const depth = Number(dep)
       if (Number.isNaN(depth))
         throw new TypeError('illegal type of depth')
-      genFile(depth, 'txt', file)
+      genFile(depth, 'txt', path)
     }
     catch (err: any) {
       logError(err.message)
