@@ -5,14 +5,8 @@ import { genJson, genTxt } from '@truth-cli/core'
 import { logError, logFileWirteFinished } from './const.js'
 
 // 写入文件
-export function genFile(
-  depth: number,
-  type: 'json' | 'txt',
-  p?: string | boolean,
-) {
+export function genFile(depth: number, type: 'json' | 'txt', p: string) {
   const begin = Date.now()
-  if (!p || typeof p === 'boolean')
-    p = './'
   try {
     const relations = genRelations()
     const writePath = path.join(p, `pkgs.${type}`)
