@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "removeComments": false,
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "types": ["node"],
     "rootDir": "."
   },
