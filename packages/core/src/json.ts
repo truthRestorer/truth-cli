@@ -29,15 +29,15 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
   pkgs.packages = getPackages(dependencies, devDependencies)
   // 向 pkg 中添加节点
   function getPackages(dependencies: any, devDependencies: any) {
-    // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下
+    // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下，shouldOptimize 为 true 时，第一次出现不一定包含依赖
     const pkgs: PkgJson = {}
     for (const [name, version] of useEntries(dependencies)) {
-      const add = { version, type: PkgDependency.DEPENDENCY }
-      pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
+      if (!pkgSet.has(name))
+        pkgs[name] = { version, type: PkgDependency.DEPENDENCY, packages: {} }
     }
     for (const [name, version] of useEntries(devDependencies)) {
-      const add = { version, type: PkgDependency.DEVDEPENDENCY }
-      pkgs[name] = pkgSet.has(name) ? add : { ...add, packages: {} }
+      if (!pkgSet.has(name))
+        pkgs[name] = { version, type: PkgDependency.DEVDEPENDENCY, packages: {} }
     }
     return pkgs
   }
@@ -51,9 +51,9 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
       return
     }
     for (const key of Object.keys(rootPkgs)) {
-      pkgSet.add(key)
       const { dependencies, devDependencies } = relations[key] ?? {}
       rootPkgs[key].packages = getPackages(dependencies, devDependencies)
+      pkgSet.add(key)
       if (isEmptyObj(rootPkgs[key].packages))
         delete rootPkgs[key].packages
       else
