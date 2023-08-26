@@ -19,6 +19,9 @@ let versions: Versions
 export function initChart(_echart: ECharts, _relations: Relations) {
   const graph = genGraph(_relations.__root__)
   const options = {
+    toolbox: {
+      feature: { saveAsImage: {} },
+    },
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
