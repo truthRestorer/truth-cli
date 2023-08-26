@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.9.11
+
+### Patch Changes
+
+- ff06f4d6: 采取gzip压缩json文件
+
 ## 0.9.10
 
 ### Patch Changes
