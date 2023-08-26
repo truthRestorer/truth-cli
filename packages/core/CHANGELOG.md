@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.9.9
+
+### Patch Changes
+
+- fb8c8772: 完善了@truth-cli/core中API的使用
+
 ## 0.9.8
 
 ### Patch Changes
