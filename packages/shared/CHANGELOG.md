@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.9.8
+
+### Patch Changes
+
+- c8bf5c5c: 指令参数简化
+
 ## 0.9.7
 
 ### Patch Changes
