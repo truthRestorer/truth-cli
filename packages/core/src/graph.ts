@@ -6,7 +6,7 @@ enum GraphDependency {
   ROOT,
 }
 
-export function genGraph(relation: Relation, target?: string, category: GraphDependency = GraphDependency.ROOT) {
+export function genGraph(relation: Relation, target?: string, category?: GraphDependency) {
   const {
     name = '__root__',
     version = 'latest',
@@ -15,15 +15,17 @@ export function genGraph(relation: Relation, target?: string, category: GraphDep
   } = relation
   const links: Links[] = []
   const nodes: Nodes[] = []
-  target || nodes.push({
-    name,
-    category,
-    value: version,
-  })
+  if (!target || name !== '__root__') {
+    nodes.push({
+      name,
+      category: GraphDependency.ROOT,
+      value: version,
+    })
+  }
   for (const [pkgName, pkgVersion] of Object.entries(Object.assign(dependencies, devDependencies))) {
     nodes.push({
       name: pkgName,
-      category: target ? GraphDependency.DEPENDENCY : GraphDependency.ROOT_DEPENDENCY,
+      category: category ?? GraphDependency.ROOT_DEPENDENCY,
       value: pkgVersion as string,
     })
     links.push({
