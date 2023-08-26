@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.9.7
+
+### Patch Changes
+
+- 1bb09baf: 修复折叠全部节点后不展开问题
+
 ## 0.9.6
 
 ### Patch Changes
