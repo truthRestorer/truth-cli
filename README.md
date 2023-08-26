@@ -47,19 +47,19 @@ truth-cli txt
 
 > 深度只针对生成文件，网页端采取动态加载节点的策略。
 
-使用 `--dep` 参数:
+使用 `--dep` 或 `-d` 参数:
 
 ```bash
-truth-cli json --dep 4
+truth-cli json --dep 2
 ```
 
 ```bash
-truth-cli txt --dep 4
+truth-cli txt --dep 2
 ```
 
 ## 指定路径
 
-`truth-cli` 默认在项目的根目录生成文件，如果想要更改路径，可以在将路径加在 `--path` 参数后
+`truth-cli` 默认在项目的根目录生成文件，如果想要更改路径，可以在将路径加在 `--path` 或 `-p` 参数后
 
 ```bash
 truth-cli json --path dist/
