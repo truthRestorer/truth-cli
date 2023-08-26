@@ -1,14 +1,8 @@
-import { describe, expect, test } from 'vitest'
+import { expect, test } from 'vitest'
 import { useReadFile } from '../relations'
+import pkgJson from '../../../../package.json'
 
-describe('readFile test', () => {
+test('readFile API 测试', () => {
   const result = useReadFile('package.json')
-  test('result should be object', () => {
-    expect(result).toBeTypeOf('object')
-  })
-  test('result should have devDependencies, dependencies and scripts property', async () => {
-    expect(result.devDependencies).toBeTypeOf('object')
-    expect(result.dependencies).toBeTypeOf('undefined')
-    expect(result.scripts).toBeTypeOf('object')
-  })
+  expect(result).toEqual(pkgJson)
 })

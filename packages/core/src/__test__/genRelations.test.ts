@@ -2,10 +2,10 @@ import { describe, expect, expectTypeOf, test } from 'vitest'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genRelations } from '../relations'
 
-describe('genRelations test', async () => {
+describe('genRelations API 测试', async () => {
   const result = genRelations()
   const relations = genRelations()
-  test('export data should have corret type and it is not empty', () => {
+  test('数据格式', () => {
     expectTypeOf(result).toBeObject()
     expectTypeOf(result).toBeObject()
     expectTypeOf(relations).toBeObject()
@@ -13,7 +13,7 @@ describe('genRelations test', async () => {
     expect(isEmptyObj(relations)).toBeFalsy()
     expect(isEmptyObj(relations.__root__)).toBeFalsy()
   })
-  test('export data have their own props', () => {
+  test('属性及属性值', () => {
     expect(isEmptyObj(relations)).toBeFalsy()
     expect(isEmptyObj(relations.__root__)).toBeFalsy()
     for (const val of Object.values(relations))
