@@ -11,10 +11,10 @@ cli.command('web').action(() => {
 
 cli
   .command('json')
-  .option('--dep [dep]', 'Dependency depth, default is 1', {
+  .option('-d, --dep [dep]', 'Dependency depth, default is 1', {
     default: 1,
   })
-  .option('--path [path]', 'Path to generate pkgs.json file, the default is ./', {
+  .option('-p, --path [path]', 'Path to generate pkgs.json file, the default is ./', {
     default: './',
   })
   .action(({ dep, path }) => {
@@ -31,10 +31,10 @@ cli
 
 cli
   .command('txt')
-  .option('--dep [dep]', 'Dependency depth, default is 1', {
+  .option('-d, --dep [dep]', 'Dependency depth, default is 1', {
     default: 1,
   })
-  .option('--path [path]', 'Path to generate pkgs.txt file, the default is ./', {
+  .option('-p, --path [path]', 'Path to generate pkgs.txt file, the default is ./', {
     default: './',
   })
   .action(({ dep, path }) => {
