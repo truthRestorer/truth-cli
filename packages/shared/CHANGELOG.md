@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 0.9.10
+
+### Patch Changes
+
+- d3fe0220: 优化genJson API
+
 ## 0.9.9
 
 ### Patch Changes
