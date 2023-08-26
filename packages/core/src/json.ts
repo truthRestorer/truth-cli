@@ -26,34 +26,34 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
     version,
     packages: {},
   }
-  pkgs.packages = getPackages(dependencies, devDependencies)
-  // 向 pkg 中添加节点
-  function getPackages(dependencies: any, devDependencies: any) {
-    // FIXME: 这个逻辑似乎有点麻烦了，可以尝试简化一下，shouldOptimize 为 true 时，第一次出现不一定包含依赖
-    const pkgs: PkgJson = {}
-    for (const [name, version] of useEntries(dependencies)) {
-      if (!pkgSet.has(name))
-        pkgs[name] = { version, type: PkgDependency.DEPENDENCY, packages: {} }
-    }
-    for (const [name, version] of useEntries(devDependencies)) {
-      if (!pkgSet.has(name))
-        pkgs[name] = { version, type: PkgDependency.DEVDEPENDENCY, packages: {} }
-    }
-    return pkgs
-  }
+  for (const [name, version] of useEntries(devDependencies))
+    pkgs.packages![name] = { version, type: PkgDependency.DEVDEPENDENCY, packages: {} }
+  for (const [name, version] of useEntries(dependencies))
+    pkgs.packages![name] = { version, type: PkgDependency.DEPENDENCY, packages: {} }
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   // 递归(深度优先)产生 `pkgs.json` 内容数据
-  function loadJson(rootPkgs: PkgJson, maxDep: number) {
+  function loadJson(rootPkgs: PkgJson | undefined, maxDep: number) {
+    if (!rootPkgs)
+      return
     if (maxDep <= 0) {
       for (const key of Object.keys(rootPkgs))
         delete rootPkgs[key].packages
       return
     }
     for (const key of Object.keys(rootPkgs)) {
+      if (!rootPkgs[key].packages)
+        continue
       const { dependencies, devDependencies } = relations[key] ?? {}
-      rootPkgs[key].packages = getPackages(dependencies, devDependencies)
       pkgSet.add(key)
+      for (const [name, version] of useEntries(dependencies)) {
+        rootPkgs[key].packages[name] = { version, type: PkgDependency.DEPENDENCY }
+        pkgSet.has(name) || (rootPkgs[key].packages[name].packages = {})
+      }
+      for (const [name, version] of useEntries(devDependencies)) {
+        rootPkgs[key].packages[name] = { version, type: PkgDependency.DEVDEPENDENCY }
+        pkgSet.has(name) || (rootPkgs[key].packages[name].packages = {})
+      }
       if (isEmptyObj(rootPkgs[key].packages))
         delete rootPkgs[key].packages
       else
