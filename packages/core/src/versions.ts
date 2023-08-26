@@ -1,5 +1,4 @@
 import type { Relations, Versions } from '@truth-cli/shared'
-import { isEmptyObj } from '@truth-cli/shared'
 
 export function vControl(v: string) {
   if (v[0] === '^')
@@ -12,11 +11,8 @@ export function vControl(v: string) {
 export function genVersions(relations: Relations) {
   const versions: Versions = {}
   function loadVersions() {
-    for (const [name, { dependencies = {}, devDependencies = {} }] of Object.entries(relations)) {
-      const pkgs = Object.assign(dependencies, devDependencies)
-      if (isEmptyObj(pkgs))
-        continue
-      for (const [pkgName, pkgVersion] of Object.entries(pkgs)) {
+    for (const [name, { dependencies = {}, devDependencies }] of Object.entries(relations)) {
+      for (const [pkgName, pkgVersion] of Object.entries(Object.assign(dependencies, devDependencies))) {
         const pkgMap: any = versions[pkgName]
         const v = vControl(pkgVersion)
         if (!pkgMap) {
@@ -32,9 +28,5 @@ export function genVersions(relations: Relations) {
     }
   }
   loadVersions()
-  for (const key of Object.keys(versions)) {
-    if (Object.keys(versions[key]).length === 1)
-      delete versions[key]
-  }
   return versions
 }

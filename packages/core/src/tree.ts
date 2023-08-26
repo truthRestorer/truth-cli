@@ -28,9 +28,8 @@ export function genTree(depth: number, relations: Relations) {
       if (!relations[tree.name])
         continue
       const { devDependencies, dependencies = {} } = relations[tree.name]
-      const pkgs = Object.assign(dependencies, devDependencies)
       treeSet.add(tree.name)
-      for (const [name, version] of Object.entries(pkgs)) {
+      for (const [name, version] of Object.entries(Object.assign(dependencies, devDependencies))) {
         if (!treeSet.has(name)) {
           const add: Tree = { name, value: version as string, children: [] }
           tree.children.push(add)

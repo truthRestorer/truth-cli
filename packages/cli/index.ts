@@ -1,7 +1,5 @@
 import { cac } from 'cac'
-import {
-  logError,
-} from './src/const.js'
+import { logError } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
 
