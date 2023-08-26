@@ -53,7 +53,7 @@ export function collapseNode(legend: Legend) {
 export function dealGraphNode(name: string) {
   if (name === '__root__' || !relations[name])
     return
-  const { nodes: _nodes, links: _links } = genGraph(relations[name], name)
+  const { nodes: _nodes, links: _links } = genGraph(relations[name], name, 0)
   if (!_nodes.length)
     return
   if (nodesSet.has(name)) {
