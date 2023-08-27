@@ -16,4 +16,7 @@ export const basePlugins = [
 
 export default defineConfig({
   plugins: basePlugins,
+  build: {
+    reportCompressedSize: false,
+  },
 })

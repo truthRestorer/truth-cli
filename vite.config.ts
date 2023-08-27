@@ -13,4 +13,7 @@ export default defineConfig({
       deleteOriginFile: true,
     }),
   ],
+  build: {
+    reportCompressedSize: false,
+  },
 })
