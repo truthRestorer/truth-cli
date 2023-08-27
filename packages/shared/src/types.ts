@@ -18,11 +18,11 @@ export interface Tree {
 }
 
 export interface Relation {
+  name?: string
   version?: string
   dependencies?: { [key: string]: string }
   devDependencies?: { [key: string]: string }
   homepage?: string
-  [key: string]: any
 }
 
 export interface Relations {
