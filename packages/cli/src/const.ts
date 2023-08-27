@@ -16,7 +16,7 @@ export function logError(message: string) {
   console.log(`\n  ${red('Error')} ${message}\n`)
 }
 
-export function logLogo() {
+function logLogo() {
   const logo = `\n  ${green(bold('TRUTH-CLI'))} ${dim(`v${version}`)}\n`
   console.log(logo)
 }
