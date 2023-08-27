@@ -1,5 +1,11 @@
 # truth-cli
 
+## 0.10.0
+
+### Minor Changes
+
+- b018d960: 优化了细节问题
+
 ## 0.9.11
 
 ### Patch Changes
