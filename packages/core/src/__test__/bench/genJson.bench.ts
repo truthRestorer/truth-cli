@@ -1,7 +1,7 @@
 import { bench } from 'vitest'
 import { genJson } from '../../json'
 
-bench('API genGraph', () => {
+bench('API genJson', () => {
   genJson(1, {
     __root__: {
       version: '1.0.0',
