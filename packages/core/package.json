@@ -1,6 +1,6 @@
 {
   "name": "@truth-cli/core",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "type": "module",
   "main": "dist/index.js",
   "types": "index.d.ts",
