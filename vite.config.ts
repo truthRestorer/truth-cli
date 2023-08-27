@@ -8,6 +8,8 @@ export default defineConfig({
     ...basePlugins,
     viteSingleFile(),
     viteCompression({
+      ext: '.br',
+      algorithm: 'brotliCompress',
       deleteOriginFile: true,
     }),
   ],

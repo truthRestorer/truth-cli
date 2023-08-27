@@ -31,4 +31,4 @@ export function logFileWirteFinished(duration: number, file: string) {
   console.log(`  ${cyan(path.resolve(file))}   ${bold(duration)} ${dim('ms')}\n`)
 }
 
-export const htmlPath = path.resolve(__dirname, 'index.html.gz')
+export const htmlPath = path.resolve(__dirname, 'index.html.br')

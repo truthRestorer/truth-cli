@@ -11,11 +11,14 @@ export function startWebServer() {
   const relations = gzipSync(JSON.stringify(genRelations()))
   const html = readFileSync(htmlPath)
   const server = createServer((req, res) => {
-    res.setHeader('content-encoding', 'gzip')
-    if (req.url === '/')
+    if (req.url === '/') {
+      res.setHeader('content-encoding', 'br')
       res.end(html)
-    else if (req.url === '/relations.json')
+    }
+    else if (req.url === '/relations.json') {
+      res.setHeader('content-encoding', 'gzip')
       res.end(relations)
+    }
   })
   server.on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
