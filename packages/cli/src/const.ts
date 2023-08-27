@@ -28,7 +28,7 @@ export function logWebStart(duration: number, port: number) {
 
 export function logFileWirteFinished(duration: number, file: string) {
   logLogo()
-  console.log(`  ${cyan(path.resolve(file))}   ${dim(duration)} ${dim('ms')}\n`)
+  console.log(`  ${cyan(path.resolve(file))}   ${bold(duration)} ${dim('ms')}\n`)
 }
 
 export const htmlPath = path.resolve(__dirname, 'index.html.gz')
