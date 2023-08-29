@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 0.10.1
+
+### Patch Changes
+
+- d44757ab: 采用br压缩网页内容，减少体积
+
 ## 0.10.0
 
 ### Minor Changes
