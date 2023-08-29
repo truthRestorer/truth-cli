@@ -24,54 +24,70 @@ function handlePkgInfo(command: string) {
 </script>
 
 <template>
-  <ElDrawer
-    v-model="drawer"
-    :modal="false"
-    modal-class="modal"
-    :show-close="false"
-    :title="pkgName"
-    direction="ltr"
-    size="350"
-    style="--el-drawer-padding-primary:16px;position:fixed;z-index:998;top:50px;height: 100%;padding-bottom:80px;"
-  >
-    <template #header>
-      <div class="pkgName">
-        <ElScrollbar>
-          {{ pkgName }}
-        </ElScrollbar>
-      </div>
-      <ElDropdown trigger="click" @command="handlePkgInfo">
-        <ElButton type="primary">
-          INFO
-          <ElIcon class="el-icon--right">
-            <ArrowDown />
-          </ElIcon>
-        </ElButton>
-        <template #dropdown>
-          <ElDropdownMenu>
-            <ElDropdownItem command="info">
-              依赖信息
-            </ElDropdownItem>
-            <ElDropdownItem command="circulation">
-              循环依赖
-            </ElDropdownItem>
-            <ElDropdownItem command="versions">
-              版本信息
-            </ElDropdownItem>
-            <li style="padding:0 16px;">
-              <ElButton :checked="true" @click="handleTagChange">
-                NPM
-              </ElButton>
-            </li>
-          </ElDropdownMenu>
-        </template>
-      </ElDropdown>
-    </template>
-    <JsonView :show-info="showType" :pkg-info="pkgInfo" />
-  </ElDrawer>
+  <Transition>
+    <div v-if="drawer" class="drawer">
+      <ElScrollbar>
+        <div style="display: flex;justify-content: space-between;padding-right: 12px;padding-bottom: 12px;">
+          <div class="pkgName">
+            <ElScrollbar>
+              {{ pkgName }}
+            </ElScrollbar>
+          </div>
+          <ElDropdown trigger="click" @command="handlePkgInfo">
+            <ElButton type="primary">
+              INFO
+              <ElIcon class="el-icon--right">
+                <ArrowDown />
+              </ElIcon>
+            </ElButton>
+            <template #dropdown>
+              <ElDropdownMenu>
+                <ElDropdownItem command="info">
+                  依赖信息
+                </ElDropdownItem>
+                <ElDropdownItem command="circulation">
+                  循环依赖
+                </ElDropdownItem>
+                <ElDropdownItem command="versions">
+                  版本信息
+                </ElDropdownItem>
+                <li style="padding:0 16px;">
+                  <ElButton :checked="true" @click="handleTagChange">
+                    NPM
+                  </ElButton>
+                </li>
+              </ElDropdownMenu>
+            </template>
+          </ElDropdown>
+        </div>
+        <JsonView :show-info="showType" :pkg-info="pkgInfo" />
+      </ElScrollbar>
+    </div>
+  </Transition>
 </template>
 
 <style scoped>
+.drawer {
+  position:fixed;
+  z-index:998;
+  top:50px;
+  height: 100%;
+  padding-bottom:80px;
+  width: 300px;
+  translate: 0px;
+  padding: 16px 8px;
+  background-color: var(--el-bg-color);
+  box-shadow: var(--el-box-shadow-light);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: translate 0.15s ease-in-out;
+}
+.v-enter-from,
+.v-leave-to {
+  translate: -300px;
+
+}
 .pkgName {
   font-weight: 700;
   font-size: 20px;
@@ -84,14 +100,5 @@ function handlePkgInfo(command: string) {
 <style>
 .el-button+.el-button {
   margin-left: 0;
-}
-.el-drawer__header {
-  margin-bottom: 10px;
-}
-.el-drawer {
-  box-shadow: var(--el-box-shadow-lighter);
-}
-.modal {
-  position: unset!important;
 }
 </style>
