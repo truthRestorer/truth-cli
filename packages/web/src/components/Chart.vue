@@ -3,7 +3,7 @@ import { onMounted, provide, ref } from 'vue'
 import type { Relations } from '@truth-cli/shared'
 import type { PkgInfo } from '../types'
 import echarts from '../plugins/echarts'
-import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../utils/chart/index'
+import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../utils/index'
 import { formatName } from '../utils/formatName'
 
 const relationsJSON = await fetch('relations.json')
@@ -11,7 +11,9 @@ const relations: Relations = await relationsJSON.json()
 const pkgName = ref(relations.__root__.name)
 const pkgInfo = ref<PkgInfo>({ info: relations.__root__ })!
 const isAim = ref(false)
+const drawer = ref(false)
 
+provide('drawer', drawer)
 provide('pkgName', pkgName)
 provide('pkgInfo', pkgInfo)
 provide('isAim', isAim)
@@ -34,6 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Container />
+  <Header />
+  <Drawer />
   <div id="chart" style="height:100vh" />
 </template>

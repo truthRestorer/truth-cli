@@ -2,8 +2,8 @@ import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
-import { formatName } from '../formatName'
-import type { Legend, PkgInfo } from '../../types'
+import type { Legend, PkgInfo } from '../types'
+import { formatName } from './formatName'
 import { loadGraph, loadTree } from './tools'
 
 let echart: ECharts

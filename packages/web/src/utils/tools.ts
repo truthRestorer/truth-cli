@@ -1,6 +1,5 @@
 import type { Links, Nodes, Tree } from '@truth-cli/shared'
-import { formatName } from '../formatName'
-import { categories } from '../../types'
+import { formatName } from './formatName'
 
 export function loadTree(tree: Tree) {
   const richStyle = {
@@ -75,7 +74,11 @@ export function loadGraph(nodes: Nodes[], links: Links[]) {
       layout: 'force',
       nodes,
       links,
-      categories,
+      categories: [
+        { name: '依赖' },
+        { name: '项目依赖' },
+        { name: '项目名' },
+      ],
       cursor: 'pointer',
       symbolSize: 22,
       label: {

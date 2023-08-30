@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Aim, Search } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
-import type { Legend, PkgInfo } from '../../../types'
-import { changeGraphRoot, collapseNode, getPkgInfo, toggleChart } from '../../../utils/chart'
+import type { Legend, PkgInfo } from '../../types'
+import { changeGraphRoot, collapseNode, getPkgInfo, toggleChart } from '../../utils/'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
@@ -56,7 +56,6 @@ const handleSearch = debounce(() => {
       <ElButton @click="() => legend = toggleChart(legend)">
         切换图表
       </ElButton>
-
       <Link />
     </div>
   </div>

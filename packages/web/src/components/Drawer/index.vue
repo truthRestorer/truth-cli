@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { type Ref, inject, ref } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { getPkgInfo } from '../../../utils/chart/index'
-import type { PkgInfo } from '../../../types'
+import { getPkgInfo } from '../../utils/index'
+import type { PkgInfo } from '../../types'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
@@ -43,7 +43,7 @@ function handlePkgInfo(command: string) {
                 <ElDropdownItem command="versions">
                   版本信息
                 </ElDropdownItem>
-                <li style="padding:0 16px;">
+                <ElDropdownItem>
                   <ElButton
                     tag="a"
                     target="_blank"
@@ -51,7 +51,7 @@ function handlePkgInfo(command: string) {
                   >
                     NPM
                   </ElButton>
-                </li>
+                </ElDropdownItem>
               </ElDropdownMenu>
             </template>
           </ElDropdown>
@@ -82,7 +82,6 @@ function handlePkgInfo(command: string) {
 .v-enter-from,
 .v-leave-to {
   translate: -300px;
-
 }
 .pkgName {
   font-weight: 700;

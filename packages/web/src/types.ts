@@ -7,15 +7,3 @@ export interface PkgInfo {
   circulation?: string[]
   versions?: { [key: string]: string[] }
 }
-
-export const categories = [
-  {
-    name: '依赖',
-  },
-  {
-    name: '项目依赖',
-  },
-  {
-    name: '项目名',
-  },
-]
