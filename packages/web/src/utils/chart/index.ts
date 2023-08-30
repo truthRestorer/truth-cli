@@ -53,10 +53,10 @@ export function changeGraphRoot(name: string, isAim: boolean) {
 
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
-    const graph = genGraph(relations.__root__)
+    const { nodes, links } = genGraph(relations.__root__)
     echart.setOption(setChart('Graph', {
-      nodes: graphNodes = graph.nodes,
-      links: graphLinks = graph.links,
+      nodes: graphNodes = nodes,
+      links: graphLinks = links,
     }))
     nodesSet.clear()
     return
@@ -67,29 +67,46 @@ export function collapseNode(legend: Legend) {
   treeNodeMap.clear()
 }
 
-export function dealGraphNode(name: string) {
-  if (name === '__root__' || !relations[name])
+export function dealGraphNode(nodeName: string) {
+  if (nodeName === '__root__' || !relations[nodeName])
     return
-  const { nodes, links } = genGraph(relations[name], name, 0)
+  const { nodes, links } = genGraph(relations[nodeName], nodeName, 0)
   if (!nodes.length)
     return
-  if (nodesSet.has(name)) {
-    nodesSet.delete(name)
-    const nodeHad = nodes.map(node => node.name)
+  if (nodesSet.has(nodeName)) {
+    nodesSet.delete(nodeName)
+    const nodeHad = new Set(nodes.map(node => node.name))
     const { dependencies = {}, devDependencies } = relations.__root__
+    // 引用次数，默认将根项目设置为 1
     const linksMap = new Map(Object.keys(Object.assign(dependencies, devDependencies)).map(key => [key, 1]))
     for (let i = 0; i < graphLinks.length; i++) {
       const { source } = graphLinks[i]
-      linksMap.set(source, linksMap.get(graphLinks[i].source) ? 1 : 0)
+      const linkNum = linksMap.get(graphLinks[i].source)
+      if (linkNum !== undefined)
+        linksMap.set(source, linkNum + 1)
+      else
+        linksMap.set(source, 0)
     }
-    graphNodes = graphNodes.filter(({ name }) => !nodeHad.includes(name) || linksMap.get(name))
+    graphNodes = graphNodes.filter(({ name }) => !nodeHad.has(name) || linksMap.get(name))
   }
   else {
-    nodesSet.add(name)
-    const nodeHad = graphNodes.map(node => node.name)
-    graphLinks.push(...links)
+    nodesSet.add(nodeName)
+    const nodeHad = new Set(graphNodes.map(node => node.name))
+    const linkHad: any = {}
+    for (let i = 0; i < graphLinks.length; i++) {
+      const { source, target } = graphLinks[i]
+      if (!linkHad[source])
+        linkHad[source] = [target]
+      else
+        linkHad[source].push(target)
+    }
+    for (let i = 0; i < links.length; i++) {
+      const { source, target } = links[i]
+      if (!linkHad[source]?.includes(target))
+        graphLinks.push(links[i])
+    }
     for (let i = 0; i < nodes.length; i++) {
-      if (!nodeHad.includes(nodes[i].name))
+      if (!nodeHad.has(nodes[i].name))
         graphNodes.push(nodes[i])
     }
   }
