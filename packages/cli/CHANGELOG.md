@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.0.0
+
+### Major Changes
+
+- cb52f678: 修复了已知bug，提升用户交互
+
 ## 0.10.1
 
 ### Patch Changes
