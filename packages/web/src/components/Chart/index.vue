@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, provide, ref } from 'vue'
 import type { Relations } from '@truth-cli/shared'
-import type { PkgInfo } from '../types'
-import echarts from '../plugins/echarts'
-import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../utils/index'
-import { formatName } from '../utils/formatName'
+import type { PkgInfo } from '../../types'
+import echarts from '../../plugins/echarts'
+import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../../utils/index'
+import { formatName } from '../../utils/formatName'
 
 const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
