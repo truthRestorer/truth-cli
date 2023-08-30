@@ -6,20 +6,8 @@ body {
   background-image: linear-gradient(var(--el-color-info-light-9) 1px,transparent 0),linear-gradient(90deg,var(--el-color-info-light-9) 1px,transparent 0);
   background-size: 30px 30px,30px 30px;
 }
+
 a {
   text-decoration: none;
-}
-.pkg {
-  cursor: pointer;
-  transition: background-color .05s;
-}
-.pkg:hover {
-  background-color: var(--el-color-primary-light-9);
-}
-.notFound {
-  color: var(--el-color-success);
-  padding: 0 6px;
-}
-.key {
-  font-weight: 700;
+  color: var(--el-color-primary);
 }
