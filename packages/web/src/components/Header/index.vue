@@ -36,7 +36,7 @@ const handleSearch = debounce(() => {
 <template>
   <div class="header">
     <div class="left">
-      Truth-cli
+      <img src="https://plumbiu.github.io/blogImg/weblogo.png" alt="Truth-cli">
     </div>
     <div class="right">
       <ElButton v-if="legend === 'Graph'" :icon="Aim" title="扩展/还原节点" @click="handleGraphRoot" />
@@ -79,8 +79,5 @@ const handleSearch = debounce(() => {
   display: flex;
   align-items: center;
   gap: 16px;
-}
-.left {
-  font-size: 26px;
 }
 </style>
