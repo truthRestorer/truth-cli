@@ -22,11 +22,11 @@ onMounted(async () => {
   const chartDOM = echarts.init(document.getElementById('chart'))
   initChart(chartDOM, relations)
   chartDOM.on('click', (params: any) => {
-    if (isAim.value)
-      return
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = formatName(data.name)
     pkgInfo.value = getPkgInfo(pkgName.value)
+    if (isAim.value)
+      return
     if (seriesType === 'tree')
       dealTreeNode(data, collapsed, treeAncestors)
     else
