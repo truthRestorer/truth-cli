@@ -2,10 +2,9 @@ import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genGraph, genTree, genVersions } from '@truth-cli/core'
-import { preDealName } from '../preDealName'
+import { formatName } from '../formatName'
 import type { Legend, PkgInfo } from '../../types'
-import { loadGraph, loadTree, setChart } from './options'
-import { fuzzySearch, getCirculation } from './tools'
+import { loadGraph, loadTree } from './tools'
 
 let echart: ECharts
 const treeNodeMap = new Map()
@@ -38,7 +37,7 @@ export function changeGraphRoot(name: string, isAim: boolean) {
   if (!relations[name])
     return
   if (isAim) {
-    echart.setOption(setChart('Graph', { nodes: graphNodes, links: graphLinks }))
+    resetChart({ nodes: graphNodes, links: graphLinks })
     return
   }
   const { version } = relations[name]
@@ -48,22 +47,19 @@ export function changeGraphRoot(name: string, isAim: boolean) {
     if (nodes[i].name !== name)
       newNodes.push(nodes[i])
   }
-  echart.setOption(setChart('Graph', { nodes: newNodes, links }))
+  resetChart({ nodes: newNodes, links })
 }
 
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
     const { nodes, links } = genGraph(relations.__root__)
-    echart.setOption(setChart('Graph', {
-      nodes: graphNodes = nodes,
-      links: graphLinks = links,
-    }))
+    resetChart({ nodes: graphNodes = nodes, links: graphLinks = links })
     nodesSet.clear()
     return
   }
   for (const map of treeNodeMap.values())
     map.collapsed = true
-  echart.setOption(setChart('Tree', { tree }))
+  resetChart({ tree })
   treeNodeMap.clear()
 }
 
@@ -110,10 +106,7 @@ export function dealGraphNode(nodeName: string) {
         graphNodes.push(nodes[i])
     }
   }
-  echart.setOption(setChart('Graph', {
-    nodes: graphNodes,
-    links: graphLinks,
-  }))
+  resetChart({ nodes: graphNodes, links: graphLinks })
 }
 
 export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
@@ -123,7 +116,7 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
     treeNodeMap.delete(data.name)
     return
   }
-  const { dependencies = {}, devDependencies } = relations[preDealName(data.name)] ?? {}
+  const { dependencies = {}, devDependencies } = relations[formatName(data.name)] ?? {}
   const pkg = Object.assign(dependencies, devDependencies)
   if (isEmptyObj(pkg) || data.children.length)
     return
@@ -143,7 +136,7 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
       children: [],
     })
   }
-  echart.setOption(setChart('Tree', { tree }))
+  resetChart({ tree })
 }
 
 export function toggleChart(legend: Legend) {
@@ -153,10 +146,65 @@ export function toggleChart(legend: Legend) {
 }
 
 export function getPkgInfo(name: string): PkgInfo {
-  const { relatedPkg, relatedName } = fuzzySearch(name, relations)
+  const { relatedPkg, relatedName } = fuzzySearch(name)
   return {
     info: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
-    circulation: getCirculation?.(name, relations),
+    circulation: getCirculation?.(name),
     versions: versions?.[name],
+  }
+}
+
+function resetChart(data: {
+  tree?: Tree
+  nodes?: Nodes[]
+  links?: Links[]
+}) {
+  echart.setOption({
+    series: data.tree
+      ? {
+          name: 'Tree',
+          data: [data.tree],
+        }
+      : {
+          name: 'Force',
+          nodes: data.nodes,
+          links: data.links,
+        },
+  })
+}
+
+function getCirculation(name: string) {
+  if (!relations[name])
+    return
+  const { devDependencies, dependencies = {} } = relations[name]
+  const pkgs = Object.assign(dependencies, devDependencies)
+  const result = []
+  for (const pkg of Object.keys(pkgs)) {
+    if (relations[pkg]) {
+      const { devDependencies = {}, dependencies } = relations[pkg]
+      const relationPkg = Object.assign(devDependencies, dependencies)
+      if (Object.keys(relationPkg).includes(name))
+        result.push(pkg)
+    }
+  }
+  return result.length ? result : undefined
+}
+
+function fuzzySearch(name: string) {
+  const relatedPkg = relations[name]
+  if (relatedPkg) {
+    return {
+      relatedPkg,
+      relatedName: name,
+    }
+  }
+  const findPkgKey = Object.keys(relations).find((key) => {
+    return key.toLowerCase().includes(name.toLowerCase())
+  })
+  if (!findPkgKey)
+    return {}
+  return {
+    relatedPkg: relations[findPkgKey],
+    relatedName: findPkgKey,
   }
 }

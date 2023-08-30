@@ -4,7 +4,7 @@ import type { Relations } from '@truth-cli/shared'
 import type { PkgInfo } from '../types'
 import echarts from '../plugins/echarts'
 import { dealGraphNode, dealTreeNode, getPkgInfo, initChart } from '../utils/chart/index'
-import { preDealName } from '../utils/preDealName'
+import { formatName } from '../utils/formatName'
 
 const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
@@ -23,7 +23,7 @@ onMounted(async () => {
     if (isAim.value)
       return
     const { data, seriesType, collapsed, treeAncestors } = params
-    pkgName.value = preDealName(data.name)
+    pkgName.value = formatName(data.name)
     pkgInfo.value = getPkgInfo(pkgName.value)
     if (seriesType === 'tree')
       dealTreeNode(data, collapsed, treeAncestors)
@@ -35,5 +35,5 @@ onMounted(async () => {
 
 <template>
   <Container />
-  <div id="chart" style="padding-top: 50px;height:calc(100vh - 50px);" />
+  <div id="chart" style="height:100vh" />
 </template>
