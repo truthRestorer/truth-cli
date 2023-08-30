@@ -11,13 +11,13 @@ let echart: ECharts
 const treeNodeMap = new Map()
 const nodesSet = new Set()
 let relations: Relations
-let nodes: Nodes[]
-let links: Links[]
+let graphNodes: Nodes[]
+let graphLinks: Links[]
 let tree: Tree
 let versions: Versions
 
 export function initChart(_echart: ECharts, _relations: Relations) {
-  const graph = genGraph(_relations.__root__)
+  const { nodes, links } = genGraph(_relations.__root__)
   const options = {
     toolbox: {
       feature: { saveAsImage: {} },
@@ -25,7 +25,7 @@ export function initChart(_echart: ECharts, _relations: Relations) {
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,
-    ...loadGraph(nodes = graph.nodes, links = graph.links),
+    ...loadGraph(graphNodes = nodes, graphLinks = links),
   }
   _echart.setOption(options)
   relations = _relations
@@ -34,12 +34,29 @@ export function initChart(_echart: ECharts, _relations: Relations) {
   versions = genVersions(relations)
 }
 
+export function changeGraphRoot(name: string, isAim: boolean) {
+  if (!relations[name])
+    return
+  if (isAim) {
+    echart.setOption(setChart('Graph', { nodes: graphNodes, links: graphLinks }))
+    return
+  }
+  const { version } = relations[name]
+  const newNodes = [{ name, category: 2, value: version as string }]
+  const { nodes, links } = genGraph(relations[name])
+  for (let i = 0; i < nodes.length; i++) {
+    if (nodes[i].name !== name)
+      newNodes.push(nodes[i])
+  }
+  echart.setOption(setChart('Graph', { nodes: newNodes, links }))
+}
+
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
     const graph = genGraph(relations.__root__)
     echart.setOption(setChart('Graph', {
-      nodes: nodes = graph.nodes,
-      links: links = graph.links,
+      nodes: graphNodes = graph.nodes,
+      links: graphLinks = graph.links,
     }))
     nodesSet.clear()
     return
@@ -53,32 +70,32 @@ export function collapseNode(legend: Legend) {
 export function dealGraphNode(name: string) {
   if (name === '__root__' || !relations[name])
     return
-  const { nodes: _nodes, links: _links } = genGraph(relations[name], name, 0)
-  if (!_nodes.length)
+  const { nodes, links } = genGraph(relations[name], name, 0)
+  if (!nodes.length)
     return
   if (nodesSet.has(name)) {
     nodesSet.delete(name)
-    const nodeHad = _nodes.map(node => node.name)
-    const { dependencies: _d = {}, devDependencies: _dd } = relations.__root__
-    const linksMap = new Map(Object.keys(Object.assign(_d, _dd)).map(key => [key, 1]))
-    for (let i = 0; i < links.length; i++) {
-      const { source } = links[i]
-      linksMap.set(source, linksMap.get(links[i].source) ? 1 : 0)
+    const nodeHad = nodes.map(node => node.name)
+    const { dependencies = {}, devDependencies } = relations.__root__
+    const linksMap = new Map(Object.keys(Object.assign(dependencies, devDependencies)).map(key => [key, 1]))
+    for (let i = 0; i < graphLinks.length; i++) {
+      const { source } = graphLinks[i]
+      linksMap.set(source, linksMap.get(graphLinks[i].source) ? 1 : 0)
     }
-    nodes = nodes.filter(({ name }) => !nodeHad.includes(name) || linksMap.get(name))
+    graphNodes = graphNodes.filter(({ name }) => !nodeHad.includes(name) || linksMap.get(name))
   }
   else {
     nodesSet.add(name)
-    const nodeHad = nodes.map(node => node.name)
-    links.push(..._links)
-    for (let i = 0; i < _nodes.length; i++) {
-      if (!nodeHad.includes(_nodes[i].name))
-        nodes.push(_nodes[i])
+    const nodeHad = graphNodes.map(node => node.name)
+    graphLinks.push(...links)
+    for (let i = 0; i < nodes.length; i++) {
+      if (!nodeHad.includes(nodes[i].name))
+        graphNodes.push(nodes[i])
     }
   }
   echart.setOption(setChart('Graph', {
-    nodes,
-    links,
+    nodes: graphNodes,
+    links: graphLinks,
   }))
 }
 
@@ -114,7 +131,7 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
 
 export function toggleChart(legend: Legend) {
   const isGraph = legend === 'Graph'
-  echart.setOption(isGraph ? loadTree(tree) : loadGraph(nodes, links))
+  echart.setOption(isGraph ? loadTree(tree) : loadGraph(graphNodes, graphLinks))
   return isGraph ? 'Tree' : 'Graph'
 }
 

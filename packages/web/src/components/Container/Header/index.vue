@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Aim, Search } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
 import type { Legend, PkgInfo } from '../../../types'
-import { collapseNode, getPkgInfo, toggleChart } from '../../../utils/chart'
+import { changeGraphRoot, collapseNode, getPkgInfo, toggleChart } from '../../../utils/chart'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
-const drawer = inject<Ref<boolean>>('drawer')
+const drawer = inject<Ref<boolean>>('drawer')!
 const legend = ref<Legend>('Graph')
+let isAim = false
+
+function handleGraphRoot() {
+  if (legend.value !== 'Graph')
+    return
+  changeGraphRoot(pkgName.value, isAim)
+  isAim = !isAim
+}
 
 function debounce(fn: () => void) {
   let timer: NodeJS.Timeout | null = null
@@ -31,6 +39,7 @@ const handleSearch = debounce(() => {
       Truth-cli
     </div>
     <div class="right">
+      <ElButton :icon="Aim" title="扩展/还原节点" @click="handleGraphRoot" />
       <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
           <ElIcon>
@@ -39,7 +48,7 @@ const handleSearch = debounce(() => {
         </template>
       </ElInput>
       <ElButton @click="() => collapseNode(legend)">
-        折叠节点
+        收缩节点
       </ElButton>
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
@@ -47,6 +56,7 @@ const handleSearch = debounce(() => {
       <ElButton @click="() => legend = toggleChart(legend)">
         切换图表
       </ElButton>
+
       <Link />
     </div>
   </div>

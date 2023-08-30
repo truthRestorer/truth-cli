@@ -9,14 +9,6 @@ const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')
 const showType = ref('info')
 
-function handleTagChange() {
-  if (pkgName.value === '__root__') {
-    ElMessage('请查看项目根目录的 package.json')
-    return
-  }
-  window.open(`https://npmjs.com/package/${pkgName.value}`)
-}
-
 function handlePkgInfo(command: string) {
   showType.value = command
   pkgInfo.value = getPkgInfo(pkgName.value)
@@ -34,9 +26,9 @@ function handlePkgInfo(command: string) {
             </ElScrollbar>
           </div>
           <ElDropdown trigger="click" @command="handlePkgInfo">
-            <ElButton type="primary">
+            <ElButton>
               INFO
-              <ElIcon class="el-icon--right">
+              <ElIcon title="查看依赖信息" class="el-icon--right">
                 <ArrowDown />
               </ElIcon>
             </ElButton>
@@ -52,7 +44,11 @@ function handlePkgInfo(command: string) {
                   版本信息
                 </ElDropdownItem>
                 <li style="padding:0 16px;">
-                  <ElButton :checked="true" @click="handleTagChange">
+                  <ElButton
+                    tag="a"
+                    target="_blank"
+                    :href="`https://npmjs.com/package/${pkgName}`"
+                  >
                     NPM
                   </ElButton>
                 </li>
