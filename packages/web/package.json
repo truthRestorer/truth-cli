@@ -7,7 +7,7 @@
     "dist"
   ],
   "dependencies": {
-    "@vueuse/core": "^10.3.0",
+    "@vueuse/core": "^10.4.1",
     "echarts": "^5.4.3",
     "vue": "^3.3.4"
   },
@@ -15,7 +15,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@truth-cli/shared": "workspace:^",
     "@types/echarts": "^4.9.18",
-    "element-plus": "^2.3.9"
+    "element-plus": "^2.3.12"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [
