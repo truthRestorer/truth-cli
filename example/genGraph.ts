@@ -3,7 +3,7 @@ import { genGraph } from '@truth-cli/core'
 import { relations } from './index.js'
 
 // 1. 直接根据 relations 生成：
-const graph1 = genGraph(relations)
+const graph1 = genGraph(relations.__root__)
 console.log(graph1)
 
 // 2. 自定义生成，默认生成的 links 会指向 __root__
