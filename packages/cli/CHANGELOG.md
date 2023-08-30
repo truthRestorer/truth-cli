@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.0.3
+
+### Patch Changes
+
+- 1881f91c: 添加logo
+
 ## 1.0.2
 
 ### Patch Changes
