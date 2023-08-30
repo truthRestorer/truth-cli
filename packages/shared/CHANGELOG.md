@@ -1,5 +1,13 @@
 # @truth-cli/shared
 
+## 1.0.2
+
+### Patch Changes
+
+- b8b6ffbe: 去除web一些无用样式
+- b8b6ffbe: 提高web组件复用
+- 967717a4: 修复了网页端多节点收缩节点消失问题
+
 ## 1.0.1
 
 ### Patch Changes
