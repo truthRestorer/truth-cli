@@ -1,5 +1,12 @@
 # @truth-cli/core
 
+## 1.0.1
+
+### Patch Changes
+
+- 1ac42494: 完善relations中的属性
+- 1ac42494: web支持以该节点扩展
+
 ## 1.0.0
 
 ### Major Changes
