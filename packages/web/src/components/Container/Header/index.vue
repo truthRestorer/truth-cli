@@ -7,14 +7,14 @@ import { changeGraphRoot, collapseNode, getPkgInfo, toggleChart } from '../../..
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')!
+const isAim = inject<Ref<boolean>>('isAim')!
 const legend = ref<Legend>('Graph')
-let isAim = false
 
 function handleGraphRoot() {
   if (legend.value !== 'Graph')
     return
-  changeGraphRoot(pkgName.value, isAim)
-  isAim = !isAim
+  changeGraphRoot(pkgName.value, isAim.value)
+  isAim.value = !isAim.value
 }
 
 function debounce(fn: () => void) {

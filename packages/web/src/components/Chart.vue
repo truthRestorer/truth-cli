@@ -10,13 +10,18 @@ const relationsJSON = await fetch('relations.json')
 const relations: Relations = await relationsJSON.json()
 const pkgName = ref(relations.__root__.name)
 const pkgInfo = ref<PkgInfo>({ info: relations.__root__ })!
+const isAim = ref(false)
+
 provide('pkgName', pkgName)
 provide('pkgInfo', pkgInfo)
+provide('isAim', isAim)
 
 onMounted(async () => {
   const chartDOM = echarts.init(document.getElementById('chart'))
   initChart(chartDOM, relations)
   chartDOM.on('click', (params: any) => {
+    if (isAim.value)
+      return
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = preDealName(data.name)
     pkgInfo.value = getPkgInfo(pkgName.value)
