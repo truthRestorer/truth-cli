@@ -1,5 +1,13 @@
 # @truth-cli/shared
 
+## 1.0.1
+
+### Patch Changes
+
+- 0f7bf3e1: 完善web设计
+- 0f7bf3e1: 完善relations设计
+- 47ecdb1a: 修复节点不一致问题
+
 ## 1.0.0
 
 ### Major Changes
