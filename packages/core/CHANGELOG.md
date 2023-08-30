@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 1.0.2
+
+### Patch Changes
+
+- 47ecdb1a: 修复节点不一致问题
+
 ## 1.0.1
 
 ### Patch Changes
