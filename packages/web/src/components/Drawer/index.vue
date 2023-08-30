@@ -7,9 +7,9 @@ import type { PkgInfo } from '../../types'
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')
-const showType = ref('info')
+const showType = ref<'info' | 'circulation' | 'versions'>('info')
 
-function handlePkgInfo(command: string) {
+function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
   showType.value = command
   pkgInfo.value = getPkgInfo(pkgName.value)
 }
@@ -56,7 +56,9 @@ function handlePkgInfo(command: string) {
             </template>
           </ElDropdown>
         </div>
-        <JsonView :show-info="showType" :pkg-info="pkgInfo" />
+        <ElScrollbar style="font-size:14px;color:var(--el-text-color-primary);line-height:26px;">
+          <JsonView :data="pkgInfo[showType]" :type="showType" />
+        </ElScrollbar>
       </ElScrollbar>
     </div>
   </Transition>
@@ -64,11 +66,11 @@ function handlePkgInfo(command: string) {
 
 <style scoped>
 .drawer {
-  position:fixed;
-  z-index:998;
-  top:50px;
+  position: fixed;
+  z-index: 998;
+  top: 50px;
   height: 100%;
-  padding-bottom:80px;
+  padding-bottom: 80px;
   width: 300px;
   translate: 0px;
   padding: 16px 8px;
