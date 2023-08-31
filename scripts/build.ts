@@ -9,6 +9,14 @@ const target = argv._
 async function resolveBuild() {
   target.includes('web') && await buildWeb('../packages/cli', true)
   await esbuild.build({
+    entryPoints: ['packages/core/index.ts', 'packages/core/node.ts'],
+    bundle: true,
+    outdir: 'packages/core/dist',
+    minify: true,
+    platform: 'node',
+    format: 'esm',
+  })
+  await esbuild.build({
     entryPoints: ['packages/cli/index.ts'],
     bundle: true,
     outdir: 'packages/cli/dist',
@@ -18,14 +26,6 @@ async function resolveBuild() {
     banner: {
       js: '#! /usr/bin/env node',
     },
-  })
-  await esbuild.build({
-    entryPoints: ['packages/core/index.ts', 'packages/core/node.ts'],
-    bundle: true,
-    outdir: 'packages/core/dist',
-    minify: true,
-    platform: 'node',
-    format: 'esm',
   })
   await esbuild.build({
     entryPoints: ['packages/shared/index.ts'],
