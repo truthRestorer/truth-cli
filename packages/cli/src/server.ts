@@ -28,6 +28,6 @@ export function startWebServer() {
     }
   })
   server.listen(port, () => {
-    logWebStart(Date.now() - begin, port)
+    port === 3003 && logWebStart(Date.now() - begin, port)
   })
 }
