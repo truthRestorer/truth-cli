@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
+import * as esbuild from 'esbuild'
 import minimist from 'minimist'
 import { genJson } from '../packages/core/src/json.js'
 import { genTxt } from '../packages/core/src/txt.js'
@@ -14,6 +15,14 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 // 发布到 vercel 中去
 async function resolveBuild() {
+  await esbuild.build({
+    entryPoints: ['packages/core/index.ts', 'packages/core/node.ts'],
+    bundle: true,
+    outdir: 'packages/core/dist',
+    minify: true,
+    platform: 'node',
+    format: 'esm',
+  })
   const {
     web: _web,
     path: _path,
