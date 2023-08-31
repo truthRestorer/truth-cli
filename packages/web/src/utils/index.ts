@@ -3,7 +3,6 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genCirculation, genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { Legend, PkgInfo } from '../types'
-import { formatName } from './formatName'
 import { loadGraph, loadTree } from './tools'
 
 let echart: ECharts
@@ -18,16 +17,7 @@ let circulation: { [key: string]: string[] }
 
 export function initChart(_echart: ECharts, _relations: Relations) {
   const { nodes, links } = genGraph(_relations.__root__)
-  const options = {
-    toolbox: {
-      feature: { saveAsImage: {} },
-    },
-    tooltip: {},
-    animationThreshold: 16777216,
-    hoverLayerThreshold: 16777216,
-    ...loadGraph(graphNodes = nodes, graphLinks = links),
-  }
-  _echart.setOption(options)
+  _echart.setOption(loadGraph(graphNodes = nodes, graphLinks = links))
   relations = _relations
   echart = _echart
   tree = genTree(1, relations)
@@ -42,8 +32,7 @@ export function changeGraphRoot(name: string, isAim: boolean) {
     resetChart({ nodes: graphNodes, links: graphLinks })
     return
   }
-  const { version } = relations[name]
-  const newNodes = [{ name, category: 2, value: version as string }]
+  const newNodes = [{ name, category: 2, value: relations[name].version! }]
   const { nodes, links } = genGraph(relations[name])
   for (let i = 0; i < nodes.length; i++) {
     if (nodes[i].name !== name)
@@ -65,14 +54,14 @@ export function collapseNode(legend: Legend) {
   treeNodeMap.clear()
 }
 
-export function dealGraphNode(nodeName: string) {
-  if (nodeName === '__root__' || !relations[nodeName])
+export function dealGraphNode(name: string) {
+  if (name === '__root__' || !relations[name])
     return
-  const { nodes, links } = genGraph(relations[nodeName], nodeName, 0)
+  const { nodes, links } = genGraph(relations[name], name, 0)
   if (!nodes.length)
     return
-  if (nodesSet.has(nodeName)) {
-    nodesSet.delete(nodeName)
+  if (nodesSet.has(name)) {
+    nodesSet.delete(name)
     const nodeHad = new Set(nodes.map(node => node.name))
     const { dependencies = {}, devDependencies } = relations.__root__
     // 引用次数，默认将根项目设置为 1
@@ -88,7 +77,7 @@ export function dealGraphNode(nodeName: string) {
     graphNodes = graphNodes.filter(({ name }) => !nodeHad.has(name) || linksMap.get(name))
   }
   else {
-    nodesSet.add(nodeName)
+    nodesSet.add(name)
     const nodeHad = new Set(graphNodes.map(node => node.name))
     const linkHad: any = {}
     for (let i = 0; i < graphLinks.length; i++) {
@@ -125,16 +114,15 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
   let child = tree.children
   for (let i = 2; i < ancestors.length; i++) {
     const item = child.find(item => item.name === ancestors[i].name)!
+    item.collapsed = false
     treeNodeMap.set(item.name, item)
     child = item.children
   }
-  for (const map of treeNodeMap.values())
-    map.collapsed = false
-  for (const [pkgName, pkgVersion] of Object.entries(pkg)) {
+  for (const [name, value] of Object.entries(pkg)) {
     child.push({
-    // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
-      name: `${pkgName}--${data.name}`,
-      value: pkgVersion as string,
+      // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
+      name: `${name}--${data.name}`,
+      value,
       children: [],
     })
   }
@@ -148,11 +136,10 @@ export function toggleChart(legend: Legend) {
 }
 
 export function getPkgInfo(name: string): PkgInfo {
-  const { relatedPkg, relatedName } = fuzzySearch(name)
   return {
-    info: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
-    circulation: circulation?.[name],
-    versions: versions?.[name],
+    info: relations[name] ?? Object.values(relations).find(val => val.name?.includes(name)),
+    circulation: circulation[name],
+    versions: versions[name],
   }
 }
 
@@ -163,33 +150,11 @@ function resetChart(data: {
 }) {
   echart.setOption({
     series: data.tree
-      ? {
-          name: 'Tree',
-          data: [data.tree],
-        }
-      : {
-          name: 'Force',
-          nodes: data.nodes,
-          links: data.links,
-        },
+      ? { name: 'Tree', data: [data.tree] }
+      : { name: 'Force', ...data },
   })
 }
 
-function fuzzySearch(name: string) {
-  const relatedPkg = relations[name]
-  if (relatedPkg) {
-    return {
-      relatedPkg,
-      relatedName: name,
-    }
-  }
-  const findPkgKey = Object.keys(relations).find((key) => {
-    return key.toLowerCase().includes(name.toLowerCase())
-  })
-  if (!findPkgKey)
-    return {}
-  return {
-    relatedPkg: relations[findPkgKey],
-    relatedName: findPkgKey,
-  }
+export function formatName(name: string) {
+  return name.split('--')[0]
 }
