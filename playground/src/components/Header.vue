@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <span>Truth-cli Playground</span>
-    <span>Logo</span>
+    <img src="https://plumbiu.github.io/blogImg/weblogo.png" alt="Truth-cli">
   </div>
 </template>
 
