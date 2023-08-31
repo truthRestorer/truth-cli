@@ -169,6 +169,20 @@ interface IVersions {
 }
 ```
 
+# genCirculation
+
+::: tip 功能介绍
+`genCirculation` 用于获取所有循环依赖信息
+:::
+
+```ts
+import { genCirculation } from '@truth-cli/core'
+
+function genCirculation(relations: Relations): {
+  [key: string]: string[]
+}
+```
+
 ## genJson
 
 ::: tip 功能介绍
