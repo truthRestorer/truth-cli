@@ -1,16 +1,15 @@
 import { defineConfig } from 'vite'
 import { viteSingleFile } from 'vite-plugin-singlefile'
-import viteCompression from 'vite-plugin-compression'
+import { compression } from 'vite-plugin-compression2'
 import { basePlugins } from './vite.config.noZip'
 
 export default defineConfig({
   plugins: [
     ...basePlugins,
     viteSingleFile(),
-    viteCompression({
-      ext: '.br',
+    compression({
       algorithm: 'brotliCompress',
-      deleteOriginFile: true,
+      deleteOriginalAssets: true,
     }),
   ],
   build: {
