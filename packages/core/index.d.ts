@@ -10,7 +10,6 @@ declare function genJson(depth: number, relations: Relations, shouldOptimize?: b
 
 declare function genTxt(depth: number, relations: Relations): string
 
-declare function genRelations(): Relations
 
 declare function genTree(maxDep: number, relations: Relations): Tree
 

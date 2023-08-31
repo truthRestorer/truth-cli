@@ -3,17 +3,23 @@
   "version": "1.1.0",
   "type": "module",
   "main": "dist/index.js",
-  "types": "index.d.ts",
   "files": [
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "node.d.ts"
   ],
   "devDependencies": {
     "@truth-cli/shared": "workspace:^"
   },
   "exports": {
-    ".": "./dist/index.js",
-    "./node": "./dist/node.js"
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./node": {
+      "types": "./node.d.ts",
+      "import": "./dist/node.js"
+    }
   },
   "lint-staged": {
     "!(*d).{js,ts}": [
