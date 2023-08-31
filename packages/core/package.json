@@ -12,8 +12,8 @@
     "@truth-cli/shared": "workspace:^"
   },
   "exports": {
-    ".": "./index.ts",
-    "./node": "./node.ts"
+    ".": "./dist/index.js",
+    "./node": "./dist/node.js"
   },
   "lint-staged": {
     "!(*d).{js,ts}": [
