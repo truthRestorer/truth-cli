@@ -2,8 +2,10 @@ import path from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import minimist from 'minimist'
-import { genJson, genTxt } from '@truth-cli/core'
-import { genRelations } from '@truth-cli/core/node'
+import { genJson } from '../packages/core/src/json.js'
+import { genTxt } from '../packages/core/src/txt.js'
+import { genRelations } from '../packages/core/src/relations.js'
+
 import { buildWeb, genWebFile } from './utils.js'
 
 // eslint-disable-next-line n/prefer-global/process

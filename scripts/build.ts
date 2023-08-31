@@ -7,7 +7,6 @@ const argv = minimist(process.argv.slice(2))
 const target = argv._
 
 async function resolveBuild() {
-  target.includes('web') && await buildWeb('../packages/cli', true)
   await esbuild.build({
     entryPoints: ['packages/core/index.ts', 'packages/core/node.ts'],
     bundle: true,
@@ -16,6 +15,7 @@ async function resolveBuild() {
     platform: 'node',
     format: 'esm',
   })
+  target.includes('web') && await buildWeb('../packages/cli', true)
   await esbuild.build({
     entryPoints: ['packages/cli/index.ts'],
     bundle: true,

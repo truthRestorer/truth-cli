@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
-import { genRelations } from '@truth-cli/core/node'
+import { genRelations } from '../packages/core/src/relations.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
