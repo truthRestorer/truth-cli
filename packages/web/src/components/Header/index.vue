@@ -42,7 +42,7 @@ const handleSearch = debounce(() => {
       <img src="https://plumbiu.github.io/blogImg/weblogo.png" alt="Truth-cli">
     </div>
     <div class="right">
-      <ElButton v-if="legend === 'Graph'" :icon="Aim" title="扩展/还原节点" @click="handleGraphRoot" />
+      <ElButton v-if="legend === 'Graph'" :icon="Aim" title="命中/还原节点" @click="handleGraphRoot" />
       <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
           <ElIcon>
