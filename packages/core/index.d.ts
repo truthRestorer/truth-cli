@@ -15,3 +15,9 @@ declare function genRelations(): Relations
 declare function genTree(maxDep: number, relations: Relations): Tree
 
 declare function genVersions(relations: Relations): Versions
+
+declare function getCirculation(relations: Relations, name: string): string[] | undefined
+
+declare function genCirculation(relations: Relations): {
+  [key: string]: string[];
+}
