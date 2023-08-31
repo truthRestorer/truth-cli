@@ -32,3 +32,4 @@ export function logFileWirteFinished(duration: number, file: string) {
 }
 
 export const htmlPath = path.resolve(__dirname, 'index.html.br')
+export const workPath = path.resolve(__dirname, 'assets/worker.js.br')
