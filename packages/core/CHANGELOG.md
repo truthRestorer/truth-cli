@@ -1,5 +1,17 @@
 # @truth-cli/core
 
+## 1.0.4
+
+### Patch Changes
+
+- f0ca6cbb: 完善API设计
+- f0ca6cbb: web端内容获取方式保持一致
+- 09ba6284: 优化web函数逻辑，提升性能
+- d3e3af82: 实现彩色打印，提高网页启动速度
+- 8c3d88af: 更新br压缩依赖
+- 09ba6284: 修复了引力图命中后，树图节点无法展开问题
+- e7d8b832: 修复了aim命中后，点击其他节点无法还原问题
+
 ## 1.0.3
 
 ### Patch Changes
