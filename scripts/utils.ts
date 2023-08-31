@@ -4,37 +4,8 @@ import { fileURLToPath } from 'node:url'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
 import { genRelations } from '@truth-cli/core/node'
-import plugins from './plugins.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-
-function baseInput(dir: string, ...otherFile: string[]) {
-  let input: string | string[] = path.resolve(__dirname, `../packages/${dir}/index.ts`)
-  if (otherFile) {
-    input = [input]
-    for (let i = 0; i < otherFile.length; i++)
-      input.push(path.resolve(__dirname, `../packages/${dir}/${otherFile}`))
-  }
-  return { input, plugins }
-}
-
-function baseOutput(dir: string) {
-  return {
-    dir: path.resolve(__dirname, `../packages/${dir}/dist`),
-    format: 'es',
-  }
-}
-
-export async function buildOptions() {
-  const opts: { [key: string]: any } = {}
-  opts.core = () => [baseInput('core', 'node.ts'), baseOutput('core')]
-  opts.cli = () => [baseInput('cli'), {
-    ...baseOutput('cli'),
-    banner: '#! /usr/bin/env node',
-  }]
-  opts._normal = (dir: string) => [baseInput(dir), baseOutput(dir)]
-  return opts
-}
 
 export async function buildWeb(buildPath: string, isZip = false) {
   const buildBaseOpt: InlineConfig = {
