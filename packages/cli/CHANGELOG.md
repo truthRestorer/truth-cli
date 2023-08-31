@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.1.0
+
+### Minor Changes
+
+- 95a7026c: 采用esbuild打包处理
+
 ## 1.0.4
 
 ### Patch Changes
