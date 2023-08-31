@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { version } from '../package.json'
 import {
   bold,
   cyan,
   dim,
   green,
   red,
-} from 'picocolors'
-import { version } from '../package.json'
+} from './colors.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
