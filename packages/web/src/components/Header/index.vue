@@ -9,11 +9,14 @@ const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')!
 const isAim = inject<Ref<boolean>>('isAim')!
 const legend = ref<Legend>('Graph')
+let target = '__root__'
 
 function handleGraphRoot() {
-  if (legend.value !== 'Graph')
+  if (legend.value !== 'Graph' || pkgName.value === '__root__')
     return
-  changeGraphRoot(pkgName.value, isAim.value)
+  if (!isAim.value)
+    target = pkgName.value
+  changeGraphRoot(target, isAim.value)
   isAim.value = !isAim.value
 }
 
