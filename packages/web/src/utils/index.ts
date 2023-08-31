@@ -1,7 +1,7 @@
 import type { ECharts } from 'echarts/core'
 import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
-import { genGraph, genTree, genVersions } from '@truth-cli/core'
+import { genCirculation, genGraph, genTree, genVersions } from '@truth-cli/core'
 import type { Legend, PkgInfo } from '../types'
 import { formatName } from './formatName'
 import { loadGraph, loadTree } from './tools'
@@ -14,6 +14,7 @@ let graphNodes: Nodes[]
 let graphLinks: Links[]
 let tree: Tree
 let versions: Versions
+let circulation: { [key: string]: string[] }
 
 export function initChart(_echart: ECharts, _relations: Relations) {
   const { nodes, links } = genGraph(_relations.__root__)
@@ -31,6 +32,7 @@ export function initChart(_echart: ECharts, _relations: Relations) {
   echart = _echart
   tree = genTree(1, relations)
   versions = genVersions(relations)
+  circulation = genCirculation(relations)
 }
 
 export function changeGraphRoot(name: string, isAim: boolean) {
@@ -149,7 +151,7 @@ export function getPkgInfo(name: string): PkgInfo {
   const { relatedPkg, relatedName } = fuzzySearch(name)
   return {
     info: relatedName ? { name: relatedName, ...relatedPkg } : undefined,
-    circulation: getCirculation?.(name),
+    circulation: circulation?.[name],
     versions: versions?.[name],
   }
 }
@@ -171,23 +173,6 @@ function resetChart(data: {
           links: data.links,
         },
   })
-}
-
-function getCirculation(name: string) {
-  if (!relations[name])
-    return
-  const { devDependencies, dependencies = {} } = relations[name]
-  const pkgs = Object.assign(dependencies, devDependencies)
-  const result = []
-  for (const pkg of Object.keys(pkgs)) {
-    if (relations[pkg]) {
-      const { devDependencies = {}, dependencies } = relations[pkg]
-      const relationPkg = Object.assign(devDependencies, dependencies)
-      if (Object.keys(relationPkg).includes(name))
-        result.push(pkg)
-    }
-  }
-  return result.length ? result : undefined
 }
 
 function fuzzySearch(name: string) {
