@@ -1,6 +1,6 @@
 import type { Relations } from '@truth-cli/shared'
 
-export function getCirculation(relations: Relations, name: string) {
+function getCirculation(relations: Relations, name: string) {
   if (!relations[name])
     return
   const { devDependencies, dependencies = {} } = relations[name]
@@ -19,13 +19,10 @@ export function getCirculation(relations: Relations, name: string) {
 
 export function genCirculation(relations: Relations) {
   const circulation: { [key: string]: string[] } = {}
-  function loadCirculation() {
-    for (const name of Object.keys(relations)) {
-      const cir = getCirculation(relations, name)
-      if (cir)
-        circulation[name] = cir
-    }
+  for (const name of Object.keys(relations)) {
+    const cir = getCirculation(relations, name)
+    if (cir)
+      circulation[name] = cir
   }
-  loadCirculation()
   return circulation
 }
