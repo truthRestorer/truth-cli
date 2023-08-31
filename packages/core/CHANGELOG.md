@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 1.1.1
+
+### Patch Changes
+
+- 687beb4c: 修复路径问题
+
 ## 1.1.0
 
 ### Minor Changes
