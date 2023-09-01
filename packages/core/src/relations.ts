@@ -3,9 +3,8 @@ import path from 'node:path'
 import { type Relations, isEmptyObj } from '@truth-cli/shared'
 
 export function useReadFile(p: string) {
-  const json = fs.readFileSync(p)
-  const pkg = JSON.parse(json.toString())
-  return pkg
+  const json = fs.readFileSync(p, 'utf-8')
+  return JSON.parse(json)
 }
 /**
  * truth-cli 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
@@ -30,9 +29,9 @@ export function genRelations() {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
       const pkgPath = path.join(p, dirs[i])
-      if ((dirs[i][0] === '.' || dirs[i] === 'lock.yaml') && dirs[i] !== '.pnpm')
-        continue
       const filePath = path.join(pkgPath, 'package.json')
+      if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
+        continue
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
@@ -42,7 +41,6 @@ export function genRelations() {
         isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
       }
       else {
-        // 这里之所以不用判断是不是文件夹，是因为 node_modules 本身的性质
         // 你可能会看到有的包下面还有 node_modules，一般情况下，这里面只包含 .bin 执行脚本
         // 如果 node_modules 里面还有其他包，说明这个包可能打包有问题
         // 更完整的实现：https://github.com/Plumbiu/read-glob-file
