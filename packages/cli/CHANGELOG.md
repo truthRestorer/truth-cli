@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.1.1
+
+### Patch Changes
+
+- f8e5427c: web端采取worker
+
 ## 1.1.0
 
 ### Minor Changes
