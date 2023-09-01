@@ -41,8 +41,7 @@
     "vite": "^4.4.9",
     "vite-plugin-compression2": "^0.10.4",
     "vite-plugin-singlefile": "^0.13.5",
-    "vitest": "^0.34.3",
-    "vue": "^3.3.4"
+    "vitest": "^0.34.3"
   },
   "config": {
     "commitizen": {
