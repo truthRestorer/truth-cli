@@ -29,9 +29,9 @@ export function genRelations() {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
       const pkgPath = path.join(p, dirs[i])
-      const filePath = path.join(pkgPath, 'package.json')
       if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
         continue
+      const filePath = path.join(pkgPath, 'package.json')
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
