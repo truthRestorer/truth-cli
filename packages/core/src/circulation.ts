@@ -8,9 +8,8 @@ function getCirculation(relations: Relations, name: string) {
   const result = []
   for (const pkg of Object.keys(pkgs)) {
     if (relations[pkg]) {
-      const { devDependencies = {}, dependencies } = relations[pkg]
-      const relationPkg = Object.assign(devDependencies, dependencies)
-      if (Object.keys(relationPkg).includes(name))
+      const { devDependencies, dependencies } = relations[pkg]
+      if (devDependencies?.[name] || dependencies?.[name])
         result.push(pkg)
     }
   }
