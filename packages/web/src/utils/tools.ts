@@ -80,19 +80,21 @@ export function loadGraph(nodes: Nodes[], links: Links[]) {
       layout: 'force',
       nodes,
       links,
+      edgeSymbol: ['arrow', 'none'],
+      edgeSymbolSize: 8,
       categories: [
         { name: '依赖' },
         { name: '项目依赖' },
         { name: '项目名' },
       ],
       cursor: 'pointer',
-      symbolSize: 22,
+      symbolSize: 28,
       label: {
         show: true,
         position: 'top',
       },
       force: {
-        repulsion: 900,
+        repulsion: 1400,
         friction: 0.15,
       },
       roam: true,
