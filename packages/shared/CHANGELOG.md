@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 1.1.2
+
+### Patch Changes
+
+- b740b2f5: 优化genRelations API，读取时间缩短1/3
+
 ## 1.1.1
 
 ### Patch Changes
