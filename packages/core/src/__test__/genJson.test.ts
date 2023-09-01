@@ -110,7 +110,7 @@ describe('genJson API 测试', () => {
       },
       typescript: {
         version: '5.0.0',
-        packages: {
+        devDependencies: {
           typescript: '3.0.0',
         },
       },
@@ -155,6 +155,12 @@ describe('genJson API 测试', () => {
         typescript: {
           type: 1,
           version: '5.0.0',
+          packages: {
+            typescript: {
+              type: 0,
+              version: '3.0.0',
+            },
+          },
         },
       },
     })

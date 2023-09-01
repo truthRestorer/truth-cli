@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { genCirculation } from '../circulation'
 
 describe('genCirculation API 测试', () => {
-  test('不指定 name 字段和 target 参数', () => {
+  test('基本测试', () => {
     const graph = genCirculation({
       __root__: {
         version: '1.0.0',
