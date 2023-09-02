@@ -68,9 +68,6 @@ export function loadTree(tree: Tree) {
 
 export function loadGraph(nodes: Nodes[], links: Links[]) {
   return {
-    toolbox: {
-      feature: { saveAsImage: {} },
-    },
     tooltip: {},
     animationThreshold: 16777216,
     hoverLayerThreshold: 16777216,

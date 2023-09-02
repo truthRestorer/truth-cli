@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Aim, Search } from '@element-plus/icons-vue'
+import { Aim, Download, Search } from '@element-plus/icons-vue'
 import { type Ref, inject, ref } from 'vue'
 import type { Legend, PkgInfo } from '../../types'
-import { changeGraphRoot, collapseNode, getPkgInfo, toggleChart } from '../../utils/'
+import { changeGraphRoot, collapseNode, download, getPkgInfo, toggleChart } from '../../utils/'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
@@ -42,6 +42,7 @@ const handleSearch = debounce(() => {
       <img src="https://plumbiu.github.io/blogImg/weblogo.png" alt="Truth-cli">
     </div>
     <div class="right">
+      <ElButton v-if="legend === 'Graph'" :icon="Download" title="下载图片" @click="download" />
       <ElButton v-if="legend === 'Graph'" :icon="Aim" title="命中/还原节点" @click="handleGraphRoot" />
       <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>

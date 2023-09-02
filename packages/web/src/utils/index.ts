@@ -142,3 +142,11 @@ function resetChart(data: {
 export function formatName(name: string) {
   return name.split('--')[0]
 }
+
+export function download() {
+  const el = document.createElement('a')
+  el.href = echart.getDataURL()
+  el.download = 'ecahrts'
+  const event = new MouseEvent('click')
+  el.dispatchEvent(event)
+}
