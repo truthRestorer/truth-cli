@@ -1,27 +1,21 @@
 import type { Relations } from '@truth-cli/shared'
 
-function getCirculation(relations: Relations, name: string) {
-  if (!relations[name])
-    return
-  const { devDependencies, dependencies = {} } = relations[name]
-  const pkgs = Object.assign(dependencies, devDependencies)
-  const result = []
-  for (const pkg of Object.keys(pkgs)) {
-    if (relations[pkg]) {
-      const { devDependencies, dependencies } = relations[pkg]
-      if (devDependencies?.[name] || dependencies?.[name])
-        result.push(pkg)
-    }
-  }
-  return result.length ? result : undefined
-}
-
 export function genCirculation(relations: Relations) {
   const circulation: { [key: string]: string[] } = {}
-  for (const name of Object.keys(relations)) {
-    const cir = getCirculation(relations, name)
-    if (cir)
-      circulation[name] = cir
+  for (const [rootName, rootVal] of Object.entries(relations)) {
+    const { devDependencies, dependencies = {} } = rootVal
+    const pkgs = Object.assign(dependencies, devDependencies)
+    for (const name of Object.keys(pkgs)) {
+      if (relations[name]) {
+        const { devDependencies, dependencies } = relations[name]
+        if (devDependencies?.[rootName] || dependencies?.[rootName]) {
+          if (!circulation[rootName])
+            circulation[rootName] = [name]
+          else
+            circulation[rootName].push(name)
+        }
+      }
+    }
   }
   return circulation
 }
