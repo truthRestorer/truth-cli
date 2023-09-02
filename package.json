@@ -24,7 +24,7 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^20.5.7",
+    "@types/node": "^20.5.8",
     "@vitejs/plugin-vue": "^4.3.4",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.1",

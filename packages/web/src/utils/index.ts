@@ -66,36 +66,26 @@ export function dealGraphNode(name: string) {
   const { nodes, links } = genGraph(relations[name], name, 0)
   if (!nodes.length)
     return
+  const linkHad = new Map<string, Set<string>>()
+  for (let i = 0; i < graphLinks.length; i++) {
+    const { source, target } = graphLinks[i]
+    const link = linkHad.get(source)
+    if (!link)
+      linkHad.set(source, new Set([target]))
+    else
+      link.add(target)
+  }
   if (nodesSet.has(name)) {
     nodesSet.delete(name)
     const nodeHad = new Set(nodes.map(node => node.name))
-    const { dependencies = {}, devDependencies } = relations.__root__
-    // 引用次数，默认将根项目设置为 1
-    const linksMap = new Map(Object.keys(Object.assign(dependencies, devDependencies)).map(key => [key, 1]))
-    for (let i = 0; i < graphLinks.length; i++) {
-      const { source } = graphLinks[i]
-      const linkNum = linksMap.get(graphLinks[i].source)
-      if (linkNum !== undefined)
-        linksMap.set(source, linkNum + 1)
-      else
-        linksMap.set(source, 0)
-    }
-    graphNodes = graphNodes.filter(({ name }) => !nodeHad.has(name) || linksMap.get(name))
+    graphNodes = graphNodes.filter(({ name: _name }) => !nodeHad.has(_name) || linkHad.get(_name)!.size > 1 || _name === name)
   }
   else {
     nodesSet.add(name)
     const nodeHad = new Set(graphNodes.map(node => node.name))
-    const linkHad: any = {}
-    for (let i = 0; i < graphLinks.length; i++) {
-      const { source, target } = graphLinks[i]
-      if (!linkHad[source])
-        linkHad[source] = [target]
-      else
-        linkHad[source].push(target)
-    }
     for (let i = 0; i < links.length; i++) {
       const { source, target } = links[i]
-      if (!linkHad[source]?.includes(target))
+      if (!linkHad.get(source)?.has(target))
         graphLinks.push(links[i])
     }
     for (let i = 0; i < nodes.length; i++) {
