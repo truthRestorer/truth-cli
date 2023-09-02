@@ -40,10 +40,7 @@ export function changeGraphRoot(name: string, isAim: boolean) {
   }
   const newNodes = [{ name, category: 2, value: relations[name].version! }]
   const { nodes, links } = genGraph(relations[name])
-  for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].name !== name)
-      newNodes.push(nodes[i])
-  }
+  newNodes.push(...nodes.filter(node => node.name !== name))
   resetChart({ nodes: newNodes, links })
 }
 
@@ -83,15 +80,8 @@ export function dealGraphNode(name: string) {
   else {
     nodesSet.add(name)
     const nodeHad = new Set(graphNodes.map(node => node.name))
-    for (let i = 0; i < links.length; i++) {
-      const { source, target } = links[i]
-      if (!linkHad.get(source)?.has(target))
-        graphLinks.push(links[i])
-    }
-    for (let i = 0; i < nodes.length; i++) {
-      if (!nodeHad.has(nodes[i].name))
-        graphNodes.push(nodes[i])
-    }
+    graphLinks.push(...links.filter(({ source, target }) => !linkHad.get(source)?.has(target)))
+    graphNodes.push(...nodes.filter(({ name }) => !nodeHad.has(name)))
   }
   resetChart({ nodes: graphNodes, links: graphLinks })
 }
@@ -114,14 +104,12 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
     treeNodeMap.set(item.name, item)
     child = item.children
   }
-  for (const [name, value] of Object.entries(pkg)) {
-    child.push({
-      // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
-      name: `${name}--${data.name}`,
-      value,
-      children: [],
-    })
-  }
+  child.push(...Object.entries(pkg).map(([name, value]) => ({
+    // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
+    name: `${name}--${data.name}`,
+    value,
+    children: [],
+  })))
   resetChart({ tree })
 }
 
