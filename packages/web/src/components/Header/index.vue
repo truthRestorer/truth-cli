@@ -38,9 +38,9 @@ const handleSearch = debounce(() => {
 
 <template>
   <div class="header">
-    <div class="left">
-      <img src="https://plumbiu.github.io/blogImg/weblogo.png" alt="Truth-cli">
-    </div>
+    <a href="https://github.com/truthRestorer/truth-cli" target="_blank" class="left">
+      TRUTH-CLI
+    </a>
     <div class="right">
       <ElButton v-if="legend === 'Graph'" :icon="Download" title="下载图片" @click="download" />
       <ElButton v-if="legend === 'Graph'" :icon="Aim" title="命中/还原节点" @click="handleGraphRoot" />
@@ -83,5 +83,11 @@ const handleSearch = debounce(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+.left {
+  color: var(--el-text-color-primary);
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 700;
 }
 </style>
