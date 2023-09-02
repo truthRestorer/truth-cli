@@ -2,7 +2,7 @@ import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 import { genRelations } from '@truth-cli/core/node'
-import { htmlPath, logWebStart, workPath } from './const.js'
+import { htmlPath, logFinished, workPath } from './const.js'
 
 // 启动网页
 export function startWebServer() {
@@ -28,11 +28,11 @@ export function startWebServer() {
   server.on('error', (e: any) => {
     if (e.code === 'EADDRINUSE') {
       server.listen(++port, () => {
-        logWebStart(Date.now() - begin, port)
+        logFinished(Date.now() - begin, port)
       })
     }
   })
   server.listen(port, () => {
-    port === 3003 && logWebStart(Date.now() - begin, port)
+    port === 3003 && logFinished(Date.now() - begin, port)
   })
 }
