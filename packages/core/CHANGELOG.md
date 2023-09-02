@@ -1,5 +1,13 @@
 # @truth-cli/core
 
+## 1.1.3
+
+### Patch Changes
+
+- 5fbc9652: 优化算法
+- 5fbc9652: 优化web端代码逻辑
+- fd421650: web端新增指向箭头，调整节点大小
+
 ## 1.1.2
 
 ### Patch Changes
