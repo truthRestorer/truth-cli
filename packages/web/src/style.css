@@ -11,3 +11,18 @@ a {
   text-decoration: none;
   color: var(--el-color-primary);
 }
+.pkg {
+  cursor: pointer;
+  transition: background-color .05s;
+}
+.pkg:hover {
+  background-color: var(--el-color-primary-light-9);
+}
+.key {
+  color: var(--el-color-primary-dark-2);
+}
+.value {
+  padding-left: 8px;
+  color: var(--el-color-success-dark-2);
+  line-height: 22px;
+}

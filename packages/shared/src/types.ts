@@ -27,6 +27,9 @@ export interface Relation {
 
 export interface Relations {
   __root__: Relation
+  __extra__: {
+    [key: string]: Relation[]
+  }
   [key: string]: Relation
 }
 

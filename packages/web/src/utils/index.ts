@@ -122,6 +122,7 @@ export function toggleChart(legend: Legend) {
 export function getPkgInfo(name: string): PkgInfo {
   return {
     info: relations[name] ?? Object.values(relations).find(val => val.name?.includes(name)),
+    extra: relations.__extra__[name],
     circulation: circulation[name],
     versions: versions[name],
   }
