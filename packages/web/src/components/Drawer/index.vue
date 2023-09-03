@@ -7,7 +7,7 @@ import type { PkgInfo, ShowType } from '../../types'
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')
-const showType = ref<ShowType>('info')
+const type = ref<ShowType>('info')
 
 const infoMap: Record<string, string> = {
   info: '依赖信息',
@@ -17,7 +17,7 @@ const infoMap: Record<string, string> = {
 }
 
 function handlePkgInfo(command: ShowType) {
-  showType.value = command
+  type.value = command
   pkgInfo.value = getPkgInfo(pkgName.value)
 }
 </script>
@@ -34,7 +34,7 @@ function handlePkgInfo(command: ShowType) {
           </div>
           <ElDropdown trigger="click" @command="handlePkgInfo">
             <ElButton>
-              {{ infoMap[showType] }}
+              {{ infoMap[type] }}
               <ElIcon title="查看依赖信息" class="el-icon--right">
                 <ArrowDown />
               </ElIcon>
@@ -58,11 +58,11 @@ function handlePkgInfo(command: ShowType) {
           </ElDropdown>
         </div>
         <ElScrollbar style="font-size:14px;color:var(--el-text-color-primary);line-height:26px;">
-          <div v-if="pkgInfo[showType]">
-            <Json :data="pkgInfo[showType]" :type="showType" />
+          <div v-if="pkgInfo[type]">
+            <Json :data="pkgInfo[type]" :type="type" />
           </div>
           <div v-else class="value">
-            未找到{{ infoMap[showType] }}信息
+            未找到{{ infoMap[type] }}信息
           </div>
         </ElScrollbar>
       </ElScrollbar>
