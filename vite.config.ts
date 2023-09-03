@@ -13,6 +13,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    minify: 'terser',
     reportCompressedSize: false,
   },
 })
