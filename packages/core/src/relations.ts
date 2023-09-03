@@ -22,6 +22,7 @@ export function genRelations() {
   } = useReadFile('package.json')
   const relations: Relations = {
     __root__: { name: name ?? '__root__', version, dependencies, devDependencies, homepage },
+    __extra__: {},
   }
   if (name)
     relations[name] = { name, version, dependencies, devDependencies, homepage }
@@ -35,6 +36,18 @@ export function genRelations() {
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
+        if (relations[name]) {
+          if (relations[name].version === version)
+            continue
+          const add: any = { version }
+          isEmptyObj(dependencies) || (add.dependencies = dependencies)
+          isEmptyObj(devDependencies) || (add.devDependencies = devDependencies)
+          if (!relations.__extra__[name])
+            relations.__extra__[name] = [add]
+          else
+            relations.__extra__[name].push(add)
+          continue
+        }
         relations[name] = { name, version, homepage }
         // 像 @types/node 这种包，虽然没有依赖，但是却有 dependencies 字段，所以用 isEmptyObj 判断
         isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
