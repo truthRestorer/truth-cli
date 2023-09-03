@@ -36,22 +36,20 @@ export function genRelations() {
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
+        const add: any = { name, version, homepage }
+        // 像 @types/node 这种包，虽然没有依赖，但是却有 dependencies 字段，所以用 isEmptyObj 判断
+        isEmptyObj(dependencies) || (add.dependencies = dependencies)
+        isEmptyObj(devDependencies) || (add.devDependencies = devDependencies)
         if (relations[name]) {
           if (relations[name].version === version)
             continue
-          const add: any = { version }
-          isEmptyObj(dependencies) || (add.dependencies = dependencies)
-          isEmptyObj(devDependencies) || (add.devDependencies = devDependencies)
-          if (!relations.__extra__[name])
-            relations.__extra__[name] = [add]
-          else
+          if (relations.__extra__[name])
             relations.__extra__[name].push(add)
+          else
+            relations.__extra__[name] = [add]
           continue
         }
-        relations[name] = { name, version, homepage }
-        // 像 @types/node 这种包，虽然没有依赖，但是却有 dependencies 字段，所以用 isEmptyObj 判断
-        isEmptyObj(dependencies) || (relations[name].dependencies = dependencies)
-        isEmptyObj(devDependencies) || (relations[name].devDependencies = devDependencies)
+        relations[name] = add
       }
       else {
         // 你可能会看到有的包下面还有 node_modules，一般情况下，这里面只包含 .bin 执行脚本
