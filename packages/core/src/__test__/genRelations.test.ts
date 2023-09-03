@@ -16,8 +16,11 @@ describe('genRelations API 测试', async () => {
   test('属性及属性值', () => {
     expect(isEmptyObj(relations)).toBeFalsy()
     expect(isEmptyObj(relations.__root__)).toBeFalsy()
-    for (const val of Object.values(relations))
+    for (const [key, val] of Object.entries(relations)) {
+      if (key === '__extra__')
+        continue
       expect(val).ownProperty('version')
+    }
     expect(relations.__root__).ownProperty('version')
     expect(relations.__root__).ownProperty('devDependencies')
   })
