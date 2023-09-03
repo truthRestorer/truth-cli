@@ -31,18 +31,19 @@ pnpm add @truth-cli/core
 ```ts
 import { genRelations } from '@truth-cli/core/node'
 
-function genRelations(): Relations
+declare function genRelations(): Relations
 
-interface Relation {
+export interface Relation {
+  name?: string
   version?: string
-  dependencies?: { [key: string]: string }
-  devDependencies?: { [key: string]: string }
+  dependencies?: Record<string, string>
+  devDependencies?: Record<string, string>
   homepage?: string
-  [key: string]: any
 }
 
-interface Relations {
+export interface Relations {
   __root__: Relation
+  __extra__: Record<string, Relation[]>
   [key: string]: Relation
 }
 ```
@@ -162,11 +163,7 @@ import { genVersions } from '@truth-cli/core'
 
 function genVersions(relations: Relations): Versions
 
-interface IVersions {
-  [key: string]: {
-    [key: string]: string[]
-  }
-}
+type Versions = Record<string, Record<string, string[]>>
 ```
 
 # genCirculation
@@ -178,9 +175,7 @@ interface IVersions {
 ```ts
 import { genCirculation } from '@truth-cli/core'
 
-function genCirculation(relations: Relations): {
-  [key: string]: string[]
-}
+declare function genCirculation(relations: Relations): Record<string, string[]>
 ```
 
 ## genJson
@@ -194,7 +189,7 @@ function genCirculation(relations: Relations): {
 ```ts
 import { genJson } from '@truth-cli/core'
 
-declare function genJson(depth: number, relations: Relations, shouldOptimize?: boolean): Pkgs
+declare function genJson(depth: number, relations: Relations, shouldOptimize?: boolean): PkgJson
 
 interface Pkgs {
   version: string
