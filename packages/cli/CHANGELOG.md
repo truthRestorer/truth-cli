@@ -1,5 +1,14 @@
 # truth-cli
 
+## 1.1.4
+
+### Patch Changes
+
+- 6ee75a48: 优化网页端体积大小
+- 6ee75a48: 简化cli代码逻辑
+- 5edffda4: 更改Logo标识
+- 6ee75a48: 实现下载图片功能
+
 ## 1.1.3
 
 ### Patch Changes
