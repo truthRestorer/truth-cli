@@ -18,6 +18,7 @@ async function resolveBuild() {
     minify: true,
     platform: 'node',
     format: 'esm',
+    sourcemap: true,
   })
   target.includes('web') && await buildWeb('../packages/cli', true)
   await esbuild.build({
