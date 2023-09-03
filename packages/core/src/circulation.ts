@@ -1,7 +1,7 @@
 import type { Relations } from '@truth-cli/shared'
 
 export function genCirculation(relations: Relations) {
-  const circulation: { [key: string]: string[] } = {}
+  const circulation: Record<string, string[]> = {}
   for (const [rootName, rootVal] of Object.entries(relations)) {
     const { devDependencies, dependencies = {} } = rootVal
     const pkgs = Object.assign(dependencies, devDependencies)

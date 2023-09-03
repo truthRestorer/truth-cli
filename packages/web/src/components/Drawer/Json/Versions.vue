@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  data: { [key: string]: string[] }
+  data: Record<string, string[]>
 }>()
 </script>
 

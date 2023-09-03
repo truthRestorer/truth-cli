@@ -8,5 +8,5 @@ export interface PkgInfo {
   info?: Relation
   extra?: Relation[]
   circulation?: string[]
-  versions?: { [key: string]: string[] }
+  versions?: Record<string, string[]>
 }

@@ -20,21 +20,15 @@ export interface Tree {
 export interface Relation {
   name?: string
   version?: string
-  dependencies?: { [key: string]: string }
-  devDependencies?: { [key: string]: string }
+  dependencies?: Record<string, string>
+  devDependencies?: Record<string, string>
   homepage?: string
 }
 
 export interface Relations {
   __root__: Relation
-  __extra__: {
-    [key: string]: Relation[]
-  }
+  __extra__: Record<string, Relation[]>
   [key: string]: Relation
 }
 
-export interface Versions {
-  [key: string]: {
-    [key: string]: string[]
-  }
-}
+export type Versions = Record<string, Record<string, string[]>>

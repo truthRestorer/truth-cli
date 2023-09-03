@@ -14,7 +14,7 @@ let graphNodes: Nodes[]
 let graphLinks: Links[]
 let tree: Tree
 let versions: Versions
-let circulation: { [key: string]: string[] }
+let circulation: Record<string, string[]>
 
 export function initChart(_echart: ECharts, _relations: Relations) {
   const worker = new W()
