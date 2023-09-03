@@ -2,14 +2,21 @@
 import { type Ref, inject, ref } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { getPkgInfo } from '../../utils/index'
-import type { PkgInfo } from '../../types'
+import type { PkgInfo, ShowType } from '../../types'
 
 const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')
-const showType = ref<'info' | 'circulation' | 'versions'>('info')
+const showType = ref<ShowType>('info')
 
-function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
+const infoMap: Record<string, string> = {
+  info: '依赖信息',
+  circulation: '循环依赖',
+  versions: '版本引用',
+  extra: '其他版本',
+}
+
+function handlePkgInfo(command: ShowType) {
   showType.value = command
   pkgInfo.value = getPkgInfo(pkgName.value)
 }
@@ -19,7 +26,7 @@ function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
   <Transition>
     <div v-if="drawer" class="drawer">
       <ElScrollbar>
-        <div style="display: flex;justify-content: space-between;padding-right: 12px;padding-bottom: 12px;">
+        <div class="drawer_header">
           <div class="pkgName">
             <ElScrollbar>
               {{ pkgName }}
@@ -27,21 +34,15 @@ function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
           </div>
           <ElDropdown trigger="click" @command="handlePkgInfo">
             <ElButton>
-              INFO
+              {{ infoMap[showType] }}
               <ElIcon title="查看依赖信息" class="el-icon--right">
                 <ArrowDown />
               </ElIcon>
             </ElButton>
             <template #dropdown>
               <ElDropdownMenu>
-                <ElDropdownItem command="info">
-                  依赖信息
-                </ElDropdownItem>
-                <ElDropdownItem command="circulation">
-                  循环依赖
-                </ElDropdownItem>
-                <ElDropdownItem command="versions">
-                  版本信息
+                <ElDropdownItem v-for="(value, key) in infoMap" :key="value" :command="key">
+                  {{ value }}
                 </ElDropdownItem>
                 <ElDropdownItem>
                   <ElButton
@@ -57,7 +58,12 @@ function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
           </ElDropdown>
         </div>
         <ElScrollbar style="font-size:14px;color:var(--el-text-color-primary);line-height:26px;">
-          <JsonView :data="pkgInfo[showType]" :type="showType" />
+          <div v-if="pkgInfo[showType]">
+            <Json :data="pkgInfo[showType]" :type="showType" />
+          </div>
+          <div v-else class="value">
+            未找到{{ infoMap[showType] }}信息
+          </div>
         </ElScrollbar>
       </ElScrollbar>
     </div>
@@ -66,16 +72,22 @@ function handlePkgInfo(command: 'info' | 'circulation' | 'versions') {
 
 <style scoped>
 .drawer {
-  position: fixed;
+  position: absolute;
   z-index: 998;
   top: 50px;
   height: 100%;
   padding-bottom: 80px;
   width: 300px;
   translate: 0px;
-  padding: 16px 8px;
+  padding: 16px;
   background-color: var(--el-bg-color);
   box-shadow: var(--el-box-shadow-light);
+}
+.drawer_header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-right: 12px;
 }
 .v-enter-active,
 .v-leave-active {
