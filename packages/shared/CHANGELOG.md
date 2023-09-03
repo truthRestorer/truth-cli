@@ -1,5 +1,13 @@
 # @truth-cli/shared
 
+## 1.1.5
+
+### Patch Changes
+
+- dd0b47ce: 添加多版本显示功能
+- dd5e9f96: 采用terser进一步减少体积
+- dd0b47ce: 完善类型的说明
+
 ## 1.1.4
 
 ### Patch Changes
