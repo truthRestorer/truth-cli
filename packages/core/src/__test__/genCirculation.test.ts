@@ -24,6 +24,7 @@ describe('genCirculation API 测试', () => {
           __root__: 'latest',
         },
       },
+      __extra__: {},
     })
     expect(graph).toEqual({
       __root__: ['axios', 'vue'],

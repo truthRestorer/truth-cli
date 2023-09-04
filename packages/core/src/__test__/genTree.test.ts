@@ -4,6 +4,7 @@ import { genTree } from '../tree'
 describe('genTree API 测试', () => {
   test('depth 小于 1', () => {
     const tree = genTree(0, {
+      __extra__: {},
       __root__: {
         name: 'truth-cli',
         dependencies: {
@@ -30,6 +31,7 @@ describe('genTree API 测试', () => {
 
   test('depth 等于 1', () => {
     const tree = genTree(1, {
+      __extra__: {},
       __root__: {
         name: 'truth-cli',
         dependencies: {
@@ -64,6 +66,7 @@ describe('genTree API 测试', () => {
 
   test('depth 大于 1', () => {
     const tree = genTree(2, {
+      __extra__: {},
       __root__: {
         name: 'truth-cli',
         dependencies: {

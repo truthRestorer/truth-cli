@@ -3,6 +3,7 @@ import { genCirculation } from '../../circulation'
 
 bench('API genCirculation', () => {
   genCirculation({
+    __extra__: {},
     __root__: {
       version: '1.0.0',
       dependencies: {

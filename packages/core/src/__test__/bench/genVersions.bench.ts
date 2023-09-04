@@ -3,6 +3,7 @@ import { genVersions } from '../../versions'
 
 bench('API genVersions', () => {
   genVersions({
+    __extra__: {},
     __root__: {
       version: '1.0.0',
       dependencies: {

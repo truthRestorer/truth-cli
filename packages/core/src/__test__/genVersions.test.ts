@@ -4,6 +4,7 @@ import { genVersions } from '../versions'
 describe('genVersions API 测试', () => {
   test('基本测试', () => {
     const versions = genVersions({
+      __extra__: {},
       __root__: {
         name: 'truth-cli',
         dependencies: {

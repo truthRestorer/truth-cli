@@ -4,6 +4,7 @@ import { genJson } from '../json'
 describe('genJson API 测试', () => {
   test('不进行深度优化', () => {
     const json = genJson(3, {
+      __extra__: {},
       __root__: {
         dependencies: {
           axios: '1.0.0',
@@ -86,6 +87,7 @@ describe('genJson API 测试', () => {
 
   test('进行深度优化', () => {
     const json = genJson(5, {
+      __extra__: {},
       __root__: {
         dependencies: {
           axios: '1.0.0',

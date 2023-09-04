@@ -8,6 +8,7 @@ console.log(versions1)
 
 // 2. 自定义生成：
 const versions2 = genVersions({
+  __extra__: {},
   __root__: {
     dependencies: {
       axios: '1.0.0',

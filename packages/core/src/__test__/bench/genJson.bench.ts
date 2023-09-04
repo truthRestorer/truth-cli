@@ -3,6 +3,7 @@ import { genJson } from '../../json'
 
 bench('API genJson', () => {
   genJson(1, {
+    __extra__: {},
     __root__: {
       version: '1.0.0',
       dependencies: {

@@ -4,6 +4,7 @@ import { genTxt } from '../txt'
 describe('genTxt API 测试', () => {
   test('基本测试', () => {
     const txt = genTxt(0, {
+      __extra__: {},
       __root__: {
         name: 'truth-cli',
         dependencies: {

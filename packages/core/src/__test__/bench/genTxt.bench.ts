@@ -3,6 +3,7 @@ import { genTxt } from '../../txt'
 
 bench('API genTxt', () => {
   genTxt(1, {
+    __extra__: {},
     __root__: {
       version: '1.0.0',
       dependencies: {

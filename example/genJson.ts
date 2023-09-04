@@ -8,6 +8,7 @@ console.log(pkgTree1)
 
 // 2. 自定义生成：
 const pkgTree2 = genJson(1, {
+  __extra__: {},
   __root__: {
     dependencies: {
       axios: '1.0.0',

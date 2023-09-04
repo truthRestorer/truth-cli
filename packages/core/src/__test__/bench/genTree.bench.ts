@@ -3,6 +3,7 @@ import { genTree } from '../../tree'
 
 bench('API genTree', () => {
   genTree(1, {
+    __extra__: {},
     __root__: {
       version: '1.0.0',
       dependencies: {

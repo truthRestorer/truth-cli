@@ -8,6 +8,7 @@ console.log(tree1)
 
 // 2. 自定义生成树：
 const tree2 = genTree(2, {
+  __extra__: {},
   __root__: {
     dependencies: {
       axios: '1.0.0',
