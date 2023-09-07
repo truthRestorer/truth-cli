@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.2.0
+
+### Minor Changes
+
+- 327f5030: 新增html指令
+
 ## 1.1.7
 
 ### Patch Changes
