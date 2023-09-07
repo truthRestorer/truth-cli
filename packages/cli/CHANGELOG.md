@@ -1,5 +1,13 @@
 # truth-cli
 
+## 1.1.7
+
+### Patch Changes
+
+- 348b2a57: 减少响应式数据，提高网页性能
+- 437cf3cc: 修复树图不显示下载按钮的bug
+- 022f8ab4: 使用vite的inline worker
+
 ## 1.1.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 1.1.7
+
+### Patch Changes
+
+- 022f8ab4: 使用vite的inline worker
+
 ## 1.1.6
 
 ### Patch Changes
