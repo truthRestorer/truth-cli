@@ -2,6 +2,7 @@ import { cac } from 'cac'
 import { depOption, pathOption } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
+import type { FileType } from './src/types.js'
 
 const cli = cac('truth-cli')
 
@@ -9,7 +10,7 @@ cli.command('web').action(() => {
   startWebServer()
 })
 
-function createFileCli(type: 'json' | 'txt' | 'html') {
+function createFileCli(type: FileType) {
   cli
     .command(type)
     .option('-d, --dep [dep]', depOption, {
