@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Aim, Download, Search } from '@element-plus/icons-vue'
-import { type Ref, inject, ref } from 'vue'
+import { type Ref, inject } from 'vue'
 import type { Legend, PkgInfo } from '../../types'
 import { changeGraphRoot, collapseNode, download, getPkgInfo, toggleChart } from '../../utils/'
 
@@ -8,11 +8,15 @@ const pkgName = inject<Ref<string>>('pkgName')!
 const pkgInfo = inject<Ref<PkgInfo>>('pkgInfo')!
 const drawer = inject<Ref<boolean>>('drawer')!
 const isAim = inject<Ref<boolean>>('isAim')!
-const legend = ref<Legend>('Graph')
+let legend: Legend = 'Graph'
 let target = '__root__'
 
+function handleLegend() {
+  legend = toggleChart(legend)
+}
+
 function handleGraphRoot() {
-  if (legend.value !== 'Graph' || pkgName.value === '__root__')
+  if (legend !== 'Graph' || pkgName.value === '__root__')
     return
   if (!isAim.value)
     target = pkgName.value
@@ -57,7 +61,7 @@ const handleSearch = debounce(() => {
       <ElButton @click="drawer = !drawer">
         {{ drawer ? '关闭' : '打开' }}信息框
       </ElButton>
-      <ElButton @click="() => legend = toggleChart(legend)">
+      <ElButton @click="handleLegend">
         切换图表
       </ElButton>
       <Link />

@@ -17,5 +17,3 @@ defineProps<{
   <Versions v-else-if="type === 'versions'" :data="data" />
   <Extra v-else-if="type === 'extra'" :data="data" />
 </template>
-
-<style scoped></style>
