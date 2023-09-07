@@ -3,7 +3,7 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genGraph } from '@truth-cli/core'
 import type { Legend, PkgInfo } from '../types'
-import W from './worker.ts?worker'
+import W from './worker.ts?worker&inline'
 import { loadGraph, loadTree } from './tools'
 
 let echart: ECharts

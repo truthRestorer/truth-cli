@@ -24,4 +24,3 @@ export function logFinished(duration: number, extra: number | string) {
 export const depOption = 'depth of dependency, [1]'
 export const pathOption = 'path of file, ["./"]'
 export const htmlPath = path.resolve(__dirname, 'index.html.br')
-export const workPath = path.resolve(__dirname, 'assets/worker.js.br')
