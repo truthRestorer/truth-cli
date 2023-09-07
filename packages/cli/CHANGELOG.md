@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.1.6
+
+### Patch Changes
+
+- 439e280e: 优化性能
+
 ## 1.1.5
 
 ### Patch Changes
