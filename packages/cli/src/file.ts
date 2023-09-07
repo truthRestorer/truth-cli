@@ -1,6 +1,5 @@
 import path from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { brotliDecompressSync } from 'node:zlib'
 import { genRelations } from '@truth-cli/core/node'
 import { htmlPath, logError, logFinished } from './const.js'
 import type { FileType } from './types.js'
@@ -24,6 +23,7 @@ export async function genFile(depth: any, type: FileType, p: string) {
     }
     else {
       const brHTML = readFileSync(htmlPath)
+      const { brotliDecompressSync } = await import('node:zlib')
       const html = brotliDecompressSync(brHTML).toString()
       writeFileSync(
         writePath,
