@@ -37,12 +37,15 @@ export function genRelations() {
         const { name, version, dependencies, devDependencies, homepage } = pkg
         const add: Relation = { name, version, homepage, dependencies, devDependencies }
         if (relations[name]) {
-          if (relations[name].version === version)
+          if (
+            relations[name].version === version
+            || relations.__extra__[name]?.[version] === version
+          )
             continue
           if (relations.__extra__[name])
-            relations.__extra__[name].push(add)
+            relations.__extra__[name][version] = add
           else
-            relations.__extra__[name] = [add]
+            relations.__extra__[name] = { [version]: add }
           continue
         }
         relations[name] = add
