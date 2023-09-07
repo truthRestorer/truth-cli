@@ -1,6 +1,5 @@
 import fs from 'node:fs'
-import path from 'node:path'
-import { type Relations, isEmptyObj } from '@truth-cli/shared'
+import type { Relation, Relations } from '@truth-cli/shared'
 
 export function useReadFile(p: string) {
   const json = fs.readFileSync(p, 'utf-8')
@@ -29,17 +28,14 @@ export function genRelations() {
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
-      const pkgPath = path.join(p, dirs[i])
+      const pkgPath = `${p}/${dirs[i]}`
       if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
         continue
-      const filePath = path.join(pkgPath, 'package.json')
+      const filePath = `${pkgPath}/package.json`
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
-        const add: any = { name, version, homepage }
-        // 像 @types/node 这种包，虽然没有依赖，但是却有 dependencies 字段，所以用 isEmptyObj 判断
-        isEmptyObj(dependencies) || (add.dependencies = dependencies)
-        isEmptyObj(devDependencies) || (add.devDependencies = devDependencies)
+        const add: Relation = { name, version, homepage, dependencies, devDependencies }
         if (relations[name]) {
           if (relations[name].version === version)
             continue
