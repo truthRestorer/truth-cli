@@ -30,6 +30,8 @@ npx truth-cli web
 npx truth-cli json
 # 生成 txt 文件
 npx truth-cli txt
+# 生成 html 文件
+npx truth-cli html
 ```
 
 ## 安装
@@ -47,10 +49,12 @@ truth-cli web
 truth-cli json
 # 生成 txt 文件
 truth-cli txt
+# 生成 html 文件
+truth-cli html
 ```
 ## 指定深度
 
-> 深度只针对生成文件，网页端采取动态加载节点的策略。
+> 深度只针对生成 `json` 和 `txt` 命令 ，网页端采取动态加载节点的策略。
 
 使用 `--dep` 或 `-d` 参数:
 
