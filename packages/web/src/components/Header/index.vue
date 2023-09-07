@@ -46,7 +46,7 @@ const handleSearch = debounce(() => {
       TRUTH-CLI
     </a>
     <div class="right">
-      <ElButton v-if="legend === 'Graph'" :icon="Download" title="下载图片" @click="download" />
+      <ElButton :icon="Download" title="下载图片" @click="download" />
       <ElButton v-if="legend === 'Graph'" :icon="Aim" title="命中/还原节点" @click="handleGraphRoot" />
       <ElInput v-model="pkgName" placeholder="搜索依赖" @input="handleSearch">
         <template #suffix>
