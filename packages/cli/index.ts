@@ -18,8 +18,8 @@ function createFileCli(type: 'json' | 'txt') {
     .option('-p, --path [path]', pathOption, {
       default: './',
     })
-    .action(({ dep, path }) => {
-      genFile(dep, type, path)
+    .action(async ({ dep, path }) => {
+      await genFile(dep, type, path)
     })
 }
 createFileCli('json')
