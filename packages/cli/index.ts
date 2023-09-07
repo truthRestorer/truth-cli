@@ -9,7 +9,7 @@ cli.command('web').action(() => {
   startWebServer()
 })
 
-function createFileCli(type: 'json' | 'txt') {
+function createFileCli(type: 'json' | 'txt' | 'html') {
   cli
     .command(type)
     .option('-d, --dep [dep]', depOption, {
@@ -22,8 +22,10 @@ function createFileCli(type: 'json' | 'txt') {
       await genFile(dep, type, path)
     })
 }
+
 createFileCli('json')
 createFileCli('txt')
+createFileCli('html')
 
 cli.help()
 cli.parse()
