@@ -27,7 +27,7 @@ export async function genFile(depth: any, type: FileType, p: string) {
       const html = brotliDecompressSync(brHTML).toString()
       writeFileSync(
         writePath,
-        html.replace('fetch("relations.json")', `new Response('${JSON.stringify(genRelations())}')`),
+        html.replace('fetch("relations.json")', `new Response('${JSON.stringify(genRelations()).replace(/\\/g, '/')}')`),
       )
     }
     logFinished(Date.now() - begin, writePath)

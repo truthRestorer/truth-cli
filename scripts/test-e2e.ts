@@ -23,7 +23,7 @@ async function e2e() {
     writePath,
     html.replace(
       'fetch("relations.json")',
-      `new Response('${JSON.stringify(genRelations())}')`,
+      `new Response('${JSON.stringify(genRelations()).replace(/\\/g, '/')}')`,
     ),
   )
 }
