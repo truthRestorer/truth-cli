@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.2.2
+
+### Patch Changes
+
+- ffa96cb9: 修复输出html文件空白问题
+
 ## 1.2.1
 
 ### Patch Changes
