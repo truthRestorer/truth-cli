@@ -20,6 +20,7 @@ export interface Tree {
 export interface Relation {
   name?: string
   version?: string
+  path?: string
   dependencies?: Record<string, string>
   devDependencies?: Record<string, string>
   homepage?: string

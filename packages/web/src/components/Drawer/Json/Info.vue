@@ -21,7 +21,7 @@ defineProps<{
     </div>
     <div v-else>
       <span class="key">{{ key }}</span>
-      <a v-if="key === 'homepage'" :href="String(value)" target="_blank" style="padding-left: 8px;">{{ value }}</a>
+      <a v-if="key === 'homepage' || key === 'path'" :href="String(value)" target="_blank" style="padding-left: 8px;">{{ value }}</a>
       <span v-else class="value">{{ value }}</span>
     </div>
   </div>

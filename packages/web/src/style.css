@@ -19,7 +19,7 @@ a {
   background-color: var(--el-color-primary-light-9);
 }
 .key {
-  color: var(--el-color-primary-dark-2);
+  font-weight: bold;
 }
 .value {
   padding-left: 8px;

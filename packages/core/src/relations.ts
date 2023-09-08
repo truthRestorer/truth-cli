@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import type { Relation, Relations } from '@truth-cli/shared'
 
 export function useReadFile(p: string) {
@@ -20,7 +21,7 @@ export function genRelations() {
     homepage,
   } = useReadFile('package.json')
   const relations: Relations = {
-    __root__: { name: name ?? '__root__', version, dependencies, devDependencies, homepage },
+    __root__: { name: name ?? '__root__', path: path.resolve('package.json'), version, dependencies, devDependencies, homepage },
     __extra__: {},
   }
   if (name)
@@ -31,11 +32,11 @@ export function genRelations() {
       const pkgPath = `${p}/${dirs[i]}`
       if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
         continue
-      const filePath = `${pkgPath}/package.json`
+      const filePath = path.resolve(`${pkgPath}/package.json`)
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
-        const add: Relation = { name, version, homepage, dependencies, devDependencies }
+        const add: Relation = { name, version, path: filePath, homepage, dependencies, devDependencies }
         if (relations[name]) {
           if (
             relations[name].version === version
