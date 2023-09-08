@@ -1,5 +1,11 @@
 # @truth-cli/core
 
+## 1.1.8
+
+### Patch Changes
+
+- 27f41c51: 新增显示本地连接
+
 ## 1.1.7
 
 ### Patch Changes

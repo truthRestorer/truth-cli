@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.2.1
+
+### Patch Changes
+
+- 27f41c51: 新增显示本地连接
+
 ## 1.2.0
 
 ### Minor Changes
