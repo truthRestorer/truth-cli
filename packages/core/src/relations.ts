@@ -24,6 +24,7 @@ export function genRelations() {
     __root__: { name: name ?? '__root__', path: path.resolve('package.json'), version, dependencies, devDependencies, homepage },
     __extra__: {},
   }
+  // 这里由于 genRelations 直接读取根目录中的 package.json，对单测覆盖率有影响
   if (name)
     relations[name] = { name, version, dependencies, devDependencies, homepage }
   function readGlob(p: string) {

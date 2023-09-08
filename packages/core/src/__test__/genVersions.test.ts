@@ -14,17 +14,24 @@ describe('genVersions API 测试', () => {
       },
       axios: {
         name: 'axios',
+        version: '3.0.0',
         dependencies: {
-          rollup: '2.0.0',
+          rollup: '4.0.0',
+          axios: '1.0.0',
         },
+      },
+      rollup: {
+        name: 'rollup',
+        version: '6.0.0',
       },
     })
     expect(versions).toEqual({
       axios: {
-        '1.0.0': ['__root__'],
+        '1.0.0': ['__root__', 'axios'],
       },
       rollup: {
-        '2.0.0': ['__root__', 'axios'],
+        '2.0.0': ['__root__'],
+        '4.0.0': ['axios'],
       },
     })
   })
