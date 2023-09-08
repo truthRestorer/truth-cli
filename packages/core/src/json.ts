@@ -33,9 +33,7 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
   if (!shouldOptimize)
     shouldOptimize = depth > 4
   // 递归(深度优先)产生 `pkgs.json` 内容数据
-  function loadJson(rootPkgs: PkgJson | undefined, maxDep: number) {
-    if (!rootPkgs)
-      return
+  function loadJson(rootPkgs: PkgJson, maxDep: number) {
     if (maxDep <= 0) {
       for (const key of Object.keys(rootPkgs))
         delete rootPkgs[key].packages
@@ -61,6 +59,6 @@ export function genJson(depth: number, relations: Relations, shouldOptimize = fa
       shouldOptimize || pkgSet.delete(key)
     }
   }
-  loadJson(pkgs.packages, depth - 1)
+  loadJson(pkgs.packages!, depth - 1)
   return pkgs
 }

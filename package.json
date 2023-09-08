@@ -26,6 +26,7 @@
     "@types/minimist": "^1.2.2",
     "@types/node": "^20.5.9",
     "@vitejs/plugin-vue": "^4.3.4",
+    "@vitest/coverage-v8": "^0.34.4",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.1",
     "esbuild": "^0.19.2",
