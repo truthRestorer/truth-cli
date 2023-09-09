@@ -1,5 +1,15 @@
 # truth-cli
 
+## 1.3.0
+
+### Minor Changes
+
+- cf68229c: 懒加载relations，大幅加快启动速度
+
+### Patch Changes
+
+- 91dc6a3b: 修复导出html无效问题
+
 ## 1.2.2
 
 ### Patch Changes
