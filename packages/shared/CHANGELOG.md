@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 1.2.0
+
+### Minor Changes
+
+- cf68229c: 懒加载relations，大幅加快启动速度
+
 ## 1.1.8
 
 ### Patch Changes
