@@ -5,10 +5,10 @@ import type { PkgInfo } from '../../types'
 import echarts from '../../plugins/echarts'
 import { dealGraphNode, dealTreeNode, formatName, getPkgInfo, initChart } from '../../utils/index'
 
-const relationsJSON = await fetch('relations.json')
-const relations: Relations = await relationsJSON.json()
-const pkgName = ref(relations.__root__.name)
-const pkgInfo = ref<PkgInfo>({ info: relations.__root__ })!
+const baseJSON = await fetch('base.json')
+const base: Relations = await baseJSON.json()
+const pkgName = ref(base.__root__.name)
+const pkgInfo = ref<PkgInfo>({ info: base.__root__ })
 const isAim = ref(false)
 const drawer = ref(false)
 
@@ -19,7 +19,7 @@ provide('isAim', isAim)
 
 onMounted(async () => {
   const chartDOM = echarts.init(document.getElementById('chart'))
-  initChart(chartDOM, relations)
+  initChart(chartDOM, base)
   chartDOM.on('click', (params: any) => {
     const { data, seriesType, collapsed, treeAncestors } = params
     pkgName.value = formatName(data.name)

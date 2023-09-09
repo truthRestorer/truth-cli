@@ -6,13 +6,8 @@ export function useReadFile(p: string) {
   const json = fs.readFileSync(p, 'utf-8')
   return JSON.parse(json)
 }
-/**
- * truth-cli 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
- * nodejs 读取文件的速度很慢，`truth-cli` 只会读取一次(根目录和 node_modules 目录的 package.json)，形成一种对象格式
- * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
- */
-export function genRelations() {
-  // 先读取项目的 package.json
+
+export function genBaseRelation() {
   const {
     name,
     version = 'latest',
@@ -27,13 +22,25 @@ export function genRelations() {
   // 这里由于 genRelations 直接读取根目录中的 package.json，对单测覆盖率有影响
   if (name)
     relations[name] = { name, version, dependencies, devDependencies, homepage }
+  return relations
+}
+
+/**
+ * truth-cli 为了优化读文件的操作，选择了读取文件后形成一个 relations，后续文件的生成都依赖于这个 relations
+ * nodejs 读取文件的速度很慢，`truth-cli` 只会读取一次(根目录和 node_modules 目录的 package.json)，形成一种对象格式
+ * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
+ */
+export function genRelations() {
+  // 先读取项目的 package.json
+  const relations = genBaseRelation()
+
   function readGlob(p: string) {
     const dirs = fs.readdirSync(p)
     for (let i = 0; i < dirs.length; i++) {
       const pkgPath = `${p}/${dirs[i]}`
       if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
         continue
-      const filePath = path.resolve(`${pkgPath}/package.json`)
+      const filePath = `${pkgPath}/package.json`
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg

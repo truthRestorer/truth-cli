@@ -16,18 +16,18 @@ let tree: Tree
 let versions: Versions
 let circulation: Record<string, string[]>
 
-export function initChart(_echart: ECharts, _relations: Relations) {
+export function initChart(_echart: ECharts, _relation: Relations) {
   const worker = new W()
   worker.onmessage = (e) => {
     const data = e.data
     tree = data.tree
     versions = data.versions
     circulation = data.circulation
+    relations = data.relations
   }
-  worker.postMessage(_relations)
-  const { nodes, links } = genGraph(_relations.__root__)
+  worker.postMessage('begin')
+  const { nodes, links } = genGraph(_relation.__root__)
   _echart.setOption(loadGraph(graphNodes = nodes, graphLinks = links))
-  relations = _relations
   echart = _echart
 }
 

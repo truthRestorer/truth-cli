@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { InlineConfig } from 'vite'
 import { build, createServer } from 'vite'
-import { genRelations } from '../packages/core/src/relations.js'
+import { genBaseRelation, genRelations } from '../packages/core/src/relations.js'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -39,5 +39,7 @@ export async function createViteServer(vitePath: string, port: number = 1337) {
  */
 export async function genWebFile(writePath: string) {
   const relations = genRelations()
+  const base = genBaseRelation()
   await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
+  await fs.writeFile(`${writePath}/base.json`, JSON.stringify(base))
 }
