@@ -25,7 +25,7 @@ export function initChart(_echart: ECharts, _relation: Relations) {
     circulation = data.circulation
     relations = data.relations
   }
-  worker.postMessage('begin')
+  worker.postMessage(_relation)
   const { nodes, links } = genGraph(_relation.__root__)
   _echart.setOption(loadGraph(graphNodes = nodes, graphLinks = links))
   echart = _echart
