@@ -1,5 +1,12 @@
 # truth-cli
 
+## 1.3.1
+
+### Patch Changes
+
+- 40bf51cb: 优化woker请求逻辑
+- 40bf51cb: 修复了端口占用问题
+
 ## 1.3.0
 
 ### Minor Changes
