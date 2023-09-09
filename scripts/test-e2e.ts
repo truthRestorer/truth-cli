@@ -22,7 +22,7 @@ async function e2e() {
   writeFileSync(
     writePath,
     html.replace(
-      'fetch("relations.json")',
+      'fetch("base.json")',
       `new Response('${JSON.stringify(genRelations()).replace(/\\/g, '/')}')`,
     ),
   )
