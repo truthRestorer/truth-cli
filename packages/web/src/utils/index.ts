@@ -18,14 +18,18 @@ let circulation: Record<string, string[]>
 
 export function initChart(_echart: ECharts, _relation: Relations) {
   const worker = new W()
+  // 不阻塞代码运行
+  fetch('relations.json').then(data => data.json()).then((data) => {
+    worker.postMessage(data)
+  })
   worker.onmessage = (e) => {
     const data = e.data
     tree = data.tree
     versions = data.versions
     circulation = data.circulation
     relations = data.relations
+    worker.terminate()
   }
-  worker.postMessage(_relation)
   const { nodes, links } = genGraph(_relation.__root__)
   _echart.setOption(loadGraph(graphNodes = nodes, graphLinks = links))
   echart = _echart

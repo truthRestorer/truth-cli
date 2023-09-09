@@ -25,11 +25,16 @@ export async function genFile(depth: any, type: FileType, p: string) {
       const brHTML = readFileSync(htmlPath)
       const { brotliDecompressSync } = await import('node:zlib')
       const html = brotliDecompressSync(brHTML).toString()
+      const { genBaseRelation } = await import('@truth-cli/core/node')
       writeFileSync(
         writePath,
+        // 需要将原有文件中的 fetch API 修改为 Reponse 对象
         html.replace(
           'fetch("base.json")',
-          `new Response('${JSON.stringify(relations).replace(/\\/g, '/')}')`,
+          `new Response('${JSON.stringify(genBaseRelation()).replace(/\\/g, '/')}')`,
+        ).replace(
+          'fetch("relations.json")',
+          `Promise.resolve(new Response('${JSON.stringify(relations).replace(/\\/g, '/')}'))`,
         ),
       )
     }
