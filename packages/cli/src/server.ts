@@ -8,6 +8,7 @@ import { htmlPath, logFinished } from './const.js'
 export function startWebServer() {
   const begin = Date.now()
   const base = JSON.stringify(genBaseRelation())
+  let port = 3003
   const html = readFileSync(htmlPath)
   const server = createServer((req, res) => {
     if (req.url === '/') {
@@ -23,7 +24,13 @@ export function startWebServer() {
       res.end(base)
     }
   })
-  server.listen(3003, () => {
-    logFinished(Date.now() - begin, 3003)
+  server.on('error', (e: any) => {
+    if (e.code === 'EADDRINUSE') {
+      server.close()
+      server.listen(++port)
+    }
+  })
+  server.listen(port, () => {
+    logFinished(Date.now() - begin, port)
   })
 }
