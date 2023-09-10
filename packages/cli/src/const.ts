@@ -21,6 +21,6 @@ export function logFinished(duration: number, extra: number | string) {
   console.log(`${prefix}   ${colors.bold(duration)} ${colors.dim('ms')}\n`)
 }
 
-export const depOption = 'depth of dependency, [1]'
-export const pathOption = 'path of file, ["./"]'
+export const depOption = 'depth of dependency'
+export const pathOption = 'path of file'
 export const htmlPath = path.resolve(__dirname, 'index.html.br')

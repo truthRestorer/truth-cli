@@ -6,22 +6,25 @@ import type { FileType } from './src/types.js'
 
 const cli = cac('truth-cli')
 
-cli.command('web').action(() => {
+cli.command('web', 'start web server').action(() => {
   startWebServer()
 })
 
 function createFileCli(type: FileType) {
-  cli
-    .command(type)
-    .option('-d, --dep [dep]', depOption, {
-      default: 1,
-    })
+  const fileCli = cli
+    .command(type, `generate ${type} file`)
     .option('-p, --path [path]', pathOption, {
       default: './',
     })
-    .action(async ({ dep, path }) => {
-      await genFile(dep, type, path)
-    })
+  if (type !== 'html') {
+    fileCli
+      .option('-d, --dep [dep]', depOption, {
+        default: 1,
+      })
+      .action(async ({ dep, path }) => {
+        await genFile(dep, type, path)
+      })
+  }
 }
 
 createFileCli('json')
