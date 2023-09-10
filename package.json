@@ -24,13 +24,13 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^20.5.9",
+    "@types/node": "^20.6.0",
     "@vitejs/plugin-vue": "^4.3.4",
     "@vitest/coverage-v8": "^0.34.4",
     "commitizen": "^4.3.0",
     "cz-git": "^1.7.1",
     "esbuild": "^0.19.2",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.3.0",
     "minimist": "^1.2.8",
@@ -45,7 +45,7 @@
     "vite": "^4.4.9",
     "vite-plugin-compression2": "^0.10.4",
     "vite-plugin-singlefile": "^0.13.5",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.4"
   },
   "config": {
     "commitizen": {
