@@ -7,7 +7,7 @@ import { htmlPath, logError, logFinished } from './const.js'
 import type { FileType } from './types.js'
 
 // 写入文件
-export async function genFile(depth: any, type: FileType, p: string) {
+export function genFile(type: FileType, p: string, depth: any) {
   try {
     const begin = Date.now()
     const relations = genRelations()
@@ -29,7 +29,7 @@ export async function genFile(depth: any, type: FileType, p: string) {
     }
     depth = Number(depth)
     if (Number.isNaN(depth))
-      throw new TypeError('illegal type of depth')
+      throw new TypeError('illegal type of [depth]')
     if (type === 'json')
       writeFileSync(writePath, JSON.stringify(genJson(depth, relations)))
     else if (type === 'txt')

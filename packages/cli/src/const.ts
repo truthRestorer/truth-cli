@@ -10,17 +10,22 @@ export function logError(message: string) {
   console.log(`\n  ${colors.red('Error')} ${message}\n`)
 }
 
+export const v = colors.dim(`v${version}`)
+
 function logLogo() {
-  const logo = `\n  ${colors.green(colors.bold('TRUTH-CLI'))} ${colors.dim(`v${version}`)}\n`
+  const logo = `\n  ${colors.green(colors.bold('TRUTH-CLI'))} ${v}\n`
   console.log(logo)
 }
 
 export function logFinished(duration: number, extra: number | string) {
   logLogo()
-  const prefix = `  ${colors.cyan(typeof extra === 'string' ? path.resolve(extra) : `http://localhost:${extra}`)}`
+  const prefix = `  ${
+    colors.cyan(
+      typeof extra === 'string'
+      ? path.resolve(extra)
+      : `http://localhost:${extra}`)
+  }`
   console.log(`${prefix}   ${colors.bold(duration)} ${colors.dim('ms')}\n`)
 }
 
-export const depOption = 'depth of dependency'
-export const pathOption = 'path of file'
 export const htmlPath = path.resolve(__dirname, 'index.html.br')

@@ -1,18 +1,24 @@
 import { cac } from 'cac'
-import { depOption, pathOption } from './src/const.js'
 import { genFile } from './src/file.js'
 import { startWebServer } from './src/server.js'
 import type { FileType } from './src/types.js'
+import { v } from './src/const.js'
+
+const depOption = '[number] depth of dependency'
+const pathOption = '[string] path of file'
 
 const cli = cac('truth-cli')
 
-cli.command('web', 'start web server').action(() => {
-  startWebServer()
-})
+cli
+  .command('[port]', '[WEB] start web server')
+  .alias('web')
+  .action((port) => {
+    startWebServer(port)
+  })
 
 function createFileCli(type: FileType) {
   const fileCli = cli
-    .command(type, `generate ${type} file`)
+    .command(type, `[FILE] generate ${type} file`)
     .option('-p, --path [path]', pathOption, {
       default: './',
     })
@@ -21,8 +27,8 @@ function createFileCli(type: FileType) {
       .option('-d, --dep [dep]', depOption, {
         default: 1,
       })
-      .action(async ({ dep, path }) => {
-        await genFile(dep, type, path)
+      .action(({ dep, path }) => {
+        genFile(type, path, dep)
       })
   }
 }
@@ -31,5 +37,6 @@ createFileCli('json')
 createFileCli('txt')
 createFileCli('html')
 
+cli.version(v)
 cli.help()
 cli.parse()
