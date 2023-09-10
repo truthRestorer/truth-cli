@@ -18,10 +18,17 @@ let circulation: Record<string, string[]>
 
 export function initChart(_echart: ECharts, _relation: Relations) {
   const worker = new W()
-  // 不阻塞代码运行
-  fetch('relations.json').then(data => data.json()).then((data) => {
-    worker.postMessage(data)
-  })
+  // truth-cli html 生成静态 html 文件时，会将 _relation 替换成全部的依赖关系，而不仅仅是根目录中的
+  // 使用长度判断用户进行的命令是 web 还是 html
+  if (Object.keys(_relation).length < 2) {
+    // 不阻塞代码运行
+    fetch('relations.json').then(data => data.json()).then((data) => {
+      worker.postMessage(data)
+    })
+  }
+  else {
+    worker.postMessage(_relation)
+  }
   worker.onmessage = (e) => {
     const data = e.data
     tree = data.tree

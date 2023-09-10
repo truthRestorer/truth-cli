@@ -2,7 +2,7 @@ import path from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { brotliDecompressSync as brUnzip } from 'node:zlib'
 import { genJson, genTxt } from '@truth-cli/core'
-import { genBaseRelation, genRelations } from '@truth-cli/core/node'
+import { genRelations } from '@truth-cli/core/node'
 import { htmlPath, logError, logFinished } from './const.js'
 import type { FileType } from './types.js'
 
@@ -19,21 +19,19 @@ export function genFile(type: FileType, p: string, depth: any) {
         // 需要将原有文件中的 fetch API 修改为 Reponse 对象
         html.replace(
           'fetch("base.json")',
-          `new Response('${JSON.stringify(genBaseRelation()).replace(/\\/g, '/')}')`,
-        ).replace(
-          'fetch("relations.json")',
-          `Promise.resolve(new Response('${JSON.stringify(relations).replace(/\\/g, '/')}'))`,
+          `new Response('${JSON.stringify(relations).replace(/\\/g, '/')}')`,
         ),
       )
-      return
     }
-    depth = Number(depth)
-    if (Number.isNaN(depth))
-      throw new TypeError('illegal type of [depth]')
-    if (type === 'json')
-      writeFileSync(writePath, JSON.stringify(genJson(depth, relations)))
-    else if (type === 'txt')
-      writeFileSync(writePath, genTxt(depth, relations))
+    else {
+      depth = Number(depth)
+      if (Number.isNaN(depth))
+        throw new TypeError('illegal type of [depth]')
+      if (type === 'json')
+        writeFileSync(writePath, JSON.stringify(genJson(depth, relations)))
+      else if (type === 'txt')
+        writeFileSync(writePath, genTxt(depth, relations))
+    }
     logFinished(Date.now() - begin, writePath)
   }
   catch (err: any) {

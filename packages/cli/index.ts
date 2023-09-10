@@ -23,14 +23,13 @@ function createFileCli(type: FileType) {
       default: './',
     })
   if (type !== 'html') {
-    fileCli
-      .option('-d, --dep [dep]', depOption, {
-        default: 1,
-      })
-      .action(({ dep, path }) => {
-        genFile(type, path, dep)
-      })
+    fileCli.option('-d, --dep [dep]', depOption, {
+      default: 1,
+    })
   }
+  fileCli.action(({ dep, path }) => {
+    genFile(type, path, dep)
+  })
 }
 
 createFileCli('json')
