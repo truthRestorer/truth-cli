@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.3.3
+
+### Patch Changes
+
+- 37992150: 修复了节点无法展开问题
+
 ## 1.3.2
 
 ### Patch Changes
