@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.4.0
+
+### Minor Changes
+
+- 5286dc2: node version >=18 & pnpm >= 8
+
 ## 1.3.3
 
 ### Patch Changes
