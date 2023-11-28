@@ -9,14 +9,14 @@
   "dependencies": {
     "@vueuse/core": "^10.6.1",
     "echarts": "^5.4.3",
-    "vue": "^3.3.8"
+    "vue": "^3.3.9"
   },
   "devDependencies": {
-    "@element-plus/icons-vue": "^2.1.0",
+    "@element-plus/icons-vue": "^2.3.1",
     "@truth-cli/core": "workspace:^",
     "@truth-cli/shared": "workspace:^",
-    "@types/echarts": "^4.9.21",
-    "element-plus": "^2.4.2"
+    "@types/echarts": "^4.9.22",
+    "element-plus": "^2.4.3"
   },
   "lint-staged": {
     "!(*d).{js,ts,vue}": [
