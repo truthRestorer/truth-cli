@@ -16,12 +16,20 @@ export function genBaseRelation() {
     homepage,
   } = useReadFile('package.json')
   const relations: Relations = {
-    __root__: { name: name ?? '__root__', path: path.resolve('package.json'), version, dependencies, devDependencies, homepage },
+    __root__: {
+      name: name ?? '__root__',
+      path: path.resolve('package.json'),
+      version,
+      dependencies,
+      devDependencies,
+      homepage,
+    },
     __extra__: {},
   }
   // 这里由于 genRelations 直接读取根目录中的 package.json，对单测覆盖率有影响
-  if (name)
+  if (name) {
     relations[name] = { name, version, dependencies, devDependencies, homepage }
+  }
   return relations
 }
 
@@ -35,31 +43,38 @@ export function genRelations() {
   const relations = genBaseRelation()
 
   function readGlob(p: string) {
-    const dirs = fs.readdirSync(p)
-    for (let i = 0; i < dirs.length; i++) {
-      const pkgPath = `${p}/${dirs[i]}`
-      if (dirs[i] === '.bin' || !fs.lstatSync(pkgPath).isDirectory())
+    const dirs = fs.readdirSync(p, { withFileTypes: true })
+    for (const dir of dirs) {
+      const pkgPath = path.join(p, dir.name)
+      if (dir.name === '.bin' || !dir.isDirectory()) {
         continue
+      }
       const filePath = `${pkgPath}/package.json`
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
-        const add: Relation = { name, version, path: filePath, homepage, dependencies, devDependencies }
+        const add: Relation = {
+          name,
+          version,
+          path: filePath,
+          homepage,
+          dependencies,
+          devDependencies,
+        }
         if (relations[name]) {
           if (
-            relations[name].version === version
-            || relations.__extra__[name]?.[version] === version
-          )
+            relations[name].version === version ||
+            relations.__extra__[name]?.[version] === version
+          ) {
             continue
-          if (relations.__extra__[name])
+          }
+          if (relations.__extra__[name]) {
             relations.__extra__[name][version] = add
-          else
-            relations.__extra__[name] = { [version]: add }
+          } else relations.__extra__[name] = { [version]: add }
           continue
         }
         relations[name] = add
-      }
-      else {
+      } else {
         // 一般开发包的 node_modules 内部，只包含 .bin 执行脚本
         // 如果 node_modules 里面还有其他包，说明可能存在一些问题
         // 更完整的实现：https://github.com/Plumbiu/read-glob-file
