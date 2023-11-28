@@ -55,8 +55,8 @@
     }
   },
   "engines": {
-    "node": ">=16",
-    "pnpm": ">=6"
+    "node": ">=18",
+    "pnpm": ">=8"
   },
   "lint-staged": {
     "*.{js,ts}": [
