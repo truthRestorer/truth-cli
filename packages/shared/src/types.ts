@@ -33,3 +33,9 @@ export interface Relations {
 }
 
 export type Versions = Record<string, Record<string, string[]>>
+
+export enum GraphDependency {
+  DEPENDENCY,
+  ROOT_DEPENDENCY,
+  ROOT,
+}

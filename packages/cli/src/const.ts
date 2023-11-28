@@ -19,12 +19,11 @@ function logLogo() {
 
 export function logFinished(duration: number, extra: number | string) {
   logLogo()
-  const prefix = `  ${
-    colors.cyan(
-      typeof extra === 'string'
+  const prefix = `  ${colors.cyan(
+    typeof extra === 'string'
       ? path.resolve(extra)
-      : `http://localhost:${extra}`)
-  }`
+      : `http://localhost:${extra}`,
+  )}`
   console.log(`${prefix}   ${colors.bold(duration)} ${colors.dim('ms')}\n`)
 }
 

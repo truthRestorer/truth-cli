@@ -4,7 +4,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/truth-cli/',
   title: 'Truth-cli',
-  description: 'A command-line tool for analyzing dependencies under node_modules',
+  description:
+    'A command-line tool for analyzing dependencies under node_modules',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

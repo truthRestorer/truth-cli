@@ -21,15 +21,15 @@ export function genTree(depth: number, relations: Relations) {
   }
   // 递归生成树，通过读取树节点的名字，查找 relations 表，递归生成子依赖
   function loadTrees(trees: Tree[], depth: number) {
-    if (depth <= 0)
-      return
+    if (depth <= 0) return
     for (let i = 0; i < trees.length; i++) {
       const tree = trees[i]
-      if (!relations[tree.name])
-        continue
+      if (!relations[tree.name]) continue
       const { devDependencies, dependencies = {} } = relations[tree.name]
       treeSet.add(tree.name)
-      for (const [name, version] of Object.entries(Object.assign(dependencies, devDependencies))) {
+      for (const [name, version] of Object.entries(
+        Object.assign(dependencies, devDependencies),
+      )) {
         if (!treeSet.has(name)) {
           const add: Tree = { name, value: version as string, children: [] }
           tree.children.push(add)

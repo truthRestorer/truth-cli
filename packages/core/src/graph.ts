@@ -1,12 +1,10 @@
-import type { Links, Nodes, Relation } from '@truth-cli/shared'
+import { Links, Nodes, Relation, GraphDependency } from '@truth-cli/shared'
 
-enum GraphDependency {
-  DEPENDENCY,
-  ROOT_DEPENDENCY,
-  ROOT,
-}
-
-export function genGraph(relation: Relation, target?: string, category?: GraphDependency) {
+export function genGraph(
+  relation: Relation,
+  target?: string,
+  category?: GraphDependency,
+) {
   const {
     name = '__root__',
     version = 'latest',
@@ -22,7 +20,9 @@ export function genGraph(relation: Relation, target?: string, category?: GraphDe
       value: version,
     })
   }
-  for (const [pkgName, pkgVersion] of Object.entries(Object.assign(dependencies, devDependencies))) {
+  for (const [pkgName, pkgVersion] of Object.entries(
+    Object.assign(dependencies, devDependencies),
+  )) {
     nodes.push({
       name: pkgName,
       category: category ?? GraphDependency.ROOT_DEPENDENCY,

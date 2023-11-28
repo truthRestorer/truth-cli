@@ -9,10 +9,11 @@ export function genCirculation(relations: Relations) {
       if (relations[name]) {
         const { devDependencies, dependencies } = relations[name]
         if (devDependencies?.[rootName] || dependencies?.[rootName]) {
-          if (!circulation[rootName])
+          if (!circulation[rootName]) {
             circulation[rootName] = [name]
-          else
+          } else {
             circulation[rootName].push(name)
+          }
         }
       }
     }

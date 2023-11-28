@@ -45,11 +45,7 @@ function handlePkgInfo(command: ShowType) {
                   {{ value }}
                 </ElDropdownItem>
                 <ElDropdownItem>
-                  <ElButton
-                    tag="a"
-                    target="_blank"
-                    :href="`https://npmjs.com/package/${pkgName}`"
-                  >
+                  <ElButton tag="a" target="_blank" :href="`https://npmjs.com/package/${pkgName}`">
                     NPM
                   </ElButton>
                 </ElDropdownItem>
@@ -83,20 +79,24 @@ function handlePkgInfo(command: ShowType) {
   background-color: var(--el-bg-color);
   box-shadow: var(--el-box-shadow-light);
 }
+
 .drawer_header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
   padding-right: 12px;
 }
+
 .v-enter-active,
 .v-leave-active {
   transition: translate 0.15s ease-in-out;
 }
+
 .v-enter-from,
 .v-leave-to {
   translate: -300px;
 }
+
 .pkgName {
   font-weight: 700;
   font-size: 20px;

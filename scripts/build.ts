@@ -2,7 +2,6 @@ import * as esbuild from 'esbuild'
 import minimist from 'minimist'
 import { buildWeb } from './utils.js'
 
-// eslint-disable-next-line n/prefer-global/process
 const argv = minimist(process.argv.slice(2))
 const target = argv._
 const basePlugins = {

@@ -22,19 +22,17 @@ export function genFile(type: FileType, p: string, depth: any) {
           `new Response('${JSON.stringify(relations).replace(/\\/g, '/')}')`,
         ),
       )
-    }
-    else {
+    } else {
       depth = Number(depth)
-      if (Number.isNaN(depth))
-        throw new TypeError('illegal type of [depth]')
-      if (type === 'json')
+      if (Number.isNaN(depth)) throw new TypeError('illegal type of [depth]')
+      if (type === 'json') {
         writeFileSync(writePath, JSON.stringify(genJson(depth, relations)))
-      else if (type === 'txt')
+      } else if (type === 'txt') {
         writeFileSync(writePath, genTxt(depth, relations))
+      }
     }
     logFinished(Date.now() - begin, writePath)
-  }
-  catch (err: any) {
+  } catch (err: any) {
     logError(err.message)
   }
 }

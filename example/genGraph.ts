@@ -15,11 +15,14 @@ const graph2 = genGraph({
 console.log(graph2)
 
 // 3. 自定义生成，指定此 links 指向自定义 target(函数的第二个参数)
-const graph3 = genGraph({
-  dependencies: {
-    axios: '1.0.0',
+const graph3 = genGraph(
+  {
+    dependencies: {
+      axios: '1.0.0',
+    },
   },
-}, 'vite')
+  'vite',
+)
 console.log(graph3)
 // 等同于上面
 const graph4 = genGraph({
@@ -32,9 +35,8 @@ console.log(graph4)
 
 // 自定义生成出的 nodes 可能会和之前的 nodes 重复，如果希望手动添加节点，建议使用 Set 数据结构判断一下节点是否已经存在
 const { nodes } = graph2
-const nodesSet = new Set(nodes.map(item => item.name))
+const nodesSet = new Set(nodes.map((item) => item.name))
 for (let i = 0; i < nodes.length; i++) {
   // 只有节点不存在的时候，才会向 graph3 中添加节点
-  if (!nodesSet.has(nodes[i].name))
-    graph3.nodes.push(nodes[i])
+  if (!nodesSet.has(nodes[i].name)) graph3.nodes.push(nodes[i])
 }

@@ -36,7 +36,12 @@ function createContext() {
       context.push(shouldAdd ? ESymbol.ADD : ESymbol.VERTICAL)
     },
     dealEnd() {
-      while (Object.values(ESymbol).includes(context.removeLastElm() as ESymbol)) { /* empty */ }
+      while (
+        Object.values(ESymbol).includes(context.removeLastElm() as ESymbol)
+      ) {
+
+        /* empty */
+      }
     },
   }
   return context
@@ -48,8 +53,7 @@ export function genTxt(depth: number, relations: Relations) {
   const { dealNewLine, push, dealEnd } = ctx
   push(`${name} ${version}:`)
   function loadTxt(pkgs: PkgJson | undefined, tabCount: number) {
-    if (!pkgs)
-      return
+    if (!pkgs) return
     dealNewLine(tabCount)
     for (const [name, { packages, version }] of Object.entries(pkgs)) {
       dealNewLine(tabCount, true)

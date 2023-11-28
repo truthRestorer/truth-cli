@@ -28,21 +28,14 @@ function toggleLgend(val: any, type: string) {
       <span :class="{ active: active === 'graph' }" @click="toggleLgend(graph, 'graph')">genGraph</span>
       <span :class="{ active: active === 'tree' }" @click="toggleLgend(tree, 'tree')">genTree</span>
       <span :class="{ active: active === 'versions' }" @click="toggleLgend(versions, 'versions')">genVersions</span>
-      <span :class="{ active: active === 'circulation' }" @click="toggleLgend(circulation, 'circulation')">genCirculation</span>
+      <span :class="{ active: active === 'circulation' }"
+        @click="toggleLgend(circulation, 'circulation')">genCirculation</span>
       <span :class="{ active: active === 'pkgs' }" @click="toggleLgend(json, 'pkgs')">genJson</span>
       <span :class="{ active: active === 'treePkgs' }" @click="toggleLgend(txt, 'treePkgs')">genTxt</span>
     </div>
     <div style="padding-top: 55px;">
-      <VueJsonPretty
-        v-if="data !== txt"
-        :deep="2"
-        :data="data"
-        :show-line="false"
-        :show-double-quotes="false"
-        :height="800"
-        show-line-number
-        virtual
-      />
+      <VueJsonPretty v-if="data !== txt" :deep="2" :data="data" :show-line="false" :show-double-quotes="false"
+        :height="800" show-line-number virtual />
       <div v-else style="white-space: pre;">
         {{ txt }}
       </div>
@@ -54,6 +47,7 @@ function toggleLgend(val: any, type: string) {
 .main {
   margin-top: 60px;
 }
+
 .select {
   display: flex;
   position: fixed;
@@ -61,16 +55,19 @@ function toggleLgend(val: any, type: string) {
   background-color: #fff;
   width: 100%;
   box-shadow: 0 1px 4px #bbb;
+
   & span {
     padding: 10px 15px;
     cursor: pointer;
     font-weight: 700;
     transition: color .15s;
   }
+
   & span:hover {
     color: #aaa;
   }
 }
+
 .active {
   border-bottom: 3px solid #416574;
 }

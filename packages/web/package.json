@@ -19,7 +19,7 @@
     "element-plus": "^2.4.3"
   },
   "lint-staged": {
-    "!(*d).{js,ts,vue}": [
+    "!(*d).{js,ts}": [
       "eslint"
     ]
   }

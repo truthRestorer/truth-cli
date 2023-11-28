@@ -28,12 +28,9 @@ export function loadTree(tree: Tree) {
         show: true,
         formatter(params: any) {
           const name = formatName(params.name)
-          if (params.treeAncestors.length === 2)
-            return `{a|${name}}`
-          if (params.treeAncestors.length === 3)
-            return `{b|${name}}`
-          else if (params.treeAncestors.length === 4)
-            return `{c|${name}}`
+          if (params.treeAncestors.length === 2) return `{a|${name}}`
+          if (params.treeAncestors.length === 3) return `{b|${name}}`
+          else if (params.treeAncestors.length === 4) return `{c|${name}}`
           return `{d|${name}}`
         },
         rich: {
@@ -79,11 +76,7 @@ export function loadGraph(nodes: Nodes[], links: Links[]) {
       links,
       edgeSymbol: ['arrow', 'none'],
       edgeSymbolSize: 8,
-      categories: [
-        { name: '依赖' },
-        { name: '项目依赖' },
-        { name: '项目名' },
-      ],
+      categories: [{ name: '依赖' }, { name: '项目依赖' }, { name: '项目名' }],
       cursor: 'pointer',
       symbolSize: 28,
       label: {

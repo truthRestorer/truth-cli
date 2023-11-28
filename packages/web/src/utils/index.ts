@@ -3,6 +3,7 @@ import type { Links, Nodes, Relations, Tree, Versions } from '@truth-cli/shared'
 import { isEmptyObj } from '@truth-cli/shared'
 import { genGraph } from '@truth-cli/core'
 import type { Legend, PkgInfo } from '../types'
+// eslint-disable-next-line import/default
 import W from './worker.ts?worker&inline'
 import { loadGraph, loadTree } from './tools'
 
@@ -22,11 +23,12 @@ export function initChart(_echart: ECharts, _relation: Relations) {
   // 使用长度判断用户进行的命令是 web 还是 html
   if (Object.keys(_relation).length <= 2) {
     // 不阻塞代码运行
-    fetch('relations.json').then(data => data.json()).then((data) => {
-      worker.postMessage(data)
-    })
-  }
-  else {
+    fetch('relations.json')
+      .then((data) => data.json())
+      .then((data) => {
+        worker.postMessage(data)
+      })
+  } else {
     worker.postMessage(_relation)
   }
   worker.onmessage = (e) => {
@@ -38,60 +40,61 @@ export function initChart(_echart: ECharts, _relation: Relations) {
     worker.terminate()
   }
   const { nodes, links } = genGraph(_relation.__root__)
-  _echart.setOption(loadGraph(graphNodes = nodes, graphLinks = links))
+  _echart.setOption(loadGraph((graphNodes = nodes), (graphLinks = links)))
   echart = _echart
 }
 
 export function changeGraphRoot(name: string, isAim: boolean) {
-  if (!relations[name])
-    return
+  if (!relations[name]) return
   if (isAim) {
     resetChart({ nodes: graphNodes, links: graphLinks })
     return
   }
   const newNodes = [{ name, category: 2, value: relations[name].version! }]
   const { nodes, links } = genGraph(relations[name])
-  newNodes.push(...nodes.filter(node => node.name !== name))
+  newNodes.push(...nodes.filter((node) => node.name !== name))
   resetChart({ nodes: newNodes, links })
 }
 
 export function collapseNode(legend: Legend) {
   if (legend === 'Graph') {
     const { nodes, links } = genGraph(relations.__root__)
-    resetChart({ nodes: graphNodes = nodes, links: graphLinks = links })
+    resetChart({ nodes: (graphNodes = nodes), links: (graphLinks = links) })
     nodesSet.clear()
     return
   }
-  for (const map of treeNodeMap.values())
-    map.collapsed = true
+  for (const map of treeNodeMap.values()) map.collapsed = true
   resetChart({ tree })
   treeNodeMap.clear()
 }
 
 export function dealGraphNode(name: string) {
-  if (name === '__root__' || !relations[name])
-    return
+  if (name === '__root__' || !relations[name]) return
   const { nodes, links } = genGraph(relations[name], name, 0)
-  if (!nodes.length)
-    return
+  if (!nodes.length) return
   const linkHad = new Map<string, Set<string>>()
   for (let i = 0; i < graphLinks.length; i++) {
     const { source, target } = graphLinks[i]
     const link = linkHad.get(source)
-    if (!link)
-      linkHad.set(source, new Set([target]))
-    else
-      link.add(target)
+    if (!link) linkHad.set(source, new Set([target]))
+    else link.add(target)
   }
   if (nodesSet.has(name)) {
     nodesSet.delete(name)
-    const nodeHad = new Set(nodes.map(node => node.name))
-    graphNodes = graphNodes.filter(({ name: _name }) => !nodeHad.has(_name) || linkHad.get(_name)!.size > 1 || _name === name)
-  }
-  else {
+    const nodeHad = new Set(nodes.map((node) => node.name))
+    graphNodes = graphNodes.filter(
+      ({ name: _name }) =>
+        // eslint-disable-next-line @stylistic/implicit-arrow-linebreak
+        !nodeHad.has(_name) || linkHad.get(_name)!.size > 1 || _name === name,
+    )
+  } else {
     nodesSet.add(name)
-    const nodeHad = new Set(graphNodes.map(node => node.name))
-    graphLinks.push(...links.filter(({ source, target }) => !linkHad.get(source)?.has(target)))
+    const nodeHad = new Set(graphNodes.map((node) => node.name))
+    graphLinks.push(
+      ...links.filter(
+        ({ source, target }) => !linkHad.get(source)?.has(target),
+      ),
+    )
     graphNodes.push(...nodes.filter(({ name }) => !nodeHad.has(name)))
   }
   resetChart({ nodes: graphNodes, links: graphLinks })
@@ -104,23 +107,25 @@ export function dealTreeNode(data: any, collapsed: boolean, ancestors?: any) {
     treeNodeMap.delete(data.name)
     return
   }
-  const { dependencies = {}, devDependencies } = relations[formatName(data.name)] ?? {}
+  const { dependencies = {}, devDependencies } =
+    relations[formatName(data.name)] ?? {}
   const pkg = Object.assign(dependencies, devDependencies)
-  if (isEmptyObj(pkg) || data.children.length)
-    return
+  if (isEmptyObj(pkg) || data.children.length) return
   let child = tree.children
   for (let i = 2; i < ancestors.length; i++) {
-    const item = child.find(item => item.name === ancestors[i].name)!
+    const item = child.find((item) => item.name === ancestors[i].name)!
     item.collapsed = false
     treeNodeMap.set(item.name, item)
     child = item.children
   }
-  child.push(...Object.entries(pkg).map(([name, value]) => ({
-    // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
-    name: `${name}--${data.name}`,
-    value,
-    children: [],
-  })))
+  child.push(
+    ...Object.entries(pkg).map(([name, value]) => ({
+      // echarts 对相同名字的标签会动画重叠，这里用 -- 区分一下
+      name: `${name}--${data.name}`,
+      value,
+      children: [],
+    })),
+  )
   resetChart({ tree })
 }
 
@@ -132,18 +137,16 @@ export function toggleChart(legend: Legend) {
 
 export function getPkgInfo(name: string): PkgInfo {
   return {
-    info: relations[name] ?? Object.values(relations).find(val => val.name?.includes(name)),
+    info:
+      relations[name] ??
+      Object.values(relations).find((val) => val.name?.includes(name)),
     extra: relations.__extra__[name],
     circulation: circulation[name],
     versions: versions[name],
   }
 }
 
-function resetChart(data: {
-  tree?: Tree
-  nodes?: Nodes[]
-  links?: Links[]
-}) {
+function resetChart(data: { tree?: Tree; nodes?: Nodes[]; links?: Links[] }) {
   echart.setOption({
     series: data.tree
       ? { name: 'Tree', data: [data.tree] }

@@ -8,16 +8,14 @@ import { htmlPath, logError, logFinished } from './const.js'
 export function startWebServer(port: number = 3003) {
   try {
     port = Number(port)
-    if (Number.isNaN(port))
-      throw new TypeError('illegal type of [port]')
+    if (Number.isNaN(port)) throw new TypeError('illegal type of [port]')
     const begin = Date.now()
     const html = readFileSync(htmlPath)
     const server = createServer((req, res) => {
       if (req.url === '/') {
         res.setHeader('content-encoding', 'br')
         res.end(html)
-      }
-      else if (req.url === '/base.json') {
+      } else if (req.url === '/base.json') {
         const relations = gzipSync(JSON.stringify(genRelations()))
         res.setHeader('content-encoding', 'gzip')
         res.end(relations)
@@ -32,8 +30,7 @@ export function startWebServer(port: number = 3003) {
     server.listen(port, () => {
       logFinished(Date.now() - begin, port)
     })
-  }
-  catch (err: any) {
+  } catch (err: any) {
     logError(err.message)
   }
 }

@@ -5,8 +5,7 @@ import type { PkgInfo } from '../../types'
 import echarts from '../../plugins/echarts'
 import { dealGraphNode, dealTreeNode, formatName, getPkgInfo, initChart } from '../../utils/index'
 
-const baseJSON = await fetch('base.json')
-const base: Relations = await baseJSON.json()
+const base: Relations = await fetch('base.json').then(data => data.json())
 const pkgName = ref(base.__root__.name)
 const pkgInfo = ref<PkgInfo>({ info: base.__root__ })
 const isAim = ref(false)

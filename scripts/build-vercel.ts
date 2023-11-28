@@ -9,7 +9,6 @@ import { genRelations } from '../packages/core/src/relations.js'
 
 import { buildWeb, genWebFile } from './utils.js'
 
-// eslint-disable-next-line n/prefer-global/process
 const argv = minimist(process.argv.slice(2))
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
@@ -23,16 +22,18 @@ async function resolveBuild() {
     platform: 'node',
     format: 'esm',
   })
-  const {
-    web: _web,
-    path: _path,
-    playground: _playground,
-  } = argv
-  const writePath = path.resolve(__dirname, `${_path}/${_web ? 'public' : '/src/assets'}`)
+  const { web: _web, path: _path, playground: _playground } = argv
+  const writePath = path.resolve(
+    __dirname,
+    `${_path}/${_web ? 'public' : '/src/assets'}`,
+  )
   await genWebFile(writePath)
   if (_playground) {
     const relations = genRelations()
-    await writeFile(`${writePath}/pkgs.json`, JSON.stringify(genJson(3, relations)))
+    await writeFile(
+      `${writePath}/pkgs.json`,
+      JSON.stringify(genJson(3, relations)),
+    )
     await writeFile(`${writePath}/pkgs.txt`, genTxt(3, relations))
   }
   await buildWeb(_path)
