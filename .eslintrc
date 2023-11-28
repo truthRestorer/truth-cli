@@ -1,0 +1,6 @@
+{
+  "extends": "@plumbiu",
+  "rules": {
+    "import/named": 0
+  }
+}
