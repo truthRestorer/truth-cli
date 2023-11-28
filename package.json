@@ -31,6 +31,7 @@
     "cz-git": "^1.7.1",
     "esbuild": "^0.19.8",
     "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
     "esno": "^4.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0",
@@ -58,8 +59,8 @@
     "pnpm": ">=6"
   },
   "lint-staged": {
-    "*.{js,ts,vue}": [
-      "eslint"
+    "*.{js,ts}": [
+      "eslint --fix"
     ]
   }
 }

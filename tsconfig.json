@@ -20,14 +20,5 @@
     "types": ["node"],
     "rootDir": "."
   },
-  "ts-node": {
-    "esm": true,
-  },
-  "include": [
-    "packages/**/*.ts",
-    "scripts/*.ts",
-    "packages/web/**/*.vue",
-    "playground/**/*.vue",
-    "playground/**/*.ts"
-  ]
+  "include": ["**/*.ts", "**/*.vue"]
 }

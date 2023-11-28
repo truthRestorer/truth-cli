@@ -1,6 +1,7 @@
 {
-  "extends": "@plumbiu",
+  "extends": ["@plumbiu", "prettier"],
   "rules": {
-    "import/named": 0
+    "import/named": 0,
+    "import/no-duplicates": 0
   }
 }
