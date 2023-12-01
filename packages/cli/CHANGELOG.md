@@ -1,5 +1,11 @@
 # truth-cli
 
+## 1.4.1
+
+### Patch Changes
+
+- 2da1540: make relations cold start
+
 ## 1.4.0
 
 ### Minor Changes
