@@ -11,12 +11,12 @@ export function startWebServer(port: number = 3003) {
     if (Number.isNaN(port)) throw new TypeError('illegal type of [port]')
     const begin = Date.now()
     const html = readFileSync(htmlPath)
+    const relations = gzipSync(JSON.stringify(genRelations()))
     const server = createServer((req, res) => {
       if (req.url === '/') {
         res.setHeader('content-encoding', 'br')
         res.end(html)
       } else if (req.url === '/base.json') {
-        const relations = gzipSync(JSON.stringify(genRelations()))
         res.setHeader('content-encoding', 'gzip')
         res.end(relations)
       }
