@@ -49,7 +49,7 @@ export function genRelations() {
       if (dir.name === '.bin' || !dir.isDirectory()) {
         continue
       }
-      const filePath = `${pkgPath}/package.json`
+      const filePath = path.join(pkgPath, 'package.json')
       if (fs.existsSync(filePath)) {
         const pkg = useReadFile(filePath)
         const { name, version, dependencies, devDependencies, homepage } = pkg
