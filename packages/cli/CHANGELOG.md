@@ -1,5 +1,11 @@
 # truth-cli
 
+## 2.0.1
+
+### Patch Changes
+
+- 579e8b3: fill await
+
 ## 2.0.0
 
 ### Major Changes
