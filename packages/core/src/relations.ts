@@ -1,20 +1,21 @@
 import fs from 'node:fs'
+import fsp from 'node:fs/promises'
 import path from 'node:path'
 import type { Relation, Relations } from '@truth-cli/shared'
 
-export function useReadFile(p: string) {
-  const json = fs.readFileSync(p, 'utf-8')
+export async function useReadFile(p: string) {
+  const json = await fsp.readFile(p, 'utf-8')
   return JSON.parse(json)
 }
 
-export function genBaseRelation() {
+export async function genBaseRelation() {
   const {
     name,
     version = 'latest',
     dependencies,
     devDependencies,
     homepage,
-  } = useReadFile('package.json')
+  } = await useReadFile('package.json')
   const relations: Relations = {
     __root__: {
       name: name ?? '__root__',
@@ -40,10 +41,10 @@ export function genBaseRelation() {
  */
 export async function genRelations() {
   // 先读取项目的 package.json
-  const relations = genBaseRelation()
+  const relations = await genBaseRelation()
 
   async function readGlob(p: string) {
-    const dirs = fs.readdirSync(p, { withFileTypes: true })
+    const dirs = await fsp.readdir(p, { withFileTypes: true })
     await Promise.all(
       dirs.map(async (dir) => {
         const pkgPath = path.join(p, dir.name)
@@ -52,7 +53,7 @@ export async function genRelations() {
         }
         const filePath = path.join(pkgPath, 'package.json')
         if (fs.existsSync(filePath)) {
-          const pkg = useReadFile(filePath)
+          const pkg = await useReadFile(filePath)
           const { name, version, dependencies, devDependencies, homepage } = pkg
           const add: Relation = {
             name,
