@@ -1,5 +1,11 @@
 # truth-cli
 
+## 2.0.0
+
+### Major Changes
+
+- e6a049c: use await promise.all instead of for loop
+
 ## 1.4.1
 
 ### Patch Changes
