@@ -5,13 +5,13 @@ import { genRelations } from '@truth-cli/core/node'
 import { htmlPath, logError, logFinished } from './const.js'
 
 // 启动网页
-export function startWebServer(port: number = 3003) {
+export async function startWebServer(port: number = 3003) {
   try {
     port = Number(port)
     if (Number.isNaN(port)) throw new TypeError('illegal type of [port]')
     const begin = Date.now()
     const html = readFileSync(htmlPath)
-    const relations = gzipSync(JSON.stringify(genRelations()))
+    const relations = gzipSync(JSON.stringify(await genRelations()))
     const server = createServer((req, res) => {
       if (req.url === '/') {
         res.setHeader('content-encoding', 'br')

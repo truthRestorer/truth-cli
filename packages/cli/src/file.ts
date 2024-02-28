@@ -7,10 +7,10 @@ import { htmlPath, logError, logFinished } from './const.js'
 import type { FileType } from './types.js'
 
 // 写入文件
-export function genFile(type: FileType, p: string, depth: any) {
+export async function genFile(type: FileType, p: string, depth: any) {
   try {
     const begin = Date.now()
-    const relations = genRelations()
+    const relations = await genRelations()
     const writePath = path.join(p, `pkgs.${type}`)
     if (type === 'html') {
       const html = brUnzip(readFileSync(htmlPath)).toString()

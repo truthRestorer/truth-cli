@@ -41,8 +41,13 @@ export async function createViteServer(vitePath: string, port: number = 1337) {
  * dev 环境或者 vercel 会用到
  */
 export async function genWebFile(writePath: string) {
-  const relations = genRelations()
+  const relations = await genRelations()
   const base = genBaseRelation()
-  await fs.writeFile(`${writePath}/relations.json`, JSON.stringify(relations))
-  await fs.writeFile(`${writePath}/base.json`, JSON.stringify(base))
+  await Promise.all([
+    await fs.writeFile(
+      `${writePath}/relations.json`,
+      JSON.stringify(relations),
+    ),
+    await fs.writeFile(`${writePath}/base.json`, JSON.stringify(base)),
+  ])
 }

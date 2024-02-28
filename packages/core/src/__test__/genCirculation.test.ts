@@ -10,7 +10,7 @@ describe('genCirculation API 测试', () => {
           axios: '0.0.1',
         },
         devDependencies: {
-          'vue': '3.0.0',
+          vue: '3.0.0',
           '@truth-cli/core': '1.0.0',
         },
       },

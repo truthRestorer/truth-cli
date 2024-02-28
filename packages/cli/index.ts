@@ -12,8 +12,8 @@ const cli = cac('truth-cli')
 cli
   .command('[port]', '[WEB] start web server')
   .alias('web')
-  .action((port) => {
-    startWebServer(port)
+  .action(async (port) => {
+    await startWebServer(port)
   })
 
 function createFileCli(type: FileType) {

@@ -3,8 +3,8 @@ import { isEmptyObj } from '@truth-cli/shared'
 import { genRelations } from '../relations'
 
 describe('genRelations API 测试', async () => {
-  const result = genRelations()
-  const relations = genRelations()
+  const result = await genRelations()
+  const relations = await genRelations()
   test('数据格式', () => {
     expectTypeOf(result).toBeObject()
     expectTypeOf(result).toBeObject()
@@ -17,8 +17,7 @@ describe('genRelations API 测试', async () => {
     expect(isEmptyObj(relations)).toBeFalsy()
     expect(isEmptyObj(relations.__root__)).toBeFalsy()
     for (const [key, val] of Object.entries(relations)) {
-      if (key === '__extra__')
-        continue
+      if (key === '__extra__') continue
       expect(val).ownProperty('version')
     }
     expect(relations.__root__).ownProperty('version')

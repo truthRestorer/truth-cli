@@ -38,51 +38,52 @@ export function genBaseRelation() {
  * nodejs 读取文件的速度很慢，`truth-cli` 只会读取一次(根目录和 node_modules 目录的 package.json)，形成一种对象格式
  * 由于根据对象键值查找时间复杂度为 O(1)，这样效率很大大提升
  */
-export function genRelations() {
+export async function genRelations() {
   // 先读取项目的 package.json
   const relations = genBaseRelation()
 
-  function readGlob(p: string) {
+  async function readGlob(p: string) {
     const dirs = fs.readdirSync(p, { withFileTypes: true })
-    for (const dir of dirs) {
-      const pkgPath = path.join(p, dir.name)
-      if (dir.name === '.bin' || !dir.isDirectory()) {
-        continue
-      }
-      const filePath = path.join(pkgPath, 'package.json')
-      if (fs.existsSync(filePath)) {
-        const pkg = useReadFile(filePath)
-        const { name, version, dependencies, devDependencies, homepage } = pkg
-        const add: Relation = {
-          name,
-          version,
-          path: filePath,
-          homepage,
-          dependencies,
-          devDependencies,
+    await Promise.all(
+      dirs.map(async (dir) => {
+        const pkgPath = path.join(p, dir.name)
+        if (dir.name === '.bin' || !dir.isDirectory()) {
+          return
         }
-        if (relations[name]) {
-          if (
-            relations[name].version === version ||
-            relations.__extra__[name]?.[version] === version
-          ) {
-            continue
+        const filePath = path.join(pkgPath, 'package.json')
+        if (fs.existsSync(filePath)) {
+          const pkg = useReadFile(filePath)
+          const { name, version, dependencies, devDependencies, homepage } = pkg
+          const add: Relation = {
+            name,
+            version,
+            path: filePath,
+            homepage,
+            dependencies,
+            devDependencies,
           }
-          if (relations.__extra__[name]) {
-            relations.__extra__[name][version] = add
-          } else relations.__extra__[name] = { [version]: add }
-          continue
+          if (relations[name]) {
+            if (
+              relations[name].version === version ||
+              relations.__extra__[name]?.[version] === version
+            ) {
+              return
+            }
+            if (relations.__extra__[name]) {
+              relations.__extra__[name][version] = add
+            } else relations.__extra__[name] = { [version]: add }
+            return
+          }
+          relations[name] = add
+        } else {
+          // 一般开发包的 node_modules 内部，只包含 .bin 执行脚本
+          // 更完整的实现：https://github.com/Plumbiu/read-glob-file
+          await readGlob(pkgPath)
         }
-        relations[name] = add
-      } else {
-        // 一般开发包的 node_modules 内部，只包含 .bin 执行脚本
-        // 如果 node_modules 里面还有其他包，说明可能存在一些问题
-        // 更完整的实现：https://github.com/Plumbiu/read-glob-file
-        readGlob(pkgPath)
-      }
-    }
+      }),
+    )
   }
   // 读取 node_modules 目录下的所有 package.json 文件
-  readGlob('node_modules')
+  await readGlob('node_modules')
   return relations
 }
