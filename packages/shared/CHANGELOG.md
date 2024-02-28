@@ -1,5 +1,11 @@
 # @truth-cli/shared
 
+## 2.0.0
+
+### Major Changes
+
+- e6a049c: use await promise.all instead of for loop
+
 ## 1.3.0
 
 ### Minor Changes
