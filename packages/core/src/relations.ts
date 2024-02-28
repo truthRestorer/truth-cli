@@ -48,7 +48,7 @@ export async function genRelations() {
     await Promise.all(
       dirs.map(async (dir) => {
         const pkgPath = path.join(p, dir.name)
-        if (dir.name === '.bin' || !dir.isDirectory()) {
+        if (dir.name === '.bin' || dir.isFile()) {
           return
         }
         const filePath = path.join(pkgPath, 'package.json')
