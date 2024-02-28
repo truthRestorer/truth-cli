@@ -11,8 +11,6 @@
     "build:deploy": "esno scripts/build-vercel.ts --path ../packages/web --web",
     "build:playground": "esno scripts/build-vercel.ts --path ../playground --playground",
     "test": "esno scripts/test-e2e.ts && vitest run",
-    "prepare": "husky install",
-    "commit": "git-cz",
     "bench": "vitest bench --run",
     "docs:dev": "pnpm -F docs dev",
     "docs:build": "pnpm -F docs build",
@@ -23,19 +21,14 @@
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@plumbiu/eslint-config": "^0.2.0",
     "@types/minimist": "^1.2.5",
     "@types/node": "^20.10.5",
     "@vitejs/plugin-vue": "^5.0.0",
     "@vitest/coverage-v8": "^1.1.0",
-    "commitizen": "^4.3.0",
-    "cz-git": "^1.8.0",
     "esbuild": "^0.19.10",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "esno": "^4.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
     "minimist": "^1.2.8",
     "picocolors": "^1.0.0",
     "prettier": "^3.1.1",
@@ -58,10 +51,5 @@
   "engines": {
     "node": ">=18",
     "pnpm": ">=6"
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --fix"
-    ]
   }
 }
